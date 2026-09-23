@@ -254,3 +254,90 @@ dialog .x{position:absolute;top:14px;right:14px;z-index:3}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
   .rv{opacity:1;transform:none;filter:none}
 }
+
+
+.categories-container {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+.category-card {
+    background-color: #0f1923; /* Thème sombre Valorant */
+    border: 2px solid #ff4655; /* Rouge Valorant */
+    border-radius: 8px;
+    padding: 20px;
+    width: 320px;
+    color: #ece8e1;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(255, 70, 85, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+}
+
+.category-card.loader-card {
+    border-color: #00d2ff; /* Thème bleu pour le Loader */
+    box-shadow: 0 4px 15px rgba(0, 210, 255, 0.2);
+}
+
+.category-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.category-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.category-card ul {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 25px;
+}
+
+.category-card li {
+    background-color: rgba(255, 255, 255, 0.05);
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.buy-btn {
+    background-color: #ff4655;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    text-transform: uppercase;
+    transition: background-color 0.2s ease;
+}
+
+.buy-btn:hover {
+    background-color: #e03c4a;
+}
+
+.buy-btn.loader-btn {
+    background-color: #00d2ff;
+    color: #0f1923;
+}
+
+.buy-btn.loader-btn:hover {
+    background-color: #00b8e6;
+}

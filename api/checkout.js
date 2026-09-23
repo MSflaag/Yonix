@@ -1,11 +1,13 @@
 /**
  * Crée une session de paiement Stripe Checkout.
- * Boutique de services numériques : pas de livraison physique.
  * Les prix sont relus côté serveur depuis assets/config.js : le navigateur envoie
  * seulement des identifiants et des quantités, jamais de prix.
  */
 const Stripe = require('stripe');
 const { PRODUCTS, CONFIG } = require('../assets/config.js');
+
+// Pays vers lesquels tu livres (codes ISO). Adapte cette liste.
+const COUNTRIES = ['FR', 'BE', 'LU', 'CH', 'DE', 'ES', 'IT', 'NL', 'PT'];
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
@@ -32,22 +34,18 @@ module.exports = async (req, res) => {
   }
   if (qtyById.size === 0) return res.status(400).json({ error: 'Panier vide' });
 
+  let subtotal = 0;
   const line_items = [...qtyById].map(([id, quantity]) => {
     const p = PRODUCTS.find(x => x.id === id);
     const unit_amount = Math.round(p.price * 100);
+    subtotal += unit_amount * quantity;
     return {
       quantity,
-      price_data: {
-        currency: 'eur',
-        unit_amount,
-        product_data: {
-          name: p.name,
-          description: p.sub
-        }
-      }
+      price_data: { currency: 'eur', unit_amount, product_data: { name: p.name, description: p.sub } }
     };
   });
 
+  const shipping = subtotal >= CONFIG.freeShippingFrom * 100 ? 0 : Math.round(CONFIG.shippingCost * 100);
   const proto = req.headers['x-forwarded-proto'] || 'https';
   const origin = `${proto}://${req.headers.host}`;
 
@@ -57,13 +55,15 @@ module.exports = async (req, res) => {
       mode: 'payment',
       locale: 'fr',
       line_items,
-      // Pas de livraison : aucune adresse demandée, aucun frais de port
-      billing_address_collection: 'auto',
-      phone_number_collection: { enabled: false },
-      // Pour retrouver la commande côté webhook (si tu en ajoutes un plus tard)
-      metadata: {
-        items: JSON.stringify([...qtyById].map(([id, qty]) => ({ id, qty })))
-      },
+      shipping_address_collection: { allowed_countries: COUNTRIES },
+      shipping_options: [{
+        shipping_rate_data: {
+          type: 'fixed_amount',
+          fixed_amount: { amount: shipping, currency: 'eur' },
+          display_name: shipping ? 'Livraison standard' : 'Livraison offerte',
+          delivery_estimate: { minimum: { unit: 'business_day', value: 2 }, maximum: { unit: 'business_day', value: 4 } }
+        }
+      }],
       success_url: `${origin}/?commande=ok`,
       cancel_url: `${origin}/?commande=annulee`
     });

@@ -2,11 +2,10 @@
   "name": "yonix",
   "version": "1.0.0",
   "private": true,
-  "description": "Boutique en ligne Yonix",
-  "engines": {
-    "node": ">=20"
-  },
   "dependencies": {
-    "stripe": "^22.6.2"
+    "stripe": "^14.21.0"
+  },
+  "engines": {
+    "node": "18.x"
   }
 }

@@ -16,7 +16,7 @@ yonix/
 
 ---
 
-## 1. Préparer Stripe 
+## 1. Préparer Stripe
 
 1. Crée un compte sur **stripe.com**
 2. Va dans **Développeurs → Clés API**

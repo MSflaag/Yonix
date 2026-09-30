@@ -605,11 +605,14 @@ $('#pdBuy').addEventListener('click',async()=>{
   try{
     const r=await fetch('/api/checkout',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({productName:currentProduct.name,tierName:tier.dur,priceRaw:tier.price})});
-    const d=await r.json();
-    if(d.url){window.location.href=d.url;}
-    else throw new Error(d.error||'no url');
+    let d;
+    try{d=await r.json();}catch(je){throw new Error('Réponse API invalide ('+r.status+')');}
+    if(d.url){window.location.href=d.url;return;}
+    // Affiche l'erreur exacte retournée par l'API
+    throw new Error(d.details||d.error||'Erreur inconnue ('+r.status+')');
   }catch(e){
-    toast('Erreur paiement — réessaie ou contacte le support Discord.');
+    console.error('[Checkout]',e.message);
+    toast('Erreur paiement : '+e.message);
     btn.disabled=false;btn.textContent='Acheter';
   }
 });

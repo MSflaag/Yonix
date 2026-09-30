@@ -1,8 +1,21 @@
 const Stripe = require('stripe');
 
-// Prix correspondant à chaque tier par produit
-// Remplace les price IDs si tu veux utiliser des Prix Stripe pré-créés
-// Sinon, on crée le prix dynamiquement via priceRaw
+// Helper : lit et parse le body JSON brut (Vercel ne le fait pas automatiquement)
+async function parseBody(req) {
+  return new Promise((resolve, reject) => {
+    if (req.body && typeof req.body === 'object') {
+      // Déjà parsé (environnement local / Express)
+      return resolve(req.body);
+    }
+    let data = '';
+    req.on('data', chunk => { data += chunk; });
+    req.on('end', () => {
+      try { resolve(JSON.parse(data || '{}')); }
+      catch (e) { reject(new Error('Invalid JSON body')); }
+    });
+    req.on('error', reject);
+  });
+}
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -11,20 +24,38 @@ module.exports = async (req, res) => {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { productName, tierName, priceRaw } = req.body || {};
-  if (!productName || !tierName || !priceRaw) {
-    return res.status(400).json({ error: 'Paramètres manquants' });
+  let body;
+  try {
+    body = await parseBody(req);
+  } catch (e) {
+    return res.status(400).json({ error: 'Corps de requête invalide', details: e.message });
   }
 
-  // Convertit "24,99€" → 2499 centimes
-  const amount = Math.round(
-    parseFloat(priceRaw.replace(/[^\d,]/g, '').replace(',', '.')) * 100
-  );
-  if (!amount || amount < 50) {
-    return res.status(400).json({ error: 'Montant invalide' });
+  const { productName, tierName, priceRaw } = body;
+
+  if (!productName || !tierName || !priceRaw) {
+    return res.status(400).json({
+      error: 'Paramètres manquants',
+      received: { productName, tierName, priceRaw }
+    });
+  }
+
+  // Convertit "24,99€" ou "24.99€" → 2499 centimes
+  const cleaned = priceRaw.replace(/[^\d,.]/g, '').replace(',', '.');
+  const amount  = Math.round(parseFloat(cleaned) * 100);
+
+  if (!amount || isNaN(amount) || amount < 50) {
+    return res.status(400).json({ error: 'Montant invalide', priceRaw, cleaned, amount });
+  }
+
+  if (!process.env.STRIPE_SECRET_KEY) {
+    return res.status(500).json({ error: 'STRIPE_SECRET_KEY manquant dans les variables Vercel' });
   }
 
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2023-10-16' });
+
+  const origin = process.env.SITE_URL
+    || (req.headers.origin || `https://${req.headers.host}`);
 
   try {
     const session = await stripe.checkout.sessions.create({
@@ -42,9 +73,9 @@ module.exports = async (req, res) => {
         },
         quantity: 1
       }],
-      success_url: `${process.env.SITE_URL || req.headers.origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url:  `${process.env.SITE_URL || req.headers.origin}/#boutique`,
-      metadata: { productName, tierName }
+      success_url: `${origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url:  `${origin}/#boutique`,
+      metadata:    { productName, tierName }
     });
 
     return res.status(200).json({ url: session.url });

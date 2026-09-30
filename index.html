@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Yonix – Valorant, CS2 & Spoofer</title>
+<meta name="theme-color" content="#030815">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#030815;--bg2:#061127;--blue:#1f7bff;--blue2:#4aa8ff;--ice:#b9e0ff;--deep:#0a4fd6;--red:#ff4655;--red2:#ff6e7a;--red-dark:#c0001a;--red-glow:rgba(255,70,85,.55);--text:#eaf3ff;--dim:#8aa4c8;--line:rgba(90,160,255,.22);--glow:rgba(31,123,255,.55);--disp:'Sora','Segoe UI',system-ui,sans-serif;--body:'Manrope','Segoe UI',system-ui,sans-serif;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark}}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 76px)}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background-color:var(--bg);color:var(--text);font:400 16px/1.6 var(--body);overflow-x:hidden;
+  background-image:radial-gradient(1200px 700px at 78% -8%,rgba(255,70,85,.15),transparent 60%),radial-gradient(900px 600px at 5% 60%,rgba(31,123,255,.14),transparent 60%),radial-gradient(1000px 600px at 50% 110%,rgba(31,123,255,.18),transparent 60%);
+  background-attachment:fixed}
+img,svg{display:block;max-width:100%}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--red2);outline-offset:3px;border-radius:6px}
+.wrap{width:min(1180px,100% - 32px);margin-inline:auto}
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+.cursor-glow{position:fixed;left:0;top:0;width:560px;height:560px;margin:-280px 0 0 -280px;border-radius:50%;pointer-events:none;z-index:1;background:radial-gradient(circle,rgba(255,70,85,.12),transparent 65%);will-change:transform}
+main,header,footer,section{position:relative;z-index:2}
+.progress{position:fixed;left:0;top:env(safe-area-inset-top,0px);height:2px;width:100%;z-index:80;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--red-dark),var(--red),#fff);box-shadow:0 0 12px var(--red)}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;transition:background .4s,backdrop-filter .4s,border-color .4s;border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(3,8,21,.68);-webkit-backdrop-filter:blur(16px) saturate(1.3);backdrop-filter:blur(16px) saturate(1.3);border-color:var(--line)}
+.nav-in{height:66px;display:flex;align-items:center;gap:26px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 22px var(--disp);letter-spacing:.01em}
+.brand svg{width:34px;height:32px;filter:drop-shadow(0 0 10px rgba(255,70,85,.9))}
+.brand span{background:linear-gradient(180deg,#fff,#ffb0b8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.links{display:flex;gap:6px;margin-left:auto}
+.links a{padding:8px 14px;border-radius:10px;text-decoration:none;color:var(--dim);font-weight:500;transition:color .25s,background .25s}
+.links a:hover{color:#fff;background:rgba(255,70,85,.14)}
+.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 26px;border-radius:14px;border:1px solid var(--line);font:700 15px var(--body);color:#fff;text-decoration:none;background:rgba(31,123,255,.12);transition:transform .2s,box-shadow .3s,border-color .3s}
+.btn::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.42) 50%,transparent 65%);transform:translateX(-130%);transition:transform .7s}
+.btn:hover::after{transform:translateX(130%)}
+.btn:hover{transform:translateY(-2px);border-color:var(--red2);box-shadow:0 0 26px -2px var(--red-glow)}
+.btn:active{transform:translateY(2px)}
+.btn.primary{background:linear-gradient(135deg,#ff6e7a,var(--red) 50%,var(--red-dark));border-color:#ff9aa5;box-shadow:0 14px 34px -10px var(--red-glow),inset 0 2px 0 rgba(255,255,255,.3),0 4px 0 #7a000e}
+.btn.primary:hover{box-shadow:0 18px 44px -8px var(--red-glow),0 0 30px var(--red-glow),inset 0 2px 0 rgba(255,255,255,.3),0 4px 0 #7a000e}
+.hero{min-height:calc(100vh - 66px);min-height:calc(100svh - 66px);display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:30px;padding:24px 0 56px}
+.h-in{opacity:0;animation:heroIn 1s cubic-bezier(.2,.9,.25,1) forwards;animation-delay:var(--d,0ms)}
+@keyframes heroIn{from{opacity:0;transform:translateY(28px);filter:blur(10px)}to{opacity:1;transform:none;filter:none}}
+h1{margin:0 0 22px;font:800 clamp(42px,6.6vw,84px)/1.03 var(--disp);letter-spacing:-.025em;
+  background:linear-gradient(100deg,#fff 0%,#ffb0b8 22%,#fff 42%,var(--red2) 68%,#ffb0b8 88%,#fff 100%);background-size:250% 100%;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;opacity:0;animation:h1In 1s cubic-bezier(.2,.9,.25,1) 100ms forwards,shine 6s linear infinite;
+  filter:drop-shadow(0 0 26px rgba(255,70,85,.45))}
+@keyframes h1In{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes shine{from{background-position:130% 0}to{background-position:-130% 0}}
+.lead{max-width:34rem;margin:0 0 32px;color:var(--dim);font-size:18px}
+.cta{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:22px}
+.free{display:flex;align-items:center;gap:10px;color:var(--dim);font-size:14px}
+.free i{width:8px;height:8px;border-radius:50%;background:var(--red2);box-shadow:0 0 12px 3px var(--red2);animation:blink 1.8s ease-in-out infinite}
+@keyframes blink{50%{opacity:.35}}
+.stage3d{position:relative;width:min(100%,520px);aspect-ratio:1;margin-inline:auto;perspective:1100px;transform-style:preserve-3d;display:grid;place-items:center}
+.disc{position:absolute;inset:8%;border-radius:50%;transform:translateZ(-90px);background:radial-gradient(circle,rgba(255,70,85,.7),rgba(255,70,85,.2) 45%,transparent 70%);filter:blur(22px);animation:discPulse 4s ease-in-out infinite alternate}
+@keyframes discPulse{to{transform:translateZ(-90px) scale(1.14);opacity:.75}}
+.ring{position:absolute;inset:4%;border-radius:50%;border:1px solid rgba(255,120,130,.45);box-shadow:0 0 26px rgba(255,70,85,.4),inset 0 0 26px rgba(255,70,85,.25);animation:ring1 15s linear infinite}
+.ring i{position:absolute;top:-5px;left:50%;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:#ffe0e4;box-shadow:0 0 16px 5px var(--red2)}
+.ring.r2{inset:-6%;border-color:rgba(110,180,255,.28);box-shadow:0 0 26px rgba(31,123,255,.3),inset 0 0 20px rgba(31,123,255,.2);animation:ring2 24s linear infinite}
+.ring.r2 i{background:#dff0ff;box-shadow:0 0 16px 5px var(--blue2)}
+@keyframes ring1{from{transform:rotateX(72deg) rotateZ(0)}to{transform:rotateX(72deg) rotateZ(360deg)}}
+@keyframes ring2{from{transform:rotateX(72deg) rotateY(-22deg) rotateZ(360deg)}to{transform:rotateX(72deg) rotateY(-22deg) rotateZ(0)}}
+.mark3d{position:relative;width:60%;aspect-ratio:1;transform-style:preserve-3d;will-change:transform}
+.mark3d svg{position:absolute;inset:0;width:100%;height:100%}
+.mark3d svg.front{filter:drop-shadow(0 0 28px rgba(255,70,85,.95)) drop-shadow(0 0 55px rgba(255,70,85,.5))}
+.sp{position:absolute;width:6px;height:6px;border-radius:50%;background:#ffe0e4;box-shadow:0 0 12px 3px var(--red2);animation:drift 6s ease-in-out infinite}
+@keyframes drift{50%{transform:translate3d(10px,-22px,40px);opacity:.4}}
+.sec{padding:84px 0}
+.sec-h{max-width:40rem;margin-bottom:34px}
+h2{margin:0 0 10px;font:800 clamp(30px,4.6vw,50px)/1.1 var(--disp);letter-spacing:-.02em;color:#fff;text-shadow:0 0 34px rgba(255,70,85,.4)}
+.sec-h p{margin:0;color:var(--dim);font-size:17px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;perspective:1400px}
+.grid .card{transition:opacity .2s,transform .2s}
+.rv{opacity:0;transform:translateY(36px) rotateX(-12deg) scale(.96);filter:blur(6px)}
+.rv.in{opacity:1;transform:none;filter:none;transition:opacity .8s,transform .9s cubic-bezier(.2,.9,.25,1),filter .8s;transition-delay:var(--d,0ms)}
+.card{position:relative}
+.card-in{position:relative;height:100%;padding:16px 16px 18px;border-radius:22px;border:1px solid var(--line);transform-style:preserve-3d;
+  background:linear-gradient(160deg,rgba(255,70,85,.12),rgba(5,12,32,.82) 60%);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .35s cubic-bezier(.2,.9,.25,1),border-color .3s,box-shadow .4s}
+.card.hot .card-in{transition:transform .08s linear,border-color .3s,box-shadow .4s;border-color:rgba(255,160,170,.7);box-shadow:0 0 44px -6px var(--red-glow),0 30px 60px -30px #000}
+.glare{position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(360px circle at var(--gx,50%) var(--gy,30%),rgba(255,180,190,.2),transparent 45%)}
+.card.hot .glare{opacity:1}
+.badge{position:absolute;top:14px;left:14px;z-index:3;padding:4px 11px;border-radius:999px;font:800 12px var(--disp);color:#fff;background:linear-gradient(135deg,#ff6e7a,var(--red-dark));box-shadow:0 0 16px var(--red-glow);transform:translateZ(50px)}
+.pimg{position:relative;height:220px;display:grid;place-items:center;transform:translateZ(46px);transition:transform .4s}
+.pimg .halo{position:absolute;width:70%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(255,70,85,.5),transparent 68%);filter:blur(16px);transition:transform .5s,opacity .5s;opacity:.7}
+.card.hot .pimg .halo{transform:scale(1.28);opacity:1}
+.pimg svg{position:relative;width:65%;height:auto;object-fit:contain;animation:floaty 5.5s ease-in-out infinite;animation-delay:var(--fd,0s);filter:drop-shadow(0 12px 22px rgba(0,0,0,.45))}
+@keyframes floaty{50%{transform:translateY(-10px) rotate(1.5deg)}}
+.pinfo{padding-top:6px;transform:translateZ(20px)}
+.pname{all:unset;cursor:pointer;font:700 19px var(--disp);color:#fff}
+.pname::after{content:'';position:absolute;inset:0;border-radius:22px;z-index:1}
+.psub{margin:2px 0 12px;color:var(--dim);font-size:14px}
+.prow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.price{display:flex;flex-direction:column;line-height:1.25}
+.price b{font:800 14px var(--disp);color:var(--dim)}
+.price span{font:800 20px var(--disp);color:#fff}
+.open-btn{position:relative;z-index:2;padding:10px 16px;border-radius:12px;border:1px solid #ff9aa5;font:700 14px var(--body);color:#fff;
+  background:linear-gradient(135deg,#ff6e7a,var(--red) 55%,var(--red-dark));box-shadow:0 8px 20px -8px var(--red-glow),inset 0 1px 0 rgba(255,255,255,.3),0 3px 0 #7a000e;transition:transform .12s,box-shadow .2s}
+.open-btn:hover{box-shadow:0 10px 26px -4px var(--red-glow),0 0 22px var(--red-glow),inset 0 1px 0 rgba(255,255,255,.3),0 3px 0 #7a000e}
+.open-btn:active{transform:translateY(3px)}
+.why{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;perspective:1400px}
+.wcard{padding:26px 22px;border-radius:22px;border:1px solid var(--line);background:linear-gradient(160deg,rgba(255,70,85,.1),rgba(5,12,32,.8));
+  transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .35s cubic-bezier(.2,.9,.25,1),box-shadow .4s,border-color .3s}
+.wcard.hot{transition:transform .08s linear,box-shadow .4s,border-color .3s;border-color:rgba(255,160,170,.6);box-shadow:0 0 40px -8px var(--red-glow)}
+.ico{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;margin-bottom:18px;color:#ffe0e4;
+  background:linear-gradient(135deg,rgba(255,110,122,.35),rgba(192,0,26,.5));box-shadow:0 0 26px -2px var(--red-glow),inset 0 1px 0 rgba(255,255,255,.25)}
+.wcard h3{margin:0 0 6px;font:700 18px var(--disp)}
+.wcard p{margin:0;color:var(--dim);font-size:15px}
+.faq{max-width:780px}
+details{border:1px solid var(--line);border-radius:16px;margin-bottom:12px;background:rgba(255,70,85,.04);transition:border-color .3s,box-shadow .3s}
+details[open]{border-color:rgba(255,160,170,.55);box-shadow:0 0 30px -8px var(--red-glow)}
+summary{list-style:none;cursor:pointer;padding:18px 22px;font:700 17px var(--disp);display:flex;justify-content:space-between;align-items:center;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'+';font:400 26px/1 var(--body);color:var(--red2);transition:transform .4s cubic-bezier(.3,1.6,.5,1)}
+details[open] summary::after{transform:rotate(135deg)}
+details p{margin:0;padding:0 22px 20px;color:var(--dim)}
+details[open] p{animation:fadeDown .45s cubic-bezier(.2,.9,.25,1)}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-8px)}}
+.band{position:relative;overflow:hidden;text-align:center;padding:64px 24px;border-radius:28px;border:1px solid rgba(255,160,170,.4);
+  background:radial-gradient(600px 300px at 50% 0,rgba(255,70,85,.4),transparent 70%),linear-gradient(160deg,rgba(255,70,85,.15),rgba(5,12,32,.9));box-shadow:0 0 80px -20px var(--red-glow)}
+.band h2{margin-bottom:12px}
+.band p{margin:0 auto 28px;max-width:32rem;color:var(--dim)}
+footer{padding:40px 0 60px;border-top:1px solid var(--line);color:var(--dim);font-size:14px}
+.foot{display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between}
+.foot .brand{font-size:19px}
+.foot nav{display:flex;gap:18px;flex-wrap:wrap}
+.foot a{text-decoration:none}.foot a:hover{color:#fff}
+dialog{border:1px solid rgba(255,160,170,.4);border-radius:26px;padding:0;color:var(--text);background:linear-gradient(160deg,#1a0810,#030815);
+  box-shadow:0 0 90px -10px var(--red-glow);width:min(860px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto}
+dialog::backdrop{background:rgba(1,4,12,.7);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+dialog[open]{animation:dlgIn .5s cubic-bezier(.2,.9,.25,1)}
+@keyframes dlgIn{from{opacity:0;transform:perspective(900px) translateY(30px) rotateX(10deg) scale(.95)}}
+dialog .x{position:absolute;top:14px;right:14px;z-index:3;width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:rgba(255,70,85,.1);font-size:22px;line-height:1;display:grid;place-items:center;transition:all .25s}
+dialog .x:hover{border-color:var(--red2);box-shadow:0 0 18px var(--red-glow);transform:rotate(90deg)}
+.pd{display:grid;grid-template-columns:1fr 1fr}
+.pd-img{position:relative;min-height:340px;display:grid;place-items:center;background:radial-gradient(circle at 50% 50%,rgba(255,70,85,.25),transparent 70%);border-right:1px solid var(--line)}
+.pd-img svg{width:64%;object-fit:contain;animation:floaty 5s ease-in-out infinite;filter:drop-shadow(0 18px 30px rgba(0,0,0,.5))}
+.pd-info{padding:34px 30px}
+.pd-info h3{margin:0;font:800 30px var(--disp);text-shadow:0 0 26px rgba(255,70,85,.6)}
+.pd-info .psub{margin:2px 0 10px;font-size:16px;color:var(--dim)}
+.pd-info p{margin:0 0 12px;color:var(--dim)}
+.pd-info ul{margin:0 0 16px;padding:0;list-style:none;display:grid;gap:7px}
+.pd-info li{display:flex;gap:10px;align-items:center;font-size:15px}
+.pd-info li::before{content:'';flex:none;width:8px;height:8px;border-radius:50%;background:var(--red2);box-shadow:0 0 10px var(--red2)}
+.tier-label{font:800 14px var(--disp);color:var(--dim);margin:0 0 10px;letter-spacing:.05em;text-transform:uppercase;font-size:12px}
+.tier-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 16px}
+.tier{padding:14px 12px;border-radius:14px;border:1px solid var(--line);background:rgba(255,70,85,.06);text-align:left;display:flex;flex-direction:column;gap:4px;cursor:pointer;transition:all .3s;position:relative}
+.tier:hover{border-color:var(--red2);background:rgba(255,70,85,.12);box-shadow:0 0 18px -4px var(--red-glow)}
+.tier.sel{border-color:var(--red);background:rgba(255,70,85,.18);box-shadow:0 0 24px -4px var(--red-glow)}
+.tier-dur{font:700 13px var(--disp);color:var(--dim)}
+.tier-price{font:800 22px var(--disp);color:#fff}
+.tier.sel .tier-dur{color:var(--red2)}
+.tier.sel .tier-price{color:var(--red2);text-shadow:0 0 16px var(--red-glow)}
+.tier-note{font-size:11px;color:var(--red2);font-weight:700;margin-top:2px}
+.tier-badge{position:absolute;top:8px;right:8px;padding:2px 7px;border-radius:999px;font:700 10px var(--disp);background:var(--red);color:#fff;box-shadow:0 0 10px var(--red-glow)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:200;transform:translateX(-50%);padding:12px 20px;border-radius:14px;border:1px solid #ff9aa5;
+  background:rgba(6,17,39,.94);box-shadow:0 0 34px -4px var(--red-glow);font-weight:700;font-size:14px;white-space:nowrap;animation:toast 2.8s cubic-bezier(.2,.9,.25,1) forwards;pointer-events:none}
+@keyframes toast{0%{opacity:0;transform:translate(-50%,24px) scale(.9)}12%,82%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,10px)}}
+.tier-grid.three{grid-template-columns:1fr 1fr 1fr}
+.tier-grid.two{grid-template-columns:1fr 1fr}
+.tier.gold{border-color:rgba(255,200,50,.35)}
+.tier.gold:hover{border-color:#ffcc44;box-shadow:0 0 18px -4px rgba(255,180,0,.6)}
+.tier.gold.sel{border-color:#ffaa00;background:rgba(255,170,0,.15);box-shadow:0 0 24px -4px rgba(255,180,0,.6)}
+.tier.gold.sel .tier-dur,.tier.gold.sel .tier-price{color:#ffe066;text-shadow:0 0 16px rgba(255,180,0,.8)}
+.tier.gold.sel .tier-price{text-shadow:0 0 20px rgba(255,180,0,.9)}
+#pdBuy.gold{background:linear-gradient(135deg,#ffe066,#ffaa00 50%,#cc7700);border-color:#ffe066;box-shadow:0 14px 34px -10px rgba(255,180,0,.55),inset 0 2px 0 rgba(255,255,255,.3),0 4px 0 #7a4400}
+#pdBuy.gold:hover{box-shadow:0 18px 44px -8px rgba(255,180,0,.7),0 0 30px rgba(255,180,0,.5),inset 0 2px 0 rgba(255,255,255,.3),0 4px 0 #7a4400}
+.pimg.gold .halo{background:radial-gradient(circle,rgba(255,170,0,.5),transparent 68%)}
+@media(max-width:860px){.hero{grid-template-columns:1fr;text-align:left;padding-top:8px}.stage3d{width:min(86%,400px)}.links a:not(:first-child){display:none}.pd{grid-template-columns:1fr}.pd-img{min-height:240px;border-right:0;border-bottom:1px solid var(--line)}.sec{padding:60px 0}.tier-grid.three{grid-template-columns:1fr 1fr}}
+@media(hover:none){.cursor-glow{display:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.rv{opacity:1;transform:none;filter:none}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<defs>
+  <!-- Yonix Y logo (nav brand) -->
+  <linearGradient id="yA" gradientUnits="userSpaceOnUse" x1="370" y1="376" x2="640" y2="820"><stop offset="0" stop-color="#fff"/><stop offset=".28" stop-color="#a6dcff"/><stop offset=".55" stop-color="#3fa0ff"/><stop offset="1" stop-color="#0a6cff"/></linearGradient>
+  <linearGradient id="yB" gradientUnits="userSpaceOnUse" x1="642" y1="610" x2="891" y2="376"><stop offset="0" stop-color="#4aa8ff"/><stop offset="1" stop-color="#0f78ff"/></linearGradient>
+  <g id="yFront"><path fill="url(#yA)" d="M370 376H502L682 611V756L572 860V629Z"/><path fill="url(#yB)" d="M759 376H891L704 605L642 527Z"/></g>
+  <!-- CS2 star/crosshair gradients -->
+  <linearGradient id="csGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe066"/><stop offset=".5" stop-color="#ffaa00"/><stop offset="1" stop-color="#cc7700"/></linearGradient>
+  <radialGradient id="csGlow"><stop offset="0" stop-color="#ffcc44" stop-opacity=".9"/><stop offset="1" stop-color="#ffcc44" stop-opacity="0"/></radialGradient>
+  <!-- Valorant V gradients -->
+  <linearGradient id="vGradA" gradientUnits="userSpaceOnUse" x1="120" y1="170" x2="440" y2="630"><stop offset="0" stop-color="#fff"/><stop offset=".25" stop-color="#ffb0b8"/><stop offset=".6" stop-color="#ff4655"/><stop offset="1" stop-color="#c0001a"/></linearGradient>
+  <linearGradient id="vGradB" gradientUnits="userSpaceOnUse" x1="660" y1="170" x2="360" y2="630"><stop offset="0" stop-color="#fff"/><stop offset=".25" stop-color="#ffb0b8"/><stop offset=".6" stop-color="#ff4655"/><stop offset="1" stop-color="#c0001a"/></linearGradient>
+  <linearGradient id="vGradR" gradientUnits="userSpaceOnUse" x1="580" y1="170" x2="430" y2="500"><stop offset="0" stop-color="#ff8a96"/><stop offset="1" stop-color="#ff2035"/></linearGradient>
+  <linearGradient id="vGradD" gradientUnits="userSpaceOnUse" x1="120" y1="170" x2="660" y2="630"><stop offset="0" stop-color="#8a0010"/><stop offset="1" stop-color="#2a0007"/></linearGradient>
+  <!-- Shared product SVG gradients -->
+  <linearGradient id="gBody" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a0010"/><stop offset=".6" stop-color="#0c0020"/><stop offset="1" stop-color="#060015"/></linearGradient>
+  <linearGradient id="gBlue" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#bfe4ff"/><stop offset=".4" stop-color="#3fa0ff"/><stop offset="1" stop-color="#0a55e0"/></linearGradient>
+  <linearGradient id="gRed" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff8a96"/><stop offset=".4" stop-color="#ff4655"/><stop offset="1" stop-color="#c0001a"/></linearGradient>
+  <radialGradient id="gShadow"><stop offset="0" stop-color="#000" stop-opacity=".55"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+  <filter id="fGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5"/></filter>
+  <filter id="fRedGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7"/></filter>
+  <!-- Valorant V — front layer (lit) -->
+  <g id="vFront">
+    <path fill="url(#vGradA)" d="M120,170 L225,170 L440,625 L335,625Z"/>
+    <path fill="url(#vGradB)" d="M360,625 L465,625 L655,170 L575,170Z"/>
+    <path fill="url(#vGradR)" d="M575,170 L655,170 L490,495 L425,495Z"/>
+  </g>
+  <!-- Valorant V — back layers (depth/shadow) -->
+  <g id="vBack">
+    <path fill="url(#vGradD)" d="M120,170 L225,170 L440,625 L335,625Z"/>
+    <path fill="url(#vGradD)" d="M360,625 L465,625 L655,170 L575,170Z"/>
+    <path fill="#5a0008" d="M575,170 L655,170 L490,495 L425,495Z"/>
+  </g>
+</defs>
+</svg>
+
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="cursor-glow" id="cg" aria-hidden="true"></div>
+<div class="progress" id="prog"></div>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top" aria-label="Yonix, accueil">
+      <svg viewBox="360 366 540 504" aria-hidden="true"><use href="#yFront"/></svg><span>Yonix</span>
+    </a>
+    <nav class="links" aria-label="Navigation principale">
+      <a href="#boutique">Boutique</a><a href="#engagements">Garanties</a><a href="#faq">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="wrap hero">
+    <div>
+      <h1>Des logiciels conçus pour dominer.</h1>
+      <p class="lead h-in" style="--d:350ms">Valorant, CS2 et Spoofer HWID : des solutions stables, mises à jour après chaque patch, pour les joueurs qui ne laissent rien au hasard.</p>
+      <div class="cta h-in" style="--d:550ms">
+        <a class="btn primary" href="#boutique">Voir les produits</a>
+        <a class="btn" href="#engagements">Nos garanties</a>
+      </div>
+      <div class="free h-in" style="--d:750ms"><i></i>Support Discord 24/7 — mise à jour en priorité</div>
+    </div>
+    <div class="stage3d h-in" id="stage" style="--d:300ms" aria-hidden="true">
+      <div class="disc"></div>
+      <div class="ring"><i></i></div>
+      <div class="ring r2"><i></i></div>
+      <div class="mark3d" id="mark3d"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="boutique">
+    <div class="wrap">
+      <div class="sec-h rv"><h2>Nos produits</h2><p>Valorant, CS2, Spoofer HWID — clique sur une carte pour voir les formules disponibles.</p></div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="engagements">
+    <div class="wrap">
+      <div class="sec-h rv"><h2>Commander sans se poser de questions</h2><p>Quatre garanties concrètes, pour que tu achètes l'esprit tranquille.</p></div>
+      <div class="why" id="why"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="faq">
+    <div class="wrap">
+      <div class="sec-h rv"><h2>Questions fréquentes</h2></div>
+      <div class="faq rv">
+        <details><summary>Le soft est-il détecté ?</summary><p>Nos loaders sont testés après chaque patch Valorant. En cas de détection inattendue, une mise à jour est déployée sous 24 h et tous les abonnements actifs sont compensés.</p></details>
+        <details><summary>Comment je reçois ma clé ?</summary><p>Après achat, ta clé est envoyée immédiatement via Discord. Un membre du support t'accompagne pour l'activation.</p></details>
+        <details><summary>Quelle est la différence entre Valorant Emu et Private ?</summary><p>Emu utilise une méthode d'émulation pour contourner Vanguard. Private est un loader exclusif avec des features plus avancées et une priorité de mise à jour plus rapide après chaque patch.</p></details>
+        <details><summary>Quelle est la différence entre Spoofer Temporaire et Perm ?</summary><p>Le spoofer Temporaire modifie ton HWID en RAM uniquement — il se réinitialise au redémarrage. Le Perm Onetime modifie ton registre une fois de façon permanente. La formule À Vie inclut les futures mises à jour du spoofer.</p></details>
+        <details><summary>Le CS2 Loader fonctionne sur FACEIT ?</summary><p>Notre loader CS2 intègre des contournements anti-cheat avancés compatibles VAC et FACEIT. Consulte le support Discord pour les détails de la version en cours.</p></details>
+        <details><summary>Les formules Lifetime sont-elles vraiment permanentes ?</summary><p>Oui. Un accès Lifetime signifie un accès à vie, incluant toutes les futures mises à jour, sans frais supplémentaires.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="band rv">
+        <h2>Prêt à prendre l'avantage ?</h2>
+        <p>Rejoins des centaines de joueurs qui font confiance à Yonix chaque jour.</p>
+        <a class="btn primary" href="#boutique">Voir les produits</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <a class="brand" href="#top"><svg viewBox="360 366 540 504" aria-hidden="true"><use href="#yFront"/></svg><span>Yonix</span></a>
+    <nav aria-label="Pied de page"><a href="#boutique">Boutique</a><a href="#engagements">Garanties</a><a href="#faq">FAQ</a></nav>
+    <span>© 2026 Yonix. Tous droits réservés.</span>
+  </div>
+</footer>
+
+<!-- Fiche produit / sélecteur de formule -->
+<dialog id="pd" aria-labelledby="pdName">
+  <button class="x" type="button" data-close aria-label="Fermer">×</button>
+  <div class="pd">
+    <div class="pd-img" id="pdImg"></div>
+    <div class="pd-info">
+      <h3 id="pdName"></h3>
+      <p class="psub" id="pdSub"></p>
+      <p id="pdDesc"></p>
+      <ul id="pdFeat"></ul>
+      <p class="tier-label">Choisir une formule</p>
+      <div class="tier-grid" id="tierGrid"></div>
+      <button class="btn primary" type="button" id="pdBuy" style="width:100%">Acheter → Discord</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+(() => {
+'use strict';
+
+const $ = (s,r=document) => r.querySelector(s);
+const $$ = (s,r=document) => [...r.querySelectorAll(s)];
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const canHover = matchMedia('(hover:hover)').matches;
+
+/* === Canvas orbs === */
+const cv = $('#bg'), ctx = cv.getContext('2d');
+let W=0,H=0;
+function resize(){const d=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0)}
+addEventListener('resize',resize);resize();
+const mouse={x:-999,y:-999,nx:.5,ny:.5};
+let scrollY=window.scrollY,scrollD=0;
+const orbs=[];
+const orbCount=reduce?14:(innerWidth<700?22:42);
+function makeOrb(initial){const z=Math.random();return{x:Math.random()*W,y:initial?Math.random()*H:H+30+Math.random()*H*.3,z,r:3+z*z*22+Math.random()*4,vy:14+z*52+Math.random()*16,ph:Math.random()*6.28,sw:10+Math.random()*28,sf:.35+Math.random()*.7,hue:0+Math.random()*20-5,t:Math.random()*10,ox:0,oy:0,tw:Math.random()*6}}
+for(let i=0;i<orbCount;i++)orbs.push(makeOrb(true));
+orbs.sort((a,b)=>a.z-b.z);
+
+function drawOrb(o,dt){
+  o.t+=dt;o.y-=o.vy*dt*(reduce?.4:1);o.y-=scrollD*(.12+o.z*.35);
+  let x=o.x+Math.sin(o.t*o.sf+o.ph)*o.sw+(mouse.nx-.5)*50*o.z;
+  const dx=x+o.ox-mouse.x,dy=o.y+o.oy-mouse.y,d=Math.hypot(dx,dy)||1,R=o.r+100;
+  if(d<R){const f=1-d/R;o.ox+=dx/d*f*380*dt;o.oy+=dy/d*f*380*dt}
+  o.ox*=1-Math.min(1,dt*2.2);o.oy*=1-Math.min(1,dt*2.2);
+  x+=o.ox;const y=o.y+o.oy,r=o.r;
+  const edge=Math.min(1,(H+r*3-o.y)/140)*Math.min(1,Math.max(0,o.y+40)/(H*.18));
+  const a=Math.max(0,Math.min(1,(.3+o.z*.55)*edge*.8));
+  if(a<.01)return;
+  const h=o.hue,tk=.85+.15*Math.sin(o.t*2+o.tw);
+  ctx.globalCompositeOperation='lighter';
+  let g=ctx.createRadialGradient(x,y,0,x,y,r*3.4);
+  g.addColorStop(0,`hsla(${h},95%,60%,${.4*a*tk})`);g.addColorStop(.4,`hsla(${h},95%,55%,${.15*a})`);g.addColorStop(1,`hsla(${h},95%,50%,0)`);
+  ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r*3.4,0,6.283);ctx.fill();
+  ctx.globalCompositeOperation='source-over';
+  g=ctx.createRadialGradient(x-r*.38,y-r*.42,r*.05,x,y,r);
+  g.addColorStop(0,`hsla(${h},100%,94%,${.95*a})`);g.addColorStop(.28,`hsla(${h},96%,68%,${.9*a})`);g.addColorStop(.7,`hsla(${h},90%,42%,${.85*a})`);g.addColorStop(1,`hsla(${h},85%,22%,${.8*a})`);
+  ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,6.283);ctx.fill();
+  ctx.strokeStyle=`hsla(${h},100%,84%,${.3*a})`;ctx.lineWidth=1;ctx.beginPath();ctx.arc(x,y,r-.5,0,6.283);ctx.stroke();
+}
+
+/* === 3D Valorant V mark === */
+const m3=$('#mark3d'),N=22;
+for(let i=0;i<N;i++){
+  const front=i===N-1;
+  m3.insertAdjacentHTML('beforeend',`<svg class="${front?'front':''}" viewBox="100 150 570 490" style="transform:translateZ(${(i-N/2)*3}px)"><use href="#${front?'vFront':'vBack'}"/></svg>`);
+}
+const stage=$('#stage');
+for(let i=0;i<7;i++){
+  const s=document.createElement('i');s.className='sp';
+  s.style.cssText=`left:${8+Math.random()*84}%;top:${8+Math.random()*84}%;animation-delay:${(-Math.random()*6).toFixed(2)}s;transform:translateZ(${Math.round(Math.random()*80-20)}px)`;
+  stage.append(s);
+}
+
+const cg=$('#cg');let gx=innerWidth/2,gy=innerHeight/2,mx=0,my=0;
+addEventListener('pointermove',e=>{mouse.x=e.clientX;mouse.y=e.clientY;mouse.nx=e.clientX/innerWidth;mouse.ny=e.clientY/innerHeight},{passive:true});
+addEventListener('pointerleave',()=>{mouse.x=mouse.y=-999});
+const prog=$('#prog'),nav=$('#nav');
+addEventListener('scroll',()=>{const y=window.scrollY;scrollD+=y-scrollY;scrollY=y;const max=document.documentElement.scrollHeight-innerHeight;prog.style.transform=`scaleX(${max>0?y/max:0})`;nav.classList.toggle('scrolled',y>10)},{passive:true});
+
+let last=performance.now();
+function frame(now){
+  const dt=Math.min(.05,(now-last)/1000);last=now;const t=now/1000;
+  ctx.clearRect(0,0,W,H);
+  for(const o of orbs){drawOrb(o,dt);if(o.y<-o.r*4){const n=makeOrb(false);o.x=n.x;o.y=n.y}}
+  scrollD*=.8;
+  if(canHover){gx+=(mouse.x-gx)*Math.min(1,dt*5);gy+=(mouse.y-gy)*Math.min(1,dt*5);cg.style.transform=`translate(${gx}px,${gy}px)`}
+  mx+=((mouse.nx-.5)*2-mx)*Math.min(1,dt*4);my+=((mouse.ny-.5)*2-my)*Math.min(1,dt*4);
+  if(!reduce){const ry=Math.sin(t*.7)*16+mx*26,rx=Math.cos(t*.55)*5-my*16,fy=Math.sin(t*1.2)*8;m3.style.transform=`translateY(${fy}px) rotateX(${rx}deg) rotateY(${ry}deg)`}
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+/* === Reveal + tilt === */
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(!e.isIntersecting)return;const el=e.target;io.unobserve(el);
+  const i=[...el.parentElement.children].indexOf(el);el.style.setProperty('--d',(i%4)*90+'ms');el.classList.add('in');
+}),{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+const reveal=el=>{el.classList.add('rv');io.observe(el)};
+$$('.rv').forEach(el=>io.observe(el));
+
+function tilt(el,max=9){
+  if(!canHover||reduce)return;
+  el.addEventListener('pointermove',e=>{const r=el.getBoundingClientRect(),px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;el.style.setProperty('--ry',((px-.5)*2*max).toFixed(2)+'deg');el.style.setProperty('--rx',((.5-py)*2*max).toFixed(2)+'deg');el.style.setProperty('--gx',(px*100)+'%');el.style.setProperty('--gy',(py*100)+'%');el.classList.add('hot')});
+  el.addEventListener('pointerleave',()=>{el.classList.remove('hot');el.style.setProperty('--rx','0deg');el.style.setProperty('--ry','0deg')});
+}
+
+/* === Products === */
+const PRODUCTS = [
+  {
+    id:'val-emu',
+    name:'Valorant Emu',
+    sub:'Loader Émulateur',
+    badge:'Stable',
+    desc:'Loader stable et discret basé sur émulation. Compatible avec les dernières versions du client Valorant.',
+    feat:['Injection via émulation','Mises à jour sous 24h post-patch','Support Discord inclus','Compatible Windows 10 & 11'],
+    tiers:[
+      {dur:'3 Jours',price:'24,99€'},
+      {dur:'1 Semaine',price:'59,99€'},
+      {dur:'1 Mois',price:'119,99€'},
+      {dur:'Lifetime',price:'199,99€',note:'Accès permanent',best:true}
+    ],
+    svg:`<svg viewBox="0 0 200 200">
+      <ellipse cx="100" cy="182" rx="60" ry="9" fill="url(#gShadow)"/>
+      <path fill="url(#gBlue)" opacity=".9" d="M36,55 L60,55 L104,155 L80,155Z"/>
+      <path fill="url(#gBlue)" opacity=".9" d="M96,155 L120,155 L158,55 L140,55Z"/>
+      <path fill="#4aa8ff" d="M140,55 L158,55 L128,120 L114,120Z"/>
+      <circle cx="100" cy="158" r="10" fill="#4aa8ff" filter="url(#fGlow)" opacity=".8"/>
+      <circle cx="100" cy="158" r="4" fill="#dff0ff"/>
+      <ellipse cx="52" cy="62" rx="12" ry="6" fill="#fff" opacity=".35" transform="rotate(-30 52 62)"/>
+    </svg>`
+  },
+  {
+    id:'val-priv',
+    name:'Valorant Private',
+    sub:'Loader Privé Exclusif',
+    badge:'Exclusif',
+    desc:'Version private exclusif avec features avancées — aimbot, ESP, no-recoil. Mise à jour prioritaire après chaque patch.',
+    feat:['Aimbot configurable + silent aim','ESP joueurs & objets','No-recoil optimisé','Mise à jour prioritaire VIP'],
+    tiers:[
+      {dur:'3 Jours',price:'19,99€'},
+      {dur:'1 Semaine',price:'39,99€'},
+      {dur:'1 Mois',price:'89,99€'},
+      {dur:'Lifetime',price:'139,99€',note:'Accès permanent',best:true}
+    ],
+    svg:`<svg viewBox="0 0 200 200">
+      <ellipse cx="100" cy="182" rx="60" ry="9" fill="url(#gShadow)"/>
+      <path fill="url(#gRed)" opacity=".95" d="M36,52 L60,52 L104,152 L80,152Z"/>
+      <path fill="url(#gRed)" opacity=".95" d="M96,152 L120,152 L158,52 L140,52Z"/>
+      <path fill="#ff8a96" d="M140,52 L158,52 L128,117 L114,117Z"/>
+      <rect x="82" y="130" width="36" height="30" rx="8" fill="url(#gBody)" stroke="#ff4655" stroke-opacity=".8" stroke-width="1.5"/>
+      <path d="M91 130V122a9 9 0 0 1 18 0v8" fill="none" stroke="#ff4655" stroke-width="2.2" stroke-linecap="round"/>
+      <circle cx="100" cy="145" r="4.5" fill="#ff4655" filter="url(#fRedGlow)"/>
+      <circle cx="100" cy="145" r="2" fill="#ffe0e4"/>
+    </svg>`
+  },
+  {
+    id:'cs2',
+    name:'CS2 Loader',
+    sub:'Counter-Strike 2',
+    badge:'Nouveau',
+    accent:'gold',
+    desc:'Loader CS2 avec aimbot précis, wallhack et radar hack. Indétectable sur VAC — mis à jour après chaque patch Valve.',
+    feat:['Aimbot + triggerbot','Wallhack & radar hack','No-recoil & no-spread','Indétectable VAC / FACEIT'],
+    tiers:[
+      {dur:'3 Jours',price:'29,99€'},
+      {dur:'6 Mois',price:'129,99€'},
+      {dur:'Lifetime',price:'239,99€',note:'Accès permanent',best:true}
+    ],
+    svg:`<svg viewBox="0 0 200 200">
+      <ellipse cx="100" cy="184" rx="58" ry="8" fill="url(#gShadow)"/>
+      <!-- CS star shape (5 branches) -->
+      <polygon points="100,28 114,72 160,72 124,98 138,142 100,116 62,142 76,98 40,72 86,72" fill="url(#csGold)" filter="url(#fGlow)" opacity=".35"/>
+      <polygon points="100,38 112,74 152,74 120,96 132,132 100,110 68,132 80,96 48,74 88,74" fill="url(#csGold)"/>
+      <!-- Crosshair overlay -->
+      <line x1="100" y1="55" x2="100" y2="88" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>
+      <line x1="100" y1="112" x2="100" y2="145" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>
+      <line x1="66" y1="100" x2="88" y2="100" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>
+      <line x1="112" y1="100" x2="134" y2="100" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>
+      <circle cx="100" cy="100" r="6" fill="none" stroke="#ffe066" stroke-width="2.2"/>
+      <circle cx="100" cy="100" r="2" fill="#ffe066"/>
+    </svg>`
+  },
+  {
+    id:'spoofer',
+    name:'HWID Spoofer',
+    sub:'Spoofer Hardware ID',
+    badge:'Anti-Ban',
+    accent:'gold',
+    desc:'Spoofeur HWID pour contourner les bans hardware sur tous les jeux majeurs. Efface ton empreinte matérielle en quelques secondes.',
+    feat:['Spoof HWID complet (disques, carte mère, GPU…)','Compatible Valorant, CS2, Fortnite & +','Version perm modifie définitivement le registre','Aucune trace laissée après exécution'],
+    tiers:[
+      {dur:'Perm Onetime',price:'24,99€',note:'Modification unique permanente'},
+      {dur:'À Vie',price:'54,99€',note:'Mises à jour incluses',best:true}
+    ],
+    svg:`<svg viewBox="0 0 200 200">
+      <ellipse cx="100" cy="184" rx="56" ry="8" fill="url(#gShadow)"/>
+      <!-- Chip body -->
+      <rect x="56" y="56" width="88" height="88" rx="12" fill="url(#gBody)" stroke="#ffaa00" stroke-opacity=".7" stroke-width="1.8"/>
+      <rect x="66" y="66" width="68" height="68" rx="8" fill="#0a0520" stroke="#ffcc44" stroke-opacity=".4" stroke-width="1"/>
+      <!-- Chip pins left -->
+      <rect x="40" y="74" width="14" height="6" rx="3" fill="#ffaa00" opacity=".9"/>
+      <rect x="40" y="88" width="14" height="6" rx="3" fill="#ffaa00" opacity=".7"/>
+      <rect x="40" y="102" width="14" height="6" rx="3" fill="#ffaa00" opacity=".7"/>
+      <rect x="40" y="116" width="14" height="6" rx="3" fill="#ffaa00" opacity=".5"/>
+      <!-- Chip pins right -->
+      <rect x="146" y="74" width="14" height="6" rx="3" fill="#ffaa00" opacity=".9"/>
+      <rect x="146" y="88" width="14" height="6" rx="3" fill="#ffaa00" opacity=".7"/>
+      <rect x="146" y="102" width="14" height="6" rx="3" fill="#ffaa00" opacity=".7"/>
+      <rect x="146" y="116" width="14" height="6" rx="3" fill="#ffaa00" opacity=".5"/>
+      <!-- Chip pins top -->
+      <rect x="76" y="40" width="6" height="14" rx="3" fill="#ffaa00" opacity=".8"/>
+      <rect x="96" y="40" width="6" height="14" rx="3" fill="#ffaa00" opacity=".6"/>
+      <rect x="116" y="40" width="6" height="14" rx="3" fill="#ffaa00" opacity=".6"/>
+      <!-- Chip pins bottom -->
+      <rect x="76" y="146" width="6" height="14" rx="3" fill="#ffaa00" opacity=".8"/>
+      <rect x="96" y="146" width="6" height="14" rx="3" fill="#ffaa00" opacity=".6"/>
+      <rect x="116" y="146" width="6" height="14" rx="3" fill="#ffaa00" opacity=".6"/>
+      <!-- Inner glow pattern -->
+      <circle cx="100" cy="100" r="20" fill="url(#csGold)" opacity=".25" filter="url(#fGlow)"/>
+      <path d="M84 100a16 16 0 0 1 32 0" fill="none" stroke="#ffe066" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="100" cy="100" r="5" fill="#ffcc44" filter="url(#fGlow)"/>
+      <circle cx="100" cy="100" r="2.5" fill="#fff8e0"/>
+    </svg>`
+  }
+];
+
+/* === Grid render === */
+const grid=$('#grid');
+PRODUCTS.forEach((p,i)=>{
+  const c=document.createElement('article');c.className='card';c.dataset.id=p.id;
+  const lowestPrice=p.tiers[0].price;
+  const isGold=p.accent==='gold';
+  const badgeStyle=isGold?'background:linear-gradient(135deg,#ffe066,#cc7700);box-shadow:0 0 16px rgba(255,180,0,.6)':'';
+  c.innerHTML=`<div class="card-in">
+    ${p.badge?`<span class="badge" style="${badgeStyle}">${p.badge}</span>`:''}
+    <div class="pimg${isGold?' gold':''}"><div class="halo"></div>${p.svg}</div>
+    <div class="pinfo">
+      <h3 style="margin:0"><button type="button" class="pname" data-open="${p.id}">${p.name}</button></h3>
+      <p class="psub">${p.sub}</p>
+      <div class="prow">
+        <div class="price"><b>À partir de</b><span>${lowestPrice}</span></div>
+        <button type="button" class="open-btn${isGold?' gold-btn':''}" data-open="${p.id}" style="${isGold?'border-color:#ffe066;background:linear-gradient(135deg,#ffe066,#ffaa00 55%,#cc7700);box-shadow:0 8px 20px -8px rgba(255,180,0,.6),inset 0 1px 0 rgba(255,255,255,.3),0 3px 0 #7a4400':''}">Voir les prix</button>
+      </div>
+    </div>
+    <div class="glare"></div></div>`;
+  $('svg',c).style.setProperty('--fd',(-i*0.9)+'s');
+  grid.append(c);reveal(c);tilt(c);
+});
+
+grid.addEventListener('click',e=>{
+  const op=e.target.closest('[data-open]');if(op)openProduct(op.dataset.open);
+});
+
+/* === Product modal === */
+const pd=$('#pd');
+let currentProduct=null,selectedTier=0;
+
+function openProduct(id){
+  const p=PRODUCTS.find(x=>x.id===id);if(!p)return;
+  currentProduct=p;selectedTier=0;
+  const isGold=p.accent==='gold';
+  $('#pdImg').innerHTML=p.svg;
+  $('#pdImg').style.background=isGold
+    ?'radial-gradient(circle at 50% 50%,rgba(255,170,0,.28),transparent 70%)'
+    :'radial-gradient(circle at 50% 50%,rgba(255,70,85,.25),transparent 70%)';
+  $('#pdName').textContent=p.name;
+  $('#pdName').style.textShadow=isGold?'0 0 26px rgba(255,180,0,.7)':'0 0 26px rgba(255,70,85,.6)';
+  $('#pdSub').textContent=p.sub;$('#pdDesc').textContent=p.desc;
+  $('#pdFeat').innerHTML=p.feat.map(f=>`<li>${f}</li>`).join('');
+  if(isGold){
+    $$('.pd-info li::before',pd);
+    $('#pdFeat').style.setProperty('--li-color','#ffcc44');
+  } else {
+    $('#pdFeat').style.removeProperty('--li-color');
+  }
+  const buyBtn=$('#pdBuy');
+  buyBtn.className='btn primary'+(isGold?' gold':'');
+  renderTiers(p);
+  pd.showModal();
+}
+
+function renderTiers(p){
+  const tg=$('#tierGrid');
+  const isGold=p.accent==='gold';
+  const cols=p.tiers.length===3?'three':p.tiers.length===2?'two':'';
+  tg.className=`tier-grid${cols?' '+cols:''}`;
+  tg.innerHTML=p.tiers.map((t,i)=>`
+    <button type="button" class="tier${i===selectedTier?' sel':''}${isGold?' gold':''}" data-tier="${i}">
+      ${t.best?`<span class="tier-badge" style="${isGold?'background:#ffaa00;color:#1a0800':''}">${isGold?'⭐ Populaire':'Populaire'}</span>`:''}
+      <span class="tier-dur">${t.dur}</span>
+      <span class="tier-price">${t.price}</span>
+      ${t.note?`<span class="tier-note" style="${isGold?'color:#ffe066':''}">${t.note}</span>`:''}
+    </button>`).join('');
+  $$('.tier',tg).forEach(b=>{
+    b.addEventListener('click',()=>{
+      selectedTier=parseInt(b.dataset.tier);
+      $$('.tier',tg).forEach(x=>x.classList.toggle('sel',x===b));
+    });
+  });
+}
+
+$('#pdBuy').addEventListener('click',async()=>{
+  if(!currentProduct)return;
+  const tier=currentProduct.tiers[selectedTier];
+  const btn=$('#pdBuy');
+  btn.disabled=true;btn.textContent='Redirection…';
+  try{
+    const r=await fetch('/api/checkout',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({productName:currentProduct.name,tierName:tier.dur,priceRaw:tier.price})});
+    let d;
+    try{d=await r.json();}catch(je){throw new Error('Réponse API invalide ('+r.status+')');}
+    if(d.url){window.location.href=d.url;return;}
+    // Affiche l'erreur exacte retournée par l'API
+    throw new Error(d.details||d.error||'Erreur inconnue ('+r.status+')');
+  }catch(e){
+    console.error('[Checkout]',e.message);
+    toast('Erreur paiement : '+e.message);
+    btn.disabled=false;btn.textContent='Acheter';
+  }
+});
+
+$$('dialog').forEach(d=>{
+  d.addEventListener('click',e=>{if(e.target===d||e.target.closest('[data-close]'))d.close()});
+});
+
+/* === Why section === */
+const WHY=[
+  ['Indétectable','Nos loaders sont testés après chaque mise à jour Valorant pour garantir leur discrétion.','<path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/>'],
+  ['Mises à jour rapides','En cas de patch, mise à jour déployée sous 24 h — tous les abonnements actifs sont protégés.','<path d="M4 12a8 8 0 1 0 3-6.2M4 4v4.5h4.5"/>'],
+  ['Support Discord 24/7','Un membre de l\'équipe répond en moins d\'une heure pour toute question ou activation.','<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>'],
+  ['Lifetime disponible','Un seul paiement, toutes les futures mises à jour incluses. Sans limite dans le temps.','<path d="M12 22V12M12 12L5 6.5M12 12l7-5.5M12 12V2M5 6.5V17l7 5 7-5V6.5"/>']
+];
+$('#why').innerHTML=WHY.map(w=>`<div class="wcard"><div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${w[2]}</svg></div><h3>${w[0]}</h3><p>${w[1]}</p></div>`).join('');
+$$('.wcard').forEach(c=>{reveal(c);tilt(c,8)});
+
+/* === Toast === */
+function toast(msg){
+  $$('.toast').forEach(t=>t.remove());
+  const t=document.createElement('div');t.className='toast';t.setAttribute('role','status');t.textContent=msg;document.body.append(t);
+  setTimeout(()=>t.remove(),2900);
+}
+})();
+</script>
+</body>
+</html>

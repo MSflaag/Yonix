@@ -322,7 +322,7 @@ dialog .x:hover{border-color:var(--red2);box-shadow:0 0 18px var(--red-glow);tra
       <ul id="pdFeat"></ul>
       <p class="tier-label">Choisir une formule</p>
       <div class="tier-grid" id="tierGrid"></div>
-      <button class="btn primary" type="button" id="pdBuy" style="width:100%">Acheter → Discord</button>
+      <button class="btn primary" type="button" id="pdBuy" style="width:100%">Acheter</button>
     </div>
   </div>
 </dialog>
@@ -586,6 +586,8 @@ PRODUCTS.forEach((p,i)=>{
   const c=document.createElement('article');c.className='card';c.dataset.id=p.id;
   const lowestPrice=p.tiers[0].price;
   const isGold=p.accent==='gold';
+  const isGreen=p.accent==='green';
+  const isPurple=p.accent==='purple';
   const badgeStyle=isGold?'background:linear-gradient(135deg,#ffe066,#cc7700);box-shadow:0 0 16px rgba(255,180,0,.6)':isGreen||isPurple?'background:linear-gradient(135deg,#6366f1,#4f46e5);box-shadow:0 0 16px rgba(99,102,241,.6)':'';
   c.innerHTML=`<div class="card-in">
     ${p.badge?`<span class="badge" style="${badgeStyle}">${p.badge}</span>`:''}

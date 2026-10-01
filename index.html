@@ -163,6 +163,20 @@ dialog .x:hover{border-color:var(--red2);box-shadow:0 0 18px var(--red-glow);tra
 @keyframes toast{0%{opacity:0;transform:translate(-50%,24px) scale(.9)}12%,82%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,10px)}}
 .tier-grid.three{grid-template-columns:1fr 1fr 1fr}
 .tier-grid.two{grid-template-columns:1fr 1fr}
+.tier.green:hover{border-color:#22c55e;box-shadow:0 0 18px -4px rgba(34,197,94,.6)}
+.tier.green.sel{border-color:#22c55e;background:rgba(34,197,94,.18);box-shadow:0 0 24px -4px rgba(34,197,94,.6)}
+.tier.green.sel .tier-dur{color:#4ade80}
+.tier.green.sel .tier-price{color:#4ade80;text-shadow:0 0 16px rgba(34,197,94,.8)}
+.tier.purple:hover{border-color:#7c3aed;box-shadow:0 0 18px -4px rgba(124,58,237,.6)}
+.tier.purple.sel{border-color:#7c3aed;background:rgba(124,58,237,.18);box-shadow:0 0 24px -4px rgba(124,58,237,.6)}
+.tier.purple.sel .tier-dur{color:#a78bfa}
+.tier.purple.sel .tier-price{color:#a78bfa;text-shadow:0 0 16px rgba(124,58,237,.8)}
+#pdBuy.green{background:linear-gradient(135deg,#4ade80,#22c55e 50%,#15803d);border-color:#4ade80;box-shadow:0 14px 34px -10px rgba(34,197,94,.55),inset 0 2px 0 rgba(255,255,255,.3),0 4px 0 #14532d}
+#pdBuy.green:hover{box-shadow:0 18px 44px -8px rgba(34,197,94,.7),0 0 30px rgba(34,197,94,.5),inset 0 2px 0 rgba(255,255,255,.3),0 4px 0 #14532d}
+#pdBuy.purple{background:linear-gradient(135deg,#a78bfa,#7c3aed 50%,#4c1d95);border-color:#a78bfa;box-shadow:0 14px 34px -10px rgba(124,58,237,.55),inset 0 2px 0 rgba(255,255,255,.3),0 4px 0 #2e1065}
+#pdBuy.purple:hover{box-shadow:0 18px 44px -8px rgba(124,58,237,.7),0 0 30px rgba(124,58,237,.5),inset 0 2px 0 rgba(255,255,255,.3),0 4px 0 #2e1065}
+.pimg.green .halo{background:radial-gradient(circle,rgba(34,197,94,.5),transparent 68%)}
+.pimg.purple .halo{background:radial-gradient(circle,rgba(124,58,237,.5),transparent 68%)}
 .tier.gold{border-color:rgba(255,200,50,.35)}
 .tier.gold:hover{border-color:#ffcc44;box-shadow:0 0 18px -4px rgba(255,180,0,.6)}
 .tier.gold.sel{border-color:#ffaa00;background:rgba(255,170,0,.15);box-shadow:0 0 24px -4px rgba(255,180,0,.6)}
@@ -197,6 +211,7 @@ dialog .x:hover{border-color:var(--red2);box-shadow:0 0 18px var(--red-glow);tra
   <linearGradient id="gBlue" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#bfe4ff"/><stop offset=".4" stop-color="#3fa0ff"/><stop offset="1" stop-color="#0a55e0"/></linearGradient>
   <linearGradient id="gRed" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff8a96"/><stop offset=".4" stop-color="#ff4655"/><stop offset="1" stop-color="#c0001a"/></linearGradient>
   <radialGradient id="gShadow"><stop offset="0" stop-color="#000" stop-opacity=".55"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+  <linearGradient id="gGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4ade80"/><stop offset=".5" stop-color="#22c55e"/><stop offset="1" stop-color="#15803d"/></linearGradient>
   <filter id="fGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5"/></filter>
   <filter id="fRedGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7"/></filter>
   <!-- Valorant V — front layer (lit) -->
@@ -520,6 +535,49 @@ const PRODUCTS = [
       <circle cx="100" cy="100" r="2.5" fill="#fff8e0"/>
     </svg>`
   }
+  ,{
+    id:'basic-fit',
+    name:'Basic Fit Ultimate',
+    sub:'Abonnement Fitness',
+    badge:'Services',
+    accent:'green',
+    desc:'Accès complet Basic Fit Ultimate — toutes les salles. Comptes créés avec les techniques exclusives Yonix.',
+    feat:['Accès illimité toutes salles Basic Fit','Abonnement Ultimate complet','Technique de création incluse (offre Tech)','Support et livraison par Discord'],
+    tiers:[
+      {dur:'2 Mois Ultimate',price:'15,00\u20ac',note:'Accès 2 mois'},
+      {dur:'1 An Ultimate',price:'100,00\u20ac',note:'Accès 12 mois',best:true},
+      {dur:'Tech 2 Mois',price:'200,00\u20ac',note:'Méthode création compte incluse'}
+    ],
+    svg:`<svg viewBox="0 0 200 200"><ellipse cx="100" cy="184" rx="56" ry="8" fill="url(#gShadow)"/><rect x="30" y="88" width="140" height="24" rx="12" fill="#0d1a0d" stroke="#22c55e" stroke-opacity=".5" stroke-width="1.5"/><rect x="64" y="72" width="22" height="56" rx="10" fill="url(#gGreen)"/><rect x="114" y="72" width="22" height="56" rx="10" fill="url(#gGreen)"/><rect x="40" y="78" width="20" height="44" rx="9" fill="#22c55e" opacity=".7"/><rect x="140" y="78" width="20" height="44" rx="9" fill="#22c55e" opacity=".7"/><rect x="30" y="84" width="18" height="32" rx="8" fill="#15803d"/><rect x="152" y="84" width="18" height="32" rx="8" fill="#15803d"/><circle cx="100" cy="100" r="14" fill="#22c55e" opacity=".25" filter="url(#fGlow)"/><circle cx="100" cy="100" r="5" fill="#22c55e"/><circle cx="100" cy="100" r="2" fill="#fff"/></svg>`
+  },{
+    id:'chatgpt-fa',
+    name:'ChatGPT FA Unlimited',
+    sub:'Accès IA Illimité',
+    badge:'Services',
+    accent:'green',
+    desc:'Comptes ChatGPT FA Unlimited — accès illimité sans restriction. Livraison instantanée via Discord.',
+    feat:['Accès ChatGPT illimité FA','Sans restrictions','Livraison rapide par Discord','Compatible tous appareils'],
+    tiers:[
+      {dur:'1 Jour',price:'11,28\u20ac',note:'Accès 24h'},
+      {dur:'7 Jours',price:'13,19\u20ac',note:'Accès 7 jours'},
+      {dur:'1 Mois',price:'17,02\u20ac',note:'Accès 30 jours',best:true}
+    ],
+    svg:`<svg viewBox="0 0 200 200"><ellipse cx="100" cy="184" rx="56" ry="8" fill="url(#gShadow)"/><circle cx="100" cy="96" r="52" fill="#0d1a0d" stroke="#22c55e" stroke-opacity=".4" stroke-width="1.5"/><path d="M100 56C82 56 66 72 66 96C66 110 73 122 84 129L84 144L98 132C99 132 100 132 100 132C120 132 134 116 134 92C134 80 129 69 121 62" fill="none" stroke="#22c55e" stroke-width="3.5" stroke-linecap="round"/><path d="M100 136C118 136 134 120 134 96C134 82 127 70 116 63L116 48L102 60C101 60 100 60 100 60C80 60 66 76 66 100C66 112 71 123 79 130" fill="none" stroke="#22c55e" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="4 3"/><circle cx="100" cy="96" r="12" fill="#22c55e" opacity=".2" filter="url(#fGlow)"/><circle cx="100" cy="96" r="5" fill="#22c55e"/><circle cx="100" cy="96" r="2" fill="#fff"/></svg>`
+  },{
+    id:'nitro-boost',
+    name:'Nitro Boost',
+    sub:'Discord Nitro Boost',
+    badge:'Services',
+    accent:'purple',
+    desc:'Discord Nitro Boost à prix réduit — booste ton serveur et profite des avantages Nitro. Livraison rapide par Discord.',
+    feat:['Nitro Boost Discord','Emoji animés & avatar animé','Serveur boosté level up','Livraison instantanée Discord'],
+    tiers:[
+      {dur:'1 Mois',price:'6,28\u20ac',note:'Boost 1 mois'},
+      {dur:'3 Mois',price:'6,96\u20ac',note:'Boost 3 mois',best:true}
+    ],
+    svg:`<svg viewBox="0 0 200 200"><ellipse cx="100" cy="184" rx="56" ry="8" fill="url(#gShadow)"/><ellipse cx="100" cy="84" rx="28" ry="38" fill="#5865f2" opacity=".18" filter="url(#fGlow)"/><path d="M100 46C82 46 68 66 68 90L68 120L100 136L132 120L132 90C132 66 118 46 100 46Z" fill="#5865f2" opacity=".9"/><path d="M100 46C88 46 78 56 74 68L126 68C122 56 112 46 100 46Z" fill="#7289da"/><ellipse cx="100" cy="88" rx="12" ry="14" fill="#fff" opacity=".2"/><path d="M68 95L48 115L68 110Z" fill="#5865f2" opacity=".7"/><path d="M132 95L152 115L132 110Z" fill="#5865f2" opacity=".7"/><ellipse cx="100" cy="132" rx="12" ry="8" fill="#ff9500" opacity=".8" filter="url(#fGlow)"/><ellipse cx="100" cy="137" rx="7" ry="6" fill="#ffcc00" opacity=".9"/><ellipse cx="100" cy="142" rx="4" ry="4" fill="#fff" opacity=".8"/></svg>`
+  }
+
 ];
 
 /* === Grid render === */
@@ -528,16 +586,16 @@ PRODUCTS.forEach((p,i)=>{
   const c=document.createElement('article');c.className='card';c.dataset.id=p.id;
   const lowestPrice=p.tiers[0].price;
   const isGold=p.accent==='gold';
-  const badgeStyle=isGold?'background:linear-gradient(135deg,#ffe066,#cc7700);box-shadow:0 0 16px rgba(255,180,0,.6)':'';
+  const badgeStyle=isGold?'background:linear-gradient(135deg,#ffe066,#cc7700);box-shadow:0 0 16px rgba(255,180,0,.6)':isGreen||isPurple?'background:linear-gradient(135deg,#6366f1,#4f46e5);box-shadow:0 0 16px rgba(99,102,241,.6)':'';
   c.innerHTML=`<div class="card-in">
     ${p.badge?`<span class="badge" style="${badgeStyle}">${p.badge}</span>`:''}
-    <div class="pimg${isGold?' gold':''}"><div class="halo"></div>${p.svg}</div>
+    <div class="pimg${isGold?' gold':isGreen?' green':isPurple?' purple':''}"><div class="halo"></div>${p.svg}</div>
     <div class="pinfo">
       <h3 style="margin:0"><button type="button" class="pname" data-open="${p.id}">${p.name}</button></h3>
       <p class="psub">${p.sub}</p>
       <div class="prow">
         <div class="price"><b>À partir de</b><span>${lowestPrice}</span></div>
-        <button type="button" class="open-btn${isGold?' gold-btn':''}" data-open="${p.id}" style="${isGold?'border-color:#ffe066;background:linear-gradient(135deg,#ffe066,#ffaa00 55%,#cc7700);box-shadow:0 8px 20px -8px rgba(255,180,0,.6),inset 0 1px 0 rgba(255,255,255,.3),0 3px 0 #7a4400':''}">Voir les prix</button>
+        <button type="button" class="open-btn" data-open="${p.id}" style="${isGold?'border-color:#ffe066;background:linear-gradient(135deg,#ffe066,#ffaa00 55%,#cc7700);box-shadow:0 8px 20px -8px rgba(255,180,0,.6),inset 0 1px 0 rgba(255,255,255,.3),0 3px 0 #7a4400':isGreen?'border-color:#4ade80;background:linear-gradient(135deg,#4ade80,#22c55e 55%,#15803d);box-shadow:0 8px 20px -8px rgba(34,197,94,.6),inset 0 1px 0 rgba(255,255,255,.3),0 3px 0 #14532d':isPurple?'border-color:#a78bfa;background:linear-gradient(135deg,#a78bfa,#7c3aed 55%,#4c1d95);box-shadow:0 8px 20px -8px rgba(124,58,237,.6),inset 0 1px 0 rgba(255,255,255,.3),0 3px 0 #2e1065':''}">Voir les prix</button>
       </div>
     </div>
     <div class="glare"></div></div>`;
@@ -557,12 +615,16 @@ function openProduct(id){
   const p=PRODUCTS.find(x=>x.id===id);if(!p)return;
   currentProduct=p;selectedTier=0;
   const isGold=p.accent==='gold';
+  const isGreen=p.accent==='green';
+  const isPurple=p.accent==='purple';
   $('#pdImg').innerHTML=p.svg;
   $('#pdImg').style.background=isGold
     ?'radial-gradient(circle at 50% 50%,rgba(255,170,0,.28),transparent 70%)'
+    :isGreen?'radial-gradient(circle at 50% 50%,rgba(34,197,94,.28),transparent 70%)'
+    :isPurple?'radial-gradient(circle at 50% 50%,rgba(124,58,237,.28),transparent 70%)'
     :'radial-gradient(circle at 50% 50%,rgba(255,70,85,.25),transparent 70%)';
   $('#pdName').textContent=p.name;
-  $('#pdName').style.textShadow=isGold?'0 0 26px rgba(255,180,0,.7)':'0 0 26px rgba(255,70,85,.6)';
+  $('#pdName').style.textShadow=isGold?'0 0 26px rgba(255,180,0,.7)':isGreen?'0 0 26px rgba(34,197,94,.7)':isPurple?'0 0 26px rgba(124,58,237,.7)':'0 0 26px rgba(255,70,85,.6)';
   $('#pdSub').textContent=p.sub;$('#pdDesc').textContent=p.desc;
   $('#pdFeat').innerHTML=p.feat.map(f=>`<li>${f}</li>`).join('');
   if(isGold){
@@ -572,7 +634,7 @@ function openProduct(id){
     $('#pdFeat').style.removeProperty('--li-color');
   }
   const buyBtn=$('#pdBuy');
-  buyBtn.className='btn primary'+(isGold?' gold':'');
+  buyBtn.className='btn primary'+(isGold?' gold':isGreen?' green':isPurple?' purple':'');
   renderTiers(p);
   pd.showModal();
 }
@@ -580,14 +642,17 @@ function openProduct(id){
 function renderTiers(p){
   const tg=$('#tierGrid');
   const isGold=p.accent==='gold';
+  const isGreen=p.accent==='green';
+  const isPurple=p.accent==='purple';
+  const accentCls=isGold?'gold':isGreen?'green':isPurple?'purple':'';
   const cols=p.tiers.length===3?'three':p.tiers.length===2?'two':'';
   tg.className=`tier-grid${cols?' '+cols:''}`;
   tg.innerHTML=p.tiers.map((t,i)=>`
     <button type="button" class="tier${i===selectedTier?' sel':''}${isGold?' gold':''}" data-tier="${i}">
-      ${t.best?`<span class="tier-badge" style="${isGold?'background:#ffaa00;color:#1a0800':''}">${isGold?'⭐ Populaire':'Populaire'}</span>`:''}
+      ${t.best?`<span class="tier-badge" style="${isGold?'background:#ffaa00;color:#1a0800':isGreen?'background:#22c55e;color:#052e16':isPurple?'background:#7c3aed;color:#fff':''}">${isGold?'⭐ Populaire':isGreen?'🏋️ Best Value':isPurple?'🚀 Populaire':'Populaire'}</span>`:''}
       <span class="tier-dur">${t.dur}</span>
       <span class="tier-price">${t.price}</span>
-      ${t.note?`<span class="tier-note" style="${isGold?'color:#ffe066':''}">${t.note}</span>`:''}
+      ${t.note?`<span class="tier-note" style="${isGold?'color:#ffe066':isGreen?'color:#4ade80':isPurple?'color:#a78bfa':''}">${t.note}</span>`:''}
     </button>`).join('');
   $$('.tier',tg).forEach(b=>{
     b.addEventListener('click',()=>{
@@ -597,24 +662,11 @@ function renderTiers(p){
   });
 }
 
-$('#pdBuy').addEventListener('click',async()=>{
+$('#pdBuy').addEventListener('click',()=>{
   if(!currentProduct)return;
   const tier=currentProduct.tiers[selectedTier];
-  const btn=$('#pdBuy');
-  btn.disabled=true;btn.textContent='Redirection…';
-  try{
-    const r=await fetch('/api/checkout',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({productName:currentProduct.name,tierName:tier.dur,priceRaw:tier.price})});
-    let d;
-    try{d=await r.json();}catch(je){throw new Error('Réponse API invalide ('+r.status+')');}
-    if(d.url){window.location.href=d.url;return;}
-    // Affiche l'erreur exacte retournée par l'API
-    throw new Error(d.details||d.error||'Erreur inconnue ('+r.status+')');
-  }catch(e){
-    console.error('[Checkout]',e.message);
-    toast('Erreur paiement : '+e.message);
-    btn.disabled=false;btn.textContent='Acheter';
-  }
+  toast(`Formule ${tier.dur} sélectionnée — rejoins notre Discord pour finaliser.`);
+  pd.close();
 });
 
 $$('dialog').forEach(d=>{

@@ -664,11 +664,35 @@ function renderTiers(p){
   });
 }
 
-$('#pdBuy').addEventListener('click',()=>{
-  if(!currentProduct)return;
-  const tier=currentProduct.tiers[selectedTier];
-  toast(`Formule ${tier.dur} sélectionnée — rejoins notre Discord pour finaliser.`);
-  pd.close();
+$('#pdBuy').addEventListener('click', async () => {
+  if (!currentProduct) return;
+  const tier = currentProduct.tiers[selectedTier];
+  const btn = $('#pdBuy');
+  btn.disabled = true;
+  btn.textContent = 'Redirection…';
+  try {
+    const res = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        productName: currentProduct.name,
+        tierName: tier.dur,
+        priceRaw: tier.price
+      })
+    });
+    const data = await res.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      toast('Erreur : ' + (data.error || 'Réponse invalide'));
+      btn.disabled = false;
+      btn.textContent = 'Acheter';
+    }
+  } catch (e) {
+    toast('Erreur réseau — réessaie.');
+    btn.disabled = false;
+    btn.textContent = 'Acheter';
+  }
 });
 
 $$('dialog').forEach(d=>{

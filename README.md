@@ -1,73 +1,59 @@
-# Yonix — Déploiement Vercel + Stripe
+# Yonix — Deploy v3
 
-## Structure du projet
+## Structure
 
 ```
-yonix/
-├── public/
-│   ├── index.html      ← Site principal
-│   └── success.html    ← Page après paiement
 ├── api/
-│   └── checkout.js     ← Serverless function Stripe
+│   ├── checkout.js   — Stripe Checkout Session + Discord notify
+│   ├── session.js    — Retrieve session status/metadata
+│   └── notify.js     — Discord bot DM to owner on every order
+├── public/
+│   ├── index.html    — Main shop (single file, ~478KB)
+│   ├── success.html  — Post-payment page (downloads / service info)
+│   └── files/        — Put your jailbreak .zip files here
 ├── vercel.json
 ├── package.json
 └── .env.example
 ```
 
----
+## Setup
 
-## 1. Préparer Stripe
+### 1. Vercel Environment Variables
 
-1. Crée un compte sur **stripe.com**
-2. Va dans **Développeurs → Clés API**
-3. Copie ta **Clé secrète** (`sk_live_...` pour la prod, `sk_test_...` pour tester)
+In your Vercel project dashboard → Settings → Environment Variables, add:
 
----
+| Variable | Value |
+|---|---|
+| `STRIPE_SECRET_KEY` | `sk_live_...` |
+| `SITE_URL` | `https://your-project.vercel.app` |
+| `DISCORD_BOT_TOKEN` | Your bot token (see below) |
+| `DISCORD_OWNER_ID` | Your Discord user ID |
 
-## 2. Déployer sur Vercel
+### 2. Discord Bot Setup
 
-### Option A — Interface web (recommandé)
+1. Go to [discord.com/developers/applications](https://discord.com/developers/applications)
+2. Create a New Application → go to **Bot** tab
+3. Click **Reset Token** → copy it → set as `DISCORD_BOT_TOKEN`
+4. Under **Privileged Gateway Intents**, you don't need any for DMs
+5. The bot does NOT need to be in your server — it sends DMs directly
+6. Get your **own Discord user ID**: Settings → Advanced → Developer Mode ON → right-click your username → **Copy User ID** → set as `DISCORD_OWNER_ID`
 
-1. Va sur **vercel.com** → "Add New Project"
-2. Importe ton repo GitHub (push ce dossier sur GitHub d'abord)
-   - Ou utilise **"Deploy from CLI"** ci-dessous
-3. Dans les paramètres du projet → **Environment Variables** :
-   ```
-   STRIPE_SECRET_KEY = sk_live_XXXXXXXXX
-   SITE_URL          = https://ton-domaine.vercel.app
-   ```
-4. Clique **Deploy** — c'est en ligne.
+### 3. Upload Jailbreak Files
 
-### Option B — CLI
+Drop your 11 `.zip` files into `public/files/`. File names must match the product `file` field in index.html.
+
+### 4. Deploy
 
 ```bash
-# Installe Vercel CLI
-npm i -g vercel
-
-# Dans le dossier du projet
-cd yonix
-npm install
-vercel
-
-# Ajoute les variables d'env
-vercel env add STRIPE_SECRET_KEY
-vercel env add SITE_URL
-
-# Redéploie avec les vars
-vercel --prod
+npx vercel --prod
 ```
 
----
+## How Notifications Work
 
-## 3. Domaine personnalisé (optionnel)
+Every completed Stripe payment triggers `api/notify.js` which:
+1. Opens a DM channel with the owner (via Discord REST API)
+2. Sends a formatted message with product name, tier, price, timestamp
+3. For Basic Fit orders: includes prénom, nom, date de naissance, email
+4. Pings the owner with `<@DISCORD_OWNER_ID>`
 
-Dans le dashboard Vercel → ton projet → **Domains** → ajoute ton domaine.
-
----
-
-## 4. Tester avant de mettre en prod
-
-Utilise `sk_test_...` comme clé Stripe.  
-Carte de test : `4242 4242 4242 4242` · date future · CVC `123`
-
-Quand tout fonctionne → remplace par `sk_live_...` dans les env vars Vercel.
+The notify call is fire-and-forget — it never blocks the Stripe redirect.

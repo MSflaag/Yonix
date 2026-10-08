@@ -1,86 +1,104 @@
-const Stripe = require('stripe');
+// api/checkout.js — Stripe Checkout Session creator + Discord notify
+// Env vars: STRIPE_SECRET_KEY, SITE_URL, DISCORD_BOT_TOKEN, DISCORD_OWNER_ID
 
-// Helper : lit et parse le body JSON brut (Vercel ne le fait pas automatiquement)
-async function parseBody(req) {
-  return new Promise((resolve, reject) => {
-    if (req.body && typeof req.body === 'object') {
-      // Déjà parsé (environnement local / Express)
-      return resolve(req.body);
-    }
-    let data = '';
-    req.on('data', chunk => { data += chunk; });
-    req.on('end', () => {
-      try { resolve(JSON.parse(data || '{}')); }
-      catch (e) { reject(new Error('Invalid JSON body')); }
-    });
-    req.on('error', reject);
-  });
+import Stripe from 'stripe';
+import { buildOrderMessage, sendOwnerDM } from './notify.js';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: '2023-10-16',
+});
+
+const SITE_URL = (process.env.SITE_URL || 'http://localhost:3000').replace(/\/$/, '');
+
+// Parse a French price string like "25€" or "119,99€" → integer cents
+function parsePriceCents(raw) {
+  if (!raw) return null;
+  const clean = raw.replace(/[€\s]/g, '').replace(',', '.');
+  const euros = parseFloat(clean);
+  if (isNaN(euros)) return null;
+  return Math.round(euros * 100);
 }
 
-module.exports = async (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
-
-  let body;
-  try {
-    body = await parseBody(req);
-  } catch (e) {
-    return res.status(400).json({ error: 'Corps de requête invalide', details: e.message });
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { productName, tierName, priceRaw } = body;
+  const {
+    productName,
+    tierName,
+    priceRaw,
+    downloadFile,
+    // Basic Fit client fields
+    clientPrenom,
+    clientNom,
+    clientDOB,
+    clientEmail,
+  } = req.body || {};
 
   if (!productName || !tierName || !priceRaw) {
-    return res.status(400).json({
-      error: 'Paramètres manquants',
-      received: { productName, tierName, priceRaw }
-    });
+    return res.status(400).json({ error: 'Missing required fields' });
   }
 
-  // Convertit "24,99€" ou "24.99€" → 2499 centimes
-  const cleaned = priceRaw.replace(/[^\d,.]/g, '').replace(',', '.');
-  const amount  = Math.round(parseFloat(cleaned) * 100);
-
-  if (!amount || isNaN(amount) || amount < 50) {
-    return res.status(400).json({ error: 'Montant invalide', priceRaw, cleaned, amount });
+  const amountCents = parsePriceCents(priceRaw);
+  if (!amountCents || amountCents < 50) {
+    return res.status(400).json({ error: 'Invalid price' });
   }
 
-  if (!process.env.STRIPE_SECRET_KEY) {
-    return res.status(500).json({ error: 'STRIPE_SECRET_KEY manquant dans les variables Vercel' });
-  }
+  // Build metadata — Stripe metadata values must be strings ≤500 chars
+  const metadata = {
+    productName: String(productName).slice(0, 500),
+    tierName: String(tierName).slice(0, 500),
+    priceRaw: String(priceRaw).slice(0, 100),
+    ...(downloadFile ? { downloadFile: String(downloadFile).slice(0, 500) } : {}),
+    // Basic Fit client fields
+    ...(clientPrenom ? { clientPrenom: String(clientPrenom).slice(0, 200) } : {}),
+    ...(clientNom ? { clientNom: String(clientNom).slice(0, 200) } : {}),
+    ...(clientDOB ? { clientDOB: String(clientDOB).slice(0, 20) } : {}),
+    ...(clientEmail ? { clientEmail: String(clientEmail).slice(0, 320) } : {}),
+  };
 
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2023-10-16' });
-
-  const origin = process.env.SITE_URL
-    || (req.headers.origin || `https://${req.headers.host}`);
-
+  let session;
   try {
-    const session = await stripe.checkout.sessions.create({
+    session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'payment',
-      locale: 'fr',
-      line_items: [{
-        price_data: {
-          currency: 'eur',
-          unit_amount: amount,
-          product_data: {
-            name: `${productName} — ${tierName}`,
-            description: 'Yonix Software · Livraison clé par Discord après paiement'
-          }
+      line_items: [
+        {
+          price_data: {
+            currency: 'eur',
+            product_data: {
+              name: tierName ? `${productName} — ${tierName}` : productName,
+            },
+            unit_amount: amountCents,
+          },
+          quantity: 1,
         },
-        quantity: 1
-      }],
-      success_url: `${origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url:  `${origin}/#boutique`,
-      metadata:    { productName, tierName }
+      ],
+      metadata,
+      success_url: `${SITE_URL}/success.html?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${SITE_URL}/?cancelled=1`,
     });
-
-    return res.status(200).json({ url: session.url });
   } catch (err) {
-    console.error('Stripe error:', err.message);
-    return res.status(500).json({ error: 'Erreur Stripe', details: err.message });
+    console.error('[checkout] Stripe error:', err.message);
+    return res.status(500).json({ error: err.message });
   }
-};
+
+  // Fire-and-forget Discord notify — don't block the redirect
+  const notifyPayload = {
+    productName,
+    tierName,
+    priceRaw,
+    sessionId: session.id,
+    clientPrenom,
+    clientNom,
+    clientDOB,
+    clientEmail,
+  };
+
+  sendOwnerDM(buildOrderMessage(notifyPayload)).catch((err) => {
+    console.error('[checkout] Discord notify failed (non-blocking):', err.message);
+  });
+
+  return res.status(200).json({ url: session.url });
+}

@@ -1,11 +1,12 @@
 {
-  "name": "yonix",
-  "version": "1.0.0",
+  "name": "yonix-shop",
+  "version": "3.0.0",
   "private": true,
-  "dependencies": {
-    "stripe": "^14.21.0"
-  },
+  "type": "module",
   "engines": {
-    "node": "24.x"
+    "node": ">=20"
+  },
+  "dependencies": {
+    "stripe": "^14.0.0"
   }
 }

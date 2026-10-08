@@ -1,46 +1,135 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="dark">
+<html lang="fr">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Paiement confirmé — Yonix</title>
-<meta name="theme-color" content="#030815">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@700;800&family=Manrope:wght@400;500&display=swap" rel="stylesheet">
+<title>Commande confirmée — Yonix</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{min-height:100vh;display:grid;place-items:center;background:#030815;color:#eaf3ff;
-  font-family:'Manrope','Segoe UI',sans-serif;
-  background-image:radial-gradient(900px 500px at 50% 0,rgba(31,123,255,.18),transparent 60%)}
-.card{text-align:center;padding:54px 40px;border-radius:28px;border:1px solid rgba(90,160,255,.28);
-  background:linear-gradient(160deg,rgba(31,123,255,.12),rgba(3,8,21,.9));
-  box-shadow:0 0 80px -20px rgba(31,123,255,.5);max-width:480px;width:calc(100% - 32px);animation:in .7s cubic-bezier(.2,.9,.25,1)}
-@keyframes in{from{opacity:0;transform:translateY(24px) scale(.96)}}
-.check{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#22c55e,#15803d);
-  display:grid;place-items:center;margin:0 auto 26px;box-shadow:0 0 40px rgba(34,197,94,.5)}
-.check svg{width:36px;height:36px;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;fill:none}
-h1{font-family:'Sora','Segoe UI',sans-serif;font-size:28px;font-weight:800;margin-bottom:12px;
-  background:linear-gradient(180deg,#fff,#a6dcff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-p{color:#8aa4c8;line-height:1.6;font-size:15px;margin-bottom:24px}
-.disc{display:inline-flex;align-items:center;gap:10px;padding:12px 20px;border-radius:14px;
-  background:rgba(88,101,242,.2);border:1px solid rgba(88,101,242,.5);font-weight:700;font-size:15px;margin-bottom:28px;color:#c9ceff}
-.disc svg{width:22px;height:22px;fill:#5865f2}
-a.back{display:inline-block;padding:12px 28px;border-radius:14px;border:1px solid rgba(90,160,255,.35);
-  text-decoration:none;color:#8aa4c8;font-size:14px;transition:all .25s}
-a.back:hover{color:#fff;border-color:#4aa8ff;box-shadow:0 0 20px rgba(31,123,255,.3)}
+  :root{--cyan:#00c8ff;--blue:#1a6fff;--green:#22c55e;--body:'Inter',sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{min-height:100vh;background:#0a0a12;color:#fff;font-family:var(--body);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;position:relative;overflow:hidden}
+  canvas{position:fixed;inset:0;pointer-events:none;opacity:.4}
+  .card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:40px;max-width:520px;width:100%;text-align:center;position:relative;z-index:1;backdrop-filter:blur(12px)}
+  .icon{width:72px;height:72px;border-radius:50%;background:radial-gradient(circle,rgba(34,197,94,.3),transparent);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:36px}
+  h1{font-size:24px;font-weight:800;margin-bottom:8px;background:linear-gradient(135deg,#4ade80,#22c55e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  p{color:rgba(255,255,255,.6);line-height:1.6;margin-bottom:6px;font-size:14px}
+  .product-name{font:700 16px var(--body);color:#fff;background:rgba(255,255,255,.06);padding:10px 16px;border-radius:10px;margin:16px 0;display:inline-block}
+  .dl-section{margin-top:24px;padding-top:24px;border-top:1px solid rgba(255,255,255,.08)}
+  .dl-section h2{font-size:15px;font-weight:700;margin-bottom:14px;color:rgba(255,255,255,.8)}
+  .dl-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px 16px;margin-bottom:8px;background:linear-gradient(135deg,#00c8ff,#1a6fff);border:none;border-radius:12px;color:#000;font:700 14px var(--body);cursor:pointer;text-decoration:none;transition:transform .15s,box-shadow .2s}
+  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px -4px rgba(0,200,255,.4)}
+  .discord-info{margin-top:20px;padding:16px;background:rgba(88,101,242,.15);border:1px solid rgba(88,101,242,.3);border-radius:12px}
+  .discord-info p{color:rgba(255,255,255,.7)}
+  .back{display:inline-block;margin-top:24px;color:rgba(255,255,255,.4);font-size:13px;text-decoration:none;transition:color .2s}
+  .back:hover{color:var(--cyan)}
+  .loading{color:rgba(255,255,255,.5);font-size:14px;padding:20px 0}
+  .err{color:#ff6b6b;font-size:13px;margin-top:12px}
 </style>
 </head>
 <body>
+<canvas id="bg"></canvas>
 <div class="card">
-  <div class="check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-  <h1>Paiement confirmé ✓</h1>
-  <p>Ton achat a bien été enregistré. Un membre de notre équipe va te contacter sur Discord dans les prochaines minutes pour t'envoyer ta clé.</p>
-  <div class="disc">
-    <svg viewBox="0 0 127.14 96.36"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/></svg>
-    Rejoins notre Discord pour recevoir ta clé
-  </div>
-  <a class="back" href="/">← Retour à la boutique</a>
+  <div class="icon">✅</div>
+  <h1>Paiement confirmé !</h1>
+  <p>Merci pour ta commande sur Yonix.</p>
+  <div id="content"><p class="loading">Chargement de ta commande…</p></div>
+  <a href="/" class="back">← Retour à la boutique</a>
 </div>
+
+<script>
+// Particle canvas background
+(function(){
+  const cv=document.getElementById('bg');
+  const cx=cv.getContext('2d');
+  let W,H,pts=[];
+  function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight;pts=[]}
+  function init(){for(let i=0;i<60;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*2+1,o:Math.random()*.5+.1})}
+  function frame(){
+    cx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;
+      if(p.y<0||p.y>H)p.vy*=-1;
+      cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      cx.fillStyle=`rgba(0,200,255,${p.o})`;cx.fill();
+    });
+    requestAnimationFrame(frame);
+  }
+  addEventListener('resize',()=>{resize();init()});
+  resize();init();frame();
+})();
+
+// BUNDLE file list — must match what's in /public/files/
+const BUNDLE_FILES=[
+  {label:'ChatGPT Unfiltered',file:'chatgpt-unfiltered.zip'},
+  {label:'Claude Unrestricted',file:'claude-unrestricted.zip'},
+  {label:'Gemini Bypass',file:'gemini-bypass.zip'},
+  {label:'Meta AI Jailbreak',file:'meta-ai-jailbreak.zip'},
+  {label:'Copilot Override',file:'copilot-override.zip'},
+  {label:'Grok Exploit',file:'grok-exploit.zip'},
+  {label:'Mistral Uncensored',file:'mistral-uncensored.zip'},
+  {label:'Perplexity Bypass',file:'perplexity-bypass.zip'},
+  {label:'DeepSeek Exploit',file:'deepseek-exploit.zip'},
+  {label:'Llama Jailbreak',file:'llama-jailbreak.zip'},
+  {label:'Pi AI Bypass',file:'pi-bypass.zip'},
+];
+
+async function loadOrder(){
+  const params=new URLSearchParams(location.search);
+  const sid=params.get('session_id');
+  const el=document.getElementById('content');
+
+  if(!sid){
+    el.innerHTML=`<p class="err">Session introuvable. Contacte le support.</p>`;
+    return;
+  }
+
+  let data;
+  try{
+    const res=await fetch('/api/session?session_id='+encodeURIComponent(sid));
+    data=await res.json();
+  }catch(e){
+    el.innerHTML=`<p class="err">Erreur réseau. Rafraîchis la page.</p>`;
+    return;
+  }
+
+  if(data.status!=='paid'){
+    el.innerHTML=`<p class="err">Paiement non confirmé (statut : ${data.status||'inconnu'}). Contacte le support.</p>`;
+    return;
+  }
+
+  const m=data.metadata||{};
+  const isBundle=m.productName&&m.productName.toLowerCase().includes('bundle');
+
+  let html=`<div class="product-name">${m.productName||'Produit'}${m.tierName?' — '+m.tierName:''}</div>`;
+
+  if(m.downloadFile){
+    // Single jailbreak download
+    html+=`<div class="dl-section">
+      <h2>📥 Ton fichier est prêt</h2>
+      <a class="dl-btn" href="/files/${encodeURIComponent(m.downloadFile)}" download>
+        ⬇️ Télécharger ${m.downloadFile}
+      </a>
+    </div>`;
+  } else if(isBundle){
+    // Bundle — all 11 files
+    html+=`<div class="dl-section">
+      <h2>📦 Tes 11 fichiers sont prêts</h2>
+      ${BUNDLE_FILES.map(f=>`<a class="dl-btn" href="/files/${encodeURIComponent(f.file)}" download>⬇️ ${f.label}</a>`).join('')}
+    </div>`;
+  } else {
+    // Service (Basic Fit, etc.) — human delivery
+    html+=`<div class="discord-info">
+      <p>🎯 <strong>Ta commande est bien reçue.</strong></p>
+      <p style="margin-top:8px">Notre équipe va prendre en charge ta demande et te contactera sous <strong>24h</strong> via Discord ou email.</p>
+      <p style="margin-top:8px;font-size:12px;color:rgba(255,255,255,.4)">Réf. : ${sid.slice(-12)}</p>
+    </div>`;
+  }
+
+  el.innerHTML=html;
+}
+
+loadOrder();
+</script>
 </body>
 </html>

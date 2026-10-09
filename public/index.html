@@ -537,6 +537,7 @@ footer a:hover{color:var(--white)}
       <a href="#avis">Avis</a>
       <a href="#faq">FAQ</a>
     </nav>
+    <a href="/account.html" class="nav-account" id="navAccount" style="display:none;padding:7px 14px;border-radius:10px;border:1px solid rgba(0,200,255,.25);color:#8ab4d4;font-size:13px;font-weight:500;transition:background .2s,color .2s" onmouseover="this.style.background='rgba(0,200,255,.08)';this.style.color='#f0f8ff'" onmouseout="this.style.background='';this.style.color='#8ab4d4'">Mon compte</a>
     <a href="#boutique" class="nav-cta">Acheter maintenant</a>
   </div>
 </header>
@@ -560,10 +561,6 @@ footer a:hover{color:var(--white)}
   <!-- eyebrow -->
   <div class="hero-eyebrow h-in" style="--d:180ms"><i></i>Marché de produit fiable</div>
 
-  <!-- headline -->
-  <h1 class="h-in" style="--d:260ms">Le Marché du<br>Jailbreak</h1>
-  <p class="hero-sub h-in" style="--d:320ms">Aimbots, HWID Spoofers, Jailbreaks IA — livrés en moins de 2 minutes via Discord.</p>
-
   <!-- search -->
   <div class="search-wrap hc-search h-in" style="--d:300ms">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -584,7 +581,6 @@ footer a:hover{color:var(--white)}
     <div class="sec-head rv">
       <div class="sec-label">Catalogue</div>
       <h2>Nos Produits</h2>
-      <p>Sélectionne une catégorie, clique sur un produit pour voir les formules et acheter via Stripe.</p>
     </div>
     <div class="filter-bar rv" role="group" aria-label="Filtres catégorie">
       <button class="flt active" data-cat="all">Tous</button>
@@ -603,7 +599,6 @@ footer a:hover{color:var(--white)}
     <div class="sec-head rv">
       <div class="sec-label">Jailbreaks IA</div>
       <h2>Contourne les filtres.<br>Libère l'IA.</h2>
-      <p>11 jailbreaks testés et mis à jour — fonctionne sur Gemini, Claude, ChatGPT, Grok, DeepSeek, Kimi, Qwen, GLM, Arena et plus. À l'unité ou en bundle.</p>
     </div>
     <!-- BUNDLE HERO CARD -->
     <div class="bundle-card rv" id="bundleCard">
@@ -635,7 +630,6 @@ footer a:hover{color:var(--white)}
     <!-- INDIVIDUAL GRID -->
     <div class="sec-head" style="margin-top:72px;margin-bottom:28px">
       <div class="sec-label">À l'unité — 25€ chacun</div>
-      <h2 style="font-size:clamp(24px,3vw,36px)">Choisir un jailbreak</h2>
     </div>
     <div class="pgrid" id="jgrid"></div>
   </div>
@@ -646,7 +640,6 @@ footer a:hover{color:var(--white)}
     <div class="sec-head rv">
       <div class="sec-label">Garanties</div>
       <h2>Achète sans risque</h2>
-      <p>Quatre engagements concrets pour que tu commandes l'esprit tranquille.</p>
     </div>
     <div class="gcards" id="gcards"></div>
   </div>
@@ -657,7 +650,6 @@ footer a:hover{color:var(--white)}
     <div class="sec-head rv">
       <div class="sec-label">Avis clients</div>
       <h2>Ils ont testé. Ils valident.</h2>
-      <p>Screenshots réels de notre Discord — vrais clients, vraies preuves.</p>
     </div>
     <div class="reviews-stars rv">
       <div class="r-stars">★★★★★</div>
@@ -679,12 +671,16 @@ footer a:hover{color:var(--white)}
       <h2>FAQ</h2>
     </div>
     <div class="faq rv">
-      <details><summary>Le soft est-il détecté ?</summary><div>Nos loaders sont testés après chaque patch Valorant. En cas de détection inattendue, une mise à jour est déployée sous 24h et tous les abonnements actifs sont compensés.</div></details>
-      <details><summary>Comment je reçois ma clé ?</summary><div>Après achat, ta clé est envoyée immédiatement via Discord. Un membre du support t'accompagne pour l'activation.</div></details>
-      <details><summary>Quelle est la différence entre Valorant Emu et Private ?</summary><div>Emu utilise une méthode d'émulation pour contourner Vanguard. Private est un loader exclusif avec des features plus avancées et une priorité de mise à jour plus rapide après chaque patch.</div></details>
-      <details><summary>Quelle est la différence entre Spoofer Temporaire et Perm ?</summary><div>Le Perm Onetime modifie ton registre une fois de façon permanente. La formule À Vie inclut les futures mises à jour du spoofer sans frais supplémentaires.</div></details>
-      <details><summary>Le CS2 Loader fonctionne sur FACEIT ?</summary><div>Notre loader CS2 intègre des contournements anti-cheat avancés compatibles VAC et FACEIT. Consulte le support Discord pour les détails de la version en cours.</div></details>
-      <details><summary>Les formules Lifetime sont-elles vraiment permanentes ?</summary><div>Oui. Un accès Lifetime signifie un accès à vie, incluant toutes les futures mises à jour, sans frais supplémentaires.</div></details>
+      <details><summary>Comment je reçois mon produit après l'achat ?</summary><div>Immédiatement après paiement, un bot Discord t'envoie un message privé avec ton fichier ou ta clé. Aucune attente — livraison automatique 24h/24, 7j/7. Si tu ne reçois rien dans les 5 minutes, ouvre un ticket sur notre Discord.</div></details>
+      <details><summary>Les cheats Valorant sont-ils détectés par Vanguard ?</summary><div>Nos loaders Valorant sont testés après chaque mise à jour de Vanguard. En cas de détection inattendue, un patch est déployé sous 24h et tous les accès actifs sont compensés automatiquement.</div></details>
+      <details><summary>Quelle est la différence entre Valorant Emu et Private ?</summary><div>Emu utilise une méthode d'émulation pour contourner Vanguard — plus accessible, mise à jour régulière. Private est un loader exclusif avec des features plus avancées, une latence plus faible et une priorité de patch après chaque update de Riot.</div></details>
+      <details><summary>Le CS2 Loader fonctionne sur FACEIT et VAC ?</summary><div>Oui. Notre loader CS2 intègre des contournements compatibles VAC et FACEIT. Consulte le support Discord pour connaître l'état exact de la version en cours — on te confirme la compatibilité avant achat si tu le demandes.</div></details>
+      <details><summary>Quelle est la différence entre Spoofer Temporaire et Permanent ?</summary><div>Le Spoofer Temporaire protège ton HWID le temps d'une session — à relancer à chaque démarrage. Le Perm Onetime modifie ton registre une seule fois de façon permanente, sans relance. La formule À Vie inclut toutes les futures mises à jour du spoofer sans coût supplémentaire.</div></details>
+      <details><summary>Les formules Lifetime sont-elles vraiment permanentes ?</summary><div>Oui. Un accès Lifetime = accès à vie, toutes mises à jour incluses, sans abonnement ni frais cachés. Tu paies une fois, tu gardes pour toujours.</div></details>
+      <details><summary>Les jailbreaks IA fonctionnent sur quels modèles ?</summary><div>Nos jailbreaks couvrent Gemini, ChatGPT, Claude, Grok, DeepSeek, Kimi, Qwen, GLM, Arena et d'autres. Chaque fichier est mis à jour régulièrement pour suivre les nouvelles versions des modèles. Le bundle inclut les 11 jailbreaks + mises à jour à vie.</div></details>
+      <details><summary>Comment sont livrés les jailbreaks ?</summary><div>Les jailbreaks sont livrés sous forme de fichiers .txt directement téléchargeables depuis la page de confirmation de commande. Aucune installation requise — tu copies le prompt et tu l'utilises immédiatement.</div></details>
+      <details><summary>Quels moyens de paiement acceptez-vous ?</summary><div>Paiement 100% sécurisé via Stripe — carte Visa, Mastercard, American Express. Aucune donnée bancaire ne transite par nos serveurs.</div></details>
+      <details><summary>Où obtenir du support si j'ai un problème ?</summary><div>Rejoint notre Discord et ouvre un ticket dans le salon prévu à cet effet. Le support répond en moyenne sous 30 minutes, 7j/7.</div></details>
     </div>
   </div>
 </section>
@@ -1482,6 +1478,19 @@ function toast(msg){
   const t=document.createElement('div');t.className='toast';t.setAttribute('role','status');t.textContent=msg;document.body.append(t);
   setTimeout(()=>t.remove(),3000);
 }
+})();
+</script>
+
+<script>
+// Vérifie si l'user est connecté → affiche le bouton "Mon compte"
+(async function(){
+  try {
+    const r = await fetch('/api/account/orders', { method: 'GET' });
+    if (r.ok) {
+      const btn = document.getElementById('navAccount');
+      if (btn) btn.style.display = 'inline-flex';
+    }
+  } catch(e) { /* silencieux */ }
 })();
 </script>
 </body>

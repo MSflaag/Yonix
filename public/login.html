@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Connexion — Yonix</title>
+<meta name="theme-color" content="#020c1a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#020c1a;--bg2:#030f20;
+  --blue:#1a7cff;--blue2:#00c8ff;--cyan:#00e5ff;
+  --white:#f0f8ff;--dim:#5f8aaa;
+  --line:rgba(0,200,255,.15);
+  --disp:'Bebas Neue',system-ui,sans-serif;
+  --body:'Space Grotesk','Segoe UI',system-ui,sans-serif;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg);color:var(--white);
+  font:400 16px/1.6 var(--body);
+  min-height:100dvh;display:flex;flex-direction:column;
+  background-image:
+    radial-gradient(1000px 700px at 80% -10%,rgba(0,200,255,.08),transparent 55%),
+    radial-gradient(800px 600px at -5% 60%,rgba(26,124,255,.1),transparent 55%);
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
+
+/* NAV */
+.nav{
+  height:64px;display:flex;align-items:center;padding:0 24px;
+  border-bottom:1px solid var(--line);
+  background:rgba(2,12,26,.7);backdrop-filter:blur(16px);
+}
+.brand{
+  display:flex;align-items:center;gap:10px;
+  font:700 1.9rem/1 var(--disp);letter-spacing:.04em;
+  background:linear-gradient(90deg,#fff 30%,var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.brand svg{flex-shrink:0}
+
+/* MAIN */
+main{
+  flex:1;display:flex;align-items:center;justify-content:center;
+  padding:32px 16px;
+}
+.card{
+  width:min(440px,100%);
+  background:var(--bg2);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:40px 36px;
+  box-shadow:0 24px 64px rgba(0,0,0,.5);
+}
+.card-icon{
+  width:54px;height:54px;border-radius:14px;
+  background:linear-gradient(135deg,rgba(26,124,255,.2),rgba(0,200,255,.15));
+  border:1px solid rgba(0,200,255,.2);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:20px;
+}
+h1{font-size:1.6rem;font-weight:700;margin-bottom:8px}
+.sub{color:var(--dim);font-size:15px;margin-bottom:28px;line-height:1.5}
+
+label{display:block;font-size:13px;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+input[type=email]{
+  width:100%;padding:13px 16px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(0,200,255,.2);
+  border-radius:12px;color:var(--white);font:inherit;font-size:15px;
+  outline:none;transition:border-color .2s,box-shadow .2s;
+}
+input[type=email]:focus{
+  border-color:var(--blue2);
+  box-shadow:0 0 0 3px rgba(0,200,255,.12);
+}
+input[type=email]::placeholder{color:var(--dim)}
+
+.btn{
+  width:100%;margin-top:16px;
+  padding:14px 20px;
+  background:linear-gradient(135deg,var(--blue),var(--blue2));
+  border-radius:12px;font-size:15px;font-weight:600;
+  color:#fff;letter-spacing:.02em;
+  transition:opacity .2s,transform .15s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn:hover{opacity:.9}
+.btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+.msg{
+  margin-top:16px;padding:12px 16px;border-radius:10px;
+  font-size:14px;display:none;
+}
+.msg.ok{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);color:#4ade80}
+.msg.err{background:rgba(255,70,85,.1);border:1px solid rgba(255,70,85,.3);color:#ff7080}
+.msg.show{display:block}
+
+.footer-link{margin-top:24px;text-align:center;font-size:13px;color:var(--dim)}
+.footer-link a{color:var(--blue2)}
+
+/* Spinner */
+.spin{
+  width:18px;height:18px;border:2px solid rgba(255,255,255,.3);
+  border-top-color:#fff;border-radius:50%;
+  animation:sp .7s linear infinite;display:none;
+}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+@media(max-width:480px){
+  .card{padding:28px 20px;border-radius:16px}
+  h1{font-size:1.4rem}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brand" href="/">
+    <svg width="26" height="24" viewBox="360 366 540 504" aria-hidden="true">
+      <defs>
+        <linearGradient id="yA" gradientUnits="userSpaceOnUse" x1="370" y1="376" x2="640" y2="820"><stop offset="0" stop-color="#fff"/><stop offset=".28" stop-color="#a6dcff"/><stop offset=".55" stop-color="#3fc0ff"/><stop offset="1" stop-color="#0a6cff"/></linearGradient>
+        <linearGradient id="yB" gradientUnits="userSpaceOnUse" x1="642" y1="610" x2="891" y2="376"><stop offset="0" stop-color="#7df9ff"/><stop offset="1" stop-color="#0f9fff"/></linearGradient>
+      </defs>
+      <path fill="url(#yA)" d="M370 376H502L682 611V756L572 860V629Z"/>
+      <path fill="url(#yB)" d="M759 376H891L704 605L642 527Z"/>
+    </svg>
+    YONIX
+  </a>
+</nav>
+
+<main>
+  <div class="card">
+    <div class="card-icon" aria-hidden="true">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="url(#ico)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <defs><linearGradient id="ico" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00e5ff"/><stop offset="1" stop-color="#1a7cff"/></linearGradient></defs>
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+    </div>
+
+    <h1>Connexion</h1>
+    <p class="sub">Entre ton email pour recevoir un lien de connexion. Aucun mot de passe requis.</p>
+
+    <form id="loginForm" novalidate>
+      <label for="emailInput">Adresse email</label>
+      <input
+        type="email"
+        id="emailInput"
+        name="email"
+        placeholder="toi@exemple.com"
+        autocomplete="email"
+        required
+      >
+      <button class="btn" type="submit" id="submitBtn">
+        <span id="btnText">Envoyer le lien</span>
+        <div class="spin" id="spin"></div>
+      </button>
+    </form>
+
+    <div class="msg" id="msg"></div>
+
+    <p class="footer-link"><a href="/">← Retour à la boutique</a></p>
+  </div>
+</main>
+
+<script>
+(function(){
+  const form = document.getElementById('loginForm');
+  const input = document.getElementById('emailInput');
+  const btn = document.getElementById('submitBtn');
+  const btnText = document.getElementById('btnText');
+  const spin = document.getElementById('spin');
+  const msg = document.getElementById('msg');
+
+  // Affiche erreur depuis URL (?error=expired)
+  const params = new URLSearchParams(location.search);
+  if(params.get('error') === 'expired'){
+    showMsg('Ce lien a expiré. Demandes-en un nouveau ci-dessous.','err');
+  } else if(params.get('error') === 'missing'){
+    showMsg('Lien invalide. Demandes-en un nouveau.','err');
+  }
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    const email = input.value.trim();
+    if(!email){ showMsg('Entre ton email.','err'); return; }
+
+    setLoading(true);
+    msg.classList.remove('show');
+
+    try {
+      const r = await fetch('/api/auth/send-link',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({email})
+      });
+      const data = await r.json();
+      if(r.ok){
+        showMsg('✓ Lien envoyé ! Vérifie ta boîte mail (et tes spams).','ok');
+        input.value = '';
+        btn.disabled = true;
+        // Réactive après 60s
+        setTimeout(()=>{ btn.disabled=false; }, 60000);
+      } else {
+        showMsg(data.error || 'Erreur lors de l\'envoi.','err');
+      }
+    } catch(err){
+      showMsg('Erreur réseau. Réessaie.','err');
+    } finally {
+      setLoading(false);
+    }
+  });
+
+  function setLoading(on){
+    btn.disabled = on;
+    btnText.textContent = on ? 'Envoi...' : 'Envoyer le lien';
+    spin.style.display = on ? 'block' : 'none';
+  }
+
+  function showMsg(text, type){
+    msg.textContent = text;
+    msg.className = `msg ${type} show`;
+  }
+})();
+</script>
+</body>
+</html>

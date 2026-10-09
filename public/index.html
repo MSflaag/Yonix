@@ -1219,11 +1219,8 @@ window.applySearch=function applySearch(){
     const haystack=[p.name,p.sub,p.cat,p.desc||'',p.badge||'',...(p.feat||[]),...(p.tiers||[]).map(t=>t.dur)].join(' ').toLowerCase();
     c.hidden=!haystack.includes(q);
   });
-  // if jailbreak cards found, also scroll to their section
-  const jbHit=[...$$('#jgrid .pcard')].some(c=>!c.hidden);
-  const mainHit=[...$$('#pgrid .pcard')].some(c=>!c.hidden);
-  if(jbHit&&!mainHit) $('#jailbreaks').scrollIntoView({behavior:'smooth'});
-  else $('#boutique').scrollIntoView({behavior:'smooth'});
+  // all cards now in #pgrid — always scroll to boutique
+  $('#boutique').scrollIntoView({behavior:'smooth'});
 };
 $('#searchInput').addEventListener('keydown',e=>{if(e.key==='Enter')applySearch()});
 
@@ -1551,7 +1548,7 @@ $$('.rv-card').forEach(c=>tilt(c,7));
 
 /* ===== JAILBREAK INDIVIDUAL GRID ===== */
 (function initJGrid(){
-  const jg=$('#jgrid');
+  const jg=$('#pgrid'); // merged into main grid — jailbreaks section is hidden
   JAILBREAKS.forEach((p,i)=>{
     const c=document.createElement('article');
     c.className='pcard jb';c.dataset.cat='jailbreak';c.dataset.id=p.id;
@@ -1571,8 +1568,7 @@ $$('.rv-card').forEach(c=>tilt(c,7));
     c.addEventListener('click',()=>openJB(p.id));
     jg.append(c);reveal(c);tilt(c);
   });
-  // also add jb cards to main pgrid (hidden by default, shown on filter click)
-  // (they already live in #jgrid under #jailbreaks section; the filter scrolls there)
+  // jailbreak cards merged into #pgrid — same grid as all other products
 })();
 
 /* ===== JB MODAL ===== */

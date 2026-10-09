@@ -493,6 +493,143 @@ footer a:hover{color:var(--white)}
   /* BF form — 1 col always */
   .bf-row{grid-template-columns:1fr}
 }
+/* ===== AUTH OVERLAY ===== */
+#authOverlay{
+  position:fixed;inset:0;z-index:200;
+  display:flex;align-items:center;justify-content:center;
+  padding:16px;
+  opacity:0;pointer-events:none;
+  transition:opacity .35s ease;
+}
+#authOverlay.open{opacity:1;pointer-events:all}
+
+/* Backdrop blur */
+.auth-backdrop{
+  position:absolute;inset:0;
+  background:rgba(2,8,18,.72);
+  backdrop-filter:blur(22px) saturate(1.6);
+  -webkit-backdrop-filter:blur(22px) saturate(1.6);
+}
+
+/* Card 3D entry */
+.auth-card{
+  position:relative;z-index:1;
+  width:min(420px,100%);
+  background:linear-gradient(160deg,rgba(3,18,38,.96),rgba(2,10,24,.98));
+  border:1px solid rgba(0,200,255,.22);
+  border-radius:24px;
+  padding:32px 36px 32px;
+  box-shadow:
+    0 0 0 1px rgba(0,200,255,.06),
+    0 8px 40px rgba(0,0,0,.7),
+    0 0 80px -20px rgba(0,200,255,.25),
+    0 0 140px -40px rgba(26,124,255,.3);
+  transform:perspective(900px) rotateX(12deg) translateY(40px) scale(.92);
+  transition:transform .55s cubic-bezier(.22,1,.36,1), box-shadow .55s ease;
+  will-change:transform;
+}
+#authOverlay.open .auth-card{
+  transform:perspective(900px) rotateX(0deg) translateY(0) scale(1);
+}
+
+/* Glow ring top */
+.auth-card::before{
+  content:'';position:absolute;top:-1px;left:50%;transform:translateX(-50%);
+  width:60%;height:2px;border-radius:2px;
+  background:linear-gradient(90deg,transparent,var(--cyan),var(--blue2),transparent);
+  opacity:.8;
+}
+/* Ambient inner glow */
+.auth-card::after{
+  content:'';position:absolute;inset:0;border-radius:24px;pointer-events:none;
+  background:radial-gradient(ellipse 80% 40% at 50% 0%,rgba(0,200,255,.07),transparent 70%);
+}
+
+.auth-close{
+  position:absolute;top:16px;right:16px;
+  width:32px;height:32px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--dim);border:1px solid transparent;
+  transition:background .2s,color .2s,border-color .2s;
+  cursor:pointer;
+}
+.auth-close:hover{background:rgba(0,200,255,.1);color:var(--white);border-color:var(--line)}
+
+.auth-logo{display:none}
+
+/* Tabs */
+.auth-tabs{display:flex;gap:4px;margin-bottom:28px;background:rgba(0,0,0,.3);border-radius:12px;padding:4px}
+.auth-tab{
+  flex:1;padding:9px;border-radius:9px;text-align:center;
+  font-size:14px;font-weight:600;color:var(--dim);
+  cursor:pointer;transition:background .2s,color .2s;
+}
+.auth-tab.active{background:rgba(0,200,255,.12);color:var(--white);box-shadow:inset 0 0 0 1px rgba(0,200,255,.2)}
+
+/* Panels */
+.auth-panel{display:none}
+.auth-panel.active{display:block}
+
+.auth-label{display:block;font-size:12px;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px}
+.auth-input{
+  width:100%;padding:13px 16px;margin-bottom:14px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(0,200,255,.18);
+  border-radius:12px;color:var(--white);font:500 15px var(--body);
+  outline:none;transition:border-color .2s,box-shadow .2s;
+}
+.auth-input:focus{border-color:var(--blue2);box-shadow:0 0 0 3px rgba(0,200,255,.1)}
+.auth-input::placeholder{color:var(--dim)}
+
+.auth-btn{
+  width:100%;padding:14px;border-radius:13px;
+  background:linear-gradient(135deg,var(--blue),var(--blue2));
+  color:#fff;font:600 15px var(--body);letter-spacing:.02em;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  box-shadow:0 0 28px -6px rgba(0,200,255,.45);
+  transition:opacity .2s,transform .15s,box-shadow .2s;cursor:pointer;
+}
+.auth-btn:hover{opacity:.92;box-shadow:0 0 38px -4px rgba(0,200,255,.6)}
+.auth-btn:active{transform:scale(.98)}
+.auth-btn:disabled{opacity:.45;cursor:not-allowed}
+
+.auth-spin{
+  width:17px;height:17px;border:2px solid rgba(255,255,255,.3);
+  border-top-color:#fff;border-radius:50%;
+  animation:sp .7s linear infinite;display:none;
+}
+.auth-msg{
+  margin-top:13px;padding:11px 15px;border-radius:10px;
+  font-size:14px;display:none;line-height:1.5;
+}
+.auth-msg.ok{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);color:#4ade80;display:block}
+.auth-msg.err{background:rgba(255,70,85,.1);border:1px solid rgba(255,70,85,.3);color:#ff8090;display:block}
+
+.auth-footer{margin-top:18px;text-align:center;font-size:13px;color:var(--dim);line-height:1.6}
+.auth-footer a{color:var(--blue2);cursor:pointer}
+
+/* Nav login button */
+.nav-login{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:7px 16px;border-radius:10px;
+  border:1px solid rgba(0,200,255,.25);
+  color:var(--dim2);font-size:13px;font-weight:600;
+  transition:background .2s,color .2s,border-color .2s;cursor:pointer;
+}
+.nav-login:hover{background:rgba(0,200,255,.08);color:var(--white);border-color:rgba(0,200,255,.4)}
+
+/* Particules flottantes dans la card */
+@keyframes authFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.auth-particle{
+  position:absolute;border-radius:50%;pointer-events:none;
+  animation:authFloat linear infinite;opacity:.35;
+}
+
+@media(max-width:480px){
+  .auth-card{padding:28px 20px 24px;border-radius:18px}
+  .auth-logo{font-size:1.5rem}
+}
+
 @media(hover:none){.cursor-glow{display:none}}
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -537,7 +674,10 @@ footer a:hover{color:var(--white)}
       <a href="#avis">Avis</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <a href="/account.html" class="nav-account" id="navAccount" style="display:none;padding:7px 14px;border-radius:10px;border:1px solid rgba(0,200,255,.25);color:#8ab4d4;font-size:13px;font-weight:500;transition:background .2s,color .2s" onmouseover="this.style.background='rgba(0,200,255,.08)';this.style.color='#f0f8ff'" onmouseout="this.style.background='';this.style.color='#8ab4d4'">Mon compte</a>
+    <button class="nav-login" id="navLoginBtn" onclick="openAuth()" aria-label="Se connecter">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span id="navLoginLabel">Se connecter</span>
+    </button>
     <a href="#boutique" class="nav-cta">Acheter maintenant</a>
   </div>
 </header>
@@ -1481,16 +1621,167 @@ function toast(msg){
 })();
 </script>
 
+<!-- ===== AUTH OVERLAY ===== -->
+<div id="authOverlay" role="dialog" aria-modal="true" aria-label="Connexion Yonix">
+  <div class="auth-backdrop" id="authBackdrop"></div>
+  <div class="auth-card" id="authCard">
+    <!-- particules déco -->
+    <div class="auth-particle" style="width:6px;height:6px;background:#00c8ff;top:18%;left:8%;animation-duration:4.2s;animation-delay:-.8s"></div>
+    <div class="auth-particle" style="width:4px;height:4px;background:#1a7cff;top:70%;left:92%;animation-duration:5.5s;animation-delay:-2s"></div>
+    <div class="auth-particle" style="width:5px;height:5px;background:#7df9ff;top:85%;left:15%;animation-duration:3.8s;animation-delay:-1.2s"></div>
+    <div class="auth-particle" style="width:3px;height:3px;background:#00e5ff;top:30%;left:88%;animation-duration:6s;animation-delay:-3s"></div>
+
+    <button class="auth-close" id="authClose" aria-label="Fermer">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+
+    <div class="auth-logo">YONIX</div>
+
+    <!-- Tabs -->
+    <div class="auth-tabs" role="tablist">
+      <button class="auth-tab active" role="tab" aria-selected="true" data-tab="login">Se connecter</button>
+      <button class="auth-tab" role="tab" aria-selected="false" data-tab="register">Créer un compte</button>
+    </div>
+
+    <!-- Panel connexion -->
+    <div class="auth-panel active" id="panel-login">
+      <label class="auth-label" for="authEmail">Adresse email</label>
+      <input class="auth-input" type="email" id="authEmail" placeholder="toi@exemple.com" autocomplete="email">
+      <button class="auth-btn" id="authSendBtn" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
+        <span id="authSendLabel">Envoyer le lien de connexion</span>
+        <div class="auth-spin" id="authSpin"></div>
+      </button>
+      <div class="auth-msg" id="authMsg"></div>
+      <p class="auth-footer">Aucun mot de passe requis — tu reçois un lien par email.</p>
+    </div>
+
+    <!-- Panel inscription -->
+    <div class="auth-panel" id="panel-register">
+      <label class="auth-label" for="authRegEmail">Adresse email</label>
+      <input class="auth-input" type="email" id="authRegEmail" placeholder="toi@exemple.com" autocomplete="email">
+      <button class="auth-btn" id="authRegBtn" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+        <span id="authRegLabel">Créer mon compte</span>
+        <div class="auth-spin" id="authRegSpin"></div>
+      </button>
+      <div class="auth-msg" id="authRegMsg"></div>
+      <p class="auth-footer">Un lien de confirmation sera envoyé à ton email.</p>
+    </div>
+  </div>
+</div>
+
 <script>
-// Vérifie si l'user est connecté → affiche le bouton "Mon compte"
-(async function(){
-  try {
-    const r = await fetch('/api/account/orders', { method: 'GET' });
-    if (r.ok) {
-      const btn = document.getElementById('navAccount');
-      if (btn) btn.style.display = 'inline-flex';
+// ===== AUTH OVERLAY LOGIC =====
+(function(){
+  const overlay = document.getElementById('authOverlay');
+  const backdrop = document.getElementById('authBackdrop');
+  const closeBtn = document.getElementById('authClose');
+  const tabs = document.querySelectorAll('.auth-tab');
+  let locked = false;
+
+  window.openAuth = function(tab){
+    if(tab) switchTab(tab);
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(()=>{ document.getElementById(overlay.querySelector('.auth-panel.active').id === 'panel-login' ? 'authEmail' : 'authRegEmail').focus(); }, 400);
+  };
+
+  window.closeAuth = function(){
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
+  window.switchTab = function(name){
+    tabs.forEach(t=>{
+      const isActive = t.dataset.tab === name;
+      t.classList.toggle('active', isActive);
+      t.setAttribute('aria-selected', isActive);
+    });
+    document.querySelectorAll('.auth-panel').forEach(p=>{
+      p.classList.toggle('active', p.id === 'panel-' + name);
+    });
+  };
+
+  // Tabs click
+  tabs.forEach(t=>t.addEventListener('click',()=>switchTab(t.dataset.tab)));
+
+  // Close
+  closeBtn.addEventListener('click', closeAuth);
+  backdrop.addEventListener('click', closeAuth);
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeAuth(); });
+
+  // ---- SEND MAGIC LINK (login + register — même endpoint) ----
+  async function sendLink(emailInputId, btnId, labelId, spinId, msgId){
+    const email = document.getElementById(emailInputId).value.trim();
+    const btn = document.getElementById(btnId);
+    const label = document.getElementById(labelId);
+    const spin = document.getElementById(spinId);
+    const msg = document.getElementById(msgId);
+
+    msg.className = 'auth-msg';
+    if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+      msg.textContent = 'Entre une adresse email valide.';
+      msg.className = 'auth-msg err';
+      return;
     }
-  } catch(e) { /* silencieux */ }
+    if(locked) return;
+    locked = true;
+    btn.disabled = true;
+    label.textContent = 'Envoi…';
+    spin.style.display = 'block';
+
+    try {
+      const r = await fetch('/api/auth/send-link',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({email})
+      });
+      const data = await r.json();
+      if(r.ok){
+        msg.textContent = '✓ Lien envoyé ! Vérifie ta boîte mail (et les spams).';
+        msg.className = 'auth-msg ok';
+        document.getElementById(emailInputId).value = '';
+        // Réactive après 60s
+        setTimeout(()=>{ btn.disabled=false; locked=false; }, 60000);
+      } else {
+        msg.textContent = data.error || 'Erreur lors de l\'envoi.';
+        msg.className = 'auth-msg err';
+        btn.disabled=false; locked=false;
+      }
+    } catch(e){
+      msg.textContent = 'Erreur réseau. Réessaie.';
+      msg.className = 'auth-msg err';
+      btn.disabled=false; locked=false;
+    } finally {
+      label.textContent = btnId === 'authSendBtn' ? 'Envoyer le lien de connexion' : 'Créer mon compte';
+      spin.style.display = 'none';
+    }
+  }
+
+  document.getElementById('authSendBtn').addEventListener('click',()=>sendLink('authEmail','authSendBtn','authSendLabel','authSpin','authMsg'));
+  document.getElementById('authRegBtn').addEventListener('click',()=>sendLink('authRegEmail','authRegBtn','authRegLabel','authRegSpin','authRegMsg'));
+
+  // Enter key
+  ['authEmail','authRegEmail'].forEach(id=>{
+    document.getElementById(id).addEventListener('keydown',e=>{
+      if(e.key==='Enter') document.getElementById(id==='authEmail'?'authSendBtn':'authRegBtn').click();
+    });
+  });
+
+  // ---- Vérifie session → met à jour le bouton nav ----
+  (async function checkSession(){
+    try {
+      const r = await fetch('/api/account/orders');
+      const label = document.getElementById('navLoginLabel');
+      if(r.ok){
+        const data = await r.json();
+        if(label) label.textContent = 'Mon compte';
+        const btn = document.getElementById('navLoginBtn');
+        if(btn) btn.onclick = ()=>{ window.location.href='/account.html'; };
+      }
+    } catch(e){}
+  })();
 })();
 </script>
 </body>

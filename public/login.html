@@ -42,7 +42,6 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
   background:linear-gradient(90deg,#fff 30%,var(--cyan));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
 }
-.brand svg{flex-shrink:0}
 
 /* MAIN */
 main{
@@ -54,25 +53,52 @@ main{
   background:var(--bg2);
   border:1px solid var(--line);
   border-radius:20px;
-  padding:40px 36px;
+  overflow:hidden;
   box-shadow:0 24px 64px rgba(0,0,0,.5);
 }
+
+/* TABS */
+.tabs{
+  display:grid;grid-template-columns:1fr 1fr;
+  border-bottom:1px solid var(--line);
+}
+.tab{
+  padding:16px;text-align:center;font-size:14px;font-weight:600;
+  color:var(--dim);cursor:pointer;
+  transition:color .2s,background .2s;
+  position:relative;
+}
+.tab:first-child{border-right:1px solid var(--line)}
+.tab.active{
+  color:var(--white);
+  background:rgba(0,200,255,.06);
+}
+.tab.active::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;
+  height:2px;background:linear-gradient(90deg,var(--blue),var(--blue2));
+}
+
+/* PANELS */
+.panels{padding:36px}
+.panel{display:none}
+.panel.active{display:block}
+
 .card-icon{
-  width:54px;height:54px;border-radius:14px;
+  width:48px;height:48px;border-radius:12px;
   background:linear-gradient(135deg,rgba(26,124,255,.2),rgba(0,200,255,.15));
   border:1px solid rgba(0,200,255,.2);
   display:flex;align-items:center;justify-content:center;
-  margin-bottom:20px;
+  margin-bottom:18px;
 }
-h1{font-size:1.6rem;font-weight:700;margin-bottom:8px}
-.sub{color:var(--dim);font-size:15px;margin-bottom:28px;line-height:1.5}
+h1{font-size:1.5rem;font-weight:700;margin-bottom:6px}
+.sub{color:var(--dim);font-size:14px;margin-bottom:24px;line-height:1.55}
 
-label{display:block;font-size:13px;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.field-label{display:block;font-size:12px;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px}
 input[type=email]{
   width:100%;padding:13px 16px;
   background:rgba(255,255,255,.04);
   border:1px solid rgba(0,200,255,.2);
-  border-radius:12px;color:var(--white);font:inherit;font-size:15px;
+  border-radius:11px;color:var(--white);font:inherit;font-size:15px;
   outline:none;transition:border-color .2s,box-shadow .2s;
 }
 input[type=email]:focus{
@@ -82,40 +108,40 @@ input[type=email]:focus{
 input[type=email]::placeholder{color:var(--dim)}
 
 .btn{
-  width:100%;margin-top:16px;
+  width:100%;margin-top:14px;
   padding:14px 20px;
   background:linear-gradient(135deg,var(--blue),var(--blue2));
-  border-radius:12px;font-size:15px;font-weight:600;
+  border-radius:11px;font-size:15px;font-weight:600;
   color:#fff;letter-spacing:.02em;
   transition:opacity .2s,transform .15s;
   display:flex;align-items:center;justify-content:center;gap:8px;
 }
 .btn:hover{opacity:.9}
 .btn:active{transform:scale(.98)}
-.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 
 .msg{
-  margin-top:16px;padding:12px 16px;border-radius:10px;
-  font-size:14px;display:none;
+  margin-top:14px;padding:12px 15px;border-radius:10px;
+  font-size:14px;display:none;line-height:1.45;
 }
-.msg.ok{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);color:#4ade80}
-.msg.err{background:rgba(255,70,85,.1);border:1px solid rgba(255,70,85,.3);color:#ff7080}
+.msg.ok{background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.25);color:#4ade80}
+.msg.err{background:rgba(255,70,85,.08);border:1px solid rgba(255,70,85,.25);color:#ff7080}
 .msg.show{display:block}
 
-.footer-link{margin-top:24px;text-align:center;font-size:13px;color:var(--dim)}
-.footer-link a{color:var(--blue2)}
+.back-link{margin-top:20px;text-align:center;font-size:13px;color:var(--dim)}
+.back-link a{color:var(--blue2)}
 
 /* Spinner */
 .spin{
-  width:18px;height:18px;border:2px solid rgba(255,255,255,.3);
+  width:17px;height:17px;border:2px solid rgba(255,255,255,.3);
   border-top-color:#fff;border-radius:50%;
-  animation:sp .7s linear infinite;display:none;
+  animation:sp .7s linear infinite;display:none;flex-shrink:0;
 }
 @keyframes sp{to{transform:rotate(360deg)}}
 
 @media(max-width:480px){
-  .card{padding:28px 20px;border-radius:16px}
-  h1{font-size:1.4rem}
+  .panels{padding:24px 20px}
+  h1{font-size:1.3rem}
 }
 </style>
 </head>
@@ -137,96 +163,138 @@ input[type=email]::placeholder{color:var(--dim)}
 
 <main>
   <div class="card">
-    <div class="card-icon" aria-hidden="true">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="url(#ico)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <defs><linearGradient id="ico" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00e5ff"/><stop offset="1" stop-color="#1a7cff"/></linearGradient></defs>
-        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-      </svg>
+    <!-- TABS -->
+    <div class="tabs" role="tablist">
+      <button class="tab active" role="tab" aria-selected="true" data-tab="login">Se connecter</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="signup">Créer un compte</button>
     </div>
 
-    <h1>Connexion</h1>
-    <p class="sub">Entre ton email pour recevoir un lien de connexion. Aucun mot de passe requis.</p>
+    <div class="panels">
+      <!-- LOGIN PANEL -->
+      <div class="panel active" id="panel-login">
+        <div class="card-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00c8ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <h1>Connexion</h1>
+        <p class="sub">Entre ton email — on t'envoie un lien magique. Aucun mot de passe.</p>
+        <form id="loginForm" novalidate>
+          <label class="field-label" for="loginEmail">Adresse email</label>
+          <input type="email" id="loginEmail" name="email" placeholder="toi@exemple.com" autocomplete="email" required>
+          <button class="btn" type="submit" id="loginBtn">
+            <span id="loginBtnText">Envoyer le lien</span>
+            <div class="spin" id="loginSpin"></div>
+          </button>
+        </form>
+        <div class="msg" id="loginMsg"></div>
+        <p class="back-link"><a href="/">← Retour à la boutique</a></p>
+      </div>
 
-    <form id="loginForm" novalidate>
-      <label for="emailInput">Adresse email</label>
-      <input
-        type="email"
-        id="emailInput"
-        name="email"
-        placeholder="toi@exemple.com"
-        autocomplete="email"
-        required
-      >
-      <button class="btn" type="submit" id="submitBtn">
-        <span id="btnText">Envoyer le lien</span>
-        <div class="spin" id="spin"></div>
-      </button>
-    </form>
-
-    <div class="msg" id="msg"></div>
-
-    <p class="footer-link"><a href="/">← Retour à la boutique</a></p>
+      <!-- SIGNUP PANEL -->
+      <div class="panel" id="panel-signup">
+        <div class="card-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00c8ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+            <line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/>
+          </svg>
+        </div>
+        <h1>Créer un compte</h1>
+        <p class="sub">Aucun mot de passe à retenir. Entre ton email, reçois un lien, et c'est fait.</p>
+        <form id="signupForm" novalidate>
+          <label class="field-label" for="signupEmail">Adresse email</label>
+          <input type="email" id="signupEmail" name="email" placeholder="toi@exemple.com" autocomplete="email" required>
+          <button class="btn" type="submit" id="signupBtn">
+            <span id="signupBtnText">Créer mon compte</span>
+            <div class="spin" id="signupSpin"></div>
+          </button>
+        </form>
+        <div class="msg" id="signupMsg"></div>
+        <p class="back-link"><a href="/">← Retour à la boutique</a></p>
+      </div>
+    </div>
   </div>
 </main>
 
 <script>
 (function(){
-  const form = document.getElementById('loginForm');
-  const input = document.getElementById('emailInput');
-  const btn = document.getElementById('submitBtn');
-  const btnText = document.getElementById('btnText');
-  const spin = document.getElementById('spin');
-  const msg = document.getElementById('msg');
+  // ---- Tab switching ----
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.panel');
 
-  // Affiche erreur depuis URL (?error=expired)
-  const params = new URLSearchParams(location.search);
-  if(params.get('error') === 'expired'){
-    showMsg('Ce lien a expiré. Demandes-en un nouveau ci-dessous.','err');
-  } else if(params.get('error') === 'missing'){
-    showMsg('Lien invalide. Demandes-en un nouveau.','err');
-  }
-
-  form.addEventListener('submit', async function(e){
-    e.preventDefault();
-    const email = input.value.trim();
-    if(!email){ showMsg('Entre ton email.','err'); return; }
-
-    setLoading(true);
-    msg.classList.remove('show');
-
-    try {
-      const r = await fetch('/api/auth/send-link',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({email})
-      });
-      const data = await r.json();
-      if(r.ok){
-        showMsg('✓ Lien envoyé ! Vérifie ta boîte mail (et tes spams).','ok');
-        input.value = '';
-        btn.disabled = true;
-        // Réactive après 60s
-        setTimeout(()=>{ btn.disabled=false; }, 60000);
-      } else {
-        showMsg(data.error || 'Erreur lors de l\'envoi.','err');
-      }
-    } catch(err){
-      showMsg('Erreur réseau. Réessaie.','err');
-    } finally {
-      setLoading(false);
-    }
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.tab;
+      tabs.forEach(t => { t.classList.toggle('active', t === tab); t.setAttribute('aria-selected', t === tab); });
+      panels.forEach(p => p.classList.toggle('active', p.id === 'panel-' + target));
+    });
   });
 
-  function setLoading(on){
-    btn.disabled = on;
-    btnText.textContent = on ? 'Envoi...' : 'Envoyer le lien';
-    spin.style.display = on ? 'block' : 'none';
+  // ---- Show URL errors ----
+  const params = new URLSearchParams(location.search);
+  const urlError = params.get('error');
+  if(urlError === 'expired') showMsg('loginMsg', 'Ce lien a expiré. Demandes-en un nouveau ci-dessous.', 'err');
+  else if(urlError === 'missing') showMsg('loginMsg', 'Lien invalide. Demandes-en un nouveau.', 'err');
+
+  // ---- Form handlers ----
+  setupForm('loginForm', 'loginEmail', 'loginBtn', 'loginBtnText', 'loginSpin', 'loginMsg', 'Envoyer le lien');
+  setupForm('signupForm', 'signupEmail', 'signupBtn', 'signupBtnText', 'signupSpin', 'signupMsg', 'Créer mon compte');
+
+  function setupForm(formId, inputId, btnId, btnTextId, spinId, msgId, defaultLabel) {
+    const form = document.getElementById(formId);
+    const input = document.getElementById(inputId);
+    const btn = document.getElementById(btnId);
+    const btnText = document.getElementById(btnTextId);
+    const spin = document.getElementById(spinId);
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const email = input.value.trim();
+      if(!email) { showMsg(msgId, 'Entre ton adresse email.', 'err'); return; }
+
+      setLoading(true);
+      clearMsg(msgId);
+
+      try {
+        const r = await fetch('/api/auth/send-link', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ email })
+        });
+        const data = await r.json();
+
+        if(r.ok) {
+          showMsg(msgId, '✓ Lien envoyé ! Vérifie ta boîte mail (et tes spams).', 'ok');
+          input.value = '';
+          btn.disabled = true;
+          setTimeout(() => { btn.disabled = false; }, 60000);
+        } else {
+          showMsg(msgId, data.error || 'Erreur lors de l\'envoi.', 'err');
+        }
+      } catch(err) {
+        showMsg(msgId, 'Erreur réseau. Réessaie.', 'err');
+      } finally {
+        setLoading(false);
+      }
+
+      function setLoading(on) {
+        btn.disabled = on;
+        btnText.textContent = on ? 'Envoi en cours...' : defaultLabel;
+        spin.style.display = on ? 'block' : 'none';
+      }
+    });
   }
 
-  function showMsg(text, type){
-    msg.textContent = text;
-    msg.className = `msg ${type} show`;
+  function showMsg(id, text, type) {
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.textContent = text;
+    el.className = `msg ${type} show`;
+  }
+
+  function clearMsg(id) {
+    const el = document.getElementById(id);
+    if(el) el.classList.remove('show');
   }
 })();
 </script>

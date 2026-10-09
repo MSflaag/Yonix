@@ -1,12 +1,18 @@
 // api/auth/send-link.js
 // Génère un magic link et l'envoie par email via Resend
-// Env: RESEND_API_KEY, AUTH_SECRET, SITE_URL
+// Env: RESEND_API_KEY, AUTH_SECRET, SITE_URL, RESEND_FROM (optionnel)
 
 import crypto from 'crypto';
 
 const SITE_URL = (process.env.SITE_URL || 'http://localhost:3000').replace(/\/$/, '');
 const AUTH_SECRET = process.env.AUTH_SECRET || 'changeme-32-chars-secret-key-here';
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
+
+// RESEND_FROM doit être un email sur un domaine vérifié dans Resend,
+// ex: "Yonix <no-reply@ton-domaine.com>"
+// Si non configuré → utilise l'adresse sandbox Resend (fonctionne UNIQUEMENT
+// vers l'email vérifié du compte Resend — ok pour les tests)
+const RESEND_FROM = process.env.RESEND_FROM || 'onboarding@resend.dev';
 
 // Token = base64url(email + expires + hmac)
 function generateToken(email) {
@@ -39,12 +45,13 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Service email non configuré.' });
   }
 
-  const token = generateToken(email.toLowerCase().trim());
+  const normalizedEmail = email.toLowerCase().trim();
+  const token = generateToken(normalizedEmail);
   const link = `${SITE_URL}/api/auth/verify?token=${token}`;
 
   const emailBody = {
-    from: 'Yonix <onboarding@resend.dev>',
-    to: [email],
+    from: RESEND_FROM,
+    to: [normalizedEmail],
     subject: 'Ton lien de connexion Yonix',
     html: `
 <!DOCTYPE html>
@@ -94,9 +101,22 @@ export default async function handler(req, res) {
     });
 
     if (!r.ok) {
-      const err = await r.text();
-      console.error('[send-link] Resend error:', err);
-      return res.status(500).json({ error: 'Impossible d\'envoyer l\'email.' });
+      const errBody = await r.text();
+      console.error('[send-link] Resend error', r.status, errBody);
+
+      // Parse Resend error for a user-friendly message
+      let userMsg = 'Impossible d\'envoyer l\'email.';
+      try {
+        const parsed = JSON.parse(errBody);
+        if (parsed.message) {
+          // Domain not verified → guide
+          if (parsed.message.includes('domain') || parsed.message.includes('sender')) {
+            userMsg = 'Domaine expéditeur non vérifié. Contacte le support.';
+          }
+        }
+      } catch {}
+
+      return res.status(500).json({ error: userMsg, debug: r.status });
     }
 
     return res.status(200).json({ ok: true });

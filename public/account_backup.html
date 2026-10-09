@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mon compte — Yonix</title>
+<meta name="theme-color" content="#020c1a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#020c1a;--bg2:#030f20;--bg3:#041228;
+  --blue:#1a7cff;--blue2:#00c8ff;--cyan:#00e5ff;
+  --white:#f0f8ff;--dim:#5f8aaa;--dim2:#8ab4d4;
+  --line:rgba(0,200,255,.15);--line2:rgba(0,200,255,.28);
+  --green:#4ade80;--red:#ff4655;
+  --disp:'Bebas Neue',system-ui,sans-serif;
+  --body:'Space Grotesk','Segoe UI',system-ui,sans-serif;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg);color:var(--white);
+  font:400 16px/1.6 var(--body);min-height:100dvh;display:flex;flex-direction:column;
+  background-image:
+    radial-gradient(1000px 700px at 80% -10%,rgba(0,200,255,.07),transparent 55%),
+    radial-gradient(800px 600px at -5% 60%,rgba(26,124,255,.09),transparent 55%);
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
+.wrap{width:min(960px,100% - 32px);margin-inline:auto}
+
+/* NAV */
+.nav{
+  position:sticky;top:0;z-index:40;
+  height:64px;display:flex;align-items:center;padding:0 24px;
+  border-bottom:1px solid var(--line);
+  background:rgba(2,12,26,.82);backdrop-filter:blur(18px);
+}
+.nav-in{display:flex;align-items:center;gap:auto;width:100%;gap:16px}
+.brand{
+  display:flex;align-items:center;gap:10px;
+  font:700 1.9rem/1 var(--disp);letter-spacing:.04em;
+  background:linear-gradient(90deg,#fff 30%,var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  flex-shrink:0;
+}
+.nav-spacer{flex:1}
+.logout-btn{
+  padding:8px 16px;border-radius:10px;
+  border:1px solid var(--line2);color:var(--dim2);
+  font-size:13px;font-weight:500;
+  transition:background .2s,color .2s;
+}
+.logout-btn:hover{background:rgba(0,200,255,.08);color:var(--white)}
+
+/* PAGE */
+main{flex:1;padding:40px 0 64px}
+.page-head{margin-bottom:32px}
+.page-head h1{font-size:clamp(24px,4vw,32px);font-weight:700;margin-bottom:4px}
+.page-head p{color:var(--dim);font-size:15px}
+.email-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 14px;border-radius:100px;
+  background:rgba(0,200,255,.08);border:1px solid var(--line2);
+  color:var(--blue2);font-size:13px;font-weight:600;
+  margin-top:10px;
+}
+
+/* LOADING */
+.loader{
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  padding:64px 0;color:var(--dim);font-size:15px;
+}
+.loader-ring{
+  width:28px;height:28px;border:2px solid rgba(0,200,255,.2);
+  border-top-color:var(--blue2);border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* EMPTY */
+.empty{
+  text-align:center;padding:64px 24px;
+  border:1px dashed var(--line2);border-radius:20px;
+  background:rgba(0,200,255,.02);
+}
+.empty-icon{font-size:48px;margin-bottom:16px}
+.empty h2{font-size:20px;font-weight:600;margin-bottom:8px}
+.empty p{color:var(--dim);margin-bottom:24px;font-size:15px}
+.btn-prim{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 24px;border-radius:12px;
+  background:linear-gradient(135deg,var(--blue),var(--blue2));
+  color:#fff;font-size:14px;font-weight:600;
+  transition:opacity .2s;
+}
+.btn-prim:hover{opacity:.9}
+
+/* ORDERS */
+.orders-grid{display:flex;flex-direction:column;gap:14px}
+.order-card{
+  background:var(--bg2);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:20px 24px;
+  display:flex;align-items:center;gap:20px;
+  transition:border-color .2s;
+}
+.order-card:hover{border-color:var(--line2)}
+.order-icon{
+  width:46px;height:46px;border-radius:12px;flex-shrink:0;
+  background:linear-gradient(135deg,rgba(26,124,255,.18),rgba(0,200,255,.12));
+  border:1px solid var(--line2);
+  display:flex;align-items:center;justify-content:center;
+}
+.order-info{flex:1;min-width:0}
+.order-name{font-size:16px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.order-tier{font-size:13px;color:var(--dim2);margin-top:1px}
+.order-meta{display:flex;align-items:center;gap:10px;margin-top:6px;flex-wrap:wrap}
+.order-date{font-size:12px;color:var(--dim)}
+.order-price{
+  font-size:12px;font-weight:600;padding:2px 10px;border-radius:100px;
+  background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:var(--green);
+}
+.order-actions{flex-shrink:0}
+.dl-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:9px 16px;border-radius:10px;
+  background:linear-gradient(135deg,rgba(26,124,255,.2),rgba(0,200,255,.15));
+  border:1px solid rgba(0,200,255,.25);
+  color:var(--blue2);font-size:13px;font-weight:600;
+  transition:background .2s,border-color .2s,opacity .2s;
+}
+.dl-btn:hover{background:linear-gradient(135deg,rgba(26,124,255,.35),rgba(0,200,255,.25));border-color:rgba(0,200,255,.4)}
+.dl-btn:disabled{opacity:.4;cursor:not-allowed}
+.no-dl{font-size:13px;color:var(--dim);padding:0 4px}
+
+/* ERROR */
+.error-box{
+  padding:16px 20px;border-radius:12px;
+  background:rgba(255,70,85,.08);border:1px solid rgba(255,70,85,.25);
+  color:#ff8090;font-size:14px;
+}
+
+@media(max-width:600px){
+  .order-card{flex-wrap:wrap;gap:14px}
+  .order-icon{display:none}
+  .order-actions{width:100%}
+  .dl-btn{width:100%;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-in wrap" style="width:min(960px,100% - 32px);margin-inline:auto;padding:0">
+    <a class="brand" href="/">
+      <svg width="24" height="22" viewBox="360 366 540 504" aria-hidden="true">
+        <defs>
+          <linearGradient id="yA" gradientUnits="userSpaceOnUse" x1="370" y1="376" x2="640" y2="820"><stop offset="0" stop-color="#fff"/><stop offset=".28" stop-color="#a6dcff"/><stop offset=".55" stop-color="#3fc0ff"/><stop offset="1" stop-color="#0a6cff"/></linearGradient>
+          <linearGradient id="yB" gradientUnits="userSpaceOnUse" x1="642" y1="610" x2="891" y2="376"><stop offset="0" stop-color="#7df9ff"/><stop offset="1" stop-color="#0f9fff"/></linearGradient>
+        </defs>
+        <path fill="url(#yA)" d="M370 376H502L682 611V756L572 860V629Z"/>
+        <path fill="url(#yB)" d="M759 376H891L704 605L642 527Z"/>
+      </svg>
+      YONIX
+    </a>
+    <div class="nav-spacer"></div>
+    <a href="/api/auth/logout" class="logout-btn">Déconnexion</a>
+  </div>
+</nav>
+
+<main>
+  <div class="wrap">
+
+    <div class="page-head">
+      <h1>Mes commandes</h1>
+      <p>Retrouve tous tes achats et re-télécharge tes fichiers.</p>
+      <div class="email-badge" id="emailBadge" hidden>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+        <span id="emailText"></span>
+      </div>
+    </div>
+
+    <div id="loader" class="loader">
+      <div class="loader-ring"></div>
+      Chargement de tes commandes…
+    </div>
+
+    <div id="errorBox" class="error-box" hidden></div>
+    <div id="ordersContainer" hidden></div>
+
+  </div>
+</main>
+
+<script>
+(async function(){
+  const loader = document.getElementById('loader');
+  const errorBox = document.getElementById('errorBox');
+  const container = document.getElementById('ordersContainer');
+  const emailBadge = document.getElementById('emailBadge');
+  const emailText = document.getElementById('emailText');
+
+  function formatDate(ts){
+    return new Date(ts * 1000).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'});
+  }
+  function formatAmount(cents, currency){
+    return new Intl.NumberFormat('fr-FR',{style:'currency',currency:(currency||'eur').toUpperCase()}).format(cents/100);
+  }
+
+  // Icon SVG par catégorie
+  function productIcon(name){
+    const n = (name||'').toLowerCase();
+    if(n.includes('valorant')) return `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a7cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>`;
+    if(n.includes('cs2')||n.includes('cs ')) return `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00c8ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>`;
+    if(n.includes('spoofer')) return `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffe066" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`;
+    if(n.includes('jailbreak')||n.includes('ia')||n.includes('ai')) return `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.46 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.04Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.46 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.04Z"/></svg>`;
+    return `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00c8ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>`;
+  }
+
+  async function initiateDownload(file, btn){
+    btn.disabled = true;
+    btn.textContent = '…';
+    try {
+      const r = await fetch(`/api/account/download?file=${encodeURIComponent(file)}`);
+      const data = await r.json();
+      if(r.ok && data.url){
+        const a = document.createElement('a');
+        a.href = data.url;
+        a.download = file;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        btn.textContent = '✓ Téléchargé';
+        setTimeout(()=>{ btn.disabled=false; btn.innerHTML = dlBtnInner(); },4000);
+      } else {
+        alert(data.error || 'Erreur lors du téléchargement.');
+        btn.disabled=false; btn.innerHTML = dlBtnInner();
+      }
+    } catch(e){
+      alert('Erreur réseau.');
+      btn.disabled=false; btn.innerHTML = dlBtnInner();
+    }
+  }
+
+  function dlBtnInner(){
+    return `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Télécharger`;
+  }
+
+  function renderOrders(orders){
+    if(!orders.length){
+      return `<div class="empty">
+        <div class="empty-icon">📦</div>
+        <h2>Aucune commande trouvée</h2>
+        <p>Tes achats apparaîtront ici après paiement.</p>
+        <a href="/" class="btn-prim">Voir la boutique</a>
+      </div>`;
+    }
+    return `<div class="orders-grid">${orders.map(o=>`
+      <div class="order-card">
+        <div class="order-icon">${productIcon(o.productName)}</div>
+        <div class="order-info">
+          <div class="order-name">${escHtml(o.productName)}</div>
+          ${o.tierName ? `<div class="order-tier">${escHtml(o.tierName)}</div>` : ''}
+          <div class="order-meta">
+            <span class="order-date">${formatDate(o.date)}</span>
+            <span class="order-price">${formatAmount(o.amount, o.currency)}</span>
+          </div>
+        </div>
+        <div class="order-actions">
+          ${o.downloadFile
+            ? `<button class="dl-btn" onclick="handleDl(this,'${escHtml(o.downloadFile)}')">${dlBtnInner()}</button>`
+            : `<span class="no-dl">Livraison Discord</span>`
+          }
+        </div>
+      </div>`).join('')}
+    </div>`;
+  }
+
+  function escHtml(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  // Expose pour les boutons inline
+  window.handleDl = function(btn, file){ initiateDownload(file, btn); };
+
+  try {
+    const r = await fetch('/api/account/orders');
+    if(r.status === 401){
+      location.href = '/login.html';
+      return;
+    }
+    const data = await r.json();
+    if(!r.ok) throw new Error(data.error || 'Erreur serveur');
+
+    loader.hidden = true;
+
+    emailText.textContent = data.email;
+    emailBadge.hidden = false;
+
+    container.innerHTML = renderOrders(data.orders);
+    container.hidden = false;
+  } catch(err){
+    loader.hidden = true;
+    errorBox.textContent = 'Impossible de charger tes commandes : ' + err.message;
+    errorBox.hidden = false;
+  }
+})();
+</script>
+</body>
+</html>

@@ -62,9 +62,9 @@ main,header,footer,section{position:relative;z-index:2}
 
 /* ===== HERO CENTERED ===== */
 .hero-center{min-height:calc(100vh - 68px);min-height:calc(100svh - 68px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:0;padding:24px 16px 64px;width:min(900px,100% - 32px);margin-inline:auto}
-.hc-logo{width:min(520px,88vw);flex:none;margin-bottom:12px}
+.hc-logo{width:min(380px,72vw);flex:none;margin-bottom:8px}
 .hc-logo .stage3d{width:100%;margin-inline:auto}
-.hc-search{max-width:680px!important;width:100%;margin-bottom:22px!important}
+.hc-search{max-width:560px!important;width:100%;margin-bottom:18px!important}
 .hc-stats{justify-content:center}
 .h-in{opacity:0;animation:heroIn 1s cubic-bezier(.2,.9,.25,1) forwards;animation-delay:var(--d,0ms)}
 @keyframes heroIn{from{opacity:0;transform:translateY(26px);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
@@ -79,44 +79,15 @@ h1{margin:0 0 24px;font:normal clamp(56px,8vw,108px)/1 var(--disp);letter-spacin
 .hero-sub{max-width:32rem;margin:0 0 36px;color:var(--dim2);font-size:18px;line-height:1.7}
 .search-wrap{position:relative;max-width:520px;margin-bottom:28px}
 .search-wrap svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--dim);pointer-events:none}
-#searchInput{width:100%;padding:17px 16px 17px 52px;border-radius:20px;font-size:16px;border:1px solid var(--line2);background:rgba(4,21,38,.85);color:var(--white);font:500 15px var(--body);outline:none;transition:border-color .25s,box-shadow .25s;backdrop-filter:blur(12px)}
+#searchInput{width:100%;padding:14px 16px 14px 48px;border-radius:16px;border:1px solid var(--line2);background:rgba(4,21,38,.85);color:var(--white);font:500 15px var(--body);outline:none;transition:border-color .25s,box-shadow .25s;backdrop-filter:blur(12px)}
 #searchInput::placeholder{color:var(--dim)}
 #searchInput:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,229,255,.15)}
-.search-btn{position:absolute;right:8px;top:50%;transform:translateY(-50%);padding:10px 22px;border-radius:14px;font:600 14px var(--body);color:#000;background:linear-gradient(135deg,var(--cyan),var(--blue2));cursor:pointer;transition:opacity .2s}
+.search-btn{position:absolute;right:8px;top:50%;transform:translateY(-50%);padding:8px 18px;border-radius:10px;font:600 13px var(--body);color:#000;background:linear-gradient(135deg,var(--cyan),var(--blue2));cursor:pointer;transition:opacity .2s}
 .search-btn:hover{opacity:.88}
 .hero-stats{display:flex;gap:24px;flex-wrap:wrap}
 .stat{display:flex;flex-direction:column}
 .stat b{font:700 28px var(--disp);color:var(--cyan2);letter-spacing:.04em;line-height:1;text-shadow:0 0 20px rgba(0,229,255,.35)}
 .stat span{font-size:13px;color:var(--dim);margin-top:2px}
-
-
-/* ===== NOS PRODUITS 3D TITLE ===== */
-.nos-produits-title{
-  margin:0 0 32px;
-  font:normal clamp(42px,6vw,72px)/1.05 var(--disp);
-  letter-spacing:.04em;
-  background:linear-gradient(120deg,var(--white) 0%,var(--cyan2) 30%,var(--blue2) 65%,var(--white) 100%);
-  background-size:220%;
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-  animation:shimmer 6s linear infinite;
-  filter:drop-shadow(0 0 40px rgba(0,200,255,.45)) drop-shadow(0 0 80px rgba(0,200,255,.2));
-  text-shadow:none;
-  transform:perspective(600px) rotateX(4deg);
-  transform-origin:center bottom;
-  display:inline-block;
-  position:relative;
-}
-.nos-produits-title::after{
-  content:'';
-  position:absolute;
-  left:10%;right:10%;
-  bottom:-8px;height:2px;
-  background:linear-gradient(90deg,transparent,var(--cyan),var(--blue2),transparent);
-  box-shadow:0 0 18px var(--cyan);
-  border-radius:2px;
-  animation:lineGlow 3s ease-in-out infinite alternate;
-}
-@keyframes lineGlow{from{opacity:.5;transform:scaleX(.7)}to{opacity:1;transform:scaleX(1)}}
 
 /* ===== 3D HERO STAGE ===== */
 .stage3d{position:relative;width:min(100%,520px);aspect-ratio:1;margin-inline:auto;perspective:1100px;transform-style:preserve-3d;display:grid;place-items:center}
@@ -699,6 +670,7 @@ footer a:hover{color:var(--white)}
     </a>
     <nav class="nav-links" aria-label="Navigation">
       <a href="#boutique">Boutique</a>
+      <a href="#jailbreaks">Jailbreaks</a>
       <a href="#avis">Avis</a>
       <a href="#faq">FAQ</a>
     </nav>
@@ -706,6 +678,7 @@ footer a:hover{color:var(--white)}
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       <span id="navLoginLabel">Se connecter</span>
     </button>
+    <a href="#boutique" class="nav-cta">Acheter maintenant</a>
   </div>
 </header>
 
@@ -746,7 +719,8 @@ footer a:hover{color:var(--white)}
 <section class="sec" id="boutique">
   <div class="wrap">
     <div class="sec-head rv">
-      <h2 class="nos-produits-title">Nos Produits</h2>
+      <div class="sec-label">Catalogue</div>
+      <h2>Nos Produits</h2>
     </div>
     <div class="filter-bar rv" role="group" aria-label="Filtres catégorie">
       <button class="flt active" data-cat="all">Tous</button>
@@ -755,6 +729,16 @@ footer a:hover{color:var(--white)}
       <button class="flt" data-cat="spoofer">Spoofer</button>
       <button class="flt" data-cat="services">Services</button>
       <button class="flt" data-cat="jailbreak">Jailbreaks</button>
+    </div>
+    <div class="pgrid" id="pgrid"></div>
+  </div>
+</section>
+
+<section class="sec" id="jailbreaks">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-label">Jailbreaks IA</div>
+      <h2>Contourne les filtres.<br>Libère l'IA.</h2>
     </div>
     <!-- BUNDLE HERO CARD -->
     <div class="bundle-card rv" id="bundleCard">
@@ -783,14 +767,10 @@ footer a:hover{color:var(--white)}
         </button>
       </div>
     </div>
-    <div class="pgrid" id="pgrid" style="margin-top:48px"></div>
-  </div>
-</section>
-
-<section class="sec" id="jailbreaks" style="display:none">
-  <div class="wrap">
-    <div class="sec-head rv" style="display:none"></div>
-
+    <!-- INDIVIDUAL GRID -->
+    <div class="sec-head" style="margin-top:72px;margin-bottom:28px">
+      <div class="sec-label">À l'unité — 25€ chacun</div>
+    </div>
     <div class="pgrid" id="jgrid"></div>
   </div>
 </section>
@@ -867,6 +847,7 @@ footer a:hover{color:var(--white)}
     </div>
     <nav aria-label="Pied de page">
       <a href="#boutique">Boutique</a>
+      <a href="#jailbreaks">Jailbreaks</a>
       <a href="#avis">Avis</a>
       <a href="#garanties">Garanties</a>
       <a href="#faq">FAQ</a>
@@ -1797,7 +1778,7 @@ function toast(msg){
         const data = await r.json();
         if(label) label.textContent = 'Mon compte';
         const btn = document.getElementById('navLoginBtn');
-        if(btn) btn.onclick = ()=>{ window.location.href='/profile.html'; };
+        if(btn) btn.onclick = ()=>{ window.location.href='/account.html'; };
       }
     } catch(e){}
   })();

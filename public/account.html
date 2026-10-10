@@ -91,6 +91,14 @@ main{flex:1;padding:48px 0 80px}
   opacity:.35;z-index:-1;animation:spin 6s linear infinite;
 }
 @keyframes spin{to{transform:rotate(360deg)}}
+.avatar-upload-btn{
+  margin-top:8px;padding:5px 14px;border-radius:8px;font-size:12px;font-weight:600;
+  border:1px solid rgba(0,200,255,.25);color:var(--dim2);cursor:pointer;
+  background:rgba(0,200,255,.06);transition:all .2s;display:inline-flex;align-items:center;gap:6px;
+}
+.avatar-upload-btn:hover{background:rgba(0,200,255,.14);color:var(--white);border-color:rgba(0,200,255,.45)}
+#avatarInput{display:none}
+.avatar-img{width:100%;height:100%;border-radius:50%;object-fit:cover;position:absolute;inset:0}
 .profile-name{font-size:16px;font-weight:700;margin-bottom:4px}
 .profile-email{font-size:13px;color:var(--dim2);word-break:break-all}
 .profile-badge{
@@ -303,10 +311,16 @@ main{flex:1;padding:48px 0 80px}
 
         <!-- Profile card -->
         <div class="profile-card">
-          <div class="avatar" id="avatarEl">
+          <div class="avatar" id="avatarEl" onclick="document.getElementById('avatarInput').click()" style="cursor:pointer" title="Changer l'avatar">
             <div class="avatar-glow"></div>
             <span id="avatarLetter">?</span>
+            <img id="avatarImg" class="avatar-img" style="display:none" alt="avatar">
           </div>
+          <input type="file" id="avatarInput" accept="image/*">
+          <button class="avatar-upload-btn" onclick="document.getElementById('avatarInput').click()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Changer l'avatar
+          </button>
           <div class="profile-name" id="profileName">Chargement…</div>
           <div class="profile-email" id="profileEmail"></div>
           <div class="profile-badge">
@@ -611,6 +625,30 @@ main{flex:1;padding:48px 0 80px}
   })();
 
 })();
+
+  // Avatar upload — localStorage persistence
+  (function(){
+    const inp = document.getElementById('avatarInput');
+    const img = document.getElementById('avatarImg');
+    const letter = document.getElementById('avatarLetter');
+    // Load saved avatar
+    const saved = localStorage.getItem('yonix_avatar');
+    if(saved){ img.src=saved; img.style.display='block'; letter.style.display='none'; }
+    inp.addEventListener('change', function(){
+      const file = this.files[0];
+      if(!file) return;
+      if(file.size > 2*1024*1024){ alert('Image trop lourde (max 2 Mo)'); return; }
+      const reader = new FileReader();
+      reader.onload = function(e){
+        const dataUrl = e.target.result;
+        img.src = dataUrl;
+        img.style.display = 'block';
+        letter.style.display = 'none';
+        try{ localStorage.setItem('yonix_avatar', dataUrl); }catch(err){ console.warn('Avatar storage full'); }
+      };
+      reader.readAsDataURL(file);
+    });
+  })();
 </script>
 </body>
 </html>

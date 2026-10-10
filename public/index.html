@@ -22,10 +22,11 @@
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
 }
-html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 72px)}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 72px);overflow-x:hidden}
 *,*::before,*::after{box-sizing:border-box}
 [hidden]{display:none!important}
-body{
+body{overflow-x:hidden;max-width:100%;
+
   margin:0;background:var(--bg);color:var(--white);
   font:400 16px/1.6 var(--body);overflow-x:hidden;
   background-image:
@@ -68,7 +69,7 @@ main,header,footer,section{position:relative;z-index:2}
 .brand{display:flex;align-items:center;gap:10px;font:900 2rem var(--disp);letter-spacing:-.03em;color:var(--white)}
 .brand-icon{width:36px;height:34px;filter:drop-shadow(0 0 10px var(--cyan))}
 .brand span{background:linear-gradient(90deg,var(--white),var(--cyan2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.nav-links{display:flex;gap:4px;margin-left:auto}
+.nav-links{display:flex;gap:4px}
 .nav-links a{padding:8px 15px;border-radius:10px;color:var(--dim2);font-weight:500;font-size:15px;transition:color .2s,background .2s}
 .nav-links a:hover{color:var(--white);background:rgba(0,200,255,.1)}
 .nav-cta{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:8px;padding:9px 20px;border-radius:12px;font:600 14px var(--body);color:#000;background:linear-gradient(135deg,var(--cyan2),var(--blue2),var(--blue));box-shadow:0 0 24px -4px var(--glow-c);transition:transform .15s,box-shadow .25s}
@@ -442,6 +443,7 @@ footer a:hover{color:var(--white)}
 @media(max-width:480px){
   /* NAV — logo + CTA button only, no links */
   .nav-in{height:58px;gap:0;padding:0 16px}
+  .nav-right{gap:6px}
   .brand{font-size:1.5rem;letter-spacing:-.03em}
   .brand-icon{width:28px;height:26px}
   .nav-links{display:none}
@@ -822,6 +824,7 @@ footer a:hover{color:var(--white)}
 .cart-checkout-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
 
 /* ===== HAMBURGER BUTTON ===== */
+.nav-right{display:flex;align-items:center;gap:8px;margin-left:auto}
 #hamBtn{
   display:none;
   width:40px;height:40px;border-radius:12px;
@@ -1014,17 +1017,19 @@ footer a:hover{color:var(--white)}
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       <span id="navLoginLabel">Se connecter</span>
     </button>
-    <!-- Cart bubble -->
-    <button id="cartBubble" onclick="openCart()" aria-label="Ouvrir le panier">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-      <span class="cart-badge" id="cartBadge"></span>
-    </button>
-    <!-- Hamburger -->
-    <button id="hamBtn" onclick="toggleMobileMenu()" aria-label="Menu" aria-expanded="false">
-      <span class="ham-line"></span>
-      <span class="ham-line"></span>
-      <span class="ham-line"></span>
-    </button>
+    <!-- Right-side actions (cart + hamburger) — always pushed to edge -->
+    <div class="nav-right">
+      <button id="cartBubble" onclick="openCart()" aria-label="Ouvrir le panier">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span class="cart-badge" id="cartBadge"></span>
+      </button>
+      <!-- Hamburger -->
+      <button id="hamBtn" onclick="toggleMobileMenu()" aria-label="Menu" aria-expanded="false">
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+      </button>
+    </div>
   </div>
 </header>
 

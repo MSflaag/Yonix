@@ -1159,7 +1159,7 @@ for(let i=0;i<7;i++){
 const cg=$('#cg');let gx=innerWidth/2,gy=innerHeight/2,mx=0,my=0;
 addEventListener('pointermove',e=>{mouse.x=e.clientX;mouse.y=e.clientY;mouse.nx=e.clientX/innerWidth;mouse.ny=e.clientY/innerHeight},{passive:true});
 addEventListener('pointerleave',()=>{mouse.x=mouse.y=-999});
-,navEl=$('#nav');
+const navEl=$('#nav');
 addEventListener('scroll',()=>{const y=window.scrollY;scrollD+=y-scrollY;scrollY=y;const max=document.documentElement.scrollHeight-innerHeight;navEl.classList.toggle('scrolled',y>10)},{passive:true});
 
 let last=performance.now();

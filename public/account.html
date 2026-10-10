@@ -321,7 +321,7 @@ main{flex:1;padding:48px 0 80px}
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
             Changer l'avatar
           </button>
-          <div class="profile-name" id="profileName">Chargement…</div>
+          <div class="profile-name" id="profileName">Chargement?</div>
           <div class="profile-email" id="profileEmail"></div>
           <div class="profile-badge">
             <svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#4ade80"/></svg>
@@ -368,7 +368,7 @@ main{flex:1;padding:48px 0 80px}
 
           <div id="ordersLoader" class="loader">
             <div class="loader-ring"></div>
-            Chargement de tes commandes…
+            Chargement de tes commandes?
           </div>
           <div id="ordersContent"></div>
         </div>
@@ -403,7 +403,7 @@ main{flex:1;padding:48px 0 80px}
               <div class="payment-card-head">
                 <span class="payment-card-title">Informations de facturation</span>
               </div>
-              <div id="billingInfo">
+              <div id="billingInf✓>
                 <div class="info-row">
                   <span class="info-label">Email</span>
                   <span class="info-value" id="billingEmail">—</span>
@@ -545,7 +545,7 @@ main{flex:1;padding:48px 0 80px}
 
   async function initiateDownload(file, btn){
     btn.disabled = true;
-    btn.textContent = '…';
+    btn.textContent = '?';
     try {
       const r = await fetch(`/api/account/download?file=${encodeURIComponent(file)}`);
       const d = await r.json();
@@ -576,7 +576,7 @@ main{flex:1;padding:48px 0 80px}
     return `<div class="orders-grid">${orders.map(o=>`
       <div class="order-card">
         <div class="order-icon">${productIcon(o.productName)}</div>
-        <div class="order-info">
+        <div class="order-inf✓>
           <div class="order-name">${esc(o.productName)}</div>
           ${o.tierName?`<div class="order-tier">${esc(o.tierName)}</div>`:''}
           <div class="order-meta">

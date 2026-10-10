@@ -441,11 +441,11 @@ main{padding:40px 0 80px;position:relative;z-index:2}
     <!-- PROFILE HEADER -->
     <div class="profile-header" id="profileHeader" hidden>
       <div class="profile-avatar" id="profileAvatar">Y</div>
-      <div class="profile-info">
+      <div class="profile-inf✓>
         <h1 id="profileTitle" data-i18n="profile.title">Mon Profil</h1>
         <div class="email-badge" id="emailBadge">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
-          <span id="emailText">chargement…</span>
+          <span id="emailText">chargement?</span>
         </div>
         <div class="profile-status"><i></i><span data-i18n="profile.status">Compte actif</span></div>
       </div>
@@ -454,7 +454,7 @@ main{padding:40px 0 80px;position:relative;z-index:2}
     <!-- LOADER -->
     <div class="loader" id="globalLoader">
       <div class="loader-ring"></div>
-      Chargement du profil…
+      Chargement du profil?
     </div>
 
     <!-- TABS -->
@@ -482,7 +482,7 @@ main{padding:40px 0 80px;position:relative;z-index:2}
       <div class="tab-panel active" id="tab-orders">
         <div class="s-card">
           <div class="s-card-head">
-            <div class="s-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+            <div class="s-ic✓><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
             <h2 data-i18n="orders.title">Historique des commandes</h2>
           </div>
           <div id="ordersContent"></div>
@@ -493,7 +493,7 @@ main{padding:40px 0 80px;position:relative;z-index:2}
       <div class="tab-panel" id="tab-payment">
         <div class="s-card">
           <div class="s-card-head">
-            <div class="s-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+            <div class="s-ic✓><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
             <h2 data-i18n="payment.title">Moyens de paiement</h2>
           </div>
 
@@ -537,14 +537,14 @@ main{padding:40px 0 80px;position:relative;z-index:2}
       <div class="tab-panel" id="tab-security">
         <div class="s-card">
           <div class="s-card-head">
-            <div class="s-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+            <div class="s-ic✓><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
             <h2 data-i18n="security.title">Sécurité du compte</h2>
           </div>
 
           <div class="security-item">
             <div>
               <div class="sec-label-item" data-i18n="security.email">Email de connexion</div>
-              <div class="sec-desc" id="secEmail">chargement…</div>
+              <div class="sec-desc" id="secEmail">chargement?</div>
             </div>
             <button class="sec-action" onclick="resendLink()" data-i18n="security.change">Changer →</button>
           </div>
@@ -580,10 +580,10 @@ main{padding:40px 0 80px;position:relative;z-index:2}
       <div class="tab-panel" id="tab-changelog">
         <div class="s-card">
           <div class="s-card-head">
-            <div class="s-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+            <div class="s-ic✓><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
             <h2 data-i18n="changelog.title">Notes de mise à jour</h2>
           </div>
-          <div id="changelogContent"><div class="loader"><div class="loader-ring"></div>Chargement…</div></div>
+          <div id="changelogContent"><div class="loader"><div class="loader-ring"></div>Chargement?</div></div>
         </div>
       </div>
 
@@ -638,7 +638,7 @@ main{padding:40px 0 80px;position:relative;z-index:2}
   }
 
   async function initiateDownload(file, btn){
-    btn.disabled=true; btn.textContent='…';
+    btn.disabled=true; btn.textContent='?';
     try{
       const r=await fetch(`/api/account/download?file=${encodeURIComponent(file)}`);
       const data=await r.json();
@@ -653,11 +653,11 @@ main{padding:40px 0 80px;position:relative;z-index:2}
   window.handleDl=function(btn,file){initiateDownload(file,btn);};
 
   function renderOrders(orders){
-    if(!orders.length) return `<div class="empty"><div class="empty-ico">📦</div><h2 data-i18n="orders.empty.title">Aucune commande</h2><p data-i18n="orders.empty.desc">Tes achats apparaîtront ici après paiement.</p><a href="/" class="btn-prim" data-i18n="orders.shop">Voir la boutique</a></div>`;
+    if(!orders.length) return `<div class="empty"><div class="empty-ic✓>📦</div><h2 data-i18n="orders.empty.title">Aucune commande</h2><p data-i18n="orders.empty.desc">Tes achats apparaîtront ici après paiement.</p><a href="/" class="btn-prim" data-i18n="orders.shop">Voir la boutique</a></div>`;
     return `<div class="orders-list">${orders.map(o=>`
       <div class="order-card">
-        <div class="order-ico">${productIcon(o.productName)}</div>
-        <div class="order-info">
+        <div class="order-ic✓>${productIcon(o.productName)}</div>
+        <div class="order-inf✓>
           <div class="order-name">${escHtml(o.productName)}</div>
           ${o.tierName?`<div class="order-tier">${escHtml(o.tierName)}</div>`:''}
           <div class="order-meta">
@@ -687,7 +687,7 @@ main{padding:40px 0 80px;position:relative;z-index:2}
     list.innerHTML=cards.map((c,i)=>`
       <div class="pm-item${i===0?' default':''}">
         <div class="pm-brand">${c.brand||'CARD'}</div>
-        <div class="pm-info">
+        <div class="pm-inf✓>
           <div class="pm-num">•••• •••• •••• ${escHtml(c.last4)}</div>
           <div class="pm-exp">Expire ${escHtml(c.exp)}</div>
         </div>
@@ -747,7 +747,7 @@ main{padding:40px 0 80px;position:relative;z-index:2}
   // ─── RESEND LINK ───
   window.resendLink=async function(){
     const email=document.getElementById('emailText').textContent;
-    if(!email||email==='chargement…'){toast('Email introuvable',false);return;}
+    if(!email||email==='chargement?'){toast('Email introuvable',false);return;}
     try{
       const r=await fetch('/api/auth/send-link',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,action:'login'})});
       toast(r.ok?'Lien envoyé — vérifie ta boîte mail ✓':'Erreur envoi',r.ok);

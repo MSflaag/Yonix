@@ -3,9 +3,27 @@
 
 import Stripe from 'stripe';
 import { buildOrderMessage, sendOwnerDM } from './notify.js';
-import { createRateLimit, getClientIp } from './lib/ratelimit.js';
 
-const checkoutLimiter = createRateLimit('checkout', 10, 60 * 1000); // 10 per minute per IP
+// ── In-memory rate limiter ──
+const RL_WINDOW = 60 * 1000;  // 1 min
+const RL_MAX    = 5;           // 5 checkout attempts / IP / min
+const _rateMap  = new Map();
+
+function isRateLimited(ip) {
+  const now = Date.now();
+  const e   = _rateMap.get(ip);
+  if (!e || now > e.resetTime) { _rateMap.set(ip, { count: 1, resetTime: now + RL_WINDOW }); return false; }
+  if (e.count >= RL_MAX) return true;
+  e.count++;
+  return false;
+}
+
+function getClientIp(req) {
+  return (req.headers['x-forwarded-for'] || '').split(',')[0].trim()
+      || req.headers['x-real-ip']
+      || req.socket?.remoteAddress
+      || 'unknown';
+}
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2023-10-16',
@@ -28,13 +46,8 @@ export default async function handler(req, res) {
   }
 
   // Rate limiting
-  const ip = getClientIp(req);
-  const rl = checkoutLimiter(ip);
-  if (!rl.allowed) {
-    return res.status(429).json({
-      error: `Trop de requêtes. Réessaie dans ${rl.retryAfter} secondes.`,
-      retryAfter: rl.retryAfter,
-    });
+  if (isRateLimited(getClientIp(req))) {
+    return res.status(429).json({ error: 'Trop de tentatives. Attends 1 minute.', retryAfter: 60 });
   }
 
   const {
@@ -47,15 +60,10 @@ export default async function handler(req, res) {
     clientNom,
     clientDOB,
     clientEmail,
-    cgvAccepted,
   } = req.body || {};
 
   if (!productName || !tierName || !priceRaw) {
     return res.status(400).json({ error: 'Missing required fields' });
-  }
-
-  if (!cgvAccepted) {
-    return res.status(400).json({ error: 'Vous devez accepter les Conditions Générales de Vente.' });
   }
 
   const amountCents = parsePriceCents(priceRaw);

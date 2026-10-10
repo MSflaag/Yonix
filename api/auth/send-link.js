@@ -3,10 +3,30 @@
 // Env: RESEND_API_KEY, AUTH_SECRET, SITE_URL, RESEND_FROM (optionnel)
 
 import crypto from 'crypto';
-import { createRateLimit, getClientIp } from '../lib/ratelimit.js';
 
-const emailLimiter = createRateLimit('send-link-email', 3, 60 * 1000); // 3 per minute per email
-const ipLimiter = createRateLimit('send-link-ip', 10, 60 * 1000);     // 10 per minute per IP
+// ── In-memory rate limiter (per IP, resets in Vercel between cold starts — acceptable) ──
+const RL_WINDOW  = 60 * 1000;  // 1 minute window
+const RL_MAX     = 3;           // max 3 requests per IP per window
+const _rateMap   = new Map();
+
+function isRateLimited(ip) {
+  const now  = Date.now();
+  const entry = _rateMap.get(ip);
+  if (!entry || now > entry.resetTime) {
+    _rateMap.set(ip, { count: 1, resetTime: now + RL_WINDOW });
+    return false;
+  }
+  if (entry.count >= RL_MAX) return true;
+  entry.count++;
+  return false;
+}
+
+function getClientIp(req) {
+  return (req.headers['x-forwarded-for'] || '').split(',')[0].trim()
+      || req.headers['x-real-ip']
+      || req.socket?.remoteAddress
+      || 'unknown';
+}
 
 const SITE_URL = (process.env.SITE_URL || 'http://localhost:3000').replace(/\/$/, '');
 const AUTH_SECRET = process.env.AUTH_SECRET || 'changeme-32-chars-secret-key-here';
@@ -38,36 +58,27 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  // Rate limiting
+  const ip = getClientIp(req);
+  if (isRateLimited(ip)) {
+    return res.status(429).json({
+      error: 'Trop de tentatives. Attends 1 minute avant de réessayer.',
+      retryAfter: 60,
+    });
+  }
+
   const { email } = req.body || {};
 
   if (!email || !isValidEmail(email)) {
     return res.status(400).json({ error: 'Email invalide.' });
   }
 
-  const normalizedEmail = email.toLowerCase().trim();
-
-  // Rate limiting
-  const ip = getClientIp(req);
-  const ipCheck = ipLimiter(ip);
-  if (!ipCheck.allowed) {
-    return res.status(429).json({
-      error: `Trop de requêtes. Réessaie dans ${ipCheck.retryAfter} secondes.`,
-      retryAfter: ipCheck.retryAfter,
-    });
-  }
-
-  const emailCheck = emailLimiter(normalizedEmail);
-  if (!emailCheck.allowed) {
-    return res.status(429).json({
-      error: `Trop de requêtes pour cet email. Réessaie dans ${emailCheck.retryAfter} secondes.`,
-      retryAfter: emailCheck.retryAfter,
-    });
-  }
-
   if (!RESEND_API_KEY) {
     console.error('[send-link] RESEND_API_KEY manquante');
     return res.status(500).json({ error: 'Service email non configuré.' });
   }
+
+  const normalizedEmail = email.toLowerCase().trim();
   const token = generateToken(normalizedEmail);
   const link = `${SITE_URL}/api/auth/verify?token=${token}`;
 

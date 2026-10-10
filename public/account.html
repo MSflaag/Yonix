@@ -260,6 +260,135 @@ main{flex:1;padding:48px 0 80px}
 .dot.off{background:var(--dim);box-shadow:none}
 .status-text{font-size:12px;font-weight:600;color:var(--dim2)}
 
+/* ── Changelog modal ── */
+#changelogModal{
+  position:fixed;inset:0;z-index:500;
+  display:flex;align-items:center;justify-content:center;
+  padding:16px;
+  background:rgba(2,12,26,.85);
+  backdrop-filter:blur(12px);
+  opacity:0;pointer-events:none;
+  transition:opacity .25s;
+}
+#changelogModal.open{opacity:1;pointer-events:auto}
+.cl-box{
+  width:min(560px,100%);max-height:80dvh;
+  background:#041228;
+  border:1px solid rgba(0,200,255,.2);
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 32px 80px rgba(0,0,0,.7),0 0 0 1px rgba(0,200,255,.06);
+  display:flex;flex-direction:column;
+  transform:translateY(12px) scale(.98);
+  transition:transform .25s;
+}
+#changelogModal.open .cl-box{transform:translateY(0) scale(1)}
+.cl-header{
+  padding:18px 24px;
+  border-bottom:1px solid rgba(0,200,255,.12);
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(0,200,255,.03);flex-shrink:0;
+}
+.cl-title{
+  display:flex;align-items:center;gap:10px;
+  font-size:14px;font-weight:700;font-family:monospace;
+  color:var(--cyan2);
+}
+.cl-title-prefix{color:var(--dim);font-weight:400}
+.cl-close{
+  width:28px;height:28px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--dim);transition:background .2s,color .2s;cursor:pointer;
+}
+.cl-close:hover{background:rgba(255,255,255,.06);color:var(--white)}
+.cl-body{
+  padding:24px;overflow-y:auto;flex:1;
+  scrollbar-width:thin;scrollbar-color:rgba(0,200,255,.2) transparent;
+}
+.cl-entry{
+  position:relative;padding-left:28px;padding-bottom:28px;
+}
+.cl-entry:last-child{padding-bottom:0}
+.cl-entry::before{
+  content:'';position:absolute;left:6px;top:8px;bottom:0;
+  width:1px;background:linear-gradient(to bottom,rgba(0,200,255,.4),transparent);
+}
+.cl-entry:last-child::before{display:none}
+.cl-dot{
+  position:absolute;left:0;top:5px;
+  width:14px;height:14px;border-radius:50%;
+  background:linear-gradient(135deg,var(--blue),var(--blue2));
+  box-shadow:0 0 10px rgba(0,200,255,.5);
+  border:2px solid #041228;
+}
+.cl-version{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:12px;font-weight:700;letter-spacing:.06em;
+  color:var(--cyan2);font-family:monospace;
+  margin-bottom:4px;
+}
+.cl-version-tag{
+  padding:1px 8px;border-radius:100px;
+  font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.3);color:var(--green);
+}
+.cl-version-tag.hotfix{background:rgba(255,70,85,.1);border-color:rgba(255,70,85,.3);color:#ff8090}
+.cl-version-tag.beta{background:rgba(255,224,102,.1);border-color:rgba(255,224,102,.3);color:var(--yellow)}
+.cl-date{font-size:11px;color:var(--dim);margin-bottom:10px}
+.cl-items{display:flex;flex-direction:column;gap:5px}
+.cl-item{
+  display:flex;align-items:flex-start;gap:8px;
+  font-size:13px;color:var(--dim2);line-height:1.45;
+}
+.cl-item-dot{
+  width:5px;height:5px;border-radius:50%;
+  background:var(--blue2);flex-shrink:0;margin-top:6px;opacity:.7;
+}
+.cl-item strong{color:var(--white);font-weight:600}
+.cl-cursor{
+  display:inline-block;width:8px;height:14px;
+  background:var(--cyan2);margin-left:2px;
+  animation:blink .9s steps(1) infinite;vertical-align:text-bottom;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* ── i18n language picker ── */
+.lang-picker{position:relative;display:inline-flex;align-items:center}
+.lang-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:10px;background:rgba(0,200,255,.05);border:1px solid rgba(0,200,255,.18);color:var(--dim2);font-size:13px;font-weight:600;cursor:pointer;transition:background .2s,border-color .2s,color .2s;user-select:none}
+.lang-btn:hover{background:rgba(0,200,255,.1);border-color:rgba(0,200,255,.35);color:var(--white)}
+.lang-flag{font-size:15px;line-height:1}
+.lang-arrow{width:10px;height:10px;margin-left:2px;opacity:.7;transition:transform .2s;flex-shrink:0}
+.lang-picker.open .lang-arrow{transform:rotate(180deg)}
+.lang-dropdown{position:absolute;top:calc(100% + 8px);right:0;z-index:200;background:#041228;border:1px solid rgba(0,200,255,.25);border-radius:12px;padding:6px;box-shadow:0 8px 32px rgba(0,0,0,.6);backdrop-filter:blur(16px);opacity:0;transform:translateY(-6px) scale(.97);pointer-events:none;transition:opacity .18s,transform .18s;min-width:120px}
+.lang-picker.open .lang-dropdown{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+.lang-option{display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:8px;font-size:13px;font-weight:500;color:var(--dim2);cursor:pointer;transition:background .15s,color .15s;white-space:nowrap}
+.lang-option:hover{background:rgba(0,200,255,.08);color:var(--white)}
+.lang-option.active{color:var(--cyan2);font-weight:700}
+
+/* ===== DISCORD ===== */
+.discord-link-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:11px 20px;border-radius:12px;
+  background:rgba(88,101,242,.15);
+  border:1px solid rgba(88,101,242,.4);
+  color:#fff;font-size:14px;font-weight:600;
+  transition:background .2s,border-color .2s,box-shadow .2s,transform .15s;
+  text-decoration:none;cursor:pointer;
+}
+.discord-link-btn:hover{
+  background:rgba(88,101,242,.28);border-color:rgba(88,101,242,.7);
+  box-shadow:0 0 18px -4px rgba(88,101,242,.5);transform:translateY(-1px);
+}
+.discord-link-btn:active{transform:translateY(0)}
+.discord-linked-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 14px;border-radius:12px;
+  background:rgba(88,101,242,.12);border:1px solid rgba(88,101,242,.35);
+  color:#a5b4fc;font-size:13px;font-weight:600;
+}
+.discord-icon-sm{width:18px;height:18px;flex-shrink:0}
+.discord-tag{color:#c7d2fe;font-size:12px;margin-top:4px}
+
 /* ===== ERROR ===== */
 .error-box{
   padding:14px 18px;border-radius:12px;
@@ -298,6 +427,18 @@ main{flex:1;padding:48px 0 80px}
     </a>
     <div class="nav-spacer"></div>
     <a href="/" class="nav-link">Boutique</a>
+    <!-- Language picker -->
+    <div class="lang-picker" id="langPicker">
+      <button class="lang-btn" id="langBtn" aria-label="Langue" aria-expanded="false" onclick="toggleLang(event)">
+        <span class="lang-flag" id="langFlag">🇫🇷</span>
+        <span id="langCode">FR</span>
+        <svg class="lang-arrow" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 1l4 4 4-4"/></svg>
+      </button>
+      <div class="lang-dropdown" id="langDropdown" role="listbox">
+        <div class="lang-option active" role="option" data-lang="fr" onclick="setLang('fr')">🇫🇷 &nbsp;Français</div>
+        <div class="lang-option" role="option" data-lang="en" onclick="setLang('en')">🇬🇧 &nbsp;English</div>
+      </div>
+    </div>
     <button class="logout-btn" id="logoutBtn" onclick="doLogout()">Déconnexion</button>
   </div>
 </nav>
@@ -321,7 +462,7 @@ main{flex:1;padding:48px 0 80px}
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
             Changer l'avatar
           </button>
-          <div class="profile-name" id="profileName">Chargement?</div>
+          <div class="profile-name" id="profileName">Chargement…</div>
           <div class="profile-email" id="profileEmail"></div>
           <div class="profile-badge">
             <svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#4ade80"/></svg>
@@ -342,6 +483,10 @@ main{flex:1;padding:48px 0 80px}
           <button class="side-nav-item" data-panel="security" role="tab" aria-selected="false">
             <svg class="side-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             Sécurité
+          </button>
+          <button class="side-nav-item" onclick="openChangelog()" role="button">
+            <svg class="side-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            Changelog
           </button>
         </nav>
 
@@ -368,7 +513,7 @@ main{flex:1;padding:48px 0 80px}
 
           <div id="ordersLoader" class="loader">
             <div class="loader-ring"></div>
-            Chargement de tes commandes?
+            Chargement de tes commandes…
           </div>
           <div id="ordersContent"></div>
         </div>
@@ -403,7 +548,7 @@ main{flex:1;padding:48px 0 80px}
               <div class="payment-card-head">
                 <span class="payment-card-title">Informations de facturation</span>
               </div>
-              <div id="billingInf✓>
+              <div id="billingInfo">
                 <div class="info-row">
                   <span class="info-label">Email</span>
                   <span class="info-value" id="billingEmail">—</span>
@@ -468,6 +613,23 @@ main{flex:1;padding:48px 0 80px}
               </div>
             </div>
 
+            <!-- Discord card -->
+            <div class="security-card" id="discordCard">
+              <div class="security-row" style="border-bottom:none">
+                <div>
+                  <div class="security-label">Discord</div>
+                  <div class="security-desc" id="discordDesc">Lie ton compte Discord pour accéder aux serveurs et avantages exclusifs.</div>
+                  <div class="discord-tag" id="discordTag" hidden></div>
+                </div>
+                <div id="discordAction">
+                  <a class="discord-link-btn" href="/api/auth/discord">
+                    <svg class="discord-icon-sm" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.492c-1.53-.69-3.17-1.2-4.885-1.49a.075.075 0 0 0-.079.036c-.21.369-.444.85-.608 1.23a18.566 18.566 0 0 0-5.487 0 12.36 12.36 0 0 0-.617-1.23A.077.077 0 0 0 8.562 3c-1.714.29-3.354.8-4.885 1.491a.07.07 0 0 0-.032.027C.533 9.093-.32 13.555.099 17.961a.08.08 0 0 0 .031.055 20.03 20.03 0 0 0 5.993 2.98.078.078 0 0 0 .084-.026c.462-.62.874-1.275 1.226-1.963.021-.04.001-.088-.041-.104a13.201 13.201 0 0 1-1.872-.878.075.075 0 0 1-.008-.125c.126-.093.252-.19.372-.287a.075.075 0 0 1 .078-.01c3.927 1.764 8.18 1.764 12.061 0a.075.075 0 0 1 .079.009c.12.098.245.195.372.288a.075.075 0 0 1-.006.125c-.598.344-1.22.635-1.873.877a.075.075 0 0 0-.041.105c.36.687.772 1.341 1.225 1.962a.077.077 0 0 0 .084.028 19.963 19.963 0 0 0 6.002-2.981.076.076 0 0 0 .032-.054c.5-5.094-.838-9.52-3.549-13.442a.06.06 0 0 0-.031-.028zM8.02 15.278c-1.182 0-2.157-1.069-2.157-2.38 0-1.312.956-2.38 2.157-2.38 1.21 0 2.176 1.077 2.157 2.38 0 1.312-.956 2.38-2.157 2.38zm7.975 0c-1.183 0-2.157-1.069-2.157-2.38 0-1.312.955-2.38 2.157-2.38 1.21 0 2.176 1.077 2.157 2.38 0 1.312-.946 2.38-2.157 2.38z"/></svg>
+                    Lier Discord
+                  </a>
+                </div>
+              </div>
+            </div>
+
             <div class="security-card">
               <div style="margin-bottom:16px">
                 <div class="security-label">Se déconnecter de tous les appareils</div>
@@ -485,6 +647,21 @@ main{flex:1;padding:48px 0 80px}
     </div><!-- /layout -->
   </div><!-- /wrap -->
 </main>
+
+<!-- ════ CHANGELOG MODAL ════ -->
+<div id="changelogModal" role="dialog" aria-modal="true" aria-label="Changelog" onclick="if(event.target===this)closeChangelog()">
+  <div class="cl-box">
+    <div class="cl-header">
+      <div class="cl-title">
+        <span class="cl-title-prefix">~/yonix $</span> git log --oneline<span class="cl-cursor"></span>
+      </div>
+      <button class="cl-close" onclick="closeChangelog()" aria-label="Fermer">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="cl-body" id="clBody"></div>
+  </div>
+</div>
 
 <script>
 (function(){
@@ -545,7 +722,7 @@ main{flex:1;padding:48px 0 80px}
 
   async function initiateDownload(file, btn){
     btn.disabled = true;
-    btn.textContent = '?';
+    btn.textContent = '…';
     try {
       const r = await fetch(`/api/account/download?file=${encodeURIComponent(file)}`);
       const d = await r.json();
@@ -576,7 +753,7 @@ main{flex:1;padding:48px 0 80px}
     return `<div class="orders-grid">${orders.map(o=>`
       <div class="order-card">
         <div class="order-icon">${productIcon(o.productName)}</div>
-        <div class="order-inf✓>
+        <div class="order-info">
           <div class="order-name">${esc(o.productName)}</div>
           ${o.tierName?`<div class="order-tier">${esc(o.tierName)}</div>`:''}
           <div class="order-meta">
@@ -626,6 +803,55 @@ main{flex:1;padding:48px 0 80px}
 
 })();
 
+  // ── Discord link status ────────────────────────────────────────────
+  (function(){
+    const params = new URLSearchParams(location.search);
+    const status = params.get('discord');
+    const tag    = params.get('tag');
+
+    // Read yonix_discord cookie (not HttpOnly — wait, it IS HttpOnly)
+    // We check the URL param first, then assume linked if no param
+    if(status === 'linked') {
+      // Switch to security panel to show the result
+      const secBtn = document.querySelector('[data-panel="security"]');
+      if(secBtn) secBtn.click();
+      setDiscordLinked(tag ? decodeURIComponent(tag) : 'Discord');
+      // Clean URL
+      const url = new URL(location.href);
+      url.searchParams.delete('discord'); url.searchParams.delete('tag');
+      history.replaceState(null,'',url.toString());
+    } else if(status === 'error') {
+      const secBtn = document.querySelector('[data-panel="security"]');
+      if(secBtn) secBtn.click();
+      const reason = params.get('reason');
+      const msgs = {config:'Configuration manquante.',token:'Erreur d\'authentification.',profile:'Impossible de récupérer le profil Discord.'};
+      const eb = document.getElementById('errorBox');
+      eb.textContent = 'Discord: ' + (msgs[reason]||'Erreur inconnue.');
+      eb.hidden = false;
+      const url = new URL(location.href);
+      url.searchParams.delete('discord'); url.searchParams.delete('reason');
+      history.replaceState(null,'',url.toString());
+    } else if(status === 'cancelled') {
+      const url = new URL(location.href);
+      url.searchParams.delete('discord');
+      history.replaceState(null,'',url.toString());
+    }
+
+    // If we already have a stored discord tag (from a previous session), show it
+    const savedTag = localStorage.getItem('yonix_discord_tag');
+    if(savedTag && status !== 'linked') setDiscordLinked(savedTag);
+
+    function setDiscordLinked(tagName) {
+      localStorage.setItem('yonix_discord_tag', tagName);
+      const desc = document.getElementById('discordDesc');
+      const tagEl = document.getElementById('discordTag');
+      const action = document.getElementById('discordAction');
+      if(desc) desc.textContent = 'Compte Discord lié avec succès.';
+      if(tagEl) { tagEl.textContent = tagName; tagEl.hidden = false; }
+      if(action) action.innerHTML = `<span class="discord-linked-badge"><svg class="discord-icon-sm" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.492c-1.53-.69-3.17-1.2-4.885-1.49a.075.075 0 0 0-.079.036c-.21.369-.444.85-.608 1.23a18.566 18.566 0 0 0-5.487 0 12.36 12.36 0 0 0-.617-1.23A.077.077 0 0 0 8.562 3c-1.714.29-3.354.8-4.885 1.491a.07.07 0 0 0-.032.027C.533 9.093-.32 13.555.099 17.961a.08.08 0 0 0 .031.055 20.03 20.03 0 0 0 5.993 2.98.078.078 0 0 0 .084-.026c.462-.62.874-1.275 1.226-1.963.021-.04.001-.088-.041-.104a13.201 13.201 0 0 1-1.872-.878.075.075 0 0 1-.008-.125c.126-.093.252-.19.372-.287a.075.075 0 0 1 .078-.01c3.927 1.764 8.18 1.764 12.061 0a.075.075 0 0 1 .079.009c.12.098.245.195.372.288a.075.075 0 0 1-.006.125c-.598.344-1.22.635-1.873.877a.075.075 0 0 0-.041.105c.36.687.772 1.341 1.225 1.962a.077.077 0 0 0 .084.028 19.963 19.963 0 0 0 6.002-2.981.076.076 0 0 0 .032-.054c.5-5.094-.838-9.52-3.549-13.442a.06.06 0 0 0-.031-.028zM8.02 15.278c-1.182 0-2.157-1.069-2.157-2.38 0-1.312.956-2.38 2.157-2.38 1.21 0 2.176 1.077 2.157 2.38 0 1.312-.956 2.38-2.157 2.38zm7.975 0c-1.183 0-2.157-1.069-2.157-2.38 0-1.312.955-2.38 2.157-2.38 1.21 0 2.176 1.077 2.157 2.38 0 1.312-.946 2.38-2.157 2.38z"/></svg>Lié ✓</span>`;
+    }
+  })();
+
   // Avatar upload — localStorage persistence
   (function(){
     const inp = document.getElementById('avatarInput');
@@ -649,6 +875,125 @@ main{flex:1;padding:48px 0 80px}
       reader.readAsDataURL(file);
     });
   })();
+
+  // ── Changelog ────────────────────────────────────────────────────
+  const CHANGELOG = [
+    {
+      version: 'v1.5.0', tag: 'feature', date: '10 oct. 2026',
+      items: [
+        { text: '<strong>Discord OAuth2</strong> — Liaison compte Discord depuis le profil' },
+        { text: '<strong>i18n FR / EN</strong> — Sélecteur de langue dans la navbar' },
+        { text: '<strong>Rate limiting</strong> — Protection anti-spam sur les endpoints auth & checkout' },
+        { text: '<strong>Changelog</strong> — Ce modal terminal que tu lis en ce moment' },
+        { text: '<strong>CGV & mentions légales</strong> — Pages dédiées + checkbox au checkout' },
+      ],
+    },
+    {
+      version: 'v1.4.0', tag: 'feature', date: '22 sep. 2026',
+      items: [
+        { text: '<strong>Logos produits</strong> — Basic-Fit, Valorant, CS2 intégrés' },
+        { text: '<strong>Panier côté client</strong> — Cart drawer animé, badge dynamique' },
+        { text: '<strong>Page profil</strong> — Avatar upload, historique commandes, Stripe portal' },
+        { text: '<strong>Banner promo</strong> — Dismissable, sessionStorage' },
+        { text: '<strong>Countdown timer</strong> — Offres limitées dans le temps' },
+      ],
+    },
+    {
+      version: 'v1.3.0', tag: 'feature', date: '5 sep. 2026',
+      items: [
+        { text: '<strong>Navigation mobile</strong> — Hamburger menu, overflow-x bloqué' },
+        { text: '<strong>Magic link auth</strong> — HMAC-SHA256, 15 min, cookie 30 jours' },
+        { text: '<strong>Stripe Checkout</strong> — Sessions dynamiques, metadata produit' },
+        { text: '<strong>Discord notify</strong> — DM owner à chaque commande' },
+      ],
+    },
+    {
+      version: 'v1.2.1', tag: 'hotfix', date: '28 août 2026',
+      items: [
+        { text: 'Fix overflow horizontal sur mobile Safari' },
+        { text: 'Fix centrage logo carte produit' },
+        { text: 'RESEND_FROM fallback onboarding@resend.dev' },
+      ],
+    },
+    {
+      version: 'v1.0.0', tag: null, date: 'août 2026',
+      items: [
+        { text: '<strong>Lancement Yonix</strong> — Boutique opérationnelle' },
+        { text: 'Produits: Basic-Fit, Valorant Emu, Valorant Private, CS2 Cheat' },
+        { text: 'Auth email magic link + Stripe Checkout' },
+        { text: 'Déploiement Vercel + DNS via Cloudflare' },
+      ],
+    },
+  ];
+
+  function renderChangelog() {
+    const tagLabels = { feature:'release', hotfix:'hotfix', beta:'beta' };
+    return CHANGELOG.map(entry => `
+      <div class="cl-entry">
+        <div class="cl-dot"></div>
+        <div class="cl-version">
+          ${entry.version}
+          ${entry.tag ? `<span class="cl-version-tag ${entry.tag}">${tagLabels[entry.tag]||entry.tag}</span>` : ''}
+        </div>
+        <div class="cl-date">${entry.date}</div>
+        <div class="cl-items">
+          ${entry.items.map(i=>`<div class="cl-item"><div class="cl-item-dot"></div><span>${i.text}</span></div>`).join('')}
+        </div>
+      </div>`).join('');
+  }
+
+  window.openChangelog = function() {
+    const modal = document.getElementById('changelogModal');
+    const body  = document.getElementById('clBody');
+    if (!modal || !body) return;
+    body.innerHTML = renderChangelog();
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeChangelog = function() {
+    const modal = document.getElementById('changelogModal');
+    if (modal) modal.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
+  // Close on Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') window.closeChangelog();
+  });
+
+  // ── i18n lang picker (account page) ─────────────────────────────
+  (function(){
+    function syncLangUI(lang) {
+      const flag = document.getElementById('langFlag');
+      const code = document.getElementById('langCode');
+      if (flag) flag.textContent = lang === 'en' ? '🇬🇧' : '🇫🇷';
+      if (code) code.textContent = lang.toUpperCase();
+      document.querySelectorAll('.lang-option').forEach(o => o.classList.toggle('active', o.dataset.lang === lang));
+      document.documentElement.lang = lang;
+    }
+    window.setLang = function(lang) {
+      localStorage.setItem('yonix_lang', lang);
+      syncLangUI(lang);
+      const picker = document.getElementById('langPicker');
+      if (picker) { picker.classList.remove('open'); document.getElementById('langBtn')?.setAttribute('aria-expanded','false'); }
+    };
+    window.toggleLang = function(e) {
+      e.stopPropagation();
+      const picker = document.getElementById('langPicker');
+      const btn    = document.getElementById('langBtn');
+      const open   = picker.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(open));
+    };
+    document.addEventListener('click', function(e) {
+      const picker = document.getElementById('langPicker');
+      if (picker && !picker.contains(e.target)) { picker.classList.remove('open'); document.getElementById('langBtn')?.setAttribute('aria-expanded','false'); }
+    });
+    syncLangUI(localStorage.getItem('yonix_lang') || 'fr');
+  })();
 </script>
+<footer style="padding:28px 24px;border-top:1px solid var(--line);text-align:center;font-size:13px;color:var(--dim);margin-top:auto">
+  © 2026 Yonix — <a href="/cgv.html" style="color:var(--blue2)">CGV</a> · <a href="/legal.html" style="color:var(--blue2)">Mentions légales</a> · <a href="/" style="color:var(--blue2)">Boutique</a>
+</footer>
 </body>
 </html>

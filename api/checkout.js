@@ -4,27 +4,6 @@
 import Stripe from 'stripe';
 import { buildOrderMessage, sendOwnerDM } from './notify.js';
 
-// ── In-memory rate limiter ──
-const RL_WINDOW = 60 * 1000;  // 1 min
-const RL_MAX    = 5;           // 5 checkout attempts / IP / min
-const _rateMap  = new Map();
-
-function isRateLimited(ip) {
-  const now = Date.now();
-  const e   = _rateMap.get(ip);
-  if (!e || now > e.resetTime) { _rateMap.set(ip, { count: 1, resetTime: now + RL_WINDOW }); return false; }
-  if (e.count >= RL_MAX) return true;
-  e.count++;
-  return false;
-}
-
-function getClientIp(req) {
-  return (req.headers['x-forwarded-for'] || '').split(',')[0].trim()
-      || req.headers['x-real-ip']
-      || req.socket?.remoteAddress
-      || 'unknown';
-}
-
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2023-10-16',
 });
@@ -43,11 +22,6 @@ function parsePriceCents(raw) {
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  // Rate limiting
-  if (isRateLimited(getClientIp(req))) {
-    return res.status(429).json({ error: 'Trop de tentatives. Attends 1 minute.', retryAfter: 60 });
   }
 
   const {

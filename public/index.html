@@ -42,14 +42,13 @@ main,header,footer,section{position:relative;z-index:2}
 
 #bg{position:fixed;inset:0;z-index:0;pointer-events:none}
 .cursor-glow{position:fixed;left:0;top:0;width:620px;height:620px;margin:-310px 0 0 -310px;border-radius:50%;pointer-events:none;z-index:1;background:radial-gradient(circle,rgba(0,200,255,.1),transparent 65%);will-change:transform}
-.progress{position:fixed;left:0;top:env(safe-area-inset-top,0px);height:2px;width:100%;z-index:80;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--blue),var(--cyan),#fff);box-shadow:0 0 12px var(--cyan)}
 
 /* ===== NAV ===== */
 .nav{
   position:sticky;
   top:calc(env(safe-area-inset-top,0px) + 12px);
   z-index:60;
-  margin:12px 24px 0;
+  margin:10px 16px 0;
   border-radius:20px;
   border:1px solid rgba(0,200,255,.18);
   background:rgba(2,12,26,.72);
@@ -687,7 +686,6 @@ footer a:hover{color:var(--white)}
 
 <canvas id="bg" aria-hidden="true"></canvas>
 <div class="cursor-glow" id="cg" aria-hidden="true"></div>
-<div class="progress" id="prog"></div>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
 <defs>
@@ -1161,8 +1159,8 @@ for(let i=0;i<7;i++){
 const cg=$('#cg');let gx=innerWidth/2,gy=innerHeight/2,mx=0,my=0;
 addEventListener('pointermove',e=>{mouse.x=e.clientX;mouse.y=e.clientY;mouse.nx=e.clientX/innerWidth;mouse.ny=e.clientY/innerHeight},{passive:true});
 addEventListener('pointerleave',()=>{mouse.x=mouse.y=-999});
-const prog=$('#prog'),navEl=$('#nav');
-addEventListener('scroll',()=>{const y=window.scrollY;scrollD+=y-scrollY;scrollY=y;const max=document.documentElement.scrollHeight-innerHeight;prog.style.transform=`scaleX(${max>0?y/max:0})`;navEl.classList.toggle('scrolled',y>10)},{passive:true});
+,navEl=$('#nav');
+addEventListener('scroll',()=>{const y=window.scrollY;scrollD+=y-scrollY;scrollY=y;const max=document.documentElement.scrollHeight-innerHeight;navEl.classList.toggle('scrolled',y>10)},{passive:true});
 
 let last=performance.now();
 function frame(now){

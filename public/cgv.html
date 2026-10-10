@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Conditions Générales de Vente - YONIX</title>
+<meta name="theme-color" content="#020c1a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#020c1a;--bg2:#030f20;
+  --blue:#1a7cff;--blue2:#00c8ff;--cyan:#00e5ff;--cyan2:#7df9ff;
+  --white:#f0f8ff;--dim:#5f8aaa;--dim2:#8ab4d4;
+  --line:rgba(0,200,255,.15);--line2:rgba(0,200,255,.28);
+  --green:#4ade80;
+  --disp:'Bebas Neue',system-ui,sans-serif;
+  --body:'Space Grotesk','Segoe UI',system-ui,sans-serif;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg);color:var(--white);
+  font:400 16px/1.6 var(--body);
+  min-height:100dvh;display:flex;flex-direction:column;
+  background-image:
+    radial-gradient(1000px 700px at 80% -10%,rgba(0,200,255,.08),transparent 55%),
+    radial-gradient(800px 600px at -5% 60%,rgba(26,124,255,.1),transparent 55%);
+}
+a{color:inherit;text-decoration:none}
+
+/* NAV */
+.nav{
+  height:64px;display:flex;align-items:center;padding:0 24px;
+  border-bottom:1px solid var(--line);
+  background:rgba(2,12,26,.7);backdrop-filter:blur(16px);
+  position:sticky;top:0;z-index:10;
+}
+.brand{
+  display:flex;align-items:center;gap:10px;
+  font:700 1.9rem/1 var(--disp);letter-spacing:.04em;
+  background:linear-gradient(90deg,#fff 30%,var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+
+/* MAIN */
+main{
+  flex:1;display:flex;align-items:flex-start;justify-content:center;
+  padding:40px 16px;
+}
+.card{
+  width:min(800px,100%);
+  background:var(--bg2);
+  border:1px solid var(--line);
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 24px 64px rgba(0,0,0,.5);
+  padding:40px;
+  animation:fadein .5s ease-out;
+}
+@keyframes fadein { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+h1{
+  font:700 3rem/1 var(--disp);
+  margin-bottom:8px;
+  background:linear-gradient(90deg,#fff,var(--cyan2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  text-shadow:0 0 20px rgba(0,200,255,.3);
+  letter-spacing:.02em;
+}
+.date{color:var(--dim2);font-size:14px;margin-bottom:32px;border-bottom:1px solid var(--line);padding-bottom:24px}
+
+.section{
+  margin-bottom:32px;
+  background:rgba(0,200,255,.02);
+  border:1px solid rgba(0,200,255,.08);
+  border-radius:12px;
+  padding:24px;
+  transition:border-color .2s,background .2s;
+}
+.section:hover{
+  background:rgba(0,200,255,.04);
+  border-color:var(--line2);
+}
+h2{
+  font-size:1.2rem;font-weight:700;color:var(--cyan2);margin-bottom:12px;
+  display:flex;align-items:center;gap:8px;
+}
+h2::before{content:'';display:block;width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 10px var(--blue2)}
+p{color:var(--white);font-size:15px;margin-bottom:12px;line-height:1.7}
+p:last-child{margin-bottom:0}
+ul{margin-left:24px;color:var(--dim);font-size:15px;margin-bottom:12px}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--line);
+  padding:32px 24px;
+  text-align:center;color:var(--dim);font-size:14px;
+  background:var(--bg2);
+}
+.footer-links{display:flex;justify-content:center;gap:24px;margin-bottom:16px}
+.footer-links a{transition:color .2s}
+.footer-links a:hover{color:var(--cyan2);text-shadow:0 0 8px rgba(0,229,255,.5)}
+
+@media(max-width:600px){
+  .card{padding:24px}
+  h1{font-size:2.2rem}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brand" href="/">
+    <svg width="26" height="24" viewBox="360 366 540 504" aria-hidden="true">
+      <defs>
+        <linearGradient id="yA" gradientUnits="userSpaceOnUse" x1="370" y1="376" x2="640" y2="820"><stop offset="0" stop-color="#fff"/><stop offset=".28" stop-color="#a6dcff"/><stop offset=".55" stop-color="#3fc0ff"/><stop offset="1" stop-color="#0a6cff"/></linearGradient>
+        <linearGradient id="yB" gradientUnits="userSpaceOnUse" x1="642" y1="610" x2="891" y2="376"><stop offset="0" stop-color="#7df9ff"/><stop offset="1" stop-color="#0f9fff"/></linearGradient>
+      </defs>
+      <path fill="url(#yA)" d="M370 376H502L682 611V756L572 860V629Z"/>
+      <path fill="url(#yB)" d="M759 376H891L704 605L642 527Z"/>
+    </svg>
+    YONIX
+  </a>
+</nav>
+
+<main>
+  <div class="card">
+    <h1>Conditions Générales de Vente</h1>
+    <div class="date">Dernière mise à jour : 10 octobre 2026</div>
+
+    <div class="section">
+      <h2>Article 1 — Objet</h2>
+      <p>Les présentes Conditions Générales de Vente (CGV) régissent les ventes de produits numériques proposées sur le site yonix.fr. En passant commande, le client accepte ces CGV sans réserve.</p>
+    </div>
+
+    <div class="section">
+      <h2>Article 2 — Prix et paiement</h2>
+      <p>Les prix de nos produits sont indiqués en euros toutes taxes comprises (TTC). Le paiement est exigible immédiatement à la commande, y compris pour les produits en précommande. Les transactions sont sécurisées et traitées via la plateforme Stripe.</p>
+    </div>
+
+    <div class="section">
+      <h2>Article 3 — Produits numériques</h2>
+      <p>Yonix propose la vente de contenus numériques non fournis sur un support matériel (outils logiciels, fichiers numériques, licences). Les caractéristiques essentielles des produits sont décrites sur la page de chaque produit dans la boutique.</p>
+    </div>
+
+    <div class="section">
+      <h2>Article 4 — Livraison</h2>
+      <p>La livraison des produits numériques est effectuée soit de manière instantanée par téléchargement direct après validation du paiement, soit dans un délai maximum de 24h via un lien sécurisé transmis par email ou via Discord.</p>
+    </div>
+
+    <div class="section">
+      <h2>Article 5 — Droit de rétractation</h2>
+      <p>Conformément aux dispositions de l'article L221-28 du Code de la consommation, le droit de rétractation ne peut être exercé pour les contrats de fourniture d'un contenu numérique non fourni sur un support matériel dont l'exécution a commencé après accord préalable exprès du consommateur et renoncement exprès à son droit de rétractation. Par conséquent, les achats de produits numériques sur Yonix sont fermes et définitifs dès lors que le téléchargement ou l'accès au produit a été fourni.</p>
+    </div>
+
+    <div class="section">
+      <h2>Article 6 — Responsabilité</h2>
+      <p>Yonix ne saurait être tenu pour responsable des dommages indirects qui pourraient survenir du fait de l'achat des produits. La responsabilité de Yonix est systématiquement limitée à la valeur du produit mis en cause, valeur à sa date de vente.</p>
+    </div>
+
+    <div class="section">
+      <h2>Article 7 — Propriété intellectuelle</h2>
+      <p>Tous les éléments du site yonix.fr ainsi que les produits numériques vendus sont et restent la propriété intellectuelle et exclusive de Yonix. Nul n'est autorisé à reproduire, exploiter, rediffuser, ou utiliser à quelque titre que ce soit, même partiellement, des éléments du site qu'ils soient logiciels, visuels ou sonores.</p>
+    </div>
+
+    <div class="section">
+      <h2>Article 8 — Données personnelles</h2>
+      <p>Yonix collecte l'adresse email de l'acheteur pour le traitement de la commande et la gestion du compte client. Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et d'opposition aux données personnelles vous concernant. Voir nos Mentions Légales pour plus de détails.</p>
+    </div>
+
+    <div class="section">
+      <h2>Article 9 — Droit applicable</h2>
+      <p>Les présentes conditions de vente à distance sont soumises à la loi française. Pour tous litiges ou contentieux, le Tribunal compétent sera celui du siège social de Yonix.</p>
+    </div>
+
+    <div class="section">
+      <h2>Article 10 — Contact</h2>
+      <p>Pour toute question ou réclamation, vous pouvez nous contacter à l'adresse suivante : contact@yonix.fr</p>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="footer-links">
+    <a href="/">Boutique</a>
+    <a href="/cgv.html">CGV</a>
+    <a href="/legal.html">Mentions légales</a>
+  </div>
+  <div>&copy; 2026 YONIX. Tous droits réservés.</div>
+</footer>
+
+</body>
+</html>

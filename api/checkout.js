@@ -3,6 +3,9 @@
 
 import Stripe from 'stripe';
 import { buildOrderMessage, sendOwnerDM } from './notify.js';
+import { createRateLimit, getClientIp } from './lib/ratelimit.js';
+
+const checkoutLimiter = createRateLimit('checkout', 10, 60 * 1000); // 10 per minute per IP
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2023-10-16',
@@ -24,6 +27,16 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  // Rate limiting
+  const ip = getClientIp(req);
+  const rl = checkoutLimiter(ip);
+  if (!rl.allowed) {
+    return res.status(429).json({
+      error: `Trop de requêtes. Réessaie dans ${rl.retryAfter} secondes.`,
+      retryAfter: rl.retryAfter,
+    });
+  }
+
   const {
     productName,
     tierName,
@@ -34,10 +47,15 @@ export default async function handler(req, res) {
     clientNom,
     clientDOB,
     clientEmail,
+    cgvAccepted,
   } = req.body || {};
 
   if (!productName || !tierName || !priceRaw) {
     return res.status(400).json({ error: 'Missing required fields' });
+  }
+
+  if (!cgvAccepted) {
+    return res.status(400).json({ error: 'Vous devez accepter les Conditions Générales de Vente.' });
   }
 
   const amountCents = parsePriceCents(priceRaw);

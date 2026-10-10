@@ -1,0 +1,47 @@
+[
+  {
+    "version": "5.2.0",
+    "date": "2026-10-08",
+    "tag": "NEW",
+    "changes": [
+      "Ajout liaison Discord OAuth2",
+      "Sélecteur de langue FR/EN avec drapeaux",
+      "Pages Conditions Générales de Vente et Mentions Légales",
+      "Rate limiting sur les routes API sensibles",
+      "Section Changelog avec timeline dans le profil"
+    ]
+  },
+  {
+    "version": "5.1.0",
+    "date": "2026-09-15",
+    "tag": "UPDATE",
+    "changes": [
+      "Nouveau design 3D de la page d'accueil",
+      "Refonte complète de l'espace client",
+      "Amélioration du panier et du checkout",
+      "Optimisation des performances"
+    ]
+  },
+  {
+    "version": "5.0.1",
+    "date": "2026-08-20",
+    "tag": "FIX",
+    "changes": [
+      "Correction bug téléchargement fichiers",
+      "Fix responsive design mobile",
+      "Correction de l'envoi des emails magic link"
+    ]
+  },
+  {
+    "version": "5.0.0",
+    "date": "2026-07-01",
+    "tag": "RELEASE",
+    "changes": [
+      "Lancement officiel Yonix v5",
+      "Système d'authentification magic link",
+      "Intégration Stripe Checkout",
+      "Dashboard client avec historique commandes",
+      "Notifications Discord automatiques"
+    ]
+  }
+]

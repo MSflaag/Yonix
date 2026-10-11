@@ -100,31 +100,40 @@ async function loadOrder(){
 
   const m=data.metadata||{};
   const isBundle=m.productName&&m.productName.toLowerCase().includes('bundle');
+  const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-  let html=`<div class="product-name">${m.productName||'Produit'}${m.tierName?' — '+m.tierName:''}</div>`;
+  let html=`<div class="product-name">${esc(m.productName||'Produit')}${m.tierName?' — '+esc(m.tierName):''}</div>`;
+
+  if(m.deliveredProduct){
+    html+=`<div class="dl-section">
+      <h2>Ton produit livré sur le site</h2>
+      <pre style="text-align:left;white-space:pre-wrap;word-break:break-word;background:rgba(0,200,255,.08);border:1px solid rgba(0,200,255,.3);padding:14px;border-radius:10px;color:#fff;font-size:13.5px;margin-bottom:10px">${esc(m.deliveredProduct)}</pre>
+    </div>`;
+  }
 
   if(m.downloadFile){
-    // Single jailbreak download
     html+=`<div class="dl-section">
-      <h2>📥 Ton fichier est prêt</h2>
+      <h2>Ton fichier est prêt</h2>
       <a class="dl-btn" href="/files/${encodeURIComponent(m.downloadFile)}" download>
-        ⬇️ Télécharger ${m.downloadFile}
+        Télécharger ${esc(m.downloadFile)}
       </a>
     </div>`;
   } else if(isBundle){
-    // Bundle — all 11 files
     html+=`<div class="dl-section">
-      <h2>📦 Tes 11 fichiers sont prêts</h2>
-      ${BUNDLE_FILES.map(f=>`<a class="dl-btn" href="/files/${encodeURIComponent(f.file)}" download>⬇️ ${f.label}</a>`).join('')}
+      <h2>Tes 11 fichiers sont prêts</h2>
+      ${BUNDLE_FILES.map(f=>`<a class="dl-btn" href="/files/${encodeURIComponent(f.file)}" download>${esc(f.label)}</a>`).join('')}
     </div>`;
-  } else {
-    // Service (Basic Fit, etc.) — human delivery
+  } else if(!m.deliveredProduct){
     html+=`<div class="discord-info">
-      <p>🎯 <strong>Ta commande est bien reçue.</strong></p>
-      <p style="margin-top:8px">Notre équipe va prendre en charge ta demande et te contactera sous <strong>24h</strong> via Discord ou email.</p>
-      <p style="margin-top:8px;font-size:12px;color:rgba(255,255,255,.4)">Réf. : ${sid.slice(-12)}</p>
+      <p><strong>Ta commande est bien enregistrée sur ton compte.</strong></p>
+      <p style="margin-top:8px">Ton produit (clé, identifiants ou fichier) te sera envoyé <strong>directement sur le site dans ton espace Mon Compte</strong> dès validation.</p>
+      <p style="margin-top:8px;font-size:12px;color:rgba(255,255,255,.4)">Réf. : ${esc(sid.slice(-12))}</p>
     </div>`;
   }
+
+  html+=`<div style="margin-top:18px">
+    <a class="dl-btn" href="/profile">Accéder à mes commandes &amp; produits reçus</a>
+  </div>`;
 
   el.innerHTML=html;
 }

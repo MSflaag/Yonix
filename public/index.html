@@ -3121,33 +3121,43 @@ dialog::backdrop {
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
 
+    <div id="authOrderGateNotice" style="display:none;margin-bottom:16px;padding:10px 13px;border-radius:10px;background:var(--blue-soft);border:1px solid rgba(78,124,255,.3);color:var(--blue);font-size:12.5px;font-weight:600;line-height:1.45">
+      Connexion obligatoire : connecte-toi ou crée un compte avec un email vérifié pour commander et recevoir tes produits directement sur le site.
+    </div>
+
     <div class="auth-tabs" role="tablist">
       <button class="auth-tab active" role="tab" aria-selected="true" data-tab="login">Se connecter</button>
       <button class="auth-tab" role="tab" aria-selected="false" data-tab="register">Créer un compte</button>
     </div>
 
     <div class="auth-panel active" id="panel-login">
-      <label class="auth-label" for="authEmail">Adresse email</label>
-      <input class="auth-input" type="email" id="authEmail" placeholder="toi@exemple.com" autocomplete="email">
+      <label class="auth-label" for="authEmail">Adresse email vérifiée</label>
+      <input class="auth-input" type="email" id="authEmail" placeholder="toi@gmail.com" autocomplete="email">
+      <label class="auth-label" for="authPassword">Mot de passe</label>
+      <input class="auth-input" type="password" id="authPassword" placeholder="Ton mot de passe" autocomplete="current-password">
       <button class="auth-btn" id="authSendBtn" type="button">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
-        <span id="authSendLabel">Envoyer le lien de connexion</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <span id="authSendLabel">Se connecter</span>
         <div class="auth-spin" id="authSpin"></div>
       </button>
       <div class="auth-msg" id="authMsg"></div>
-      <p class="auth-footer">Aucun mot de passe requis — tu reçois un lien par email.</p>
+      <p class="auth-footer">Connecte-toi pour commander et recevoir tes produits dans ton espace sur le site.</p>
     </div>
 
     <div class="auth-panel" id="panel-register">
-      <label class="auth-label" for="authRegEmail">Adresse email</label>
-      <input class="auth-input" type="email" id="authRegEmail" placeholder="toi@exemple.com" autocomplete="email">
+      <label class="auth-label" for="authRegEmail">Adresse email vérifiée</label>
+      <input class="auth-input" type="email" id="authRegEmail" placeholder="toi@gmail.com" autocomplete="email">
+      <label class="auth-label" for="authRegPassword">Créer un mot de passe (min. 6 caractères)</label>
+      <input class="auth-input" type="password" id="authRegPassword" placeholder="Minimum 6 caractères" autocomplete="new-password">
+      <label class="auth-label" for="authRegConfirm">Confirmer le mot de passe</label>
+      <input class="auth-input" type="password" id="authRegConfirm" placeholder="Répète ton mot de passe" autocomplete="new-password">
       <button class="auth-btn" id="authRegBtn" type="button">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
         <span id="authRegLabel">Créer mon compte</span>
         <div class="auth-spin" id="authRegSpin"></div>
       </button>
       <div class="auth-msg" id="authRegMsg"></div>
-      <p class="auth-footer">Un lien de confirmation sera envoyé à ton email.</p>
+      <p class="auth-footer">Domaines vérifiés uniquement (Gmail, Outlook, Hotmail, iCloud, Yahoo, Orange, Free, SFR, La Poste, Proton…). Les temp-mails sont bloqués.</p>
     </div>
   </div>
 </div>
@@ -3576,6 +3586,10 @@ $$('.rv').forEach((el, i) => reveal(el, (i % 4) * 50));
   bl.innerHTML = items.map(it => `<span class="b-logo"><img src="${it.img}" alt="${it.name}"><span>${it.name}</span></span>`).join('');
 
   $('#bundleBuyBtn').addEventListener('click', async () => {
+    if (!window.CURRENT_USER_EMAIL && typeof window.requireAuthForOrder === 'function') {
+      window.requireAuthForOrder(() => $('#bundleBuyBtn').click());
+      return;
+    }
     const btn = $('#bundleBuyBtn');
     btn.disabled = true;
     btn.textContent = 'Redirection Stripe…';
@@ -3586,6 +3600,14 @@ $$('.rv').forEach((el, i) => reveal(el, (i % 4) * 50));
         body: JSON.stringify({ productName: BUNDLE.name, tierName: 'Bundle Complet', priceRaw: BUNDLE.price })
       });
       const data = await res.json();
+      if (res.status === 401 || data.requireAuth) {
+        btn.disabled = false;
+        btn.innerHTML = `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span>Acheter le Bundle — 110€</span>`;
+        if (typeof window.requireAuthForOrder === 'function') {
+          window.requireAuthForOrder(() => $('#bundleBuyBtn').click());
+        }
+        return;
+      }
       if (data.url) {
         window.location.href = data.url;
       } else {
@@ -3772,6 +3794,31 @@ $('#dlgBuy').addEventListener('click', async () => {
   const btn = $('#dlgBuy');
   const originalText = btn.textContent;
 
+  if (!window.CURRENT_USER_EMAIL && typeof window.requireAuthForOrder === 'function') {
+    const savedProdId = curProd.id;
+    const savedTierIdx = selTier;
+    modal.close();
+    window.requireAuthForOrder(() => {
+      if (savedProdId === 'basic-fit') {
+        openProduct(savedProdId, savedTierIdx);
+      } else if (typeof addToCart === 'function') {
+        const p = PRODUCTS.find(x => x.id === savedProdId);
+        if (p && p.tiers[savedTierIdx]) {
+          addToCart({
+            name: p.name,
+            tier: p.tiers[savedTierIdx].dur,
+            price: p.tiers[savedTierIdx].price,
+            img: p.img || '',
+            productId: p.id,
+            tierId: savedTierIdx
+          });
+          if (typeof openCart === 'function') openCart();
+        }
+      }
+    });
+    return;
+  }
+
   if (curProd.id === 'basic-fit') {
     const prenom = $('#bfPrenom').value.trim();
     const nom = $('#bfNom').value.trim();
@@ -3785,6 +3832,13 @@ $('#dlgBuy').addEventListener('click', async () => {
       const payload = { productName: curProd.name, tierName: tier.dur, priceRaw: tier.price, clientPrenom: prenom, clientNom: nom, clientDOB: dob, clientEmail: email };
       const res = await fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
       const data = await res.json();
+      if (res.status === 401 || data.requireAuth) {
+        btn.disabled = false;
+        btn.textContent = originalText;
+        modal.close();
+        if (typeof window.requireAuthForOrder === 'function') window.requireAuthForOrder();
+        return;
+      }
       if (data.url) { window.location.href = data.url; }
       else { toast('Erreur : ' + (data.error || 'Réponse invalide')); btn.disabled = false; btn.textContent = originalText; }
     } catch (e) {
@@ -3858,24 +3912,31 @@ function openJB(id, skipPush = false) {
 }
 window.openJB = openJB;
 
-$('#jbBuyBtn').addEventListener('click', async () => {
+$('#jbBuyBtn').addEventListener('click', () => {
   if (!curJB) return;
-  const btn = $('#jbBuyBtn');
-  btn.disabled = true;
-  btn.textContent = 'Redirection Stripe…';
-  try {
-    const res = await fetch('/api/checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ productName: curJB.name, tierName: 'Accès unique', priceRaw: curJB.price, downloadFile: curJB.file })
+  const item = {
+    name: curJB.name,
+    tier: 'Accès unique (.txt)',
+    price: curJB.price,
+    img: curJB.img || '',
+    productId: curJB.id,
+    tierId: 0,
+    downloadFile: curJB.file || ''
+  };
+  jbModal.close();
+  if (!window.CURRENT_USER_EMAIL && typeof window.requireAuthForOrder === 'function') {
+    window.requireAuthForOrder(() => {
+      if (typeof addToCart === 'function') {
+        addToCart(item);
+        if (typeof openCart === 'function') openCart();
+      }
     });
-    const data = await res.json();
-    if (data.url) { window.location.href = data.url; }
-    else { toast('Erreur : ' + (data.error || 'Réponse invalide')); btn.disabled = false; btn.textContent = 'Purchase — 25€'; }
-  } catch (e) {
-    toast('Erreur réseau — réessaie.');
-    btn.disabled = false;
-    btn.textContent = 'Purchase — 25€';
+    return;
+  }
+  if (typeof addToCart === 'function') {
+    addToCart(item);
+    if (typeof openCart === 'function') openCart();
+    toast('Ajouté au panier');
   }
 });
 
@@ -3980,8 +4041,51 @@ window.toast = toast;
   const backdrop = document.getElementById('authBackdrop');
   const closeBtn = document.getElementById('authClose');
   const tabs = document.querySelectorAll('.auth-tab');
+  const orderNotice = document.getElementById('authOrderGateNotice');
   let locked = false;
   let prevPathBeforeAuth = '/';
+  let pendingOrderCallback = null;
+
+  const ALLOWED_DOMAINS = new Set([
+    'gmail.com','googlemail.com','outlook.com','outlook.fr','hotmail.com','hotmail.fr',
+    'live.com','live.fr','msn.com','icloud.com','me.com','mac.com',
+    'yahoo.com','yahoo.fr','ymail.com','orange.fr','wanadoo.fr','free.fr',
+    'sfr.fr','neuf.fr','laposte.net','proton.me','protonmail.com','pm.me',
+    'gmx.fr','gmx.com','aol.com','zoho.com','bbox.fr','numericable.fr'
+  ]);
+
+  function validateVerifiedEmailClient(email) {
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return { ok: false, error: 'Entre une adresse email valide.' };
+    }
+    const domain = email.toLowerCase().split('@')[1] || '';
+    if (!ALLOWED_DOMAINS.has(domain)) {
+      return {
+        ok: false,
+        error: 'Domaine non autorisé (anti temp-mail). Utilise un fournisseur vérifié (Gmail, Outlook, iCloud, Yahoo, Orange, Free, Proton…).'
+      };
+    }
+    return { ok: true };
+  }
+
+  function applyAuthenticatedState(email) {
+    window.CURRENT_USER_EMAIL = email;
+    const label = document.getElementById('navLoginLabel');
+    if (label) label.textContent = 'Mon compte';
+    const btn = document.getElementById('navLoginBtn');
+    if (btn) btn.onclick = () => { window.location.href = '/profile'; };
+    const mobLabel = document.getElementById('mobLoginLabel');
+    if (mobLabel) mobLabel.textContent = 'Mon compte (' + email + ')';
+  }
+
+  window.requireAuthForOrder = function(callback) {
+    pendingOrderCallback = typeof callback === 'function' ? callback : null;
+    if (orderNotice) orderNotice.style.display = 'block';
+    window.openAuth('register');
+    if (window.toast) {
+      window.toast('Connecte-toi ou crée un compte (email vérifié + mot de passe) pour commander.');
+    }
+  };
 
   window.openAuth = function(tab, skipPush = false) {
     if (!overlay.classList.contains('open')) {
@@ -3995,7 +4099,7 @@ window.toast = toast;
       window.setCleanUrl(activeTab === 'register' ? '/inscription' : '/connexion');
     }
     setTimeout(() => {
-      document.getElementById(activeTab === 'login' ? 'authEmail' : 'authRegEmail').focus();
+      document.getElementById(activeTab === 'login' ? 'authEmail' : 'authRegEmail')?.focus();
     }, 250);
   };
 
@@ -4003,6 +4107,7 @@ window.toast = toast;
     if (!overlay.classList.contains('open')) return;
     overlay.classList.remove('open');
     document.body.style.overflow = '';
+    if (orderNotice) orderNotice.style.display = 'none';
     if (window.setCleanUrl && (location.pathname === '/connexion' || location.pathname === '/inscription')) {
       window.setCleanUrl(prevPathBeforeAuth || '/', true);
     }
@@ -4027,39 +4132,75 @@ window.toast = toast;
   backdrop.addEventListener('click', closeAuth);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAuth(); });
 
-  async function sendLink(emailInputId, btnId, labelId, spinId, msgId) {
-    const email = document.getElementById(emailInputId).value.trim();
-    const btn = document.getElementById(btnId);
-    const label = document.getElementById(labelId);
-    const spin = document.getElementById(spinId);
-    const msg = document.getElementById(msgId);
+  async function submitAuth(mode) {
+    const isReg = mode === 'register';
+    const emailInput = document.getElementById(isReg ? 'authRegEmail' : 'authEmail');
+    const passInput = document.getElementById(isReg ? 'authRegPassword' : 'authPassword');
+    const confirmInput = isReg ? document.getElementById('authRegConfirm') : null;
+    const btn = document.getElementById(isReg ? 'authRegBtn' : 'authSendBtn');
+    const label = document.getElementById(isReg ? 'authRegLabel' : 'authSendLabel');
+    const spin = document.getElementById(isReg ? 'authRegSpin' : 'authSpin');
+    const msg = document.getElementById(isReg ? 'authRegMsg' : 'authMsg');
+
+    const email = (emailInput?.value || '').trim().toLowerCase();
+    const password = passInput?.value || '';
+    const confirm = confirmInput?.value || '';
 
     msg.className = 'auth-msg';
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      msg.textContent = 'Entre une adresse email valide.';
+
+    const emailCheck = validateVerifiedEmailClient(email);
+    if (!emailCheck.ok) {
+      msg.textContent = emailCheck.error;
       msg.className = 'auth-msg err';
       return;
     }
+
+    if (!password || password.length < 6) {
+      msg.textContent = 'Le mot de passe doit contenir au moins 6 caractères.';
+      msg.className = 'auth-msg err';
+      return;
+    }
+
+    if (isReg && password !== confirm) {
+      msg.textContent = 'Les mots de passe ne correspondent pas.';
+      msg.className = 'auth-msg err';
+      return;
+    }
+
     if (locked) return;
     locked = true;
     btn.disabled = true;
-    label.textContent = 'Envoi…';
+    label.textContent = isReg ? 'Création…' : 'Connexion…';
     spin.style.display = 'block';
 
     try {
       const r = await fetch('/api/auth/send-link', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
+        body: JSON.stringify({ email, password, action: isReg ? 'register' : 'login' })
       });
       const data = await r.json();
-      if (r.ok) {
-        msg.textContent = 'Lien envoyé. Vérifie ta boîte mail (et les spams).';
+      if (r.ok && data.ok) {
+        applyAuthenticatedState(data.email || email);
+        msg.textContent = isReg
+          ? 'Compte créé et connecté !'
+          : 'Connexion réussie !';
         msg.className = 'auth-msg ok';
-        document.getElementById(emailInputId).value = '';
-        setTimeout(() => { btn.disabled = false; locked = false; }, 60000);
+        if (window.toast) {
+          window.toast(isReg ? 'Compte créé ! Tu es connecté.' : 'Connecté avec succès !');
+        }
+        setTimeout(() => {
+          btn.disabled = false;
+          locked = false;
+          closeAuth();
+          if (pendingOrderCallback) {
+            const cb = pendingOrderCallback;
+            pendingOrderCallback = null;
+            cb();
+          }
+        }, 500);
       } else {
-        msg.textContent = data.error || 'Erreur lors de l\'envoi.';
+        msg.textContent = data.error || 'Erreur lors de l\'authentification.';
         msg.className = 'auth-msg err';
         btn.disabled = false;
         locked = false;
@@ -4070,28 +4211,33 @@ window.toast = toast;
       btn.disabled = false;
       locked = false;
     } finally {
-      label.textContent = btnId === 'authSendBtn' ? 'Envoyer le lien de connexion' : 'Créer mon compte';
+      label.textContent = isReg ? 'Créer mon compte' : 'Se connecter';
       spin.style.display = 'none';
     }
   }
 
-  document.getElementById('authSendBtn').addEventListener('click', () => sendLink('authEmail','authSendBtn','authSendLabel','authSpin','authMsg'));
-  document.getElementById('authRegBtn').addEventListener('click', () => sendLink('authRegEmail','authRegBtn','authRegLabel','authRegSpin','authRegMsg'));
+  document.getElementById('authSendBtn').addEventListener('click', () => submitAuth('login'));
+  document.getElementById('authRegBtn').addEventListener('click', () => submitAuth('register'));
 
-  ['authEmail','authRegEmail'].forEach(id => {
-    document.getElementById(id).addEventListener('keydown', e => {
-      if (e.key === 'Enter') document.getElementById(id === 'authEmail' ? 'authSendBtn' : 'authRegBtn').click();
+  ['authEmail','authPassword'].forEach(id => {
+    document.getElementById(id)?.addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('authSendBtn').click();
+    });
+  });
+  ['authRegEmail','authRegPassword','authRegConfirm'].forEach(id => {
+    document.getElementById(id)?.addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('authRegBtn').click();
     });
   });
 
   (async function checkSession() {
     try {
       const r = await fetch('/api/account/orders');
-      const label = document.getElementById('navLoginLabel');
       if (r.ok) {
-        if (label) label.textContent = 'Mon compte';
-        const btn = document.getElementById('navLoginBtn');
-        if (btn) btn.onclick = () => { window.location.href = '/profile'; };
+        const data = await r.json();
+        if (data && data.email) {
+          applyAuthenticatedState(data.email);
+        }
       }
     } catch (e) {}
   })();
@@ -4244,21 +4390,54 @@ window.toast = toast;
   };
   window.checkoutCart = async function() {
     if (!cart.length) return;
+    if (!window.CURRENT_USER_EMAIL) {
+      if (window.closeCart) window.closeCart();
+      if (window.requireAuthForOrder) {
+        window.requireAuthForOrder(() => window.checkoutCart());
+      } else if (window.openAuth) {
+        window.openAuth('register');
+      }
+      return;
+    }
     const btn = document.getElementById('cartCheckoutBtn');
     btn.disabled = true;
     btn.innerHTML = `<span>Traitement…</span>`;
     try {
-      const item = cart[0];
+      const isMulti = cart.length > 1;
+      const totalStr = (totalCents() / 100).toFixed(2).replace('.', ',') + '€';
+      const combinedName = isMulti
+        ? cart.map(i => i.tier ? `${i.name} (${i.tier})` : i.name).join(' + ')
+        : cart[0].name;
+      const combinedTier = isMulti
+        ? `${cart.length} articles`
+        : (cart[0].tier || 'Accès unique');
+      const dlFiles = cart.map(i => i.downloadFile).filter(Boolean).join(',');
       const body = {
-        productId: item.productId,
-        tierId: item.tierId,
-        productName: item.name,
-        tierName: item.tier,
-        priceRaw: item.price,
-        price: item.price
+        productId: isMulti ? cart.map(i => i.productId).join(',') : cart[0].productId,
+        tierId: isMulti ? 'multi' : cart[0].tierId,
+        productName: combinedName,
+        tierName: combinedTier,
+        priceRaw: totalStr,
+        price: totalStr,
+        ...(dlFiles ? { downloadFile: dlFiles } : {}),
+        items: cart.map(i => ({
+          productId: i.productId,
+          tierId: i.tierId,
+          productName: i.name,
+          tierName: i.tier || 'Accès unique',
+          priceRaw: i.price,
+          downloadFile: i.downloadFile || ''
+        }))
       };
       const r = await fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
       const d = await r.json();
+      if (r.status === 401 || d.requireAuth) {
+        btn.disabled = false;
+        btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span>Passer la commande</span>';
+        if (window.closeCart) window.closeCart();
+        if (window.requireAuthForOrder) window.requireAuthForOrder(() => window.checkoutCart());
+        return;
+      }
       if (r.ok && d.url) {
         cart = []; save(); updateBadge();
         window.location.href = d.url;

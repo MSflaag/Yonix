@@ -20,9 +20,21 @@ export default async function handler(req, res) {
 
   try {
     const session = await stripe.checkout.sessions.retrieve(session_id);
+    const m = session.metadata || {};
+    const local = (globalThis.__yonixDeliveries && globalThis.__yonixDeliveries.get(session_id)) || {};
+    const deliveredProduct =
+      local.deliveredProduct !== undefined
+        ? local.deliveredProduct
+        : ((m.deliveredProduct || '') + (m.deliveredProduct2 || '')).trim();
+    const downloadFile = local.deliveredFile || m.deliveredFile || m.downloadFile || '';
+
     return res.status(200).json({
       status: session.payment_status,
-      metadata: session.metadata || {},
+      metadata: {
+        ...m,
+        ...(deliveredProduct ? { deliveredProduct } : {}),
+        ...(downloadFile ? { downloadFile } : {}),
+      },
     });
   } catch (err) {
     console.error('[session] Stripe error:', err.message);

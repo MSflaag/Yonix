@@ -58,6 +58,7 @@ async function sendOwnerDM(message) {
  */
 function buildOrderMessage(data) {
   const {
+    accountEmail,
     productName,
     tierName,
     priceRaw,
@@ -79,6 +80,9 @@ function buildOrderMessage(data) {
   });
 
   let msg = `${ping} 🛒 **COMMANDE FINALISÉE — YONIX**\n\n`;
+  if (accountEmail) {
+    msg += `📧 **Compte client :** ${accountEmail}\n`;
+  }
   msg += `📦 **Produit :** ${productName}\n`;
   msg += `🏷️ **Formule :** ${tierName}\n`;
   msg += `💰 **Prix :** ${priceRaw}\n`;
@@ -95,9 +99,9 @@ function buildOrderMessage(data) {
     if (clientNom)    msg += `  • Nom : ${clientNom}\n`;
     if (clientDOB)    msg += `  • Date de naissance : ${clientDOB}\n`;
     if (clientEmail)  msg += `  • Email : ${clientEmail}\n`;
-    msg += `\n✅ Tu peux maintenant créer le compte Basic Fit.`;
+    msg += `\n✅ Tu peux maintenant créer le compte Basic Fit et lui envoyer ses accès directement sur le site (Mon Compte → Livraison Admin).`;
   } else {
-    msg += `\n✅ Envoie le produit au client via Discord/email.`;
+    msg += `\n✅ Envoie le produit au client directement sur le site depuis l'espace Livraison Admin (Mon Compte).`;
   }
 
   return msg;

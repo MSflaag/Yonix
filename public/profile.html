@@ -398,7 +398,7 @@ main{padding:40px 0 80px;position:relative;z-index:2}
       <div class="tabs" role="tablist">
         <button class="tab-btn active" role="tab" onclick="switchTab('orders',this)">
           <svg style="display:inline;vertical-align:-3px;margin-right:6px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-          Mes commandes
+          Mes commandes &amp; Produits
         </button>
         <button class="tab-btn" role="tab" onclick="switchTab('payment',this)">
           <svg style="display:inline;vertical-align:-3px;margin-right:6px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
@@ -408,14 +408,24 @@ main{padding:40px 0 80px;position:relative;z-index:2}
           <svg style="display:inline;vertical-align:-3px;margin-right:6px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           Sécurité
         </button>
+        <button class="tab-btn" role="tab" onclick="switchTab('admin',this)">
+          <svg style="display:inline;vertical-align:-3px;margin-right:6px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
+          Livraison Admin
+        </button>
       </div>
 
       <!-- ORDERS TAB -->
       <div class="tab-panel active" id="tab-orders">
         <div class="s-card">
-          <div class="s-card-head">
-            <div class="s-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
-            <h2>Historique des commandes</h2>
+          <div class="s-card-head" style="justify-content:space-between">
+            <div style="display:flex;align-items:center;gap:12px">
+              <div class="s-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+              <div>
+                <h2>Mes commandes &amp; Produits livrés</h2>
+                <p style="font-size:13px;color:var(--dim)">Tes produits (clés, identifiants, liens ou fichiers) sont envoyés directement ici sur chaque commande.</p>
+              </div>
+            </div>
+            <button class="dl-btn" onclick="reloadUserOrders()">Actualiser</button>
           </div>
           <div id="ordersContent"></div>
         </div>
@@ -475,24 +485,48 @@ main{padding:40px 0 80px;position:relative;z-index:2}
 
           <div class="security-item">
             <div>
-              <div class="sec-label-item">Email de connexion</div>
+              <div class="sec-label-item">Email vérifié du compte</div>
               <div class="sec-desc" id="secEmail">chargement…</div>
             </div>
-            <button class="sec-action" onclick="resendLink()">Changer →</button>
+            <span style="padding:5px 12px;border-radius:100px;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:var(--green);font:600 12px var(--body)">Domaine vérifié</span>
           </div>
           <div class="security-item">
             <div>
-              <div class="sec-label-item">Connexion sans mot de passe</div>
-              <div class="sec-desc">Lien magique envoyé par email à chaque connexion</div>
+              <div class="sec-label-item">Protection par mot de passe</div>
+              <div class="sec-desc">Compte protégé par email vérifié + mot de passe chiffré</div>
             </div>
             <span style="padding:5px 12px;border-radius:100px;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:var(--green);font:600 12px var(--body)">Actif</span>
           </div>
           <div class="security-item">
             <div>
               <div class="sec-label-item">Sessions actives</div>
-              <div class="sec-desc">Termine toutes les sessions et déconnecte tous les appareils</div>
+              <div class="sec-desc">Termine la session actuelle sur cet appareil</div>
             </div>
-            <button class="sec-action" style="border-color:rgba(255,70,85,.3);color:#ff8090" onclick="doLogout()">Déconnecter tout</button>
+            <button class="sec-action" style="border-color:rgba(255,70,85,.3);color:#ff8090" onclick="doLogout()">Déconnecter</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADMIN DELIVERY TAB -->
+      <div class="tab-panel" id="tab-admin">
+        <div class="s-card">
+          <div class="s-card-head" style="justify-content:space-between;flex-wrap:wrap;gap:12px">
+            <div style="display:flex;align-items:center;gap:12px">
+              <div class="s-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg></div>
+              <div>
+                <h2>Espace Propriétaire — Envoyer les produits aux clients</h2>
+                <p style="font-size:13px;color:var(--dim)">Sélectionne une commande et envoie directement la clé, les identifiants ou le fichier au client sur le site.</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;align-items:center">
+            <input class="form-input" id="adminKeyInput" type="password" placeholder="Code administrateur (ex: yonix-admin-2026)" style="flex:1;min-width:240px">
+            <button class="btn-save" onclick="loadAdminOrders()">Charger toutes les commandes</button>
+          </div>
+
+          <div id="adminOrdersContent">
+            <div class="pm-empty">Entre ton code administrateur ci-dessus pour afficher toutes les commandes clients et leur livrer leurs produits directement sur le site.</div>
           </div>
         </div>
       </div>
@@ -533,11 +567,11 @@ main{padding:40px 0 80px;position:relative;z-index:2}
 
   // ─── UTILS ───
   function escHtml(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-  function formatDate(ts){ return new Date(ts*1000).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'}); }
-  function formatAmount(cents,cur){ return new Intl.NumberFormat('fr-FR',{style:'currency',currency:(cur||'eur').toUpperCase()}).format(cents/100); }
+  function formatDate(ts){ return new Date(ts*1000).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
+  function formatAmount(cents,cur){ return new Intl.NumberFormat('fr-FR',{style:'currency',currency:(cur||'eur').toUpperCase()}).format((cents||0)/100); }
 
   function dlBtnInner(){
-    return `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Télécharger`;
+    return `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Télécharger le fichier`;
   }
 
   function productIcon(name){
@@ -561,28 +595,185 @@ main{padding:40px 0 80px;position:relative;z-index:2}
   }
   window.handleDl=function(btn,file){initiateDownload(file,btn);};
 
+  window.copyDeliveredText=function(btn, encoded){
+    try{
+      const txt = decodeURIComponent(encoded);
+      navigator.clipboard.writeText(txt);
+      const old = btn.textContent;
+      btn.textContent = '✓ Copié !';
+      toast('Produit copié dans le presse-papiers ✓');
+      setTimeout(()=>{ btn.textContent = old; }, 2500);
+    }catch(e){}
+  };
+
   function renderOrders(orders){
-    if(!orders.length) return `<div class="empty"><div class="empty-ico">📦</div><h2>Aucune commande</h2><p>Tes achats apparaîtront ici après paiement.</p><a href="/" class="btn-prim">Voir la boutique</a></div>`;
-    return `<div class="orders-list">${orders.map(o=>`
-      <div class="order-card">
-        <div class="order-ico">${productIcon(o.productName)}</div>
-        <div class="order-info">
-          <div class="order-name">${escHtml(o.productName)}</div>
-          ${o.tierName?`<div class="order-tier">${escHtml(o.tierName)}</div>`:''}
-          <div class="order-meta">
-            <span class="order-date">${formatDate(o.date)}</span>
-            <span class="order-price">${formatAmount(o.amount,o.currency)}</span>
+    if(!orders.length) return `<div class="empty"><h2>Aucune commande</h2><p>Tes achats et tes produits livrés apparaîtront ici immédiatement après paiement.</p><a href="/boutique" class="btn-prim">Voir la boutique</a></div>`;
+    return `<div class="orders-list">${orders.map(o=>{
+      const isDelivered = Boolean(o.deliveredProduct || o.downloadFile || o.deliveryStatus === 'delivered');
+      const statusBadge = isDelivered
+        ? `<span style="font-size:11px;font-weight:700;padding:2px 10px;border-radius:100px;background:rgba(74,222,128,.14);border:1px solid rgba(74,222,128,.35);color:#4ade80">✓ Produit livré sur le site</span>`
+        : `<span style="font-size:11px;font-weight:600;padding:2px 10px;border-radius:100px;background:rgba(0,200,255,.1);border:1px solid rgba(0,200,255,.28);color:#7df9ff">En cours de préparation (livré ici)</span>`;
+
+      return `
+      <div class="order-card" style="flex-direction:column;align-items:stretch;gap:14px">
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+          <div class="order-ico">${productIcon(o.productName)}</div>
+          <div class="order-info">
+            <div class="order-name">${escHtml(o.productName)}</div>
+            ${o.tierName?`<div class="order-tier">${escHtml(o.tierName)}</div>`:''}
+            <div class="order-meta">
+              <span class="order-date">${formatDate(o.date)}</span>
+              <span class="order-price">${formatAmount(o.amount,o.currency)}</span>
+              ${statusBadge}
+            </div>
+          </div>
+          <div class="order-actions">
+            ${o.downloadFile
+              ?`<button class="dl-btn" onclick="handleDl(this,'${escHtml(o.downloadFile)}')">${dlBtnInner()}</button>`
+              :''}
           </div>
         </div>
-        <div class="order-actions">
-          ${o.downloadFile
-            ?`<button class="dl-btn" onclick="handleDl(this,'${escHtml(o.downloadFile)}')">${dlBtnInner()}</button>`
-            :`<span class="no-dl">Livraison Discord</span>`}
-        </div>
-      </div>`).join('')}</div>`;
+        ${o.deliveredProduct ? `
+        <div style="background:rgba(0,229,255,.06);border:1px solid rgba(0,229,255,.28);border-radius:12px;padding:14px 16px">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px">
+            <span style="font-size:12px;font-weight:700;color:var(--cyan2);text-transform:uppercase;letter-spacing:.05em">Ton produit / Tes accès reçus :</span>
+            <button class="dl-btn" style="padding:5px 12px;font-size:11.5px" onclick="copyDeliveredText(this,'${encodeURIComponent(o.deliveredProduct)}')">Copier</button>
+          </div>
+          <pre style="white-space:pre-wrap;word-break:break-word;font:500 13.5px/1.55 monospace;color:var(--white);margin:0;user-select:all">${escHtml(o.deliveredProduct)}</pre>
+        </div>` : (!o.downloadFile ? `
+        <div style="background:rgba(255,255,255,.02);border:1px dashed rgba(0,200,255,.18);border-radius:10px;padding:10px 14px;font-size:12.5px;color:var(--dim2)">
+          Ton produit te sera envoyé directement dans cet encadré dès validation de ta commande. Clique sur « Actualiser » pour vérifier.
+        </div>` : '')}
+      </div>`;
+    }).join('')}</div>`;
   }
 
-  // ─── PAYMENT METHODS (local storage simulation — real impl needs backend) ───
+  window.reloadUserOrders = async function(){
+    try{
+      const r=await fetch('/api/account/orders');
+      if(!r.ok) return;
+      const data=await r.json();
+      document.getElementById('ordersContent').innerHTML=renderOrders(data.orders||[]);
+      toast('Commandes actualisées ✓');
+    }catch(e){}
+  };
+
+  // ─── ADMIN DELIVERY LOGIC ───
+  const savedAdminKey = sessionStorage.getItem('yonix_admin_key') || '';
+  if(savedAdminKey){
+    setTimeout(()=>{
+      const inp = document.getElementById('adminKeyInput');
+      if(inp) inp.value = savedAdminKey;
+    }, 50);
+  }
+
+  window.loadAdminOrders = async function(){
+    const adminKey = document.getElementById('adminKeyInput').value.trim();
+    if(!adminKey){ toast('Entre le code administrateur', false); return; }
+    const box = document.getElementById('adminOrdersContent');
+    box.innerHTML = `<div class="loader"><div class="loader-ring"></div>Chargement de toutes les commandes clients…</div>`;
+    try{
+      const r = await fetch('/api/account/orders', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ action: 'list_all', adminKey })
+      });
+      const data = await r.json();
+      if(!r.ok){
+        box.innerHTML = `<div class="error-box">${escHtml(data.error || 'Accès refusé')}</div>`;
+        toast(data.error || 'Code invalide', false);
+        return;
+      }
+      sessionStorage.setItem('yonix_admin_key', adminKey);
+      renderAdminOrders(data.orders || []);
+    }catch(e){
+      box.innerHTML = `<div class="error-box">Erreur réseau.</div>`;
+    }
+  };
+
+  function renderAdminOrders(orders){
+    const box = document.getElementById('adminOrdersContent');
+    if(!orders.length){
+      box.innerHTML = `<div class="pm-empty">Aucune commande payée trouvée.</div>`;
+      return;
+    }
+    box.innerHTML = `<div class="orders-list">${orders.map(o => {
+      const isDelivered = Boolean(o.deliveredProduct || o.downloadFile || o.deliveryStatus === 'delivered');
+      const bfDetails = (o.clientPrenom || o.clientNom || o.clientDOB || o.clientEmail)
+        ? `<div style="margin-top:6px;font-size:12px;color:#ffe066">Infos Basic Fit : ${escHtml(o.clientPrenom)} ${escHtml(o.clientNom)} · Né(e): ${escHtml(o.clientDOB)} · Email: ${escHtml(o.clientEmail)}</div>`
+        : '';
+      return `
+      <div class="order-card" style="flex-direction:column;align-items:stretch;gap:12px;background:rgba(0,200,255,.03)">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">
+          <div>
+            <div class="order-name">${escHtml(o.productName)} ${o.tierName ? `<span style="color:var(--dim2);font-weight:500">— ${escHtml(o.tierName)}</span>` : ''}</div>
+            <div style="font-size:13px;color:var(--cyan2);margin-top:3px">Client : <strong>${escHtml(o.customerEmail || 'Email non renseigné')}</strong></div>
+            ${bfDetails}
+            <div class="order-meta" style="margin-top:6px">
+              <span class="order-date">${formatDate(o.date)}</span>
+              <span class="order-price">${formatAmount(o.amount, o.currency)}</span>
+              <span style="font-size:11px;color:var(--dim)">ID: ${escHtml(o.id.slice(-10))}</span>
+            </div>
+          </div>
+          <div>
+            ${isDelivered
+              ? `<span style="font-size:11px;font-weight:700;padding:4px 11px;border-radius:100px;background:rgba(74,222,128,.15);border:1px solid rgba(74,222,128,.35);color:#4ade80">✓ Livré</span>`
+              : `<span style="font-size:11px;font-weight:700;padding:4px 11px;border-radius:100px;background:rgba(255,224,102,.14);border:1px solid rgba(255,224,102,.35);color:#ffe066">En attente de livraison</span>`}
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px;padding-top:10px;border-top:1px solid var(--line)">
+          <label style="font-size:12px;font-weight:600;color:var(--dim2)">Produit à envoyer directement sur le compte du client (clé, email:motdepasse, lien ou message) :</label>
+          <textarea class="form-input" id="delivText_${escHtml(o.id)}" rows="3" placeholder="Ex: Voici tes accès Spotify Premium 1 an :&#10;Email: client@mail.com&#10;Mot de passe: xxxx&#10;Ou Clé d'activation : YONIX-XXXX-XXXX">${escHtml(o.deliveredProduct || '')}</textarea>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+            <input class="form-input" id="delivFile_${escHtml(o.id)}" type="text" value="${escHtml(o.downloadFile || '')}" placeholder="Fichier téléchargeable optionnel (ex: cs2-loader.zip)" style="flex:1;min-width:220px">
+            <button class="btn-save" onclick="sendProductToOrder('${escHtml(o.id)}', this)">Envoyer le produit au client</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('')}</div>`;
+  }
+
+  window.sendProductToOrder = async function(sessionId, btn){
+    const adminKey = document.getElementById('adminKeyInput').value.trim();
+    const deliveredProduct = document.getElementById('delivText_' + sessionId).value.trim();
+    const deliveredFile = document.getElementById('delivFile_' + sessionId).value.trim();
+    if(!deliveredProduct && !deliveredFile){
+      toast('Entre un produit (texte/clé/identifiants) ou un fichier à livrer', false);
+      return;
+    }
+    const oldText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Envoi en cours…';
+    try{
+      const r = await fetch('/api/account/orders', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          action: 'deliver',
+          adminKey,
+          sessionId,
+          deliveredProduct,
+          deliveredFile
+        })
+      });
+      const data = await r.json();
+      if(r.ok && data.ok){
+        toast('Produit envoyé directement sur le compte du client ✓');
+        btn.textContent = '✓ Produit envoyé !';
+        setTimeout(() => { btn.disabled = false; btn.textContent = 'Mettre à jour la livraison'; }, 2000);
+      } else {
+        toast(data.error || 'Erreur lors de l\'envoi', false);
+        btn.disabled = false;
+        btn.textContent = oldText;
+      }
+    }catch(e){
+      toast('Erreur réseau', false);
+      btn.disabled = false;
+      btn.textContent = oldText;
+    }
+  };
+
+  // ─── PAYMENT METHODS ───
   function getCards(){ try{return JSON.parse(localStorage.getItem('yonix_cards')||'[]');}catch{return[];} }
   function saveCards(cards){ try{localStorage.setItem('yonix_cards',JSON.stringify(cards));}catch{} }
 
@@ -619,7 +810,6 @@ main{padding:40px 0 80px;position:relative;z-index:2}
     ['cardNum','cardExp','cardCvv','cardName'].forEach(id=>document.getElementById(id).value='');
   };
 
-  // Format card number input
   document.getElementById('cardNum').addEventListener('input',function(){
     let v=this.value.replace(/\D/g,'').slice(0,16);
     this.value=v.replace(/(.{4})/g,'$1 ').trim();
@@ -653,25 +843,14 @@ main{padding:40px 0 80px;position:relative;z-index:2}
     location.href='/';
   };
 
-  // ─── RESEND LINK ───
-  window.resendLink=async function(){
-    const email=document.getElementById('emailText').textContent;
-    if(!email||email==='chargement…'){toast('Email introuvable',false);return;}
-    try{
-      const r=await fetch('/api/auth/send-link',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,action:'login'})});
-      toast(r.ok?'Lien envoyé — vérifie ta boîte mail ✓':'Erreur envoi',r.ok);
-    } catch(e){toast('Erreur réseau',false);}
-  };
-
   // ─── INIT ───
   (async function init(){
     try{
       const r=await fetch('/api/account/orders');
-      if(r.status===401){ location.href='/login.html'; return; }
+      if(r.status===401){ location.href='/login'; return; }
       const data=await r.json();
       if(!r.ok) throw new Error(data.error||'Erreur serveur');
 
-      // Show profile header
       const email=data.email||'';
       document.getElementById('emailText').textContent=email;
       document.getElementById('secEmail').textContent=email;
@@ -680,13 +859,9 @@ main{padding:40px 0 80px;position:relative;z-index:2}
       document.getElementById('profileTitle').textContent='Mon Profil';
       document.getElementById('profileHeader').hidden=false;
 
-      // Render orders
       document.getElementById('ordersContent').innerHTML=renderOrders(data.orders||[]);
-
-      // Render payment methods
       renderPm();
 
-      // Show main content
       document.getElementById('globalLoader').hidden=true;
       document.getElementById('mainContent').hidden=false;
     } catch(err){

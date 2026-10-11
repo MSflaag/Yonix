@@ -343,6 +343,10 @@ main{flex:1;padding:48px 0 80px}
             <svg class="side-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             Sécurité
           </button>
+          <button class="side-nav-item" data-panel="admin" role="tab" aria-selected="false">
+            <svg class="side-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
+            Livraison Admin
+          </button>
         </nav>
 
         <!-- Logout danger -->
@@ -361,9 +365,12 @@ main{flex:1;padding:48px 0 80px}
 
         <!-- === ORDERS PANEL === -->
         <div class="panel active" id="panel-orders">
-          <div class="section-head">
-            <h2>Mes commandes</h2>
-            <p>Retrouve tous tes achats et re-télécharge tes fichiers.</p>
+          <div class="section-head" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+            <div>
+              <h2>Mes commandes &amp; Produits livrés</h2>
+              <p>Tes produits (clés, identifiants, liens ou fichiers) sont envoyés directement ici sur chaque commande.</p>
+            </div>
+            <button class="dl-btn" onclick="reloadAccountOrders()">Actualiser</button>
           </div>
 
           <div id="ordersLoader" class="loader">
@@ -381,8 +388,6 @@ main{flex:1;padding:48px 0 80px}
           </div>
 
           <div class="payment-section">
-
-            <!-- Méthodes sauvegardées -->
             <div class="payment-card">
               <div class="payment-card-head">
                 <span class="payment-card-title">Méthodes enregistrées</span>
@@ -398,7 +403,6 @@ main{flex:1;padding:48px 0 80px}
               </button>
             </div>
 
-            <!-- Infos facturation -->
             <div class="payment-card">
               <div class="payment-card-head">
                 <span class="payment-card-title">Informations de facturation</span>
@@ -419,11 +423,9 @@ main{flex:1;padding:48px 0 80px}
               </div>
             </div>
 
-            <!-- Notice portail -->
             <div class="portal-notice">
-              <strong>Portail de facturation Stripe</strong> — Clique sur "Gérer mes méthodes de paiement" pour accéder au portail sécurisé Stripe. Tu peux y ajouter, modifier ou supprimer tes cartes, et consulter l'historique de tes factures.
+              <strong>Portail de facturation Stripe</strong> — Clique sur "Gérer mes méthodes de paiement" pour accéder au portail sécurisé Stripe.
             </div>
-
           </div>
         </div>
 
@@ -431,15 +433,25 @@ main{flex:1;padding:48px 0 80px}
         <div class="panel" id="panel-security">
           <div class="section-head">
             <h2>Sécurité</h2>
-            <p>Connexion sans mot de passe — tes liens sont valides 15 minutes.</p>
+            <p>Compte sécurisé par email vérifié et mot de passe chiffré.</p>
           </div>
 
           <div class="security-section">
             <div class="security-card">
               <div class="security-row">
                 <div>
-                  <div class="security-label">Authentification par lien magique</div>
-                  <div class="security-desc">Un lien de connexion est envoyé à ton email à chaque connexion.</div>
+                  <div class="security-label">Domaine email vérifié</div>
+                  <div class="security-desc">Protection anti temp-mail active sur ton compte.</div>
+                </div>
+                <div class="security-status">
+                  <div class="dot"></div>
+                  <span class="status-text">Vérifié</span>
+                </div>
+              </div>
+              <div class="security-row">
+                <div>
+                  <div class="security-label">Mot de passe</div>
+                  <div class="security-desc">Authentification par mot de passe chiffré active.</div>
                 </div>
                 <div class="security-status">
                   <div class="dot"></div>
@@ -456,22 +468,12 @@ main{flex:1;padding:48px 0 80px}
                   <span class="status-text">Connecté</span>
                 </div>
               </div>
-              <div class="security-row">
-                <div>
-                  <div class="security-label">Mot de passe</div>
-                  <div class="security-desc">Yonix n'utilise pas de mot de passe. Zéro risque de fuite.</div>
-                </div>
-                <div class="security-status">
-                  <div class="dot off"></div>
-                  <span class="status-text">Désactivé</span>
-                </div>
-              </div>
             </div>
 
             <div class="security-card">
               <div style="margin-bottom:16px">
-                <div class="security-label">Se déconnecter de tous les appareils</div>
-                <div class="security-desc" style="margin-top:4px">Révoque la session actuelle. Tu devras te reconnecter par email.</div>
+                <div class="security-label">Se déconnecter</div>
+                <div class="security-desc" style="margin-top:4px">Révoque la session actuelle sur cet appareil.</div>
               </div>
               <button class="add-card-btn" style="background:linear-gradient(135deg,rgba(255,70,85,.8),rgba(200,30,50,.9));box-shadow:0 0 20px -4px rgba(255,70,85,.4)" onclick="doLogout()">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
@@ -479,6 +481,21 @@ main{flex:1;padding:48px 0 80px}
               </button>
             </div>
           </div>
+        </div>
+
+        <!-- === ADMIN DELIVERY PANEL === -->
+        <div class="panel" id="panel-admin">
+          <div class="section-head">
+            <h2>Livraison Admin — Envoyer les produits sur le site</h2>
+            <p>Envoie directement les clés, identifiants ou fichiers aux clients sur chaque commande.</p>
+          </div>
+          <div class="security-card" style="margin-bottom:16px">
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <input id="accAdminKey" type="password" placeholder="Code administrateur (ex: yonix-admin-2026)" style="flex:1;min-width:220px;padding:11px 14px;border-radius:10px;border:1px solid var(--line2);background:var(--bg);color:var(--white);font:inherit">
+              <button class="btn-prim" onclick="loadAccAdminOrders()">Charger les commandes</button>
+            </div>
+          </div>
+          <div id="accAdminOrdersList"></div>
         </div>
 
       </div><!-- /content -->
@@ -504,11 +521,10 @@ main{flex:1;padding:48px 0 80px}
   // ── Logout ─────────────────────────────────────────────────────────
   window.doLogout = function() {
     fetch('/api/auth/logout', { method: 'POST' }).finally(() => {
-      location.href = '/login.html';
+      location.href = '/login';
     });
   };
 
-  // ── Stripe portal (stub — needs /api/account/portal endpoint) ─────
   window.openStripePortal = async function() {
     try {
       const r = await fetch('/api/account/portal', { method: 'POST' });
@@ -520,14 +536,12 @@ main{flex:1;padding:48px 0 80px}
     }
   };
 
-  // ── Helpers ────────────────────────────────────────────────────────
   function esc(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-
   function formatDate(ts){
-    return new Date(ts*1000).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'});
+    return new Date(ts*1000).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
   }
   function formatAmount(cents, currency){
-    return new Intl.NumberFormat('fr-FR',{style:'currency',currency:(currency||'eur').toUpperCase()}).format(cents/100);
+    return new Intl.NumberFormat('fr-FR',{style:'currency',currency:(currency||'eur').toUpperCase()}).format((cents||0)/100);
   }
 
   function productIcon(name){
@@ -566,53 +580,141 @@ main{flex:1;padding:48px 0 80px}
   }
   window.handleDl = (btn, file) => initiateDownload(file, btn);
 
+  window.copyAccDelivered = function(btn, encoded){
+    try{
+      navigator.clipboard.writeText(decodeURIComponent(encoded));
+      const old = btn.textContent;
+      btn.textContent = '✓ Copié !';
+      setTimeout(()=>{ btn.textContent = old; }, 2200);
+    }catch(e){}
+  };
+
   function renderOrders(orders){
     if(!orders.length) return `<div class="empty-state">
-      <div class="empty-icon">📦</div>
       <h3>Aucune commande</h3>
-      <p>Tes achats apparaîtront ici après paiement.</p>
-      <a href="/" class="btn-prim">Voir la boutique</a>
+      <p>Tes achats et tes produits livrés apparaîtront ici après paiement.</p>
+      <a href="/boutique" class="btn-prim">Voir la boutique</a>
     </div>`;
-    return `<div class="orders-grid">${orders.map(o=>`
-      <div class="order-card">
-        <div class="order-icon">${productIcon(o.productName)}</div>
-        <div class="order-info">
-          <div class="order-name">${esc(o.productName)}</div>
-          ${o.tierName?`<div class="order-tier">${esc(o.tierName)}</div>`:''}
-          <div class="order-meta">
-            <span class="order-date">${formatDate(o.date)}</span>
-            <span class="order-price">${formatAmount(o.amount,o.currency)}</span>
+    return `<div class="orders-grid">${orders.map(o=>{
+      const isDelivered = Boolean(o.deliveredProduct || o.downloadFile || o.deliveryStatus === 'delivered');
+      const statusBadge = isDelivered
+        ? `<span class="order-price">✓ Produit livré sur le site</span>`
+        : `<span style="font-size:11px;font-weight:600;padding:2px 10px;border-radius:100px;background:rgba(0,200,255,.1);border:1px solid rgba(0,200,255,.28);color:#7df9ff">En cours de préparation</span>`;
+      return `
+      <div class="order-card" style="flex-direction:column;align-items:stretch;gap:12px">
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+          <div class="order-icon">${productIcon(o.productName)}</div>
+          <div class="order-info">
+            <div class="order-name">${esc(o.productName)}</div>
+            ${o.tierName?`<div class="order-tier">${esc(o.tierName)}</div>`:''}
+            <div class="order-meta">
+              <span class="order-date">${formatDate(o.date)}</span>
+              <span class="order-price">${formatAmount(o.amount,o.currency)}</span>
+              ${statusBadge}
+            </div>
           </div>
+          ${o.downloadFile
+            ?`<button class="dl-btn" onclick="handleDl(this,'${esc(o.downloadFile)}')">${dlBtnInner()}</button>`
+            :''
+          }
         </div>
-        ${o.downloadFile
-          ?`<button class="dl-btn" onclick="handleDl(this,'${esc(o.downloadFile)}')">${dlBtnInner()}</button>`
-          :`<span class="no-dl">Livraison Discord</span>`
-        }
-      </div>`).join('')}
+        ${o.deliveredProduct ? `
+        <div style="background:rgba(0,229,255,.06);border:1px solid rgba(0,229,255,.28);border-radius:12px;padding:13px 15px">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px">
+            <span style="font-size:12px;font-weight:700;color:var(--cyan2);text-transform:uppercase">Ton produit / Tes accès reçus :</span>
+            <button class="dl-btn" style="padding:4px 10px;font-size:11px" onclick="copyAccDelivered(this,'${encodeURIComponent(o.deliveredProduct)}')">Copier</button>
+          </div>
+          <pre style="white-space:pre-wrap;word-break:break-word;font:500 13px/1.55 monospace;color:var(--white);margin:0;user-select:all">${esc(o.deliveredProduct)}</pre>
+        </div>` : (!o.downloadFile ? `<div style="font-size:12.5px;color:var(--dim2);padding:8px 12px;border-radius:8px;border:1px dashed var(--line2)">Ton produit te sera envoyé directement ici dès validation de ta commande.</div>` : '')}
+      </div>`;
+    }).join('')}
     </div>`;
   }
+
+  window.reloadAccountOrders = async function(){
+    try {
+      const r = await fetch('/api/account/orders');
+      if(!r.ok) return;
+      const d = await r.json();
+      document.getElementById('ordersContent').innerHTML = renderOrders(d.orders||[]);
+    } catch {}
+  };
+
+  window.loadAccAdminOrders = async function(){
+    const adminKey = document.getElementById('accAdminKey').value.trim();
+    if(!adminKey) return;
+    const list = document.getElementById('accAdminOrdersList');
+    list.innerHTML = `<div class="loader"><div class="loader-ring"></div>Chargement…</div>`;
+    try {
+      const r = await fetch('/api/account/orders', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ action: 'list_all', adminKey })
+      });
+      const d = await r.json();
+      if(!r.ok){ list.innerHTML = `<div class="error-box">${esc(d.error||'Erreur')}</div>`; return; }
+      const orders = d.orders || [];
+      if(!orders.length){ list.innerHTML = `<div class="empty-state"><h3>Aucune commande</h3></div>`; return; }
+      list.innerHTML = `<div class="orders-grid">${orders.map(o => `
+        <div class="order-card" style="flex-direction:column;align-items:stretch;gap:10px">
+          <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px">
+            <div>
+              <div class="order-name">${esc(o.productName)} — ${esc(o.tierName)}</div>
+              <div style="font-size:12.5px;color:var(--cyan2)">Client : ${esc(o.customerEmail || 'Non renseigné')}</div>
+              <div class="order-date">${formatDate(o.date)} · ${formatAmount(o.amount, o.currency)}</div>
+            </div>
+            <span class="order-price">${o.deliveredProduct || o.downloadFile ? '✓ Livré' : 'En attente'}</span>
+          </div>
+          <textarea id="accDeliv_${esc(o.id)}" rows="3" placeholder="Clé, identifiants email:mdp, lien ou produit à envoyer au client…" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--line2);background:var(--bg);color:var(--white);font:inherit">${esc(o.deliveredProduct||'')}</textarea>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <input id="accFile_${esc(o.id)}" type="text" value="${esc(o.downloadFile||'')}" placeholder="Fichier optionnel (ex: cs2-loader.zip)" style="flex:1;padding:9px 12px;border-radius:8px;border:1px solid var(--line2);background:var(--bg);color:var(--white);font:inherit">
+            <button class="btn-prim" onclick="sendAccDelivery('${esc(o.id)}', this)">Envoyer au client</button>
+          </div>
+        </div>
+      `).join('')}</div>`;
+    } catch {
+      list.innerHTML = `<div class="error-box">Erreur réseau</div>`;
+    }
+  };
+
+  window.sendAccDelivery = async function(sessionId, btn){
+    const adminKey = document.getElementById('accAdminKey').value.trim();
+    const deliveredProduct = document.getElementById('accDeliv_' + sessionId).value.trim();
+    const deliveredFile = document.getElementById('accFile_' + sessionId).value.trim();
+    btn.disabled = true;
+    btn.textContent = 'Envoi…';
+    try {
+      const r = await fetch('/api/account/orders', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ action: 'deliver', adminKey, sessionId, deliveredProduct, deliveredFile })
+      });
+      const d = await r.json();
+      btn.textContent = r.ok && d.ok ? '✓ Envoyé !' : (d.error || 'Erreur');
+    } catch {
+      btn.textContent = 'Erreur';
+    }
+    setTimeout(() => { btn.disabled = false; btn.textContent = 'Envoyer au client'; }, 2200);
+  };
 
   // ── Load account data ──────────────────────────────────────────────
   (async function init(){
     try {
       const r = await fetch('/api/account/orders');
-      if(r.status === 401){ location.href='/login.html'; return; }
+      if(r.status === 401){ location.href='/login'; return; }
       const d = await r.json();
       if(!r.ok) throw new Error(d.error||'Erreur serveur');
 
-      // Avatar & profile
       const email = d.email || '';
       const letter = email.charAt(0).toUpperCase() || '?';
       document.getElementById('avatarLetter').textContent = letter;
       document.getElementById('profileName').textContent = email.split('@')[0];
       document.getElementById('profileEmail').textContent = email;
 
-      // Billing panel
       document.getElementById('billingEmail').textContent = email;
-      document.getElementById('billingStripe').textContent = d.customerId ? '✓ Enregistré' : 'Non créé';
+      document.getElementById('billingStripe').textContent = d.customerId ? '✓ Enregistré' : 'Actif';
       document.getElementById('billingOrders').textContent = (d.orders||[]).length + ' commande' + ((d.orders||[]).length !== 1 ? 's' : '');
 
-      // Orders
       document.getElementById('ordersLoader').hidden = true;
       document.getElementById('ordersContent').innerHTML = renderOrders(d.orders||[]);
 

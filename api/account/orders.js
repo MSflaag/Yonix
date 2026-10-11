@@ -74,7 +74,7 @@ export function resolveProductLogoPath(serviceIdOrName, fallbackPath) {
   if (q.includes('qwen')) return '/logos/qwen.png';
   if (q.includes('glm')) return '/logos/glm.png';
   if (q.includes('arena')) return '/logos/arena.png';
-  return '/logos/Yonix.png';
+  return '/logos/Yonix.png?v=2';
 }
 
 export function buildProductDeliveryEmail({
@@ -92,7 +92,7 @@ export function buildProductDeliveryEmail({
   const site = (origin || SITE_URL).replace(/\/$/, '');
   const logoRel = resolveProductLogoPath(serviceId || serviceName, serviceImage);
   const absProductImg = logoRel.startsWith('http') ? logoRel : `${site}${logoRel}`;
-  const absYonixLogo = `${site}/logos/Yonix.png`;
+  const absYonixLogo = `${site}/logos/Yonix.png?v=2`;
   const reviewUrl = `${site}/avis?review=1&product=${encodeURIComponent(serviceName || 'Produit YONIX')}&serviceId=${encodeURIComponent(serviceId || '')}&email=${encodeURIComponent(customerEmail || '')}`;
   const storeUrl = `${site}/boutique`;
   const profileUrl = `${site}/profile`;
@@ -114,7 +114,7 @@ export function buildProductDeliveryEmail({
           <!-- Header -->
           <tr>
             <td style="background:linear-gradient(135deg,#0F172A 0%,#1E3A8A 60%,#4E7CFF 100%);padding:26px 28px;text-align:center;">
-              <img src="${escapeHtml(absYonixLogo)}" alt="YONIX" width="52" height="52" style="display:block;margin:0 auto 10px;border-radius:12px;border:2px solid rgba(255,255,255,0.2);">
+              <img src="${escapeHtml(absYonixLogo)}" alt="YONIX" width="52" height="52" style="display:block;margin:0 auto 10px;width:52px;height:52px;object-fit:cover;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,0.35);">
               <div style="font-size:22px;font-weight:800;letter-spacing:-0.02em;color:#FFFFFF;">YONIX</div>
               <div style="font-size:13px;color:#BFDBFE;margin-top:4px;font-weight:600;">Livraison &amp; Activation officielle de ta commande</div>
             </td>

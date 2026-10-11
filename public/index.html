@@ -427,7 +427,6 @@ a {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  transform: scale(1.28);
   display: block;
   border-radius: 0;
 }
@@ -3393,7 +3392,7 @@ dialog::backdrop {
 <body>
 
 <!-- PROMO BANNER -->
-<div id="promoBanner" role="alert">
+<div id="promoBanner" role="region" aria-label="Offre promotionnelle">
   <span class="promo-bolt" aria-hidden="true">
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
   </span>
@@ -3406,9 +3405,9 @@ dialog::backdrop {
     <span class="cd-sep">:</span>
     <span class="cd-unit"><span class="cd-num" id="cdS">00</span><span class="cd-label">sec</span></span>
   </span>
-  <span>— Code <span class="banner-code">YONIX10</span> -10% sur tout</span>
-  <button class="banner-close" id="bannerClose" aria-label="Fermer l'annonce">
-    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/></svg>
+  <span>— Code <button type="button" class="banner-code" onclick="window.togglePromoYonix10()" title="Cliquer pour activer -10% sur ta commande" style="cursor:pointer;border:none">YONIX10</button> -10% sur tout</span>
+  <button type="button" id="bannerPromoBtn" onclick="window.togglePromoYonix10()" style="margin-left:6px;padding:3px 11px;border-radius:999px;background:rgba(78,124,255,0.22);border:1px solid rgba(78,124,255,0.55);color:#fff;font-size:11.5px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all .18s">
+    <span id="bannerPromoBtnText">Activer -10%</span>
   </button>
 </div>
 
@@ -3423,8 +3422,38 @@ dialog::backdrop {
   </div>
   <div class="cart-items" id="cartItems"></div>
   <div class="cart-foot">
-    <div class="cart-total-row">
-      <span class="cart-total-label">Total</span>
+    <!-- Code Promo Box inside Cart -->
+    <div style="margin-bottom:12px;padding:10px 12px;border-radius:12px;background:var(--bg);border:1px solid var(--border)">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px">
+        <span style="font-size:11.5px;font-weight:700;color:var(--ink-secondary)">Code de réduction</span>
+        <button type="button" id="cartQuickPromoBtn" onclick="window.togglePromoYonix10()" style="font-size:11px;font-weight:800;padding:3px 9px;border-radius:99px;background:var(--blue-soft);color:var(--blue);border:1px solid var(--blue-border);cursor:pointer">
+          Activer YONIX10 (-10%)
+        </button>
+      </div>
+      <div style="display:flex;gap:6px">
+        <input type="text" id="cartPromoInput" placeholder="Ex: YONIX10" style="flex:1;padding:7px 10px;border-radius:8px;border:1px solid var(--border);background:var(--white);color:var(--ink);font-size:12.5px;font-weight:700;text-transform:uppercase">
+        <button type="button" onclick="window.applyPromoFromField('cartPromoInput')" style="padding:7px 13px;border-radius:8px;background:var(--blue);color:#fff;font-size:12px;font-weight:700;cursor:pointer">Appliquer</button>
+      </div>
+    </div>
+
+    <!-- Breakdown Sous-total / Remise / TVA Stripe / Total TTC -->
+    <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:10px;font-size:13px;color:var(--ink-secondary)">
+      <div style="display:flex;justify-content:space-between">
+        <span>Sous-total</span>
+        <b id="cartSubtotalVal" style="color:var(--ink)">0,00 €</b>
+      </div>
+      <div id="cartDiscountRow" style="display:none;justify-content:space-between;color:var(--green);font-weight:700">
+        <span>Code promo YONIX10 (-10%)</span>
+        <b id="cartDiscountVal">-0,00 €</b>
+      </div>
+      <div style="display:flex;justify-content:space-between">
+        <span>TVA &amp; Frais Stripe CB (2,9% + 0,25€)</span>
+        <b id="cartStripeFeeVal" style="color:var(--ink)">0,00 €</b>
+      </div>
+    </div>
+
+    <div class="cart-total-row" style="border-top:1px solid var(--border);padding-top:10px">
+      <span class="cart-total-label">Total TTC</span>
       <span class="cart-total-val" id="cartTotal">0,00 €</span>
     </div>
     <button class="cart-checkout-btn" id="cartCheckoutBtn" onclick="checkoutCart()">
@@ -3951,6 +3980,17 @@ dialog::backdrop {
         <p class="bf-notice">Ces informations sont transmises uniquement pour la création de ton compte Basic Fit. Elles ne seront pas partagées.</p>
       </form>
 
+      <!-- Code Promo & TVA Stripe Box inside Product Modal -->
+      <div style="margin-bottom:12px;padding:10px 12px;border-radius:12px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+        <div style="font-size:12px;color:var(--ink-secondary);line-height:1.4">
+          <b style="color:var(--ink)">Code promo YONIX10 (-10%)</b>
+          <div id="pdLivePriceBreakdown" style="font-size:11.5px;margin-top:2px">+ TVA &amp; Frais Stripe CB inclus au paiement</div>
+        </div>
+        <button type="button" class="js-promo-toggle-btn" onclick="window.togglePromoYonix10()" style="padding:6px 12px;border-radius:999px;background:var(--blue-soft);border:1px solid var(--blue-border);color:var(--blue);font-size:12px;font-weight:800;cursor:pointer">
+          Activer YONIX10 (-10%)
+        </button>
+      </div>
+
       <!-- CGV acceptance -->
       <div class="cgv-check">
         <input type="checkbox" id="cgvCheck" name="cgv" checked>
@@ -3988,12 +4028,39 @@ dialog::backdrop {
     </div>
   </div>
 
-  <div class="cb-order-summary">
-    <div class="cb-order-info">
-      <b id="cbOrderProdName">Produit</b>
-      <span id="cbOrderTierName">Formule · Quantité ×1</span>
+  <div class="cb-order-summary" style="flex-direction:column;align-items:stretch;gap:10px">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+      <div class="cb-order-info">
+        <b id="cbOrderProdName">Produit</b>
+        <span id="cbOrderTierName">Formule · Quantité ×1</span>
+      </div>
+      <div class="cb-order-total" id="cbOrderTotalPrice">25€</div>
     </div>
-    <div class="cb-order-total" id="cbOrderTotalPrice">25€</div>
+
+    <!-- Code Promo YONIX10 + Détail TVA & Frais Stripe -->
+    <div style="border-top:1px solid var(--border);padding-top:10px;display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+        <input type="text" id="cbPromoInput" placeholder="Code promo (YONIX10)" style="flex:1;min-width:130px;padding:7px 10px;border-radius:8px;border:1px solid var(--border);background:var(--white);color:var(--ink);font-size:12px;font-weight:700;text-transform:uppercase">
+        <button type="button" onclick="window.applyPromoFromField('cbPromoInput')" style="padding:7px 12px;border-radius:8px;background:var(--blue);color:#fff;font-size:12px;font-weight:700;cursor:pointer">Appliquer</button>
+        <button type="button" class="js-promo-toggle-btn" onclick="window.togglePromoYonix10()" style="padding:7px 11px;border-radius:8px;background:var(--blue-soft);border:1px solid var(--blue-border);color:var(--blue);font-size:11.5px;font-weight:800;cursor:pointer">
+          Activer YONIX10 (-10%)
+        </button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:var(--ink-secondary)">
+        <div style="display:flex;justify-content:space-between">
+          <span>Sous-total produit(s)</span>
+          <b id="cbSubtotalVal" style="color:var(--ink)">25,00 €</b>
+        </div>
+        <div id="cbDiscountRow" style="display:none;justify-content:space-between;color:var(--green);font-weight:700">
+          <span>Réduction Code YONIX10 (-10%)</span>
+          <b id="cbDiscountVal">-2,50 €</b>
+        </div>
+        <div style="display:flex;justify-content:space-between">
+          <span>TVA &amp; Frais Stripe CB (2,9% + 0,25€)</span>
+          <b id="cbStripeFeeVal" style="color:var(--ink)">+0,98 €</b>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="cb-saved-box" id="cbSavedCardsBox" style="display:none"></div>
@@ -4131,6 +4198,7 @@ const SPOOFER_SVG = `<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3
 </svg>`;
 
 /* Populate brand and hero logos from RES_IMGS */
+RES_IMGS.Yonix = '/logos/Yonix.png?v=2';
 $$('.js-yonix-logo').forEach(el => { el.src = RES_IMGS.Yonix; });
 $$('.js-cs2-logo').forEach(el => { el.src = RES_IMGS.csgo; });
 $$('.js-cheat-preview').forEach(el => { el.src = RES_IMGS.cheat_preview; });
@@ -4700,6 +4768,52 @@ window.multiplyPriceStr = multiplyPriceStr;
     }
   }
 
+  function parseCentsHelper(raw) {
+    const m = String(raw || '0').match(/(\d+(?:[.,]\d+)?)/);
+    if (!m) return 0;
+    return Math.round(parseFloat(m[1].replace(',', '.')) * 100);
+  }
+
+  function formatEurHelper(cents) {
+    return (Math.max(0, cents) / 100).toFixed(2).replace('.', ',') + ' €';
+  }
+
+  window.syncCbModalPricing = function() {
+    if (!pendingOrder) return;
+    const baseRaw = pendingOrder.basePriceRaw || pendingOrder.priceRaw || '0€';
+    const baseCents = parseCentsHelper(baseRaw);
+    const isPromo = typeof window.isPromoYonix10Active === 'function' && window.isPromoYonix10Active();
+    const discountCents = isPromo ? Math.round(baseCents * 0.10) : 0;
+    const afterDiscCents = Math.max(50, baseCents - discountCents);
+    const stripeFeeCents = Math.round(afterDiscCents * 0.029) + 25;
+    const totalCents = afterDiscCents + stripeFeeCents;
+    const totalFormatted = formatEurHelper(totalCents);
+
+    pendingOrder.basePriceRaw = baseRaw;
+    pendingOrder.priceRaw = totalFormatted;
+    pendingOrder.promoCode = isPromo ? 'YONIX10' : '';
+    pendingOrder.discountCents = discountCents;
+    pendingOrder.stripeFeeCents = stripeFeeCents;
+
+    const subEl = $('#cbSubtotalVal');
+    const discRow = $('#cbDiscountRow');
+    const discVal = $('#cbDiscountVal');
+    const feeEl = $('#cbStripeFeeVal');
+    const totEl = $('#cbOrderTotalPrice');
+    const payLbl = $('#cbSubmitPayLabel');
+    const cbIn = $('#cbPromoInput');
+
+    if (subEl) subEl.textContent = formatEurHelper(baseCents);
+    if (discRow) discRow.style.display = isPromo ? 'flex' : 'none';
+    if (discVal) discVal.textContent = '-' + formatEurHelper(discountCents);
+    if (feeEl) feeEl.textContent = '+' + formatEurHelper(stripeFeeCents);
+    if (totEl) totEl.textContent = totalFormatted;
+    if (payLbl && !$('#cbSubmitPayBtn')?.disabled) {
+      payLbl.textContent = `Payer maintenant — ${totalFormatted}`;
+    }
+    if (cbIn) cbIn.value = isPromo ? 'YONIX10' : '';
+  };
+
   window.openDirectCardCheckout = async function(orderPayload, onSuccessCleanup = null) {
     if (!orderPayload) return;
 
@@ -4711,7 +4825,10 @@ window.multiplyPriceStr = multiplyPriceStr;
       return;
     }
 
-    pendingOrder = orderPayload;
+    pendingOrder = {
+      ...orderPayload,
+      basePriceRaw: orderPayload.basePriceRaw || orderPayload.priceRaw
+    };
     pendingCleanup = onSuccessCleanup;
 
     if ($('#pdModal')?.open) $('#pdModal').close();
@@ -4721,9 +4838,8 @@ window.multiplyPriceStr = multiplyPriceStr;
     const qty = clampQtyVal(orderPayload.quantity || 1);
     $('#cbOrderProdName').textContent = orderPayload.productName || 'Produit Yonix';
     $('#cbOrderTierName').textContent = `${orderPayload.tierName || 'Accès immédiat'}${qty > 1 ? ' · Quantité ×' + qty : ''}`;
-    $('#cbOrderTotalPrice').textContent = orderPayload.priceRaw || '';
-    $('#cbSubmitPayLabel').textContent = `Payer maintenant — ${orderPayload.priceRaw || ''}`;
     $('#cbSubmitPayBtn').disabled = false;
+    window.syncCbModalPricing();
     showCbError('');
 
     loadSavedCardsLocal();
@@ -5327,6 +5443,15 @@ jbModal.innerHTML = `
           <input type="number" class="qty-input" id="jbQtyInput" value="1" min="1" max="10" aria-label="Quantité">
           <button type="button" class="qty-btn" id="jbQtyPlus" aria-label="Augmenter la quantité">+</button>
         </div>
+      </div>
+      <div style="margin-bottom:12px;padding:10px 12px;border-radius:12px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+        <div style="font-size:12px;color:var(--ink-secondary);line-height:1.4">
+          <b style="color:var(--ink)">Code promo YONIX10 (-10%)</b>
+          <div style="font-size:11.5px;margin-top:2px">+ TVA &amp; Frais Stripe CB inclus au paiement</div>
+        </div>
+        <button type="button" class="js-promo-toggle-btn" onclick="window.togglePromoYonix10()" style="padding:6px 12px;border-radius:999px;background:var(--blue-soft);border:1px solid var(--blue-border);color:var(--blue);font-size:12px;font-weight:800;cursor:pointer">
+          Activer YONIX10 (-10%)
+        </button>
       </div>
       <div class="cgv-check">
         <input type="checkbox" id="jbCgvCheck" name="jbcgv" checked>
@@ -6030,51 +6155,117 @@ window.toast = toast;
   })();
 })();
 
-/* ===== PROMO BANNER + COUNTDOWN ===== */
+/* ===== PROMO BANNER + COUNTDOWN + GLOBAL YONIX10 PROMO ENGINE ===== */
 (function() {
-  const banner = document.getElementById('promoBanner');
-  const closeBtn = document.getElementById('bannerClose');
+  let promoActive = false;
+  try {
+    promoActive = (localStorage.getItem('yonix_promo_code') || '').toUpperCase() === 'YONIX10';
+  } catch (e) {}
 
-  function hideBanner() {
-    if (banner) banner.classList.add('hidden');
-    try { sessionStorage.setItem('yonix_banner_dismissed', '1'); } catch (e) {}
-  }
-  if (closeBtn) closeBtn.addEventListener('click', hideBanner);
-  try { if (sessionStorage.getItem('yonix_banner_dismissed') === '1') hideBanner(); } catch (e) {}
+  window.isPromoYonix10Active = function() {
+    return promoActive;
+  };
+
+  window.syncAllPromoUI = function() {
+    const bannerBtn = document.getElementById('bannerPromoBtn');
+    const bannerTxt = document.getElementById('bannerPromoBtnText');
+    if (bannerBtn && bannerTxt) {
+      if (promoActive) {
+        bannerBtn.style.background = 'rgba(34,197,94,0.22)';
+        bannerBtn.style.borderColor = 'rgba(34,197,94,0.65)';
+        bannerTxt.textContent = '✓ Code YONIX10 (-10%) Actif';
+      } else {
+        bannerBtn.style.background = 'rgba(78,124,255,0.22)';
+        bannerBtn.style.borderColor = 'rgba(78,124,255,0.55)';
+        bannerTxt.textContent = 'Activer -10%';
+      }
+    }
+
+    const cartQuickBtn = document.getElementById('cartQuickPromoBtn');
+    const cartIn = document.getElementById('cartPromoInput');
+    if (cartQuickBtn) {
+      cartQuickBtn.textContent = promoActive ? '✓ YONIX10 (-10%) Actif · Retirer' : 'Activer YONIX10 (-10%)';
+      cartQuickBtn.style.background = promoActive ? 'var(--green-soft)' : 'var(--blue-soft)';
+      cartQuickBtn.style.color = promoActive ? 'var(--green)' : 'var(--blue)';
+    }
+    if (cartIn) cartIn.value = promoActive ? 'YONIX10' : '';
+
+    document.querySelectorAll('.js-promo-toggle-btn').forEach(btn => {
+      btn.textContent = promoActive ? '✓ YONIX10 (-10%) Actif' : 'Activer YONIX10 (-10%)';
+      btn.style.background = promoActive ? 'var(--green-soft)' : 'var(--blue-soft)';
+      btn.style.color = promoActive ? 'var(--green)' : 'var(--blue)';
+      btn.style.borderColor = promoActive ? 'rgba(34,197,94,0.4)' : 'var(--blue-border)';
+    });
+
+    if (typeof window._rerenderCartPromo === 'function') window._rerenderCartPromo();
+    if (typeof window.syncCbModalPricing === 'function') window.syncCbModalPricing();
+  };
+
+  window.setPromoYonix10 = function(state, silent = false) {
+    promoActive = Boolean(state);
+    try {
+      if (promoActive) localStorage.setItem('yonix_promo_code', 'YONIX10');
+      else localStorage.removeItem('yonix_promo_code');
+    } catch (e) {}
+    window.syncAllPromoUI();
+    if (!silent && typeof window.toast === 'function') {
+      window.toast(promoActive ? 'Code promo YONIX10 (-10%) activé sur ta commande ✓' : 'Code promo YONIX10 retiré.');
+    }
+  };
+
+  window.togglePromoYonix10 = function() {
+    window.setPromoYonix10(!promoActive, false);
+  };
+
+  window.applyPromoFromField = function(inputId) {
+    const el = document.getElementById(inputId);
+    const val = (el?.value || '').trim().toUpperCase();
+    if (!val) {
+      window.setPromoYonix10(false, false);
+      return;
+    }
+    if (val === 'YONIX10') {
+      window.setPromoYonix10(true, false);
+    } else if (typeof window.toast === 'function') {
+      window.toast('Code promo invalide. Utilise le code YONIX10 (-10%).');
+    }
+  };
 
   const cdH = document.getElementById('cdH');
   const cdM = document.getElementById('cdM');
   const cdS = document.getElementById('cdS');
-  if (!cdH) return;
+  if (cdH) {
+    let endTime;
+    try {
+      endTime = parseInt(sessionStorage.getItem('yonix_cd_end') || '0', 10);
+      if (!endTime || endTime < Date.now()) {
+        endTime = Date.now() + 2 * 60 * 60 * 1000;
+        sessionStorage.setItem('yonix_cd_end', endTime);
+      }
+    } catch (e) { endTime = Date.now() + 2 * 60 * 60 * 1000; }
 
-  let endTime;
-  try {
-    endTime = parseInt(sessionStorage.getItem('yonix_cd_end') || '0', 10);
-    if (!endTime || endTime < Date.now()) {
-      endTime = Date.now() + 2 * 60 * 60 * 1000;
-      sessionStorage.setItem('yonix_cd_end', endTime);
+    function pad(n) { return String(Math.max(0, n)).padStart(2, '0'); }
+    function tick() {
+      const diff = Math.max(0, endTime - Date.now());
+      const h = Math.floor(diff / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      cdH.textContent = pad(h);
+      cdM.textContent = pad(m);
+      cdS.textContent = pad(s);
+      if (!diff) {
+        endTime = Date.now() + 2 * 60 * 60 * 1000;
+        try { sessionStorage.setItem('yonix_cd_end', endTime); } catch (e) {}
+      }
     }
-  } catch (e) { endTime = Date.now() + 2 * 60 * 60 * 1000; }
-
-  function pad(n) { return String(Math.max(0, n)).padStart(2, '0'); }
-  function tick() {
-    const diff = Math.max(0, endTime - Date.now());
-    const h = Math.floor(diff / 3600000);
-    const m = Math.floor((diff % 3600000) / 60000);
-    const s = Math.floor((diff % 60000) / 1000);
-    cdH.textContent = pad(h);
-    cdM.textContent = pad(m);
-    cdS.textContent = pad(s);
-    if (!diff) {
-      endTime = Date.now() + 2 * 60 * 60 * 1000;
-      try { sessionStorage.setItem('yonix_cd_end', endTime); } catch (e) {}
-    }
+    tick();
+    setInterval(tick, 1000);
   }
-  tick();
-  setInterval(tick, 1000);
+
+  setTimeout(() => window.syncAllPromoUI(), 50);
 })();
 
-/* ===== CART ENGINE (Zero Emojis — Uses Product Logos / SVG, 1..10 Quantity) ===== */
+/* ===== CART ENGINE (Zero Emojis — Uses Product Logos / SVG, 1..10 Quantity + Promo YONIX10 + Stripe TVA) ===== */
 (function() {
   let cart = [];
 
@@ -6100,9 +6291,20 @@ window.toast = toast;
     return Math.round(parseFloat(raw || '0') * 100);
   }
 
-  function totalCents() {
+  function subtotalCents() {
     return cart.reduce((s, i) => s + unitCents(i) * clampQ(i.quantity || 1), 0);
   }
+
+  function computeCartBreakdown() {
+    const sub = subtotalCents();
+    if (!sub) return { sub: 0, disc: 0, fee: 0, total: 0 };
+    const isPromo = typeof window.isPromoYonix10Active === 'function' && window.isPromoYonix10Active();
+    const disc = isPromo ? Math.round(sub * 0.10) : 0;
+    const afterDisc = Math.max(50, sub - disc);
+    const fee = Math.round(afterDisc * 0.029) + 25;
+    return { sub, disc, fee, total: afterDisc + fee };
+  }
+
   function formatPrice(cents) {
     return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(cents / 100);
   }
@@ -6123,6 +6325,10 @@ window.toast = toast;
   function renderCart() {
     const list = document.getElementById('cartItems');
     const total = document.getElementById('cartTotal');
+    const subEl = document.getElementById('cartSubtotalVal');
+    const discRow = document.getElementById('cartDiscountRow');
+    const discVal = document.getElementById('cartDiscountVal');
+    const feeEl = document.getElementById('cartStripeFeeVal');
     const btn = document.getElementById('cartCheckoutBtn');
     if (!list) return;
 
@@ -6131,6 +6337,9 @@ window.toast = toast;
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
         <p id="cartEmpty">Ton panier est vide.<br>Ajoute un produit depuis la boutique.</p>
       </div>`;
+      if (subEl) subEl.textContent = '0,00 €';
+      if (discRow) discRow.style.display = 'none';
+      if (feeEl) feeEl.textContent = '0,00 €';
       if (total) total.textContent = '0,00 €';
       if (btn) btn.disabled = true;
       return;
@@ -6158,9 +6367,15 @@ window.toast = toast;
       </div>`;
     }).join('');
 
-    if (total) total.textContent = formatPrice(totalCents());
+    const bk = computeCartBreakdown();
+    if (subEl) subEl.textContent = formatPrice(bk.sub);
+    if (discRow) discRow.style.display = bk.disc > 0 ? 'flex' : 'none';
+    if (discVal) discVal.textContent = '-' + formatPrice(bk.disc);
+    if (feeEl) feeEl.textContent = '+' + formatPrice(bk.fee);
+    if (total) total.textContent = formatPrice(bk.total);
     if (btn) btn.disabled = false;
   }
+  window._rerenderCartPromo = renderCart;
 
   function esc(s) { return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
@@ -6171,6 +6386,7 @@ window.toast = toast;
       prevPathBeforeCart = location.pathname === '/panier' ? '/boutique' : (location.pathname || '/');
     }
     renderCart();
+    if (typeof window.syncAllPromoUI === 'function') window.syncAllPromoUI();
     drawer.classList.add('open');
     document.getElementById('cartOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -6227,7 +6443,7 @@ window.toast = toast;
     }
     const totalItemsCount = cart.reduce((s, i) => s + clampQ(i.quantity || 1), 0);
     const isMulti = cart.length > 1;
-    const totalStr = (totalCents() / 100).toFixed(2).replace('.', ',') + '€';
+    const baseSubtotalStr = (subtotalCents() / 100).toFixed(2).replace('.', ',') + '€';
     const combinedName = isMulti
       ? cart.map(i => {
           const q = clampQ(i.quantity || 1);
@@ -6245,9 +6461,10 @@ window.toast = toast;
       tierId: isMulti ? 'multi' : cart[0].tierId,
       productName: combinedName,
       tierName: combinedTier,
-      unitPriceRaw: isMulti ? totalStr : cart[0].price,
-      priceRaw: totalStr,
-      price: totalStr,
+      unitPriceRaw: isMulti ? baseSubtotalStr : cart[0].price,
+      basePriceRaw: baseSubtotalStr,
+      priceRaw: baseSubtotalStr,
+      price: baseSubtotalStr,
       quantity: isMulti ? 1 : singleQty,
       ...(dlFiles ? { downloadFile: dlFiles } : {}),
       items: cart.map(i => {

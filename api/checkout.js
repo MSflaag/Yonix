@@ -115,8 +115,12 @@ export default async function handler(req, res) {
     productName,
     tierName,
     priceRaw,
+    basePriceRaw,
     unitPriceRaw,
     quantity,
+    promoCode,
+    discountCents: reqDiscountCents,
+    stripeFeeCents: reqStripeFeeCents,
     downloadFile,
     items,
     paymentMode,
@@ -138,6 +142,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Montant invalide.' });
   }
 
+  const cleanPromo = String(promoCode || '').toUpperCase().trim() === 'YONIX10' ? 'YONIX10' : '';
   const clampQty = (q) => Math.min(10, Math.max(1, parseInt(q, 10) || 1));
   const finalQty = clampQty(quantity);
   const siteUrl = getSiteUrl(req);
@@ -148,6 +153,9 @@ export default async function handler(req, res) {
     productName: String(productName).slice(0, 500),
     tierName: String(tierName).slice(0, 500),
     priceRaw: String(priceRaw).slice(0, 100),
+    ...(basePriceRaw ? { basePriceRaw: String(basePriceRaw).slice(0, 100) } : {}),
+    ...(cleanPromo ? { promoCode: cleanPromo, discountCents: String(reqDiscountCents || 0) } : {}),
+    ...(reqStripeFeeCents ? { stripeFeeCents: String(reqStripeFeeCents) } : {}),
     quantity: String(finalQty).slice(0, 10),
     deliveryStatus: downloadFile ? 'delivered' : 'pending',
     ...(downloadFile ? { downloadFile: String(downloadFile).slice(0, 500) } : {}),
@@ -272,7 +280,9 @@ export default async function handler(req, res) {
     });
   }
 
-  // Build line_items — support multi-item cart or single product with quantity (1..10)
+  // Build line_items — support promoCode (YONIX10 -10%) + TVA & Frais Stripe CB
+  const promoMult = cleanPromo === 'YONIX10' ? 0.90 : 1;
+  const feeCentsNum = Math.max(0, parseInt(reqStripeFeeCents, 10) || 0);
   let lineItems;
   if (Array.isArray(items) && items.length >= 1) {
     const validItems = items
@@ -280,13 +290,15 @@ export default async function handler(req, res) {
         const c = parsePriceCents(it.unitPriceRaw || it.priceRaw || it.price);
         if (!c || c < 50) return null;
         const itemQty = clampQty(it.quantity);
+        const finalUnit = Math.max(50, Math.round(c * promoMult));
+        const labelSuffix = cleanPromo ? ` (Code ${cleanPromo} -10%)` : '';
         return {
           price_data: {
             currency: 'eur',
             product_data: {
-              name: it.tierName ? `${it.productName} — ${it.tierName}` : String(it.productName || 'Article Yonix'),
+              name: (it.tierName ? `${it.productName} — ${it.tierName}` : String(it.productName || 'Article Yonix')) + labelSuffix,
             },
-            unit_amount: c,
+            unit_amount: finalUnit,
           },
           quantity: itemQty,
         };
@@ -297,21 +309,34 @@ export default async function handler(req, res) {
     }
   }
   if (!lineItems) {
-    const unitCents = unitPriceRaw
-      ? parsePriceCents(unitPriceRaw) || Math.round(amountCents / finalQty)
-      : amountCents;
+    const baseUnit = unitPriceRaw
+      ? Math.round((parsePriceCents(unitPriceRaw) || Math.round(amountCents / finalQty)) * promoMult)
+      : Math.max(50, amountCents - feeCentsNum);
+    const labelSuffix = cleanPromo ? ` (Code ${cleanPromo} -10%)` : '';
     lineItems = [
       {
         price_data: {
           currency: 'eur',
           product_data: {
-            name: tierName ? `${productName} — ${tierName}` : productName,
+            name: (tierName ? `${productName} — ${tierName}` : productName) + labelSuffix,
           },
-          unit_amount: unitCents,
+          unit_amount: baseUnit,
         },
         quantity: unitPriceRaw ? finalQty : 1,
       },
     ];
+  }
+  if (feeCentsNum > 0) {
+    lineItems.push({
+      price_data: {
+        currency: 'eur',
+        product_data: {
+          name: 'TVA & Frais de transaction Stripe CB (2,9% + 0,25€)',
+        },
+        unit_amount: feeCentsNum,
+      },
+      quantity: 1,
+    });
   }
 
   let stripeCustomerId = null;

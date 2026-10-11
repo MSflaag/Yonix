@@ -10,7 +10,7 @@
 ├── public/
 │   ├── index.html    — Main shop (single file, ~478KB)
 │   ├── success.html  — Post-payment page (downloads / service info)
-│   └── files/        — Put your jailbreak .zip files here
+│   └── files/        
 ├── vercel.json
 ├── package.json
 └── .env.example

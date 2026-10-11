@@ -49,12 +49,12 @@ export default async function handler(req, res) {
   const { token } = req.query || {};
 
   if (!token) {
-    return res.redirect(302, `${SITE_URL}/login.html?error=missing`);
+    return res.redirect(302, `${SITE_URL}/login?error=missing`);
   }
 
   const email = verifyToken(token);
   if (!email) {
-    return res.redirect(302, `${SITE_URL}/login.html?error=expired`);
+    return res.redirect(302, `${SITE_URL}/login?error=expired`);
   }
 
   // Émet un cookie de session httpOnly + SameSite=Lax
@@ -65,5 +65,5 @@ export default async function handler(req, res) {
     `yonix_session=${sessionToken}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${SESSION_MAX_AGE}${isProd ? '; Secure' : ''}`,
   ]);
 
-  return res.redirect(302, `${SITE_URL}/account.html`);
+  return res.redirect(302, `${SITE_URL}/account`);
 }

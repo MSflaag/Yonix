@@ -2,8 +2,24 @@
   "version": 2,
   "buildCommand": "echo 'No build needed'",
   "outputDirectory": "public",
-  "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "src": "/(.*)", "dest": "/$1" }
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/files/(.*)", "destination": "/files/$1" },
+    { "source": "/account", "destination": "/account.html" },
+    { "source": "/profile", "destination": "/profile.html" },
+    { "source": "/login", "destination": "/login.html" },
+    { "source": "/success", "destination": "/success.html" },
+    { "source": "/boutique", "destination": "/index.html" },
+    { "source": "/boutique/(.*)", "destination": "/index.html" },
+    { "source": "/produit/(.*)", "destination": "/index.html" },
+    { "source": "/avis", "destination": "/index.html" },
+    { "source": "/faq", "destination": "/index.html" },
+    { "source": "/garanties", "destination": "/index.html" },
+    { "source": "/panier", "destination": "/index.html" },
+    { "source": "/connexion", "destination": "/index.html" },
+    { "source": "/inscription", "destination": "/index.html" }
   ]
 }
+

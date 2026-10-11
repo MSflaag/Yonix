@@ -2739,7 +2739,7 @@ dialog::backdrop {
 <!-- MOBILE MENU -->
 <div id="mobileMenu" role="dialog" aria-modal="true" aria-label="Menu navigation">
   <div class="mob-head">
-    <a class="brand" href="#top" onclick="closeMobileMenu()">
+    <a class="brand" href="/" data-nav="top" onclick="closeMobileMenu()">
       <span class="brand-mark"><img class="js-yonix-logo" alt="Yonix"></span>
       <span>YONIX</span>
     </a>
@@ -2748,15 +2748,15 @@ dialog::backdrop {
     </button>
   </div>
   <nav class="mob-links" aria-label="Navigation mobile">
-    <a class="mob-link" href="#boutique" onclick="closeMobileMenu()">
+    <a class="mob-link" href="/boutique" data-nav="boutique" onclick="closeMobileMenu()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
       Boutique
     </a>
-    <a class="mob-link" href="#avis" onclick="closeMobileMenu()">
+    <a class="mob-link" href="/avis" data-nav="avis" onclick="closeMobileMenu()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
       Avis
     </a>
-    <a class="mob-link" href="#faq" onclick="closeMobileMenu()">
+    <a class="mob-link" href="/faq" data-nav="faq" onclick="closeMobileMenu()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       FAQ
     </a>
@@ -2775,15 +2775,15 @@ dialog::backdrop {
 <!-- 1. HEADER: Logo YONIX left, Links right, Fixed White Top -->
 <header class="nav" id="nav">
   <div class="wrap nav-in">
-    <a class="brand" href="#top" aria-label="Yonix accueil">
+    <a class="brand" href="/" data-nav="top" aria-label="Yonix accueil">
       <span class="brand-mark"><img class="js-yonix-logo" alt="Yonix logo"></span>
       <span>YONIX</span>
     </a>
 
     <nav class="nav-links" aria-label="Navigation principale">
-      <a href="#boutique" id="navBoutique">Boutique</a>
-      <a href="#avis" id="navAvis">Avis</a>
-      <a href="#faq" id="navFaq">FAQ</a>
+      <a href="/boutique" data-nav="boutique" id="navBoutique">Boutique</a>
+      <a href="/avis" data-nav="avis" id="navAvis">Avis</a>
+      <a href="/faq" data-nav="faq" id="navFaq">FAQ</a>
     </nav>
 
     <div class="nav-right">
@@ -2822,7 +2822,7 @@ dialog::backdrop {
         <span class="cart-badge" id="cartBadge"></span>
       </button>
 
-      <a href="#boutique" class="btn-blue sm nav-purchase-cta" id="navPurchaseBtn">Purchase</a>
+      <a href="/boutique" data-nav="boutique" class="btn-blue sm nav-purchase-cta" id="navPurchaseBtn">Purchase</a>
 
       <button id="hamBtn" onclick="toggleMobileMenu()" aria-label="Menu" aria-expanded="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -2855,11 +2855,11 @@ dialog::backdrop {
     </p>
 
     <div class="hero-actions rv">
-      <a href="#boutique" class="btn-blue" id="heroPurchaseBtn">
+      <a href="/boutique" data-nav="boutique" class="btn-blue" id="heroPurchaseBtn">
         <span>Purchase</span>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </a>
-      <a href="#boutique" class="btn-secondary" id="heroCatalogBtn">Voir la boutique</a>
+      <a href="/boutique" data-nav="boutique" class="btn-secondary" id="heroCatalogBtn">Voir la boutique</a>
     </div>
 
     <div class="hero-stats rv">
@@ -3039,8 +3039,8 @@ dialog::backdrop {
       <h2>Prêt à prendre l'avantage ?</h2>
       <p>Rejoins des milliers de joueurs qui font confiance à Yonix chaque jour.</p>
       <div class="cta-btns">
-        <a href="#boutique" class="btn-blue">Purchase</a>
-        <a href="#boutique" class="btn-secondary">Voir tous les produits</a>
+        <a href="/boutique" data-nav="boutique" class="btn-blue">Purchase</a>
+        <a href="/boutique" data-nav="boutique" class="btn-secondary">Voir tous les produits</a>
       </div>
     </div>
   </div>
@@ -3050,18 +3050,18 @@ dialog::backdrop {
 <!-- 6. FOOTER: Logo YONIX, Discord/Support & Legal Links, Small Gray Copyright -->
 <footer>
   <div class="wrap foot-grid">
-    <a class="foot-brand" href="#top">
+    <a class="foot-brand" href="/" data-nav="top">
       <span class="brand-mark"><img class="js-yonix-logo" alt="Yonix"></span>
       <span>YONIX</span>
     </a>
     <nav aria-label="Pied de page">
-      <a href="#boutique">Boutique</a>
-      <a href="#avis">Avis</a>
-      <a href="#garanties">Garanties</a>
-      <a href="#faq">FAQ</a>
-      <a href="#faq">Support Discord</a>
-      <a href="/cgv.html">CGV</a>
-      <a href="/legal.html">Mentions légales</a>
+      <a href="/boutique" data-nav="boutique">Boutique</a>
+      <a href="/avis" data-nav="avis">Avis</a>
+      <a href="/garanties" data-nav="garanties">Garanties</a>
+      <a href="/faq" data-nav="faq">FAQ</a>
+      <a href="/faq" data-nav="faq">Support Discord</a>
+      <a href="/cgv">CGV</a>
+      <a href="/legal">Mentions légales</a>
     </nav>
     <span class="foot-copy">© 2026 Yonix. Tous droits réservés.</span>
   </div>
@@ -3095,7 +3095,7 @@ dialog::backdrop {
       <!-- CGV acceptance -->
       <div class="cgv-check">
         <input type="checkbox" id="cgvCheck" name="cgv">
-        <label for="cgvCheck">J'accepte les <a href="/cgv.html" target="_blank">Conditions Générales de Vente</a> et je reconnais que mon droit de rétractation est exclu pour les produits numériques dont la livraison a commencé.</label>
+        <label for="cgvCheck">J'accepte les <a href="/cgv" target="_blank">Conditions Générales de Vente</a> et je reconnais que mon droit de rétractation est exclu pour les produits numériques dont la livraison a commencé.</label>
       </div>
       <div class="cgv-error" id="cgvError">Vous devez accepter les CGV pour continuer.</div>
 
@@ -3569,16 +3569,21 @@ JAILBREAKS.forEach(p => {
 $('.filter-bar').addEventListener('click', e => {
   const btn = e.target.closest('.flt');
   if (!btn) return;
-  $$('.flt').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
   filterCat(btn.dataset.cat);
+  if (window.setCleanUrl) {
+    window.setCleanUrl(btn.dataset.cat === 'all' ? '/boutique' : '/boutique/' + btn.dataset.cat);
+  }
 });
 
 function filterCat(cat) {
+  $$('.flt').forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
   $$('.pcard').forEach(c => {
     c.hidden = cat !== 'all' && c.dataset.cat !== cat;
   });
 }
+window.filterCat = filterCat;
+window.PRODUCTS = PRODUCTS;
+window.JAILBREAKS = JAILBREAKS;
 
 window.applySearch = function applySearch(scroll = true) {
   const q = $('#searchInput').value.toLowerCase().trim();
@@ -3600,7 +3605,7 @@ $('#searchInput').addEventListener('keydown', e => { if (e.key === 'Enter') appl
 const modal = $('#pdModal');
 let curProd = null, selTier = 0;
 
-function openProduct(id, initialTierIdx = null) {
+function openProduct(id, initialTierIdx = null, skipPush = false) {
   curProd = PRODUCTS.find(p => p.id === id);
   if (!curProd) return;
   if (initialTierIdx !== null && curProd.tiers[initialTierIdx]) {
@@ -3638,7 +3643,8 @@ function openProduct(id, initialTierIdx = null) {
     bfForm.style.display = 'none';
     buyBtn.textContent = 'Purchase — ' + curProd.tiers[selTier].price;
   }
-  modal.showModal();
+  if (!modal.open) modal.showModal();
+  if (!skipPush && window.setCleanUrl) window.setCleanUrl('/boutique/' + id);
 }
 window.openProduct = openProduct;
 
@@ -3746,10 +3752,15 @@ $$('dialog').forEach(d => {
   d.addEventListener('click', e => {
     if (e.target === d || e.target.closest('[data-close]')) d.close();
   });
+  d.addEventListener('close', () => {
+    if (window.setCleanUrl && location.pathname.startsWith('/boutique/')) {
+      window.setCleanUrl('/boutique', true);
+    }
+  });
 });
 
 let curJB = null;
-function openJB(id) {
+function openJB(id, skipPush = false) {
   curJB = JAILBREAKS.find(p => p.id === id);
   if (!curJB) return;
   $('#jbVis').innerHTML = `<img src="${curJB.img}" alt="${curJB.name}">`;
@@ -3758,7 +3769,8 @@ function openJB(id) {
   $('#jbDesc').textContent = curJB.desc;
   $('#jbFeats').innerHTML = curJB.feat.map(f => `<li>${f}</li>`).join('');
   $('#jbPrice').textContent = curJB.price;
-  jbModal.showModal();
+  if (!jbModal.open) jbModal.showModal();
+  if (!skipPush && window.setCleanUrl) window.setCleanUrl('/boutique/' + id);
 }
 window.openJB = openJB;
 
@@ -3885,22 +3897,34 @@ window.toast = toast;
   const closeBtn = document.getElementById('authClose');
   const tabs = document.querySelectorAll('.auth-tab');
   let locked = false;
+  let prevPathBeforeAuth = '/';
 
-  window.openAuth = function(tab) {
-    if (tab) switchTab(tab);
+  window.openAuth = function(tab, skipPush = false) {
+    if (!overlay.classList.contains('open')) {
+      prevPathBeforeAuth = (location.pathname === '/connexion' || location.pathname === '/inscription') ? '/' : (location.pathname || '/');
+    }
+    if (tab) switchTab(tab, true);
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
+    const activeTab = overlay.querySelector('.auth-panel.active')?.id === 'panel-register' ? 'register' : 'login';
+    if (!skipPush && window.setCleanUrl) {
+      window.setCleanUrl(activeTab === 'register' ? '/inscription' : '/connexion');
+    }
     setTimeout(() => {
-      document.getElementById(overlay.querySelector('.auth-panel.active').id === 'panel-login' ? 'authEmail' : 'authRegEmail').focus();
+      document.getElementById(activeTab === 'login' ? 'authEmail' : 'authRegEmail').focus();
     }, 250);
   };
 
   window.closeAuth = function() {
+    if (!overlay.classList.contains('open')) return;
     overlay.classList.remove('open');
     document.body.style.overflow = '';
+    if (window.setCleanUrl && (location.pathname === '/connexion' || location.pathname === '/inscription')) {
+      window.setCleanUrl(prevPathBeforeAuth || '/', true);
+    }
   };
 
-  window.switchTab = function(name) {
+  window.switchTab = function(name, skipPush = false) {
     tabs.forEach(t => {
       const isActive = t.dataset.tab === name;
       t.classList.toggle('active', isActive);
@@ -3909,6 +3933,9 @@ window.toast = toast;
     document.querySelectorAll('.auth-panel').forEach(p => {
       p.classList.toggle('active', p.id === 'panel-' + name);
     });
+    if (!skipPush && overlay.classList.contains('open') && window.setCleanUrl) {
+      window.setCleanUrl(name === 'register' ? '/inscription' : '/connexion', true);
+    }
   };
 
   tabs.forEach(t => t.addEventListener('click', () => switchTab(t.dataset.tab)));
@@ -3980,7 +4007,7 @@ window.toast = toast;
       if (r.ok) {
         if (label) label.textContent = 'Mon compte';
         const btn = document.getElementById('navLoginBtn');
-        if (btn) btn.onclick = () => { window.location.href = '/profile.html'; };
+        if (btn) btn.onclick = () => { window.location.href = '/profile'; };
       }
     } catch (e) {}
   })();
@@ -4096,16 +4123,27 @@ window.toast = toast;
 
   function esc(s) { return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
-  window.openCart = function() {
+  let prevPathBeforeCart = '/';
+  window.openCart = function(skipPush = false) {
+    const drawer = document.getElementById('cartDrawer');
+    if (!drawer.classList.contains('open')) {
+      prevPathBeforeCart = location.pathname === '/panier' ? '/boutique' : (location.pathname || '/');
+    }
     renderCart();
-    document.getElementById('cartDrawer').classList.add('open');
+    drawer.classList.add('open');
     document.getElementById('cartOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';
+    if (!skipPush && window.setCleanUrl) window.setCleanUrl('/panier');
   };
   window.closeCart = function() {
-    document.getElementById('cartDrawer').classList.remove('open');
+    const drawer = document.getElementById('cartDrawer');
+    if (!drawer.classList.contains('open')) return;
+    drawer.classList.remove('open');
     document.getElementById('cartOverlay').classList.remove('open');
     document.body.style.overflow = '';
+    if (window.setCleanUrl && location.pathname === '/panier') {
+      window.setCleanUrl(prevPathBeforeCart || '/boutique', true);
+    }
   };
   window.addToCart = function(item) {
     const exists = cart.find(c => c.productId === item.productId && c.tierId === item.tierId);
@@ -4271,6 +4309,145 @@ window.toast = toast;
   let saved = 'fr';
   try { saved = localStorage.getItem('yonix_lang') || 'fr'; } catch (e) {}
   applyLang(saved);
+})();
+
+/* ===== CLEAN URL ROUTER (History API — No ?cancelled=1, No #hash) ===== */
+(function() {
+  const canHistory = location.protocol === 'http:' || location.protocol === 'https:';
+  let programmaticScroll = false;
+
+  function setCleanUrl(path, replace = false) {
+    if (!canHistory) return;
+    try {
+      const clean = path.startsWith('/') ? path : '/' + path;
+      if (location.pathname !== clean || location.search || location.hash) {
+        history[replace ? 'replaceState' : 'pushState']({ path: clean }, '', clean);
+      }
+    } catch (e) {}
+  }
+  window.setCleanUrl = setCleanUrl;
+
+  function scrollToSection(secId, smooth = true) {
+    programmaticScroll = true;
+    if (!secId || secId === 'top') {
+      window.scrollTo({ top: 0, behavior: smooth ? 'smooth' : 'auto' });
+    } else {
+      const el = document.getElementById(secId);
+      if (el) el.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+    }
+    setTimeout(() => { programmaticScroll = false; }, 700);
+  }
+
+  // Intercept all [data-nav] links (/ , /boutique, /avis, /garanties, /faq)
+  document.querySelectorAll('a[data-nav]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = link.getAttribute('data-nav');
+      const cleanPath = target === 'top' ? '/' : '/' + target;
+      setCleanUrl(cleanPath, false);
+      scrollToSection(target, true);
+    });
+  });
+
+  function handleRoute(pathname, smooth = false) {
+    const clean = (pathname || '/').replace(/\/+$/, '') || '/';
+    const parts = clean.split('/').filter(Boolean);
+    const root = parts[0] || '';
+    const sub = parts[1] || '';
+
+    if (root === 'boutique' || root === 'produit') {
+      scrollToSection('boutique', smooth);
+      if (sub) {
+        const prod = (window.PRODUCTS || []).find(p => p.id === sub);
+        const jb = (window.JAILBREAKS || []).find(p => p.id === sub);
+        const cats = ['all', 'cs2', 'valorant', 'spoofer', 'services', 'jailbreak'];
+        if (prod && root === 'produit') {
+          window.openProduct(prod.id, null, true);
+        } else if (jb && root === 'produit') {
+          window.openJB(jb.id, true);
+        } else if (prod && sub !== 'cs2') {
+          window.openProduct(prod.id, null, true);
+        } else if (jb) {
+          window.openJB(jb.id, true);
+        } else if (cats.includes(sub) && window.filterCat) {
+          window.filterCat(sub);
+        } else if (prod) {
+          window.openProduct(prod.id, null, true);
+        }
+      }
+    } else if (root === 'avis' || root === 'faq' || root === 'garanties') {
+      scrollToSection(root, smooth);
+    } else if (root === 'panier') {
+      if (window.openCart) window.openCart(true);
+    } else if (root === 'connexion') {
+      if (window.openAuth) window.openAuth('login', true);
+    } else if (root === 'inscription') {
+      if (window.openAuth) window.openAuth('register', true);
+    }
+  }
+
+  // Strip ?cancelled=1 and legacy #hash on page load
+  const params = new URLSearchParams(location.search);
+  const wasCancelled = params.get('cancelled') === '1';
+  const initialHash = (location.hash || '').replace(/^#/, '');
+
+  if (wasCancelled) {
+    if (window.toast) setTimeout(() => window.toast('Paiement annulé.'), 200);
+    const targetPath = initialHash && initialHash !== 'top' ? '/' + initialHash : '/boutique';
+    setCleanUrl(targetPath, true);
+    handleRoute(targetPath, false);
+  } else if (initialHash) {
+    const validSecs = ['boutique', 'avis', 'faq', 'garanties'];
+    const targetPath = validSecs.includes(initialHash) ? '/' + initialHash : '/';
+    setCleanUrl(targetPath, true);
+    scrollToSection(initialHash, false);
+  } else if (location.search) {
+    setCleanUrl(location.pathname || '/', true);
+    handleRoute(location.pathname, false);
+  } else if (location.pathname && location.pathname !== '/' && location.pathname !== '/index.html') {
+    handleRoute(location.pathname, false);
+  } else if (location.pathname === '/index.html') {
+    setCleanUrl('/', true);
+  }
+
+  window.addEventListener('popstate', () => {
+    const pdDlg = document.getElementById('pdModal');
+    const jbDlg = document.getElementById('jbModal');
+    if (pdDlg && pdDlg.open && !location.pathname.startsWith('/boutique/')) pdDlg.close();
+    if (jbDlg && jbDlg.open && !location.pathname.startsWith('/boutique/')) jbDlg.close();
+    handleRoute(location.pathname, true);
+  });
+
+  // Update URL path cleanly as user scrolls through sections
+  const secList = [
+    { id: 'top', path: '/' },
+    { id: 'boutique', path: '/boutique' },
+    { id: 'garanties', path: '/garanties' },
+    { id: 'avis', path: '/avis' },
+    { id: 'faq', path: '/faq' }
+  ];
+  let scrollTimer = null;
+  window.addEventListener('scroll', () => {
+    if (programmaticScroll || !canHistory) return;
+    if (document.getElementById('pdModal')?.open || document.getElementById('jbModal')?.open) return;
+    if (document.getElementById('cartDrawer')?.classList.contains('open')) return;
+    if (document.getElementById('authOverlay')?.classList.contains('open')) return;
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => {
+      if (window.scrollY < 260) {
+        setCleanUrl('/', true);
+        return;
+      }
+      let currentPath = '/';
+      const mid = window.scrollY + window.innerHeight * 0.35;
+      for (const s of secList) {
+        const el = document.getElementById(s.id);
+        if (el && el.offsetTop <= mid) currentPath = s.path;
+      }
+      if (currentPath === '/boutique' && location.pathname.startsWith('/boutique/')) return;
+      setCleanUrl(currentPath, true);
+    }, 120);
+  }, { passive: true });
 })();
 </script>
 </body>

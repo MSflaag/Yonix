@@ -76,8 +76,8 @@ export default async function handler(req, res) {
         },
       ],
       metadata,
-      success_url: `${SITE_URL}/success.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${SITE_URL}/?cancelled=1`,
+      success_url: `${SITE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${SITE_URL}/boutique`,
     });
   } catch (err) {
     console.error('[checkout] Stripe error:', err.message);

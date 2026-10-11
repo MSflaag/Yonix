@@ -55,6 +55,8 @@ export default async function handler(req, res) {
     productName,
     tierName,
     priceRaw,
+    unitPriceRaw,
+    quantity,
     downloadFile,
     items,
     // Basic Fit client fields
@@ -73,13 +75,16 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Invalid price' });
   }
 
-  // Build line_items — support multi-item cart or single product
+  const clampQty = (q) => Math.min(10, Math.max(1, parseInt(q, 10) || 1));
+
+  // Build line_items — support multi-item cart or single product with quantity (1..10)
   let lineItems;
-  if (Array.isArray(items) && items.length > 1) {
+  if (Array.isArray(items) && items.length >= 1) {
     const validItems = items
       .map(it => {
-        const c = parsePriceCents(it.priceRaw || it.price);
+        const c = parsePriceCents(it.unitPriceRaw || it.priceRaw || it.price);
         if (!c || c < 50) return null;
+        const itemQty = clampQty(it.quantity);
         return {
           price_data: {
             currency: 'eur',
@@ -88,7 +93,7 @@ export default async function handler(req, res) {
             },
             unit_amount: c,
           },
-          quantity: 1,
+          quantity: itemQty,
         };
       })
       .filter(Boolean);
@@ -97,6 +102,8 @@ export default async function handler(req, res) {
     }
   }
   if (!lineItems) {
+    const singleQty = clampQty(quantity);
+    const unitCents = unitPriceRaw ? (parsePriceCents(unitPriceRaw) || Math.round(amountCents / singleQty)) : amountCents;
     lineItems = [
       {
         price_data: {
@@ -104,9 +111,9 @@ export default async function handler(req, res) {
           product_data: {
             name: tierName ? `${productName} — ${tierName}` : productName,
           },
-          unit_amount: amountCents,
+          unit_amount: unitCents,
         },
-        quantity: 1,
+        quantity: unitPriceRaw ? singleQty : 1,
       },
     ];
   }
@@ -117,6 +124,7 @@ export default async function handler(req, res) {
     productName: String(productName).slice(0, 500),
     tierName: String(tierName).slice(0, 500),
     priceRaw: String(priceRaw).slice(0, 100),
+    quantity: String(clampQty(quantity)).slice(0, 10),
     deliveryStatus: downloadFile ? 'delivered' : 'pending',
     ...(downloadFile ? { downloadFile: String(downloadFile).slice(0, 500) } : {}),
     // Basic Fit client fields

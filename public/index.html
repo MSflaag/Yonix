@@ -2413,13 +2413,131 @@ dialog::backdrop {
   margin: 2px 0 0;
 }
 
-.dlg-buy {
-  display: block;
-  width: 100%;
-  padding: 14px;
+/* Quantity Selector (1 to 10 max) */
+.qty-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  border-radius: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+
+.qty-label {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.qty-label b {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--night);
+}
+
+.qty-label span {
+  font-size: 11px;
+  color: var(--gray);
+  font-weight: 500;
+}
+
+.qty-stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--white);
+  border: 1px solid var(--platinum);
   border-radius: 999px;
-  font-weight: 600;
-  font-size: 15px;
+  padding: 3px;
+  box-shadow: var(--shadow-xs);
+}
+
+.qty-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.qty-btn:hover:not(:disabled) {
+  background: var(--blue);
+  color: var(--white);
+  border-color: var(--blue);
+}
+
+.qty-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.qty-input {
+  width: 38px;
+  text-align: center;
+  border: none;
+  background: transparent;
+  font: 800 14.5px var(--font);
+  color: var(--night);
+  outline: none;
+  -moz-appearance: textfield;
+}
+
+.qty-input::-webkit-outer-spin-button,
+.qty-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.dlg-actions {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.dlg-cart-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--blue);
+  background: var(--blue-soft);
+  border: 1.5px solid var(--blue-border);
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s, border-color 0.2s;
+}
+
+.dlg-cart-btn:hover {
+  background: rgba(78, 124, 255, 0.16);
+  border-color: var(--blue);
+  transform: translateY(-2px);
+}
+
+.dlg-buy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 14.5px;
   color: var(--white);
   background: var(--blue);
   box-shadow: 0 4px 14px rgba(78, 124, 255, 0.3);
@@ -2432,10 +2550,37 @@ dialog::backdrop {
   box-shadow: var(--shadow-blue);
 }
 
-.dlg-buy:disabled {
+.dlg-buy:disabled,
+.dlg-cart-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
+}
+
+.pcard-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.pcard-cart-btn {
+  width: 35px;
+  height: 35px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--blue-soft);
+  color: var(--blue);
+  border: 1px solid var(--blue-border);
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+
+.pcard-cart-btn:hover {
+  background: var(--blue);
+  color: var(--white);
+  transform: translateY(-1px);
 }
 
 /* ===== CART DRAWER ===== */
@@ -2556,6 +2701,48 @@ dialog::backdrop {
 .cart-item-tier {
   font-size: 12px;
   color: var(--gray);
+}
+
+.cart-qty-ctrl {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 5px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 1px 4px;
+}
+
+.cart-qty-btn {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  transition: background 0.15s, color 0.15s;
+}
+
+.cart-qty-btn:hover:not(:disabled) {
+  background: var(--blue);
+  color: var(--white);
+}
+
+.cart-qty-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.cart-qty-num {
+  min-width: 18px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--night);
 }
 
 .cart-item-price {
@@ -3256,13 +3443,30 @@ dialog::backdrop {
           <li>Téléchargement direct depuis la page de confirmation</li>
         </ul>
         <div class="bundle-pricing">
-          <div class="bundle-old"><span>À l'unité :</span><b>275€</b></div>
-          <div class="bundle-new"><span>Bundle :</span><b>110€</b></div>
+          <div class="bundle-old"><span>À l'unité :</span><b id="bundleOldPriceVal">275€</b></div>
+          <div class="bundle-new"><span>Bundle :</span><b id="bundleNewPriceVal">110€</b></div>
         </div>
-        <button class="btn-blue bundle-btn" id="bundleBuyBtn" type="button">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          <span>Acheter le Bundle — 110€</span>
-        </button>
+        <div class="qty-row" style="max-width:340px;margin-bottom:16px">
+          <div class="qty-label">
+            <b>Quantité</b>
+            <span>1 à 10 produits max</span>
+          </div>
+          <div class="qty-stepper">
+            <button type="button" class="qty-btn" id="bundleQtyMinus" aria-label="Diminuer la quantité">−</button>
+            <input type="number" class="qty-input" id="bundleQtyInput" value="1" min="1" max="10" aria-label="Quantité Bundle">
+            <button type="button" class="qty-btn" id="bundleQtyPlus" aria-label="Augmenter la quantité">+</button>
+          </div>
+        </div>
+        <div class="dlg-actions" style="max-width:460px">
+          <button class="dlg-cart-btn" id="bundleCartBtn" type="button">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1.5"/><circle cx="19" cy="21" r="1.5"/><path d="M2.5 3h3l2.4 12.1a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 1.9-1.5L22.5 7H6.2"/></svg>
+            <span>Mettre au panier</span>
+          </button>
+          <button class="dlg-buy" id="bundleBuyBtn" type="button">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            <span>Acheter maintenant</span>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -3392,10 +3596,23 @@ dialog::backdrop {
       <p class="tier-label">Choisir une formule</p>
       <div class="tier-grid" id="tierGrid"></div>
 
-      <div class="bundle-pricing" id="pdPriceCompare" style="display:none;margin-bottom:16px;gap:16px;justify-content:space-between">
+      <div class="bundle-pricing" id="pdPriceCompare" style="display:none;margin-bottom:14px;gap:16px;justify-content:space-between">
         <div class="bundle-old"><span>Prix de base :</span><b id="pdOldPriceVal" style="color:#EF4444;font-size:17px"></b></div>
         <span class="pcard-vs-badge" style="font-size:11px;padding:3px 9px">VS</span>
         <div class="bundle-new"><span>Prix Yonix :</span><b id="pdNewPriceVal" style="font-size:26px"></b></div>
+      </div>
+
+      <!-- Quantity Selector (1 to 10 max) -->
+      <div class="qty-row" id="pdQtyRow">
+        <div class="qty-label">
+          <b>Quantité</b>
+          <span>Entre 1 et 10 produits max</span>
+        </div>
+        <div class="qty-stepper">
+          <button type="button" class="qty-btn" id="pdQtyMinus" aria-label="Diminuer la quantité">−</button>
+          <input type="number" class="qty-input" id="pdQtyInput" value="1" min="1" max="10" aria-label="Quantité">
+          <button type="button" class="qty-btn" id="pdQtyPlus" aria-label="Augmenter la quantité">+</button>
+        </div>
       </div>
 
       <!-- Basic Fit pre-payment form -->
@@ -3417,7 +3634,16 @@ dialog::backdrop {
       </div>
       <div class="cgv-error" id="cgvError">Vous devez accepter les CGV pour continuer.</div>
 
-      <button class="dlg-buy" id="dlgBuy" type="button">Acheter</button>
+      <div class="dlg-actions">
+        <button class="dlg-cart-btn" id="dlgCartBtn" type="button">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1.5"/><circle cx="19" cy="21" r="1.5"/><path d="M2.5 3h3l2.4 12.1a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 1.9-1.5L22.5 7H6.2"/></svg>
+          <span>Mettre au panier</span>
+        </button>
+        <button class="dlg-buy" id="dlgBuy" type="button">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          <span id="dlgBuyLabel">Acheter maintenant</span>
+        </button>
+      </div>
     </div>
   </div>
 </dialog>
@@ -3927,7 +4153,32 @@ function reveal(el, delay = 0) {
 }
 $$('.rv').forEach((el, i) => reveal(el, (i % 4) * 50));
 
-/* ===== RENDER BUNDLE LOGOS ===== */
+/* ===== PRICE & QUANTITY HELPERS (1..10 MAX) ===== */
+function clampQtyVal(v) {
+  const n = parseInt(v, 10);
+  if (!Number.isFinite(n) || n < 1) return 1;
+  return Math.min(10, n);
+}
+
+function multiplyPriceStr(raw, qty) {
+  const q = clampQtyVal(qty);
+  if (!raw || q <= 1) return raw || '';
+  const str = String(raw);
+  const m = str.match(/(\d+(?:[.,]\d+)?)/);
+  if (!m) return str;
+  const val = parseFloat(m[1].replace(',', '.'));
+  if (!Number.isFinite(val)) return str;
+  const total = val * q;
+  const hasDecimals = m[1].includes(',') || m[1].includes('.') || !Number.isInteger(total);
+  const formatted = hasDecimals
+    ? total.toFixed(2).replace('.', ',')
+    : String(Math.round(total));
+  return str.replace(m[1], formatted);
+}
+window.clampQtyVal = clampQtyVal;
+window.multiplyPriceStr = multiplyPriceStr;
+
+/* ===== RENDER BUNDLE LOGOS & CONTROLS ===== */
 (function initBundle() {
   const bl = $('#bundleLogos');
   const items = [
@@ -3945,6 +4196,50 @@ $$('.rv').forEach((el, i) => reveal(el, (i % 4) * 50));
   ];
   bl.innerHTML = items.map(it => `<span class="b-logo"><img src="${it.img}" alt="${it.name}"><span>${it.name}</span></span>`).join('');
 
+  let bundleQty = 1;
+  const qMinus = $('#bundleQtyMinus');
+  const qPlus = $('#bundleQtyPlus');
+  const qInput = $('#bundleQtyInput');
+  const oldValEl = $('#bundleOldPriceVal');
+  const newValEl = $('#bundleNewPriceVal');
+
+  function syncBundleQty(val) {
+    bundleQty = clampQtyVal(val);
+    if (qInput) qInput.value = bundleQty;
+    if (qMinus) qMinus.disabled = bundleQty <= 1;
+    if (qPlus) qPlus.disabled = bundleQty >= 10;
+    if (oldValEl) oldValEl.textContent = multiplyPriceStr('275€', bundleQty);
+    if (newValEl) newValEl.textContent = multiplyPriceStr(BUNDLE.price, bundleQty);
+  }
+  syncBundleQty(1);
+  if (qMinus) qMinus.addEventListener('click', () => syncBundleQty(bundleQty - 1));
+  if (qPlus) qPlus.addEventListener('click', () => syncBundleQty(bundleQty + 1));
+  if (qInput) {
+    qInput.addEventListener('input', () => syncBundleQty(qInput.value));
+    qInput.addEventListener('change', () => syncBundleQty(qInput.value));
+  }
+
+  const cartBtn = $('#bundleCartBtn');
+  if (cartBtn) {
+    cartBtn.addEventListener('click', () => {
+      if (typeof addToCart === 'function') {
+        addToCart({
+          name: BUNDLE.name,
+          tier: 'Bundle Complet (11 fichiers .txt)',
+          price: BUNDLE.price,
+          img: RES_IMGS.claude_antigravity || '',
+          productId: 'bundle-all',
+          tierId: 0,
+          quantity: bundleQty
+        });
+        if (typeof openCart === 'function') openCart();
+        toast(`Ajouté au panier (×${bundleQty})`);
+      }
+    });
+  }
+
+  const buyBtnHtml = `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span>Acheter maintenant</span>`;
+
   $('#bundleBuyBtn').addEventListener('click', async () => {
     if (!window.CURRENT_USER_EMAIL && typeof window.requireAuthForOrder === 'function') {
       window.requireAuthForOrder(() => $('#bundleBuyBtn').click());
@@ -3960,12 +4255,20 @@ $$('.rv').forEach((el, i) => reveal(el, (i % 4) * 50));
           'Content-Type': 'application/json',
           'x-yonix-token': localStorage.getItem('yonix_token') || ''
         },
-        body: JSON.stringify({ productName: BUNDLE.name, tierName: 'Bundle Complet', priceRaw: BUNDLE.price })
+        body: JSON.stringify({
+          productId: 'bundle-all',
+          tierId: 0,
+          productName: BUNDLE.name,
+          tierName: 'Bundle Complet',
+          unitPriceRaw: BUNDLE.price,
+          priceRaw: multiplyPriceStr(BUNDLE.price, bundleQty),
+          quantity: bundleQty
+        })
       });
       const data = await res.json();
       if (res.status === 401 || data.requireAuth) {
         btn.disabled = false;
-        btn.innerHTML = `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span>Acheter le Bundle — 110€</span>`;
+        btn.innerHTML = buyBtnHtml;
         if (typeof window.requireAuthForOrder === 'function') {
           window.requireAuthForOrder(() => $('#bundleBuyBtn').click());
         }
@@ -3976,18 +4279,19 @@ $$('.rv').forEach((el, i) => reveal(el, (i % 4) * 50));
       } else {
         toast('Erreur : ' + (data.error || 'Réponse invalide'));
         btn.disabled = false;
-        btn.innerHTML = `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span>Acheter le Bundle — 110€</span>`;
+        btn.innerHTML = buyBtnHtml;
       }
     } catch (e) {
       toast('Erreur réseau — réessaie.');
       btn.disabled = false;
-      btn.innerHTML = `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span>Acheter le Bundle — 110€</span>`;
+      btn.innerHTML = buyBtnHtml;
     }
   });
 })();
 
-/* ===== RENDER PRODUCT CATALOGUE GRID (14 PRODUCTS + 11 JAILBREAKS) ===== */
+/* ===== RENDER PRODUCT CATALOGUE GRID (PRODUCTS + JAILBREAKS) ===== */
 const grid = $('#pgrid');
+const CART_ICON_SVG = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1.5"/><circle cx="19" cy="21" r="1.5"/><path d="M2.5 3h3l2.4 12.1a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 1.9-1.5L22.5 7H6.2"/></svg>`;
 
 PRODUCTS.forEach(p => {
   const c = document.createElement('article');
@@ -4009,10 +4313,39 @@ PRODUCTS.forEach(p => {
       <p class="pcard-sub">${p.sub}</p>
       <div class="pcard-row">
         <div class="pcard-price"><span>${priceLabel}</span>${oldPriceHtml}<b>${firstTier.price}</b></div>
-        <button class="buy-btn" type="button">Acheter</button>
+        <div class="pcard-actions">
+          <button class="pcard-cart-btn" type="button" title="Mettre au panier" aria-label="Mettre au panier">${CART_ICON_SVG}</button>
+          <button class="buy-btn" type="button">Acheter maintenant</button>
+        </div>
       </div>
     </div>
   </div>`;
+  const quickCartBtn = c.querySelector('.pcard-cart-btn');
+  if (quickCartBtn) {
+    quickCartBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      if (p.id === 'basic-fit') {
+        openProduct(p.id);
+        return;
+      }
+      const bestIdx = p.tiers.findIndex(t => t.best);
+      const tIdx = bestIdx >= 0 ? bestIdx : 0;
+      const tier = p.tiers[tIdx] || firstTier;
+      if (typeof addToCart === 'function') {
+        addToCart({
+          name: p.name,
+          tier: tier.dur,
+          price: tier.price,
+          img: p.img || '',
+          productId: p.id,
+          tierId: tIdx,
+          quantity: 1
+        });
+        if (typeof openCart === 'function') openCart();
+        toast('Ajouté au panier');
+      }
+    });
+  }
   c.addEventListener('click', () => openProduct(p.id));
   grid.append(c);
   reveal(c);
@@ -4033,10 +4366,33 @@ JAILBREAKS.forEach(p => {
       <p class="pcard-sub">${p.sub}</p>
       <div class="pcard-row">
         <div class="pcard-price"><span>Prix unique</span>${oldPriceHtml}<b>${p.price}</b></div>
-        <button class="buy-btn" type="button">Acheter</button>
+        <div class="pcard-actions">
+          <button class="pcard-cart-btn" type="button" title="Mettre au panier" aria-label="Mettre au panier">${CART_ICON_SVG}</button>
+          <button class="buy-btn" type="button">Acheter maintenant</button>
+        </div>
       </div>
     </div>
   </div>`;
+  const quickCartBtn = c.querySelector('.pcard-cart-btn');
+  if (quickCartBtn) {
+    quickCartBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      if (typeof addToCart === 'function') {
+        addToCart({
+          name: p.name,
+          tier: 'Accès unique (.txt)',
+          price: p.price,
+          img: p.img || '',
+          productId: p.id,
+          tierId: 0,
+          downloadFile: p.file || '',
+          quantity: 1
+        });
+        if (typeof openCart === 'function') openCart();
+        toast('Ajouté au panier');
+      }
+    });
+  }
   c.addEventListener('click', () => openJB(p.id));
   grid.append(c);
   reveal(c);
@@ -4080,7 +4436,23 @@ $('#searchInput').addEventListener('keydown', e => { if (e.key === 'Enter') appl
 
 /* ===== PRODUCT MODAL ===== */
 const modal = $('#pdModal');
-let curProd = null, selTier = 0;
+let curProd = null, selTier = 0, selQty = 1;
+
+function setModalQty(val) {
+  selQty = clampQtyVal(val);
+  const qIn = $('#pdQtyInput');
+  const qMin = $('#pdQtyMinus');
+  const qMax = $('#pdQtyPlus');
+  if (qIn) qIn.value = selQty;
+  if (qMin) qMin.disabled = selQty <= 1;
+  if (qMax) qMax.disabled = selQty >= 10;
+  updateModalPriceComparison();
+}
+
+$('#pdQtyMinus')?.addEventListener('click', () => setModalQty(selQty - 1));
+$('#pdQtyPlus')?.addEventListener('click', () => setModalQty(selQty + 1));
+$('#pdQtyInput')?.addEventListener('input', e => setModalQty(e.target.value));
+$('#pdQtyInput')?.addEventListener('change', e => setModalQty(e.target.value));
 
 function updateModalPriceComparison() {
   const cmpBox = $('#pdPriceCompare');
@@ -4088,11 +4460,17 @@ function updateModalPriceComparison() {
   const tier = curProd.tiers[selTier] || {};
   if (tier.oldPrice) {
     cmpBox.style.display = 'flex';
-    $('#pdOldPriceVal').textContent = tier.oldPrice;
-    $('#pdNewPriceVal').textContent = tier.price;
+    $('#pdOldPriceVal').textContent = multiplyPriceStr(tier.oldPrice, selQty);
+    $('#pdNewPriceVal').textContent = multiplyPriceStr(tier.price, selQty);
   } else {
     cmpBox.style.display = 'none';
   }
+}
+
+function setBuyBtnLabel(text) {
+  const lbl = $('#dlgBuyLabel');
+  if (lbl) lbl.textContent = text;
+  else $('#dlgBuy').textContent = text;
 }
 
 function openProduct(id, initialTierIdx = null, skipPush = false) {
@@ -4114,8 +4492,9 @@ function openProduct(id, initialTierIdx = null, skipPush = false) {
   $('#pdSub').textContent = curProd.sub;
   $('#pdDesc').textContent = curProd.desc;
   $('#pdFeats').innerHTML = curProd.feat.map(f => `<li>${f}</li>`).join('');
+  selQty = 1;
   renderTiers();
-  updateModalPriceComparison();
+  setModalQty(1);
 
   const cgvCk = $('#cgvCheck');
   const cgvEr = $('#cgvError');
@@ -4124,15 +4503,14 @@ function openProduct(id, initialTierIdx = null, skipPush = false) {
   const cgvBox = cgvCk && cgvCk.closest('.cgv-check');
   if (cgvBox) cgvBox.style.borderColor = '';
 
-  const buyBtn = $('#dlgBuy');
   const bfForm = $('#bfForm');
   if (curProd.id === 'basic-fit') {
     bfForm.style.display = 'flex';
-    buyBtn.textContent = 'Confirmer et payer';
+    setBuyBtnLabel('Acheter maintenant');
     bfForm.reset();
   } else {
     bfForm.style.display = 'none';
-    buyBtn.textContent = 'Acheter — ' + curProd.tiers[selTier].price;
+    setBuyBtnLabel('Acheter maintenant');
   }
   if (!modal.open) modal.showModal();
   if (!skipPush && window.setCleanUrl) window.setCleanUrl('/boutique/' + id);
@@ -4158,13 +4536,32 @@ function renderTiers() {
       selTier = parseInt(b.dataset.i, 10);
       $$('.tier-btn', tg).forEach(x => x.classList.toggle('sel', x === b));
       updateModalPriceComparison();
-      if (curProd.id !== 'basic-fit') {
-        $('#dlgBuy').textContent = 'Acheter — ' + curProd.tiers[selTier].price;
-      }
+      setBuyBtnLabel('Acheter maintenant');
     });
   });
 }
 
+/* "Mettre au panier" button in Product Modal */
+$('#dlgCartBtn')?.addEventListener('click', () => {
+  if (!curProd) return;
+  const tier = curProd.tiers[selTier];
+  if (typeof addToCart === 'function') {
+    addToCart({
+      name: curProd.name,
+      tier: tier.dur,
+      price: tier.price,
+      img: curProd.img || '',
+      productId: curProd.id,
+      tierId: selTier,
+      quantity: selQty
+    });
+    modal.close();
+    if (typeof openCart === 'function') openCart();
+    toast(`Ajouté au panier (×${selQty})`);
+  }
+});
+
+/* "Acheter maintenant" button in Product Modal (Direct Stripe Checkout) */
 $('#dlgBuy').addEventListener('click', async () => {
   if (!curProd) return;
   const cgvEl = $('#cgvCheck');
@@ -4177,35 +4574,7 @@ $('#dlgBuy').addEventListener('click', async () => {
   }
   if (cgvErr) cgvErr.style.display = 'none';
 
-  const tier = curProd.tiers[selTier];
-  const btn = $('#dlgBuy');
-  const originalText = btn.textContent;
-
-  if (!window.CURRENT_USER_EMAIL && typeof window.requireAuthForOrder === 'function') {
-    const savedProdId = curProd.id;
-    const savedTierIdx = selTier;
-    modal.close();
-    window.requireAuthForOrder(() => {
-      if (savedProdId === 'basic-fit') {
-        openProduct(savedProdId, savedTierIdx);
-      } else if (typeof addToCart === 'function') {
-        const p = PRODUCTS.find(x => x.id === savedProdId);
-        if (p && p.tiers[savedTierIdx]) {
-          addToCart({
-            name: p.name,
-            tier: p.tiers[savedTierIdx].dur,
-            price: p.tiers[savedTierIdx].price,
-            img: p.img || '',
-            productId: p.id,
-            tierId: savedTierIdx
-          });
-          if (typeof openCart === 'function') openCart();
-        }
-      }
-    });
-    return;
-  }
-
+  let bfExtra = {};
   if (curProd.id === 'basic-fit') {
     const prenom = $('#bfPrenom').value.trim();
     const nom = $('#bfNom').value.trim();
@@ -4213,48 +4582,71 @@ $('#dlgBuy').addEventListener('click', async () => {
     const email = $('#bfEmail').value.trim();
     if (!prenom || !nom || !dob || !email) { toast('Remplis tous les champs requis.'); return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { toast('Email invalide.'); return; }
-    btn.disabled = true;
-    btn.textContent = 'Redirection Stripe…';
-    try {
-      const payload = { productName: curProd.name, tierName: tier.dur, priceRaw: tier.price, clientPrenom: prenom, clientNom: nom, clientDOB: dob, clientEmail: email };
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-yonix-token': localStorage.getItem('yonix_token') || ''
-        },
-        body: JSON.stringify(payload)
-      });
-      const data = await res.json();
-      if (res.status === 401 || data.requireAuth) {
-        btn.disabled = false;
-        btn.textContent = originalText;
-        modal.close();
-        if (typeof window.requireAuthForOrder === 'function') window.requireAuthForOrder();
-        return;
-      }
-      if (data.url) { window.location.href = data.url; }
-      else { toast('Erreur : ' + (data.error || 'Réponse invalide')); btn.disabled = false; btn.textContent = originalText; }
-    } catch (e) {
-      toast('Erreur réseau — réessaie.');
-      btn.disabled = false;
-      btn.textContent = originalText;
-    }
+    bfExtra = { clientPrenom: prenom, clientNom: nom, clientDOB: dob, clientEmail: email };
+  }
+
+  const tier = curProd.tiers[selTier];
+  const btn = $('#dlgBuy');
+  const savedQty = selQty;
+
+  if (!window.CURRENT_USER_EMAIL && typeof window.requireAuthForOrder === 'function') {
+    const savedProdId = curProd.id;
+    const savedTierIdx = selTier;
+    modal.close();
+    window.requireAuthForOrder(() => {
+      openProduct(savedProdId, savedTierIdx);
+      setModalQty(savedQty);
+    });
     return;
   }
 
-  if (typeof addToCart === 'function') {
-    addToCart({
-      name: curProd.name,
-      tier: tier.dur,
-      price: tier.price,
-      img: curProd.img || '',
+  btn.disabled = true;
+  setBuyBtnLabel('Redirection Stripe…');
+  try {
+    const payload = {
       productId: curProd.id,
-      tierId: selTier
+      tierId: selTier,
+      productName: curProd.name,
+      tierName: tier.dur,
+      unitPriceRaw: tier.price,
+      priceRaw: multiplyPriceStr(tier.price, savedQty),
+      quantity: savedQty,
+      ...bfExtra
+    };
+    const res = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-yonix-token': localStorage.getItem('yonix_token') || ''
+      },
+      body: JSON.stringify(payload)
     });
-    modal.close();
-    if (typeof openCart === 'function') openCart();
-    toast('Ajouté au panier');
+    const data = await res.json();
+    if (res.status === 401 || data.requireAuth) {
+      btn.disabled = false;
+      setBuyBtnLabel('Acheter maintenant');
+      const savedProdId = curProd.id;
+      const savedTierIdx = selTier;
+      modal.close();
+      if (typeof window.requireAuthForOrder === 'function') {
+        window.requireAuthForOrder(() => {
+          openProduct(savedProdId, savedTierIdx);
+          setModalQty(savedQty);
+        });
+      }
+      return;
+    }
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      toast('Erreur : ' + (data.error || 'Réponse invalide'));
+      btn.disabled = false;
+      setBuyBtnLabel('Acheter maintenant');
+    }
+  } catch (e) {
+    toast('Erreur réseau — réessaie.');
+    btn.disabled = false;
+    setBuyBtnLabel('Acheter maintenant');
   }
 });
 
@@ -4271,13 +4663,38 @@ jbModal.innerHTML = `
       <p class="dlg-sub" id="jbSub"></p>
       <p class="dlg-desc" id="jbDesc"></p>
       <ul class="dlg-feats" id="jbFeats"></ul>
-      <div class="bundle-pricing" style="margin-bottom:18px;gap:14px">
+      <div class="bundle-pricing" style="margin-bottom:14px;gap:14px">
         <div class="bundle-old"><span>Prix de base :</span><b id="jbOldPrice" style="color:#EF4444;font-size:17px">49,99€</b></div>
         <span class="pcard-vs-badge" style="font-size:11px;padding:3px 8px">VS</span>
         <div class="bundle-new"><span>Prix Yonix :</span><b id="jbPrice"></b></div>
         <div style="color:var(--gray);font-size:12.5px;padding-left:12px;border-left:1px solid var(--border)">Téléchargement<br>immédiat (.txt)</div>
       </div>
-      <button class="dlg-buy" id="jbBuyBtn" type="button">Acheter — 25€</button>
+      <div class="qty-row" id="jbQtyRow">
+        <div class="qty-label">
+          <b>Quantité</b>
+          <span>Entre 1 et 10 produits max</span>
+        </div>
+        <div class="qty-stepper">
+          <button type="button" class="qty-btn" id="jbQtyMinus" aria-label="Diminuer la quantité">−</button>
+          <input type="number" class="qty-input" id="jbQtyInput" value="1" min="1" max="10" aria-label="Quantité">
+          <button type="button" class="qty-btn" id="jbQtyPlus" aria-label="Augmenter la quantité">+</button>
+        </div>
+      </div>
+      <div class="cgv-check">
+        <input type="checkbox" id="jbCgvCheck" name="jbcgv">
+        <label for="jbCgvCheck">J'accepte les <a href="/cgv" target="_blank">Conditions Générales de Vente</a> et je reconnais que mon droit de rétractation est exclu pour les produits numériques dont la livraison a commencé.</label>
+      </div>
+      <div class="cgv-error" id="jbCgvError">Vous devez accepter les CGV pour continuer.</div>
+      <div class="dlg-actions">
+        <button class="dlg-cart-btn" id="jbCartBtn" type="button">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1.5"/><circle cx="19" cy="21" r="1.5"/><path d="M2.5 3h3l2.4 12.1a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 1.9-1.5L22.5 7H6.2"/></svg>
+          <span>Mettre au panier</span>
+        </button>
+        <button class="dlg-buy" id="jbBuyBtn" type="button">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          <span id="jbBuyLabel">Acheter maintenant</span>
+        </button>
+      </div>
     </div>
   </div>`;
 document.body.append(jbModal);
@@ -4293,7 +4710,26 @@ $$('dialog').forEach(d => {
   });
 });
 
-let curJB = null;
+let curJB = null, jbQty = 1;
+function setJBQty(val) {
+  jbQty = clampQtyVal(val);
+  const qIn = $('#jbQtyInput');
+  const qMin = $('#jbQtyMinus');
+  const qMax = $('#jbQtyPlus');
+  if (qIn) qIn.value = jbQty;
+  if (qMin) qMin.disabled = jbQty <= 1;
+  if (qMax) qMax.disabled = jbQty >= 10;
+  if (curJB) {
+    if ($('#jbOldPrice')) $('#jbOldPrice').textContent = multiplyPriceStr(curJB.oldPrice || '49,99€', jbQty);
+    if ($('#jbPrice')) $('#jbPrice').textContent = multiplyPriceStr(curJB.price, jbQty);
+  }
+}
+
+$('#jbQtyMinus')?.addEventListener('click', () => setJBQty(jbQty - 1));
+$('#jbQtyPlus')?.addEventListener('click', () => setJBQty(jbQty + 1));
+$('#jbQtyInput')?.addEventListener('input', e => setJBQty(e.target.value));
+$('#jbQtyInput')?.addEventListener('change', e => setJBQty(e.target.value));
+
 function openJB(id, skipPush = false) {
   curJB = JAILBREAKS.find(p => p.id === id);
   if (!curJB) return;
@@ -4302,14 +4738,20 @@ function openJB(id, skipPush = false) {
   $('#jbSub').textContent = curJB.sub;
   $('#jbDesc').textContent = curJB.desc;
   $('#jbFeats').innerHTML = curJB.feat.map(f => `<li>${f}</li>`).join('');
-  if ($('#jbOldPrice')) $('#jbOldPrice').textContent = curJB.oldPrice || '49,99€';
-  $('#jbPrice').textContent = curJB.price;
+  setJBQty(1);
+  const cgvCk = $('#jbCgvCheck');
+  const cgvEr = $('#jbCgvError');
+  if (cgvCk) cgvCk.checked = false;
+  if (cgvEr) cgvEr.style.display = 'none';
+  const cgvBox = cgvCk && cgvCk.closest('.cgv-check');
+  if (cgvBox) cgvBox.style.borderColor = '';
+  if ($('#jbBuyLabel')) $('#jbBuyLabel').textContent = 'Acheter maintenant';
   if (!jbModal.open) jbModal.showModal();
   if (!skipPush && window.setCleanUrl) window.setCleanUrl('/boutique/' + id);
 }
 window.openJB = openJB;
 
-$('#jbBuyBtn').addEventListener('click', () => {
+$('#jbCartBtn')?.addEventListener('click', () => {
   if (!curJB) return;
   const item = {
     name: curJB.name,
@@ -4318,22 +4760,86 @@ $('#jbBuyBtn').addEventListener('click', () => {
     img: curJB.img || '',
     productId: curJB.id,
     tierId: 0,
-    downloadFile: curJB.file || ''
+    downloadFile: curJB.file || '',
+    quantity: jbQty
   };
   jbModal.close();
-  if (!window.CURRENT_USER_EMAIL && typeof window.requireAuthForOrder === 'function') {
-    window.requireAuthForOrder(() => {
-      if (typeof addToCart === 'function') {
-        addToCart(item);
-        if (typeof openCart === 'function') openCart();
-      }
-    });
-    return;
-  }
   if (typeof addToCart === 'function') {
     addToCart(item);
     if (typeof openCart === 'function') openCart();
-    toast('Ajouté au panier');
+    toast(`Ajouté au panier (×${jbQty})`);
+  }
+});
+
+$('#jbBuyBtn').addEventListener('click', async () => {
+  if (!curJB) return;
+  const cgvEl = $('#jbCgvCheck');
+  const cgvErr = $('#jbCgvError');
+  if (cgvEl && !cgvEl.checked) {
+    if (cgvErr) cgvErr.style.display = 'block';
+    cgvEl.closest('.cgv-check').style.borderColor = 'rgba(220, 38, 38, 0.5)';
+    cgvEl.focus();
+    return;
+  }
+  if (cgvErr) cgvErr.style.display = 'none';
+
+  const savedJBId = curJB.id;
+  const savedQty = jbQty;
+  if (!window.CURRENT_USER_EMAIL && typeof window.requireAuthForOrder === 'function') {
+    jbModal.close();
+    window.requireAuthForOrder(() => {
+      openJB(savedJBId);
+      setJBQty(savedQty);
+    });
+    return;
+  }
+
+  const btn = $('#jbBuyBtn');
+  const lbl = $('#jbBuyLabel');
+  btn.disabled = true;
+  if (lbl) lbl.textContent = 'Redirection Stripe…';
+  try {
+    const res = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-yonix-token': localStorage.getItem('yonix_token') || ''
+      },
+      body: JSON.stringify({
+        productId: curJB.id,
+        tierId: 0,
+        productName: curJB.name,
+        tierName: 'Accès unique (.txt)',
+        unitPriceRaw: curJB.price,
+        priceRaw: multiplyPriceStr(curJB.price, savedQty),
+        quantity: savedQty,
+        downloadFile: curJB.file || ''
+      })
+    });
+    const data = await res.json();
+    if (res.status === 401 || data.requireAuth) {
+      btn.disabled = false;
+      if (lbl) lbl.textContent = 'Acheter maintenant';
+      jbModal.close();
+      if (typeof window.requireAuthForOrder === 'function') {
+        window.requireAuthForOrder(() => {
+          openJB(savedJBId);
+          setJBQty(savedQty);
+        });
+      }
+      return;
+    }
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      toast('Erreur : ' + (data.error || 'Réponse invalide'));
+      btn.disabled = false;
+      if (lbl) lbl.textContent = 'Acheter maintenant';
+    }
+  } catch (e) {
+    toast('Erreur réseau — réessaie.');
+    btn.disabled = false;
+    if (lbl) lbl.textContent = 'Acheter maintenant';
   }
 });
 
@@ -4723,19 +5229,34 @@ window.toast = toast;
   setInterval(tick, 1000);
 })();
 
-/* ===== CART ENGINE (Zero Emojis — Uses Product Logos / SVG) ===== */
+/* ===== CART ENGINE (Zero Emojis — Uses Product Logos / SVG, 1..10 Quantity) ===== */
 (function() {
   let cart = [];
 
+  function clampQ(v) {
+    const n = parseInt(v, 10);
+    if (!Number.isFinite(n) || n < 1) return 1;
+    return Math.min(10, n);
+  }
+
   function save() { try { localStorage.setItem('yonix_cart', JSON.stringify(cart)); } catch (e) {} }
-  function load() { try { const d = localStorage.getItem('yonix_cart'); if (d) cart = JSON.parse(d); } catch (e) {} }
+  function load() {
+    try {
+      const d = localStorage.getItem('yonix_cart');
+      if (d) {
+        cart = JSON.parse(d).map(it => ({ ...it, quantity: clampQ(it.quantity || 1) }));
+      }
+    } catch (e) {}
+  }
   load();
 
+  function unitCents(item) {
+    const raw = String(item.price || '0').replace(/[^0-9,\.]/g, '').replace(',', '.');
+    return Math.round(parseFloat(raw || '0') * 100);
+  }
+
   function totalCents() {
-    return cart.reduce((s, i) => {
-      const raw = String(i.price || '0').replace(/[^0-9,\.]/g, '').replace(',', '.');
-      return s + Math.round(parseFloat(raw || '0') * 100);
-    }, 0);
+    return cart.reduce((s, i) => s + unitCents(i) * clampQ(i.quantity || 1), 0);
   }
   function formatPrice(cents) {
     return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(cents / 100);
@@ -4744,7 +5265,7 @@ window.toast = toast;
   function updateBadge() {
     const badge = document.getElementById('cartBadge');
     const mob = document.getElementById('mobCartCount');
-    const n = cart.length;
+    const n = cart.reduce((s, i) => s + clampQ(i.quantity || 1), 0);
     if (badge) {
       badge.textContent = n || '';
       badge.classList.toggle('show', n > 0);
@@ -4770,18 +5291,27 @@ window.toast = toast;
       return;
     }
 
-    list.innerHTML = cart.map((item, i) => `
+    list.innerHTML = cart.map((item, i) => {
+      const q = clampQ(item.quantity || 1);
+      const linePrice = window.multiplyPriceStr ? window.multiplyPriceStr(item.price, q) : item.price;
+      return `
       <div class="cart-item">
         <div class="cart-item-icon">${item.img ? `<img src="${item.img}" alt="${esc(item.name)}">` : defaultBoxSvg}</div>
         <div class="cart-item-info">
           <div class="cart-item-name">${esc(item.name)}</div>
           ${item.tier ? `<div class="cart-item-tier">${esc(item.tier)}</div>` : ''}
+          <div class="cart-qty-ctrl" aria-label="Quantité">
+            <button type="button" class="cart-qty-btn" onclick="window._cartQty(${i}, -1)" ${q <= 1 ? 'disabled' : ''} aria-label="Moins">−</button>
+            <span class="cart-qty-num">${q}</span>
+            <button type="button" class="cart-qty-btn" onclick="window._cartQty(${i}, 1)" ${q >= 10 ? 'disabled' : ''} aria-label="Plus">+</button>
+          </div>
         </div>
-        <div class="cart-item-price">${esc(item.price)}</div>
+        <div class="cart-item-price">${esc(linePrice)}</div>
         <button class="cart-item-remove" onclick="window._cartRemove(${i})" aria-label="Supprimer">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
-      </div>`).join('');
+      </div>`;
+    }).join('');
 
     if (total) total.textContent = formatPrice(totalCents());
     if (btn) btn.disabled = false;
@@ -4812,11 +5342,26 @@ window.toast = toast;
     }
   };
   window.addToCart = function(item) {
+    const addQty = clampQ(item.quantity || 1);
     const exists = cart.find(c => c.productId === item.productId && c.tierId === item.tierId);
-    if (exists) { openCart(); return; }
-    cart.push(item);
+    if (exists) {
+      exists.quantity = clampQ((exists.quantity || 1) + addQty);
+      save();
+      updateBadge();
+      renderCart();
+      return;
+    }
+    cart.push({ ...item, quantity: addQty });
     save();
     updateBadge();
+    renderCart();
+  };
+  window._cartQty = function(idx, delta) {
+    if (!cart[idx]) return;
+    cart[idx].quantity = clampQ((cart[idx].quantity || 1) + delta);
+    save();
+    updateBadge();
+    renderCart();
   };
   window._cartRemove = function(idx) {
     cart.splice(idx, 1);
@@ -4839,31 +5384,44 @@ window.toast = toast;
     btn.disabled = true;
     btn.innerHTML = `<span>Traitement…</span>`;
     try {
+      const totalItemsCount = cart.reduce((s, i) => s + clampQ(i.quantity || 1), 0);
       const isMulti = cart.length > 1;
       const totalStr = (totalCents() / 100).toFixed(2).replace('.', ',') + '€';
       const combinedName = isMulti
-        ? cart.map(i => i.tier ? `${i.name} (${i.tier})` : i.name).join(' + ')
+        ? cart.map(i => {
+            const q = clampQ(i.quantity || 1);
+            const base = i.tier ? `${i.name} (${i.tier})` : i.name;
+            return q > 1 ? `${base} ×${q}` : base;
+          }).join(' + ')
         : cart[0].name;
       const combinedTier = isMulti
-        ? `${cart.length} articles`
+        ? `${totalItemsCount} articles`
         : (cart[0].tier || 'Accès unique');
       const dlFiles = cart.map(i => i.downloadFile).filter(Boolean).join(',');
+      const singleQty = clampQ(cart[0].quantity || 1);
       const body = {
         productId: isMulti ? cart.map(i => i.productId).join(',') : cart[0].productId,
         tierId: isMulti ? 'multi' : cart[0].tierId,
         productName: combinedName,
         tierName: combinedTier,
+        unitPriceRaw: isMulti ? totalStr : cart[0].price,
         priceRaw: totalStr,
         price: totalStr,
+        quantity: isMulti ? 1 : singleQty,
         ...(dlFiles ? { downloadFile: dlFiles } : {}),
-        items: cart.map(i => ({
-          productId: i.productId,
-          tierId: i.tierId,
-          productName: i.name,
-          tierName: i.tier || 'Accès unique',
-          priceRaw: i.price,
-          downloadFile: i.downloadFile || ''
-        }))
+        items: cart.map(i => {
+          const q = clampQ(i.quantity || 1);
+          return {
+            productId: i.productId,
+            tierId: i.tierId,
+            productName: i.name,
+            tierName: i.tier || 'Accès unique',
+            unitPriceRaw: i.price,
+            priceRaw: window.multiplyPriceStr ? window.multiplyPriceStr(i.price, q) : i.price,
+            quantity: q,
+            downloadFile: i.downloadFile || ''
+          };
+        })
       };
       const r = await fetch('/api/checkout', {
         method: 'POST',

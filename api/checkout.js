@@ -1,14 +1,15 @@
-// api/checkout.js — Stripe Checkout Session creator + Discord notify
-// Connexion obligatoire (yonix_session) + domaine email vérifié
+// api/checkout.js — Stripe Checkout Session creator (Carte Bancaire) + Discord notify
+// Connexion obligatoire (yonix_session) + domaine email vérifié + liaison Client Stripe (cartes enregistrées)
 // Env vars: STRIPE_SECRET_KEY, SITE_URL, DISCORD_BOT_TOKEN, DISCORD_OWNER_ID, AUTH_SECRET
 
 import Stripe from 'stripe';
 import { buildOrderMessage, sendOwnerDM } from './notify.js';
-import { getEmailFromCookie, validateVerifiedEmail } from './auth/send-link.js';
+import { getEmailFromCookie, validateVerifiedEmail, findUserAccount } from './auth/send-link.js';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2023-10-16',
-});
+const stripeKey = (process.env.STRIPE_SECRET_KEY || '').trim();
+const stripe = stripeKey
+  ? new Stripe(stripeKey, { apiVersion: '2023-10-16' })
+  : null;
 
 const SITE_URL = (process.env.SITE_URL || 'http://localhost:3000').replace(/\/$/, '');
 
@@ -43,6 +44,12 @@ export default async function handler(req, res) {
     });
   }
   const authEmail = emailCheck.email;
+
+  if (!stripe) {
+    return res.status(500).json({
+      error: 'Le module de paiement par carte bancaire (STRIPE_SECRET_KEY) n\'est pas configuré sur le serveur.',
+    });
+  }
 
   const {
     productName,
@@ -119,20 +126,56 @@ export default async function handler(req, res) {
     ...(clientEmail ? { clientEmail: String(clientEmail).slice(0, 320) } : {}),
   };
 
+  // Look up or create Stripe Customer so saved bank cards & customer profile are linked
+  let stripeCustomerId = null;
+  try {
+    const userAcct = await findUserAccount(authEmail);
+    if (userAcct?.customer?.id) {
+      stripeCustomerId = userAcct.customer.id;
+    } else {
+      const created = await stripe.customers.create({
+        email: authEmail,
+        metadata: { accountVerified: 'true', createdAt: new Date().toISOString() },
+      });
+      stripeCustomerId = created.id;
+    }
+  } catch (custErr) {
+    console.warn('[checkout] Customer lookup warning:', custErr.message);
+  }
+
   let session;
   try {
-    session = await stripe.checkout.sessions.create({
+    const sessionParams = {
       payment_method_types: ['card'],
       mode: 'payment',
-      customer_email: authEmail,
+      ...(stripeCustomerId ? { customer: stripeCustomerId } : { customer_email: authEmail }),
+      payment_intent_data: {
+        setup_future_usage: 'on_session',
+        metadata,
+      },
       line_items: lineItems,
       metadata,
       success_url: `${SITE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${SITE_URL}/boutique`,
-    });
+    };
+    session = await stripe.checkout.sessions.create(sessionParams);
   } catch (err) {
-    console.error('[checkout] Stripe error:', err.message);
-    return res.status(500).json({ error: err.message });
+    console.warn('[checkout] Primary session create fallback:', err.message);
+    try {
+      // Fallback minimaliste 100% compatible avec tous les comptes Stripe
+      session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        mode: 'payment',
+        customer_email: authEmail,
+        line_items: lineItems,
+        metadata,
+        success_url: `${SITE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${SITE_URL}/boutique`,
+      });
+    } catch (err2) {
+      console.error('[checkout] Stripe error:', err2.message);
+      return res.status(500).json({ error: err2.message });
+    }
   }
 
   // Fire-and-forget Discord notify — don't block the redirect

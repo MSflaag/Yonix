@@ -80,7 +80,7 @@ export function validateVerifiedEmail(rawEmail) {
   return { valid: true, email, domain };
 }
 
-function hashPassword(password, salt) {
+export function hashPassword(password, salt) {
   return crypto
     .scryptSync(String(password), `${salt}:${AUTH_SECRET}`, 64)
     .toString('hex');
@@ -124,7 +124,7 @@ export function getEmailFromCookie(cookieHeader) {
   }
 }
 
-async function findUserAccount(email) {
+export async function findUserAccount(email) {
   if (stripe) {
     try {
       const list = await stripe.customers.list({ email, limit: 5 });
@@ -151,7 +151,7 @@ async function findUserAccount(email) {
   return null;
 }
 
-async function saveUserAccount(email, passwordSalt, passwordHash, existingCustomer = null) {
+export async function saveUserAccount(email, passwordSalt, passwordHash, existingCustomer = null) {
   localUsers.set(email, { passwordSalt, passwordHash, createdAt: new Date().toISOString() });
   if (stripe) {
     try {

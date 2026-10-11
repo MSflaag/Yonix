@@ -255,7 +255,7 @@ a {
 }
 
 .wrap {
-  width: min(1160px, calc(100% - 40px));
+  width: min(1440px, calc(100% - 40px));
   margin-inline: auto;
 }
 
@@ -714,7 +714,7 @@ a {
 
 /* ===== HERO SECTION ===== */
 .hero {
-  padding: 88px 0 72px;
+  padding: 36px 0 32px;
   text-align: center;
   border-bottom: 1px solid var(--border);
   background: radial-gradient(900px 420px at 50% 0%, rgba(78, 124, 255, 0.07), transparent 70%), var(--bg);
@@ -724,15 +724,15 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 15px;
+  padding: 5px 14px;
   border-radius: 999px;
   background: var(--white);
   border: 1px solid var(--platinum);
   box-shadow: var(--shadow-xs);
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
   color: var(--ink-secondary);
-  margin-bottom: 24px;
+  margin-bottom: 12px;
 }
 
 .hero-eyebrow i {
@@ -744,11 +744,11 @@ a {
 }
 
 .hero h1 {
-  margin: 0 auto 20px;
-  max-width: 780px;
-  font-size: clamp(36px, 5.5vw, 60px);
+  margin: 0 auto 10px;
+  max-width: 860px;
+  font-size: clamp(30px, 4.2vw, 48px);
   font-weight: 800;
-  line-height: 1.1;
+  line-height: 1.08;
   letter-spacing: -0.035em;
   color: var(--night);
 }
@@ -758,11 +758,11 @@ a {
 }
 
 .hero-sub {
-  max-width: 600px;
-  margin: 0 auto 32px;
+  max-width: 740px;
+  margin: 0 auto 16px;
   color: var(--gray);
-  font-size: 18px;
-  line-height: 1.65;
+  font-size: 15.5px;
+  line-height: 1.5;
   font-weight: 400;
 }
 
@@ -770,16 +770,16 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
+  gap: 12px;
   flex-wrap: wrap;
-  margin-bottom: 28px;
+  margin-bottom: 18px;
 }
 
 /* Search Input in Hero */
 .search-wrap {
   position: relative;
-  max-width: 540px;
-  margin: 0 auto 32px;
+  max-width: 640px;
+  margin: 0 auto 22px;
 }
 
 .search-wrap svg {
@@ -793,9 +793,9 @@ a {
 
 #searchInput {
   width: 100%;
-  padding: 15px 130px 15px 48px;
+  padding: 12px 130px 12px 46px;
   border-radius: 999px;
-  font-size: 14.5px;
+  font-size: 14px;
   border: 1px solid var(--platinum);
   background: var(--white);
   color: var(--ink);
@@ -819,10 +819,10 @@ a {
   right: 6px;
   top: 50%;
   transform: translateY(-50%);
-  padding: 9px 20px;
+  padding: 8px 18px;
   border-radius: 999px;
   font-weight: 600;
-  font-size: 13.5px;
+  font-size: 13px;
   color: var(--white);
   background: var(--blue);
   transition: background 0.2s;
@@ -836,9 +836,9 @@ a {
 .hero-stats {
   display: flex;
   justify-content: center;
-  gap: 40px;
+  gap: 36px;
   flex-wrap: wrap;
-  margin-bottom: 52px;
+  margin-bottom: 22px;
 }
 
 .stat {
@@ -848,27 +848,27 @@ a {
 }
 
 .stat b {
-  font-size: 24px;
+  font-size: 21px;
   font-weight: 800;
   color: var(--night);
   letter-spacing: -0.02em;
-  line-height: 1.2;
+  line-height: 1.15;
 }
 
 .stat span {
-  font-size: 13px;
+  font-size: 12.5px;
   color: var(--gray);
   font-weight: 500;
 }
 
 /* Hero Product Screenshot Showcase Card (Rounded Card + Soft Shadow) */
 .hero-showcase-card {
-  max-width: 980px;
+  max-width: 1140px;
   margin: 0 auto;
   background: linear-gradient(180deg, var(--white), #F8FAFC);
   border: 1px solid var(--platinum);
-  border-radius: 22px;
-  padding: 12px;
+  border-radius: 20px;
+  padding: 10px;
   box-shadow: var(--shadow-lg);
   text-align: left;
 }
@@ -885,7 +885,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 18px;
+  padding: 9px 16px;
   background: #111317;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   flex-wrap: wrap;
@@ -961,11 +961,13 @@ a {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  max-height: 360px;
 }
 
 .showcase-img {
   width: 100%;
   height: auto;
+  max-height: 360px;
   display: block;
   object-fit: cover;
 }
@@ -975,7 +977,7 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 14px 18px;
+  padding: 10px 16px;
   background: #111317;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   flex-wrap: wrap;
@@ -990,9 +992,9 @@ a {
   color: var(--white);
 }
 
-/* ===== SECTIONS (Stacked Vertically with Generous Whitespace) ===== */
+/* ===== SECTIONS (Compact & Wide to Fit More Content on Screen) ===== */
 .sec {
-  padding: 96px 0;
+  padding: 46px 0;
   border-bottom: 1px solid var(--border);
 }
 
@@ -1002,8 +1004,8 @@ a {
 
 .sec-head {
   text-align: center;
-  max-width: 680px;
-  margin: 0 auto 56px;
+  max-width: 760px;
+  margin: 0 auto 26px;
 }
 
 .sec-label {
@@ -1012,16 +1014,16 @@ a {
   border-radius: 999px;
   background: var(--blue-soft);
   color: var(--blue);
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .sec-head h2 {
-  margin: 0 0 14px;
-  font-size: clamp(28px, 4vw, 44px);
+  margin: 0 0 8px;
+  font-size: clamp(24px, 3.2vw, 36px);
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1.15;
@@ -1031,8 +1033,8 @@ a {
 .sec-head p {
   margin: 0 auto;
   color: var(--gray);
-  font-size: 17px;
-  line-height: 1.6;
+  font-size: 15px;
+  line-height: 1.5;
 }
 
 /* ===== SECTION 3: FEATURES GRID (Simple Cards: Icon, Name, 1-line Description) ===== */
@@ -1278,18 +1280,18 @@ a {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin: 0 auto 36px;
+  margin: 0 auto 20px;
   justify-content: center;
 }
 
 .flt {
-  padding: 8px 18px;
+  padding: 7px 16px;
   border-radius: 999px;
   border: 1px solid var(--border);
   background: var(--white);
   color: var(--ink-secondary);
   font-weight: 600;
-  font-size: 13.5px;
+  font-size: 13px;
   transition: all 0.2s ease;
 }
 
@@ -1305,31 +1307,31 @@ a {
   box-shadow: 0 4px 12px rgba(78, 124, 255, 0.28);
 }
 
-/* Bundle Card (Logopoint Featured Package Style) */
+/* Bundle Card (Logopoint Featured Package Style — Wide & Compact) */
 .bundle-card {
   position: relative;
   border-radius: var(--radius-xl);
   border: 2px solid var(--blue);
   background: var(--white);
   display: grid;
-  grid-template-columns: 1fr 1.35fr;
+  grid-template-columns: 0.72fr 1.28fr;
   overflow: hidden;
   box-shadow: var(--shadow-md);
-  margin-bottom: 40px;
+  margin-bottom: 24px;
 }
 
 .bundle-badge {
   position: absolute;
-  top: 18px;
-  right: 18px;
+  top: 14px;
+  right: 16px;
   z-index: 2;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 14px;
+  padding: 5px 12px;
   border-radius: 999px;
   font-weight: 700;
-  font-size: 12px;
+  font-size: 11.5px;
   background: var(--blue);
   color: var(--white);
   letter-spacing: 0.03em;
@@ -1339,18 +1341,18 @@ a {
 .bundle-left {
   background: var(--night);
   color: var(--white);
-  padding: 36px 28px;
+  padding: 22px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 22px;
+  gap: 14px;
 }
 
 .bundle-emblem {
-  width: 110px;
-  height: 110px;
-  border-radius: 24px;
+  width: 84px;
+  height: 84px;
+  border-radius: 20px;
   background: transparent;
   border: none;
   display: flex;
@@ -1374,83 +1376,84 @@ a {
 .bundle-logos {
   display: flex;
   flex-wrap: wrap;
-  gap: 7px;
+  gap: 6px;
   justify-content: center;
 }
 
 .b-logo {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
+  gap: 5px;
+  padding: 3px 9px;
   border-radius: 999px;
   font-weight: 600;
-  font-size: 11.5px;
+  font-size: 11px;
   border: 1px solid rgba(255, 255, 255, 0.14);
   background: rgba(255, 255, 255, 0.06);
   color: #E2E8F0;
 }
 
 .b-logo img {
-  width: 15px;
-  height: 15px;
+  width: 14px;
+  height: 14px;
   object-fit: contain;
   object-position: center;
   flex-shrink: 0;
 }
 
 .bundle-right {
-  padding: 36px 36px;
+  padding: 20px 26px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
 .bundle-name {
-  margin: 0 0 6px;
-  font-size: clamp(24px, 3vw, 32px);
+  margin: 0 0 3px;
+  font-size: clamp(20px, 2.4vw, 26px);
   font-weight: 800;
   letter-spacing: -0.025em;
   color: var(--night);
 }
 
 .bundle-sub {
-  margin: 0 0 18px;
+  margin: 0 0 10px;
   color: var(--gray);
-  font-size: 15px;
+  font-size: 13.5px;
 }
 
 .bundle-feats {
-  margin: 0 0 22px;
+  margin: 0 0 12px;
   padding: 0;
   list-style: none;
   display: grid;
-  gap: 9px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 14px;
 }
 
 .bundle-feats li {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   align-items: center;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--ink-secondary);
 }
 
 .bundle-feats li::before {
   content: '';
   flex: none;
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: var(--blue);
 }
 
 .bundle-pricing {
   display: flex;
-  gap: 28px;
+  gap: 20px;
   align-items: center;
-  margin-bottom: 22px;
-  padding: 14px 18px;
+  margin-bottom: 12px;
+  padding: 10px 14px;
   border-radius: var(--radius-md);
   background: var(--bg);
   border: 1px solid var(--border);
@@ -1462,12 +1465,12 @@ a {
 }
 
 .bundle-old span {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--gray);
 }
 
 .bundle-old b {
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--gray-light);
   text-decoration: line-through;
@@ -1479,13 +1482,13 @@ a {
 }
 
 .bundle-new span {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--blue);
   font-weight: 700;
 }
 
 .bundle-new b {
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 800;
   color: var(--night);
   line-height: 1.1;
@@ -1495,11 +1498,11 @@ a {
   align-self: flex-start;
 }
 
-/* Product Grid Cards (Logopoint Card Style: White Card + Dark Preview Stage) */
+/* Product Grid Cards (Wide 5-Column Layout + Compact Height) */
 .pgrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
-  gap: 22px;
+  grid-template-columns: repeat(auto-fill, minmax(242px, 1fr));
+  gap: 14px;
 }
 
 .pcard[hidden] {
@@ -1510,7 +1513,7 @@ a {
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 8px;
+  padding: 7px;
   box-shadow: var(--shadow-sm);
   cursor: pointer;
   height: 100%;
@@ -1526,22 +1529,22 @@ a {
 }
 
 .pcard-img {
-  height: 176px;
+  height: 132px;
   border-radius: 11px;
   background: radial-gradient(circle at 50% 55%, rgba(78, 124, 255, 0.18), transparent 70%), #131826;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 14px;
   position: relative;
   overflow: hidden;
 }
 
 .pcard-logo-img {
-  width: 108px;
-  height: 108px;
-  max-width: 74%;
-  max-height: 112px;
+  width: 86px;
+  height: 86px;
+  max-width: 72%;
+  max-height: 90px;
   object-fit: contain;
   object-position: center;
   margin: auto;
@@ -1552,13 +1555,13 @@ a {
 .pcard[data-id="cs2"] .pcard-logo-img,
 .pcard[data-id="basic-fit"] .pcard-logo-img,
 .pcard[data-id="disneyplus"] .pcard-logo-img {
-  width: 128px;
-  height: 104px;
+  width: 104px;
+  height: 86px;
 }
 
 .pcard[data-id="otacos"] .pcard-logo-img {
-  width: 116px;
-  height: 116px;
+  width: 92px;
+  height: 92px;
 }
 
 .pcard-in:hover .pcard-logo-img,
@@ -1567,8 +1570,8 @@ a {
 }
 
 .pcard-img svg {
-  width: 96px;
-  height: 96px;
+  width: 78px;
+  height: 78px;
   margin: auto;
   display: block;
   transition: transform 0.25s ease;
@@ -1576,12 +1579,12 @@ a {
 
 .pcard-badge {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 8px;
+  left: 8px;
   z-index: 2;
-  padding: 4px 10px;
+  padding: 3px 9px;
   border-radius: 999px;
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.03em;
   background: rgba(255, 255, 255, 0.12);
@@ -1591,24 +1594,24 @@ a {
 }
 
 .pcard-body {
-  padding: 16px 12px 12px;
+  padding: 12px 10px 10px;
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
 .pcard-name {
-  font-size: 17.5px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--night);
-  margin: 0 0 3px;
+  margin: 0 0 2px;
   letter-spacing: -0.015em;
 }
 
 .pcard-sub {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--gray);
-  margin: 0 0 16px;
+  margin: 0 0 10px;
 }
 
 .pcard-row {
@@ -1616,8 +1619,8 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  padding-top: 12px;
+  gap: 8px;
+  padding-top: 9px;
   border-top: 1px solid var(--border);
 }
 
@@ -1630,7 +1633,7 @@ a {
 }
 
 .pcard-price > span {
-  font-size: 11px;
+  font-size: 10.5px;
   color: var(--gray);
   font-weight: 500;
 }
@@ -1644,7 +1647,7 @@ a {
 }
 
 .pcard-old-price {
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 600;
   color: #EF4444;
   text-decoration: line-through;
@@ -1668,17 +1671,17 @@ a {
 }
 
 .pcard-price b {
-  font-size: 18.5px;
+  font-size: 17px;
   font-weight: 800;
   color: var(--night);
   letter-spacing: -0.02em;
 }
 
 .buy-btn {
-  padding: 8px 16px;
+  padding: 7px 13px;
   border-radius: 999px;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 12.5px;
   color: var(--white);
   background: var(--blue);
   transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
@@ -1694,11 +1697,11 @@ a {
 .gcards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
+  gap: 16px;
 }
 
 .gcard {
-  padding: 26px 22px;
+  padding: 20px 18px;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border);
   background: var(--white);
@@ -1923,27 +1926,27 @@ a {
   color: var(--blue);
 }
 
-/* ===== SECTION 5: FAQ (Logopoint Accordion Container) ===== */
+/* ===== SECTION 5: FAQ (Wide 2-Column Accordion Container) ===== */
 .faq-container {
-  max-width: 820px;
+  max-width: 1360px;
   margin: 0 auto;
   background: var(--white);
   border: 1px solid var(--platinum);
   border-radius: var(--radius-xl);
-  padding: 20px;
+  padding: 18px;
   box-shadow: var(--shadow-sm);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  align-items: start;
 }
 
 details {
   border: 1px solid var(--border);
   border-radius: 12px;
-  margin-bottom: 10px;
+  margin-bottom: 0;
   background: var(--bg);
   transition: border-color 0.2s, background-color 0.2s;
-}
-
-details:last-child {
-  margin-bottom: 0;
 }
 
 details[open] {
@@ -1955,14 +1958,14 @@ details[open] {
 summary {
   list-style: none;
   cursor: pointer;
-  padding: 18px 20px;
+  padding: 14px 16px;
   font-weight: 600;
-  font-size: 15.5px;
+  font-size: 14.5px;
   color: var(--night);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 summary::-webkit-details-marker {
@@ -1971,7 +1974,7 @@ summary::-webkit-details-marker {
 
 summary::after {
   content: '+';
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 500;
   line-height: 1;
   color: var(--blue);
@@ -1984,15 +1987,15 @@ details[open] summary::after {
 
 details div {
   margin: 0;
-  padding: 0 20px 18px;
+  padding: 0 16px 14px;
   color: var(--gray);
-  font-size: 14.5px;
-  line-height: 1.65;
+  font-size: 13.5px;
+  line-height: 1.55;
 }
 
 /* ===== CTA BAND ===== */
 .cta-band {
-  padding: 64px 36px;
+  padding: 36px 28px;
   border-radius: var(--radius-xl);
   border: 1px solid var(--platinum);
   background: var(--white);
@@ -2001,33 +2004,33 @@ details div {
 }
 
 .cta-band h2 {
-  margin: 0 0 12px;
-  font-size: clamp(26px, 3.8vw, 40px);
+  margin: 0 0 8px;
+  font-size: clamp(22px, 3vw, 32px);
   font-weight: 800;
   letter-spacing: -0.03em;
   color: var(--night);
 }
 
 .cta-band p {
-  margin: 0 auto 28px;
-  max-width: 480px;
+  margin: 0 auto 18px;
+  max-width: 520px;
   color: var(--gray);
-  font-size: 16.5px;
+  font-size: 15px;
 }
 
 .cta-btns {
   display: flex;
-  gap: 14px;
+  gap: 12px;
   justify-content: center;
   flex-wrap: wrap;
 }
 
 /* ===== SECTION 6: FOOTER ===== */
 footer {
-  padding: 48px 0 56px;
+  padding: 28px 0 34px;
   background: var(--white);
   color: var(--gray);
-  font-size: 14px;
+  font-size: 13.5px;
 }
 
 .foot-grid {
@@ -2035,7 +2038,7 @@ footer {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 20px;
 }
 
 .foot-brand {
@@ -2050,7 +2053,7 @@ footer {
 
 footer nav {
   display: flex;
-  gap: 22px;
+  gap: 20px;
   flex-wrap: wrap;
 }
 
@@ -2069,7 +2072,7 @@ footer a:hover {
   font-size: 13px;
 }
 
-/* ===== MODALS (#pdModal & #jbModal) ===== */
+/* ===== MODALS (#pdModal & #jbModal — Wide & Compact to Fit Entirely on Screen) ===== */
 dialog {
   border: 1px solid var(--platinum);
   border-radius: 22px;
@@ -2077,8 +2080,8 @@ dialog {
   color: var(--ink);
   background: var(--white);
   box-shadow: var(--shadow-lg);
-  width: min(860px, calc(100vw - 24px));
-  max-height: calc(100vh - 24px);
+  width: min(1220px, calc(100vw - 28px));
+  max-height: calc(100dvh - 20px);
   overflow: auto;
 }
 
@@ -2090,16 +2093,16 @@ dialog::backdrop {
 
 .dlg-close {
   position: absolute;
-  top: 14px;
-  right: 14px;
+  top: 12px;
+  right: 12px;
   z-index: 3;
-  width: 38px;
-  height: 38px;
+  width: 34px;
+  height: 34px;
   border-radius: 999px;
   border: 1px solid var(--border);
   background: var(--white);
   color: var(--ink);
-  font-size: 20px;
+  font-size: 19px;
   line-height: 1;
   display: grid;
   place-items: center;
@@ -2113,7 +2116,7 @@ dialog::backdrop {
 
 .dlg-grid {
   display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
+  grid-template-columns: 0.65fr 1.35fr;
 }
 
 .dlg-vis {
@@ -2122,15 +2125,15 @@ dialog::backdrop {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 320px;
-  padding: 32px;
+  min-height: 240px;
+  padding: 22px;
   background: radial-gradient(circle at 50% 50%, rgba(78, 124, 255, 0.2), transparent 70%), var(--night);
   color: var(--white);
 }
 
 .dlg-vis img, .dlg-vis svg {
-  max-width: 140px;
-  max-height: 140px;
+  max-width: 130px;
+  max-height: 130px;
   width: auto;
   height: auto;
   object-fit: contain;
@@ -2138,7 +2141,7 @@ dialog::backdrop {
 
 .dlg-vis img.dlg-screenshot {
   max-width: 100%;
-  max-height: 290px;
+  max-height: 260px;
   width: 100%;
   border-radius: 12px;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
@@ -2146,44 +2149,45 @@ dialog::backdrop {
 }
 
 .dlg-info {
-  padding: 32px;
+  padding: 18px 24px;
 }
 
 .dlg-name {
-  margin: 0 0 4px;
-  font-size: 28px;
+  margin: 0 0 2px;
+  font-size: 23px;
   font-weight: 800;
   letter-spacing: -0.025em;
   color: var(--night);
 }
 
 .dlg-sub {
-  margin: 0 0 12px;
-  font-size: 14px;
+  margin: 0 0 6px;
+  font-size: 13px;
   color: var(--gray);
   font-weight: 500;
 }
 
 .dlg-desc {
-  margin: 0 0 16px;
+  margin: 0 0 8px;
   color: var(--ink-secondary);
-  font-size: 14.5px;
-  line-height: 1.6;
+  font-size: 13px;
+  line-height: 1.45;
 }
 
 .dlg-feats {
-  margin: 0 0 20px;
+  margin: 0 0 10px;
   padding: 0;
   list-style: none;
   display: grid;
-  gap: 8px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 14px;
 }
 
 .dlg-feats li {
   display: flex;
-  gap: 9px;
+  gap: 7px;
   align-items: center;
-  font-size: 13.5px;
+  font-size: 12.5px;
   color: var(--ink-secondary);
 }
 
@@ -2198,22 +2202,26 @@ dialog::backdrop {
 
 .tier-label {
   font-weight: 700;
-  font-size: 11.5px;
+  font-size: 11px;
   color: var(--gray);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin: 0 0 14px;
+  margin: 0 0 8px;
 }
 
 .tier-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 16px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 10px;
 }
 
 .tier-grid.one {
   grid-template-columns: 1fr;
+}
+
+.tier-grid.two {
+  grid-template-columns: 1fr 1fr;
 }
 
 .tier-grid.three {
@@ -2222,14 +2230,14 @@ dialog::backdrop {
 
 .tier-btn {
   position: relative;
-  padding: 18px 13px 13px;
-  border-radius: 12px;
+  padding: 11px 10px 9px;
+  border-radius: 11px;
   border: 1px solid var(--border);
   background: var(--bg);
   text-align: left;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
   transition: all 0.2s;
 }
 
@@ -2245,7 +2253,7 @@ dialog::backdrop {
 
 .tier-dur {
   font-weight: 600;
-  font-size: 12.5px;
+  font-size: 12px;
   color: var(--ink-secondary);
 }
 
@@ -2253,12 +2261,12 @@ dialog::backdrop {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 5px;
-  margin-top: 2px;
+  gap: 4px;
+  margin-top: 1px;
 }
 
 .tier-old-price {
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 600;
   color: #EF4444;
   text-decoration: line-through;
@@ -2271,7 +2279,7 @@ dialog::backdrop {
   justify-content: center;
   padding: 1px 5px;
   border-radius: 999px;
-  font-size: 9px;
+  font-size: 8.5px;
   font-weight: 800;
   background: var(--blue-soft);
   color: var(--blue);
@@ -2280,7 +2288,7 @@ dialog::backdrop {
 
 .tier-price {
   font-weight: 800;
-  font-size: 20px;
+  font-size: 17.5px;
   color: var(--night);
 }
 
@@ -2290,20 +2298,20 @@ dialog::backdrop {
 }
 
 .tier-note {
-  font-size: 11px;
+  font-size: 10.5px;
   color: var(--gray);
   font-weight: 500;
 }
 
 .tier-pop {
   position: absolute;
-  top: -11px;
+  top: -9px;
   left: 50%;
   transform: translateX(-50%);
-  padding: 3px 9px;
+  padding: 2px 8px;
   border-radius: 999px;
   font-weight: 700;
-  font-size: 9.5px;
+  font-size: 9px;
   letter-spacing: 0.03em;
   background: var(--blue);
   color: var(--white);
@@ -2313,21 +2321,123 @@ dialog::backdrop {
   box-shadow: 0 2px 6px rgba(78, 124, 255, 0.35);
 }
 
+.dlg-price-qty-row {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 10px;
+  margin-bottom: 9px;
+  align-items: stretch;
+}
+
+.dlg-price-qty-row .bundle-pricing,
+.dlg-price-qty-row .qty-row {
+  margin-bottom: 0 !important;
+}
+
+/* Manual Promo Code Input Box */
+.promo-manual-box {
+  margin-bottom: 9px;
+  padding: 8px 11px;
+  border-radius: 11px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+
+.promo-manual-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+
+.promo-manual-lbl {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.promo-manual-lbl small {
+  font-weight: 500;
+  color: var(--gray);
+  font-size: 11px;
+}
+
+.promo-active-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--green-soft);
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.promo-active-pill button {
+  color: var(--green);
+  font-weight: 800;
+  font-size: 11px;
+  padding: 0 2px;
+  cursor: pointer;
+}
+
+.promo-manual-row {
+  display: flex;
+  gap: 6px;
+}
+
+.promo-manual-input {
+  flex: 1;
+  min-width: 120px;
+  padding: 7px 11px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--ink);
+  font-size: 12.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  outline: none;
+  transition: border-color 0.18s;
+}
+
+.promo-manual-input:focus {
+  border-color: var(--blue);
+}
+
+.promo-manual-btn {
+  padding: 7px 14px;
+  border-radius: 8px;
+  background: var(--blue);
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+
+.promo-manual-btn:hover {
+  background: var(--blue-hover);
+}
+
 /* CGV Checkbox */
 .cgv-check {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 12px;
-  padding: 11px 13px;
+  gap: 8px;
+  margin-bottom: 9px;
+  padding: 8px 11px;
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 10px;
 }
 
 .cgv-check input[type=checkbox] {
-  width: 16px;
-  height: 16px;
+  width: 15px;
+  height: 15px;
   flex-shrink: 0;
   margin-top: 2px;
   accent-color: var(--blue);
@@ -2335,9 +2445,9 @@ dialog::backdrop {
 }
 
 .cgv-check label {
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--gray);
-  line-height: 1.45;
+  line-height: 1.38;
   cursor: pointer;
 }
 
@@ -2349,9 +2459,9 @@ dialog::backdrop {
 .cgv-error {
   font-size: 12px;
   color: var(--red);
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   display: none;
-  padding: 8px 12px;
+  padding: 7px 10px;
   background: var(--red-soft);
   border: 1px solid rgba(220, 38, 38, 0.25);
   border-radius: 8px;
@@ -2361,43 +2471,43 @@ dialog::backdrop {
 .bf-form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-bottom: 14px;
-  padding: 14px;
+  gap: 7px;
+  margin-bottom: 9px;
+  padding: 10px 12px;
   background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 11px;
 }
 
 .bf-form-title {
   font-weight: 700;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--night);
-  margin: 0 0 2px;
+  margin: 0;
 }
 
 .bf-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 8px;
 }
 
 .bf-label {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
   font-weight: 600;
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--ink-secondary);
 }
 
 .bf-input {
-  padding: 9px 12px;
+  padding: 7px 10px;
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: 8px;
   color: var(--ink);
-  font: 500 14px var(--font);
+  font: 500 13px var(--font);
   outline: none;
 }
 
@@ -2407,9 +2517,9 @@ dialog::backdrop {
 }
 
 .bf-notice {
-  font-size: 11px;
+  font-size: 10.5px;
   color: var(--gray);
-  margin: 2px 0 0;
+  margin: 0;
 }
 
 /* Quantity Selector (1 to 10 max) */
@@ -2417,10 +2527,10 @@ dialog::backdrop {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 10px 14px;
-  margin-bottom: 14px;
-  border-radius: 12px;
+  gap: 10px;
+  padding: 8px 12px;
+  margin-bottom: 9px;
+  border-radius: 11px;
   background: var(--bg);
   border: 1px solid var(--border);
 }
@@ -2432,13 +2542,13 @@ dialog::backdrop {
 }
 
 .qty-label b {
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 700;
   color: var(--night);
 }
 
 .qty-label span {
-  font-size: 11px;
+  font-size: 10.5px;
   color: var(--gray);
   font-weight: 500;
 }
@@ -2450,18 +2560,18 @@ dialog::backdrop {
   background: var(--white);
   border: 1px solid var(--platinum);
   border-radius: 999px;
-  padding: 3px;
+  padding: 2px;
   box-shadow: var(--shadow-xs);
 }
 
 .qty-btn {
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   border-radius: 999px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--ink);
   background: var(--bg);
@@ -2482,11 +2592,11 @@ dialog::backdrop {
 }
 
 .qty-input {
-  width: 38px;
+  width: 34px;
   text-align: center;
   border: none;
   background: transparent;
-  font: 800 14.5px var(--font);
+  font: 800 14px var(--font);
   color: var(--night);
   outline: none;
   -moz-appearance: textfield;
@@ -2511,10 +2621,10 @@ dialog::backdrop {
   justify-content: center;
   gap: 8px;
   width: 100%;
-  padding: 13px 16px;
+  padding: 11px 16px;
   border-radius: 999px;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 13.5px;
   color: var(--blue);
   background: var(--blue-soft);
   border: 1.5px solid var(--blue-border);
@@ -2533,10 +2643,10 @@ dialog::backdrop {
   justify-content: center;
   gap: 8px;
   width: 100%;
-  padding: 14px 18px;
+  padding: 11px 18px;
   border-radius: 999px;
   font-weight: 700;
-  font-size: 14.5px;
+  font-size: 14px;
   color: var(--white);
   background: var(--blue);
   box-shadow: 0 4px 14px rgba(78, 124, 255, 0.3);
@@ -2556,17 +2666,17 @@ dialog::backdrop {
   transform: none;
 }
 
-/* ===== DIRECT BANK CARD CHECKOUT MODAL (#cbPayModal) ===== */
+/* ===== DIRECT BANK CARD CHECKOUT MODAL (#cbPayModal — Wide 2-Column Layout) ===== */
 #cbPayModal {
-  width: min(500px, calc(100vw - 24px));
-  max-height: calc(100dvh - 28px);
+  width: min(920px, calc(100vw - 28px));
+  max-height: calc(100dvh - 20px);
   overflow-y: auto;
   border: 1px solid var(--border);
   border-radius: 22px;
   background: var(--white);
   color: var(--ink);
   box-shadow: var(--shadow-lg);
-  padding: 26px 24px;
+  padding: 20px 24px;
   margin: auto;
 }
 
@@ -2575,12 +2685,19 @@ dialog::backdrop {
   backdrop-filter: blur(8px);
 }
 
+.cb-modal-grid {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 18px;
+  align-items: start;
+}
+
 .cb-pay-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .cb-pay-title {
@@ -2610,11 +2727,11 @@ dialog::backdrop {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 13px 16px;
+  padding: 12px 14px;
   border-radius: 14px;
   background: var(--bg-alt);
   border: 1px solid var(--border);
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .cb-order-info b {
@@ -2639,11 +2756,11 @@ dialog::backdrop {
 .cb-visual-card {
   position: relative;
   border-radius: 16px;
-  padding: 18px 20px;
+  padding: 15px 18px;
   background: linear-gradient(135deg, #131B2E 0%, #1E3A8A 55%, #3B82F6 100%);
   color: #FFFFFF;
   box-shadow: 0 12px 28px -6px rgba(30, 58, 138, 0.45);
-  margin-bottom: 16px;
+  margin-bottom: 0;
   overflow: hidden;
 }
 
@@ -2651,18 +2768,18 @@ dialog::backdrop {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .cb-chip {
-  width: 36px;
-  height: 26px;
+  width: 34px;
+  height: 24px;
   border-radius: 6px;
   background: linear-gradient(135deg, #FDE68A, #F59E0B);
 }
 
 .cb-brand-tag {
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 800;
   letter-spacing: 0.08em;
   padding: 3px 9px;
@@ -2672,27 +2789,27 @@ dialog::backdrop {
 
 .cb-visual-num {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.12em;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .cb-visual-bottom {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 11.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   opacity: 0.9;
 }
 
 .cb-saved-box {
-  margin-bottom: 14px;
+  margin-bottom: 10px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 7px;
 }
 
 .cb-saved-opt {
@@ -2700,8 +2817,8 @@ dialog::backdrop {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  padding: 11px 14px;
-  border-radius: 12px;
+  padding: 9px 12px;
+  border-radius: 11px;
   border: 1.5px solid var(--border);
   background: var(--bg-alt);
   cursor: pointer;
@@ -3316,22 +3433,26 @@ dialog::backdrop {
 }
 
 /* ===== RESPONSIVE BREAKPOINTS ===== */
-@media (max-width: 860px) {
-  .showcase-body {
+@media (max-width: 960px) {
+  .showcase-body,
+  .bundle-card,
+  .dlg-grid,
+  .cb-modal-grid,
+  .faq-container {
     grid-template-columns: 1fr;
   }
   .showcase-sidebar {
     border-right: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
-  .bundle-card {
-    grid-template-columns: 1fr;
-  }
-  .dlg-grid {
-    grid-template-columns: 1fr;
-  }
   .dlg-vis {
-    min-height: 200px;
+    min-height: 170px;
+  }
+  .tier-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dlg-price-qty-row {
+    grid-template-columns: 1fr;
   }
   .nav-in {
     display: flex;
@@ -3344,26 +3465,26 @@ dialog::backdrop {
     display: inline-flex;
   }
   .sec {
-    padding: 68px 0;
+    padding: 40px 0;
   }
 }
 
 @media (max-width: 560px) {
   .wrap {
-    width: calc(100% - 28px);
+    width: calc(100% - 24px);
   }
   .nav-in {
-    height: 64px;
+    height: 60px;
   }
   .nav-login,
   .nav-purchase-cta {
     display: none;
   }
   .hero {
-    padding: 56px 0 48px;
+    padding: 36px 0 28px;
   }
   .hero-stats {
-    gap: 20px;
+    gap: 16px;
   }
   .countdown-wrap {
     display: none;
@@ -3371,7 +3492,9 @@ dialog::backdrop {
   .pricing-cards-grid,
   .features-grid,
   .pgrid,
-  .gcards {
+  .gcards,
+  .dlg-feats,
+  .bundle-feats {
     grid-template-columns: 1fr;
   }
   .tier-grid,
@@ -3380,7 +3503,7 @@ dialog::backdrop {
     grid-template-columns: 1fr;
   }
   .bundle-right {
-    padding: 24px 20px;
+    padding: 20px 16px;
   }
   .foot-grid {
     flex-direction: column;
@@ -3405,10 +3528,7 @@ dialog::backdrop {
     <span class="cd-sep">:</span>
     <span class="cd-unit"><span class="cd-num" id="cdS">00</span><span class="cd-label">sec</span></span>
   </span>
-  <span>— Code <button type="button" class="banner-code" onclick="window.togglePromoYonix10()" title="Cliquer pour activer -10% sur ta commande" style="cursor:pointer;border:none">YONIX10</button> -10% sur tout</span>
-  <button type="button" id="bannerPromoBtn" onclick="window.togglePromoYonix10()" style="margin-left:6px;padding:3px 11px;border-radius:999px;background:rgba(78,124,255,0.22);border:1px solid rgba(78,124,255,0.55);color:#fff;font-size:11.5px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all .18s">
-    <span id="bannerPromoBtnText">Activer -10%</span>
-  </button>
+  <span>— Code <span class="banner-code">YONIX10</span> -10% sur tout</span>
 </div>
 
 <!-- CART OVERLAY + DRAWER -->
@@ -3422,18 +3542,17 @@ dialog::backdrop {
   </div>
   <div class="cart-items" id="cartItems"></div>
   <div class="cart-foot">
-    <!-- Code Promo Box inside Cart -->
-    <div style="margin-bottom:12px;padding:10px 12px;border-radius:12px;background:var(--bg);border:1px solid var(--border)">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px">
-        <span style="font-size:11.5px;font-weight:700;color:var(--ink-secondary)">Code de réduction</span>
-        <button type="button" id="cartQuickPromoBtn" onclick="window.togglePromoYonix10()" style="font-size:11px;font-weight:800;padding:3px 9px;border-radius:99px;background:var(--blue-soft);color:var(--blue);border:1px solid var(--blue-border);cursor:pointer">
-          Activer YONIX10 (-10%)
-        </button>
+    <!-- Code Promo Box inside Cart (Manual Entry Only) -->
+    <div style="margin-bottom:10px;padding:10px 12px;border-radius:12px;background:var(--bg);border:1px solid var(--border)">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px">
+        <span style="font-size:11.5px;font-weight:700;color:var(--ink-secondary)">Code de réduction (saisir à la main)</span>
+        <button type="button" class="promo-clear-pill js-promo-clear-btn" onclick="window.clearManualPromo()" style="display:none">✕ Retirer</button>
       </div>
-      <div style="display:flex;gap:6px">
-        <input type="text" id="cartPromoInput" placeholder="Ex: YONIX10" style="flex:1;padding:7px 10px;border-radius:8px;border:1px solid var(--border);background:var(--white);color:var(--ink);font-size:12.5px;font-weight:700;text-transform:uppercase">
-        <button type="button" onclick="window.applyPromoFromField('cartPromoInput')" style="padding:7px 13px;border-radius:8px;background:var(--blue);color:#fff;font-size:12px;font-weight:700;cursor:pointer">Appliquer</button>
+      <div class="promo-manual-form">
+        <input type="text" id="cartPromoInput" class="promo-manual-input js-promo-manual-input" placeholder="Écrire le code promo..." autocomplete="off">
+        <button type="button" class="promo-manual-apply" onclick="window.applyPromoFromField('cartPromoInput')">Appliquer</button>
       </div>
+      <div class="js-promo-status-msg" style="display:none;margin-top:5px;font-size:11.5px;font-weight:700;color:var(--green)">✓ Code YONIX10 (-10%) appliqué</div>
     </div>
 
     <!-- Breakdown Sous-total / Remise / TVA Stripe / Total TTC -->
@@ -3949,22 +4068,25 @@ dialog::backdrop {
       <p class="tier-label">Choisir une formule</p>
       <div class="tier-grid" id="tierGrid"></div>
 
-      <div class="bundle-pricing" id="pdPriceCompare" style="display:none;margin-bottom:14px;gap:16px;justify-content:space-between">
-        <div class="bundle-old"><span>Prix de base :</span><b id="pdOldPriceVal" style="color:#EF4444;font-size:17px"></b></div>
-        <span class="pcard-vs-badge" style="font-size:11px;padding:3px 9px">VS</span>
-        <div class="bundle-new"><span>Prix Yonix :</span><b id="pdNewPriceVal" style="font-size:26px"></b></div>
-      </div>
-
-      <!-- Quantity Selector (1 to 10 max) -->
-      <div class="qty-row" id="pdQtyRow">
-        <div class="qty-label">
-          <b>Quantité</b>
-          <span>Entre 1 et 10 produits max</span>
+      <!-- Side-by-side Price Comparison + Quantity Selector -->
+      <div class="dlg-price-qty-row" id="pdPriceQtyRow">
+        <div class="bundle-pricing" id="pdPriceCompare" style="display:none;gap:10px;justify-content:space-between">
+          <div class="bundle-old"><span>Prix de base :</span><b id="pdOldPriceVal" style="color:#EF4444;font-size:15px"></b></div>
+          <span class="pcard-vs-badge" style="font-size:10.5px;padding:2px 7px">VS</span>
+          <div class="bundle-new"><span>Prix Yonix :</span><b id="pdNewPriceVal" style="font-size:21px"></b></div>
         </div>
-        <div class="qty-stepper">
-          <button type="button" class="qty-btn" id="pdQtyMinus" aria-label="Diminuer la quantité">−</button>
-          <input type="number" class="qty-input" id="pdQtyInput" value="1" min="1" max="10" aria-label="Quantité">
-          <button type="button" class="qty-btn" id="pdQtyPlus" aria-label="Augmenter la quantité">+</button>
+
+        <!-- Quantity Selector (1 to 10 max) -->
+        <div class="qty-row" id="pdQtyRow">
+          <div class="qty-label">
+            <b>Quantité</b>
+            <span>1 à 10 produits max</span>
+          </div>
+          <div class="qty-stepper">
+            <button type="button" class="qty-btn" id="pdQtyMinus" aria-label="Diminuer la quantité">−</button>
+            <input type="number" class="qty-input" id="pdQtyInput" value="1" min="1" max="10" aria-label="Quantité">
+            <button type="button" class="qty-btn" id="pdQtyPlus" aria-label="Augmenter la quantité">+</button>
+          </div>
         </div>
       </div>
 
@@ -3974,21 +4096,22 @@ dialog::backdrop {
         <div class="bf-row">
           <label class="bf-label">Prénom <input class="bf-input" id="bfPrenom" type="text" placeholder="Jean" autocomplete="given-name" required></label>
           <label class="bf-label">Nom <input class="bf-input" id="bfNom" type="text" placeholder="Dupont" autocomplete="family-name" required></label>
+          <label class="bf-label">Naissance <input class="bf-input" id="bfDob" type="date" required></label>
+          <label class="bf-label">Email <input class="bf-input" id="bfEmail" type="email" placeholder="jean@exemple.com" autocomplete="email" required></label>
         </div>
-        <label class="bf-label">Date de naissance <input class="bf-input" id="bfDob" type="date" required></label>
-        <label class="bf-label">Email <input class="bf-input" id="bfEmail" type="email" placeholder="jean@exemple.com" autocomplete="email" required></label>
-        <p class="bf-notice">Ces informations sont transmises uniquement pour la création de ton compte Basic Fit. Elles ne seront pas partagées.</p>
       </form>
 
-      <!-- Code Promo & TVA Stripe Box inside Product Modal -->
-      <div style="margin-bottom:12px;padding:10px 12px;border-radius:12px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
-        <div style="font-size:12px;color:var(--ink-secondary);line-height:1.4">
-          <b style="color:var(--ink)">Code promo YONIX10 (-10%)</b>
-          <div id="pdLivePriceBreakdown" style="font-size:11.5px;margin-top:2px">+ TVA &amp; Frais Stripe CB inclus au paiement</div>
+      <!-- Manual Code Promo & TVA Stripe Box inside Product Modal -->
+      <div class="promo-manual-box">
+        <div class="promo-manual-info">
+          <b>Code de réduction (saisir à la main)</b>
+          <span id="pdLivePriceBreakdown" class="js-promo-breakdown-text">+ TVA &amp; Frais Stripe CB inclus au paiement</span>
         </div>
-        <button type="button" class="js-promo-toggle-btn" onclick="window.togglePromoYonix10()" style="padding:6px 12px;border-radius:999px;background:var(--blue-soft);border:1px solid var(--blue-border);color:var(--blue);font-size:12px;font-weight:800;cursor:pointer">
-          Activer YONIX10 (-10%)
-        </button>
+        <div class="promo-manual-form">
+          <input type="text" id="pdPromoInput" class="promo-manual-input js-promo-manual-input" placeholder="Écrire le code..." autocomplete="off">
+          <button type="button" class="promo-manual-apply" onclick="window.applyPromoFromField('pdPromoInput')">Appliquer</button>
+          <button type="button" class="promo-clear-pill js-promo-clear-btn" onclick="window.clearManualPromo()" style="display:none">✕</button>
+        </div>
       </div>
 
       <!-- CGV acceptance -->
@@ -4012,7 +4135,7 @@ dialog::backdrop {
   </div>
 </dialog>
 
-<!-- DIRECT BANK CARD PAYMENT MODAL -->
+<!-- DIRECT BANK CARD PAYMENT MODAL (Wide 2-Column Layout) -->
 <dialog id="cbPayModal" aria-labelledby="cbPayTitle">
   <div class="cb-pay-head">
     <div class="cb-pay-title" id="cbPayTitle">
@@ -4028,95 +4151,104 @@ dialog::backdrop {
     </div>
   </div>
 
-  <div class="cb-order-summary" style="flex-direction:column;align-items:stretch;gap:10px">
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
-      <div class="cb-order-info">
-        <b id="cbOrderProdName">Produit</b>
-        <span id="cbOrderTierName">Formule · Quantité ×1</span>
+  <div class="cb-modal-grid">
+    <!-- Left Column: Order Summary, Manual Promo Input, Price Breakdown & Saved Cards -->
+    <div>
+      <div class="cb-order-summary" style="flex-direction:column;align-items:stretch;gap:10px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+          <div class="cb-order-info">
+            <b id="cbOrderProdName">Produit</b>
+            <span id="cbOrderTierName">Formule · Quantité ×1</span>
+          </div>
+          <div class="cb-order-total" id="cbOrderTotalPrice">25€</div>
+        </div>
+
+        <!-- Manual Code Promo + Détail TVA & Frais Stripe -->
+        <div style="border-top:1px solid var(--border);padding-top:10px;display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
+            <span style="font-size:11.5px;font-weight:700;color:var(--ink-secondary)">Code de réduction (saisir à la main)</span>
+            <button type="button" class="promo-clear-pill js-promo-clear-btn" onclick="window.clearManualPromo()" style="display:none">✕ Retirer</button>
+          </div>
+          <div class="promo-manual-form">
+            <input type="text" id="cbPromoInput" class="promo-manual-input js-promo-manual-input" placeholder="Écrire le code promo..." autocomplete="off">
+            <button type="button" class="promo-manual-apply" onclick="window.applyPromoFromField('cbPromoInput')">Appliquer</button>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:var(--ink-secondary);padding-top:2px">
+            <div style="display:flex;justify-content:space-between">
+              <span>Sous-total produit(s)</span>
+              <b id="cbSubtotalVal" style="color:var(--ink)">25,00 €</b>
+            </div>
+            <div id="cbDiscountRow" style="display:none;justify-content:space-between;color:var(--green);font-weight:700">
+              <span>Réduction Code YONIX10 (-10%)</span>
+              <b id="cbDiscountVal">-2,50 €</b>
+            </div>
+            <div style="display:flex;justify-content:space-between">
+              <span>TVA &amp; Frais Stripe CB (2,9% + 0,25€)</span>
+              <b id="cbStripeFeeVal" style="color:var(--ink)">+0,98 €</b>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="cb-order-total" id="cbOrderTotalPrice">25€</div>
+
+      <div class="cb-saved-box" id="cbSavedCardsBox" style="display:none"></div>
     </div>
 
-    <!-- Code Promo YONIX10 + Détail TVA & Frais Stripe -->
-    <div style="border-top:1px solid var(--border);padding-top:10px;display:flex;flex-direction:column;gap:8px">
-      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
-        <input type="text" id="cbPromoInput" placeholder="Code promo (YONIX10)" style="flex:1;min-width:130px;padding:7px 10px;border-radius:8px;border:1px solid var(--border);background:var(--white);color:var(--ink);font-size:12px;font-weight:700;text-transform:uppercase">
-        <button type="button" onclick="window.applyPromoFromField('cbPromoInput')" style="padding:7px 12px;border-radius:8px;background:var(--blue);color:#fff;font-size:12px;font-weight:700;cursor:pointer">Appliquer</button>
-        <button type="button" class="js-promo-toggle-btn" onclick="window.togglePromoYonix10()" style="padding:7px 11px;border-radius:8px;background:var(--blue-soft);border:1px solid var(--blue-border);color:var(--blue);font-size:11.5px;font-weight:800;cursor:pointer">
-          Activer YONIX10 (-10%)
-        </button>
+    <!-- Right Column: Visual Card + Card Form + Pay CTA -->
+    <div>
+      <div id="cbNewCardSection">
+        <div class="cb-visual-card">
+          <div class="cb-visual-top">
+            <div class="cb-chip"></div>
+            <span class="cb-brand-tag" id="cbVisBrand">CARTE BANCAIRE</span>
+          </div>
+          <div class="cb-visual-num" id="cbVisNum">•••• •••• •••• ••••</div>
+          <div class="cb-visual-bottom">
+            <div>
+              <div style="font-size:9.5px;opacity:0.7">Titulaire</div>
+              <b id="cbVisName">VOTRE NOM</b>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:9.5px;opacity:0.7">Expire</div>
+              <b id="cbVisExp">MM/AA</b>
+            </div>
+          </div>
+        </div>
+
+        <div class="cb-form-grid">
+          <div class="cb-field">
+            <label for="cbInputName">Nom du titulaire sur la carte</label>
+            <input type="text" class="cb-input" id="cbInputName" placeholder="JEAN DUPONT" autocomplete="cc-name">
+          </div>
+          <div class="cb-field">
+            <label for="cbInputNum">Numéro de carte bancaire (16 chiffres)</label>
+            <input type="text" class="cb-input" id="cbInputNum" inputmode="numeric" maxlength="19" placeholder="4970 •••• •••• ••••" autocomplete="cc-number">
+          </div>
+          <div class="cb-form-row2">
+            <div class="cb-field">
+              <label for="cbInputExp">Date d'expiration</label>
+              <input type="text" class="cb-input" id="cbInputExp" inputmode="numeric" maxlength="5" placeholder="MM/AA" autocomplete="cc-exp">
+            </div>
+            <div class="cb-field">
+              <label for="cbInputCvv">Code CVV / CVC</label>
+              <input type="password" class="cb-input" id="cbInputCvv" inputmode="numeric" maxlength="4" placeholder="123" autocomplete="cc-csc">
+            </div>
+          </div>
+        </div>
+
+        <label class="cb-save-check">
+          <input type="checkbox" id="cbInputSave" checked>
+          <span>Enregistrer cette carte sur mon profil pour mes prochains achats</span>
+        </label>
       </div>
-      <div style="display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:var(--ink-secondary)">
-        <div style="display:flex;justify-content:space-between">
-          <span>Sous-total produit(s)</span>
-          <b id="cbSubtotalVal" style="color:var(--ink)">25,00 €</b>
-        </div>
-        <div id="cbDiscountRow" style="display:none;justify-content:space-between;color:var(--green);font-weight:700">
-          <span>Réduction Code YONIX10 (-10%)</span>
-          <b id="cbDiscountVal">-2,50 €</b>
-        </div>
-        <div style="display:flex;justify-content:space-between">
-          <span>TVA &amp; Frais Stripe CB (2,9% + 0,25€)</span>
-          <b id="cbStripeFeeVal" style="color:var(--ink)">+0,98 €</b>
-        </div>
-      </div>
+
+      <div class="cb-err-msg" id="cbErrMsg"></div>
+
+      <button type="button" class="dlg-buy" id="cbSubmitPayBtn" style="width:100%;padding:13px 20px;font-size:14.5px">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <span id="cbSubmitPayLabel">Payer maintenant</span>
+      </button>
     </div>
   </div>
-
-  <div class="cb-saved-box" id="cbSavedCardsBox" style="display:none"></div>
-
-  <div id="cbNewCardSection">
-    <div class="cb-visual-card">
-      <div class="cb-visual-top">
-        <div class="cb-chip"></div>
-        <span class="cb-brand-tag" id="cbVisBrand">CARTE BANCAIRE</span>
-      </div>
-      <div class="cb-visual-num" id="cbVisNum">•••• •••• •••• ••••</div>
-      <div class="cb-visual-bottom">
-        <div>
-          <div style="font-size:9.5px;opacity:0.7">Titulaire</div>
-          <b id="cbVisName">VOTRE NOM</b>
-        </div>
-        <div style="text-align:right">
-          <div style="font-size:9.5px;opacity:0.7">Expire</div>
-          <b id="cbVisExp">MM/AA</b>
-        </div>
-      </div>
-    </div>
-
-    <div class="cb-form-grid">
-      <div class="cb-field">
-        <label for="cbInputName">Nom du titulaire sur la carte</label>
-        <input type="text" class="cb-input" id="cbInputName" placeholder="JEAN DUPONT" autocomplete="cc-name">
-      </div>
-      <div class="cb-field">
-        <label for="cbInputNum">Numéro de carte bancaire (16 chiffres)</label>
-        <input type="text" class="cb-input" id="cbInputNum" inputmode="numeric" maxlength="19" placeholder="4970 •••• •••• ••••" autocomplete="cc-number">
-      </div>
-      <div class="cb-form-row2">
-        <div class="cb-field">
-          <label for="cbInputExp">Date d'expiration</label>
-          <input type="text" class="cb-input" id="cbInputExp" inputmode="numeric" maxlength="5" placeholder="MM/AA" autocomplete="cc-exp">
-        </div>
-        <div class="cb-field">
-          <label for="cbInputCvv">Code CVV / CVC</label>
-          <input type="password" class="cb-input" id="cbInputCvv" inputmode="numeric" maxlength="4" placeholder="123" autocomplete="cc-csc">
-        </div>
-      </div>
-    </div>
-
-    <label class="cb-save-check">
-      <input type="checkbox" id="cbInputSave" checked>
-      <span>Enregistrer cette carte sur mon profil pour mes prochains achats</span>
-    </label>
-  </div>
-
-  <div class="cb-err-msg" id="cbErrMsg"></div>
-
-  <button type="button" class="dlg-buy" id="cbSubmitPayBtn" style="width:100%;padding:15px 20px;font-size:15px">
-    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-    <span id="cbSubmitPayLabel">Payer maintenant</span>
-  </button>
 </dialog>
 
 <!-- AUTH OVERLAY -->
@@ -4873,6 +5005,24 @@ window.multiplyPriceStr = multiplyPriceStr;
     } catch (e) {}
   };
 
+  function isValidLuhnCard(numStr) {
+    const digits = String(numStr || '').replace(/\D/g, '');
+    if (digits.length < 15 || digits.length > 19) return false;
+    if (/^(\d)\1+$/.test(digits)) return false;
+    let sum = 0;
+    let dbl = false;
+    for (let i = digits.length - 1; i >= 0; i--) {
+      let d = parseInt(digits.charAt(i), 10);
+      if (dbl) {
+        d *= 2;
+        if (d > 9) d -= 9;
+      }
+      sum += d;
+      dbl = !dbl;
+    }
+    return sum % 10 === 0;
+  }
+
   $('#cbSubmitPayBtn')?.addEventListener('click', async () => {
     if (!pendingOrder) return;
     showCbError('');
@@ -4894,8 +5044,8 @@ window.multiplyPriceStr = multiplyPriceStr;
         $('#cbInputName')?.focus();
         return;
       }
-      if (rawNum.length < 15 || rawNum.length > 19) {
-        showCbError('Numéro de carte bancaire invalide (16 chiffres requis).');
+      if (rawNum.length < 15 || rawNum.length > 19 || !isValidLuhnCard(rawNum)) {
+        showCbError('Numéro de carte bancaire invalide (vérifie les 16 chiffres de ta carte).');
         $('#cbInputNum')?.focus();
         return;
       }
@@ -4913,7 +5063,7 @@ window.multiplyPriceStr = multiplyPriceStr;
         $('#cbInputExp')?.focus();
         return;
       }
-      if (cvv.length < 3 || cvv.length > 4) {
+      if (cvv.length < 3 || cvv.length > 4 || /^0+$/.test(cvv)) {
         showCbError('Code CVV invalide (3 ou 4 chiffres requis).');
         $('#cbInputCvv')?.focus();
         return;
@@ -4941,23 +5091,28 @@ window.multiplyPriceStr = multiplyPriceStr;
     const btn = $('#cbSubmitPayBtn');
     const lbl = $('#cbSubmitPayLabel');
     btn.disabled = true;
-    lbl.textContent = 'Validation du paiement sécurisé…';
+    lbl.textContent = 'Vérification bancaire 3D Secure…';
 
     const qty = clampQtyVal(pendingOrder.quantity || 1);
-    const fallbackSid = 'cs_live_' + Date.now();
     const orderMetaForSuccess = {
       accountEmail: window.CURRENT_USER_EMAIL || localStorage.getItem('yonix_email') || '',
+      productId: pendingOrder.productId || '',
       productName: pendingOrder.productName,
       tierName: pendingOrder.tierName,
       priceRaw: pendingOrder.priceRaw,
+      basePriceRaw: pendingOrder.basePriceRaw || pendingOrder.priceRaw,
+      promoCode: pendingOrder.promoCode || '',
+      discountCents: String(pendingOrder.discountCents || 0),
+      stripeFeeCents: String(pendingOrder.stripeFeeCents || 0),
       quantity: String(qty),
       downloadFile: pendingOrder.downloadFile || ''
     };
 
-    function persistLocalOrderRecord(sid, ordObj) {
+    function persistLocalOrderRecord(sid, ordObj, markPaidInProfile = true) {
       try {
         localStorage.setItem('yonix_last_order_' + sid, JSON.stringify(orderMetaForSuccess));
         localStorage.setItem('yonix_last_order', JSON.stringify(orderMetaForSuccess));
+        if (!markPaidInProfile) return;
         const existing = JSON.parse(localStorage.getItem('yonix_local_orders') || '[]');
         const list = Array.isArray(existing) ? existing : [];
         const rawCents = String(pendingOrder.priceRaw || '0').match(/(\d+(?:[.,]\d+)?)/);
@@ -4966,6 +5121,7 @@ window.multiplyPriceStr = multiplyPriceStr;
           id: sid,
           date: Math.floor(Date.now() / 1000),
           customerEmail: orderMetaForSuccess.accountEmail,
+          productId: pendingOrder.productId || '',
           productName: pendingOrder.productName,
           tierName: pendingOrder.tierName,
           priceRaw: pendingOrder.priceRaw,
@@ -5007,25 +5163,30 @@ window.multiplyPriceStr = multiplyPriceStr;
         return;
       }
       if (!res.ok) {
-        showCbError(data.error || 'Paiement refusé. Vérifie les informations de ta carte.');
+        showCbError(data.error || 'Paiement refusé par la banque. Vérifie les informations de ta carte.');
         btn.disabled = false;
         lbl.textContent = `Payer maintenant — ${pendingOrder.priceRaw || ''}`;
         return;
       }
 
-      const sid = data.sessionId || fallbackSid;
-      persistLocalOrderRecord(sid, data.order);
+      const sid = data.sessionId || '';
+      if (data.requiresStripeCheckout && data.url) {
+        // Save pending metadata for /success, but only confirm order once Stripe Checkout completes debit
+        persistLocalOrderRecord(sid, null, false);
+        lbl.textContent = 'Redirection vers ta banque (3D Secure)…';
+        window.location.href = data.url;
+        return;
+      }
+
+      persistLocalOrderRecord(sid, data.order, true);
       if (typeof pendingCleanup === 'function') pendingCleanup();
       cbModal.close();
-      toast('Paiement par carte bancaire accepté ✓');
+      toast('Paiement bancaire vérifié et accepté ✓');
       window.location.href = data.url || (`/success?session_id=${encodeURIComponent(sid)}`);
     } catch (e) {
-      // Fallback local si le serveur d'API est hors-ligne en prévisualisation statique
-      persistLocalOrderRecord(fallbackSid, null);
-      if (typeof pendingCleanup === 'function') pendingCleanup();
-      cbModal.close();
-      toast('Paiement par carte bancaire accepté ✓');
-      window.location.href = `/success?session_id=${encodeURIComponent(fallbackSid)}`;
+      showCbError('Impossible de contacter le serveur de paiement sécurisé. Vérifie ta connexion et réessaie.');
+      btn.disabled = false;
+      lbl.textContent = `Payer maintenant — ${pendingOrder.priceRaw || ''}`;
     }
   });
 })();
@@ -5270,16 +5431,33 @@ $('#pdQtyInput')?.addEventListener('change', e => setModalQty(e.target.value));
 
 function updateModalPriceComparison() {
   const cmpBox = $('#pdPriceCompare');
+  const rowBox = $('#pdPriceQtyRow');
   if (!cmpBox || !curProd) return;
   const tier = curProd.tiers[selTier] || {};
+  const promoOn = typeof window.isPromoYonix10Active === 'function' && window.isPromoYonix10Active();
+  const baseTotal = parsePriceNum(tier.price) * selQty;
+  const discountedTotal = promoOn ? Math.round(baseTotal * 0.90 * 100) / 100 : baseTotal;
+  const fmtE = n => (Number.isInteger(n) ? `${n}€` : `${n.toFixed(2).replace('.', ',')}€`);
+
   if (tier.oldPrice) {
     cmpBox.style.display = 'flex';
+    if (rowBox) rowBox.style.gridTemplateColumns = '';
     $('#pdOldPriceVal').textContent = multiplyPriceStr(tier.oldPrice, selQty);
-    $('#pdNewPriceVal').textContent = multiplyPriceStr(tier.price, selQty);
+    $('#pdNewPriceVal').textContent = fmtE(discountedTotal);
   } else {
     cmpBox.style.display = 'none';
+    if (rowBox) rowBox.style.gridTemplateColumns = '1fr';
+  }
+  const brk = $('#pdLivePriceBreakdown');
+  if (brk) {
+    brk.textContent = promoOn
+      ? `✓ Code YONIX10 (-10%) appliqué : ${fmtE(discountedTotal)} (+ TVA Stripe au paiement)`
+      : '+ TVA & Frais Stripe CB inclus au paiement';
+    brk.style.color = promoOn ? 'var(--green)' : '';
+    brk.style.fontWeight = promoOn ? '700' : '';
   }
 }
+window.updateModalPriceComparison = updateModalPriceComparison;
 
 function setBuyBtnLabel(text) {
   const lbl = $('#dlgBuyLabel');
@@ -5333,7 +5511,7 @@ window.openProduct = openProduct;
 
 function renderTiers() {
   const tg = $('#tierGrid');
-  const cols = curProd.tiers.length === 3 ? 'three' : (curProd.tiers.length === 1 ? 'one' : '');
+  const cols = curProd.tiers.length === 3 ? 'three' : (curProd.tiers.length === 2 ? 'two' : (curProd.tiers.length === 1 ? 'one' : ''));
   tg.className = `tier-grid${cols ? ' ' + cols : ''}`;
   tg.innerHTML = curProd.tiers.map((t, i) => `
     <button type="button" class="tier-btn${i === selTier ? ' sel' : ''}" data-i="${i}">
@@ -5427,31 +5605,34 @@ jbModal.innerHTML = `
       <p class="dlg-sub" id="jbSub"></p>
       <p class="dlg-desc" id="jbDesc"></p>
       <ul class="dlg-feats" id="jbFeats"></ul>
-      <div class="bundle-pricing" style="margin-bottom:14px;gap:14px">
-        <div class="bundle-old"><span>Prix de base :</span><b id="jbOldPrice" style="color:#EF4444;font-size:17px">49,99€</b></div>
-        <span class="pcard-vs-badge" style="font-size:11px;padding:3px 8px">VS</span>
-        <div class="bundle-new"><span>Prix Yonix :</span><b id="jbPrice"></b></div>
-        <div style="color:var(--gray);font-size:12.5px;padding-left:12px;border-left:1px solid var(--border)">Téléchargement<br>immédiat (.txt)</div>
+      <div class="dlg-price-qty-row">
+        <div class="bundle-pricing" style="gap:10px;justify-content:space-between">
+          <div class="bundle-old"><span>Prix de base :</span><b id="jbOldPrice" style="color:#EF4444;font-size:15px">49,99€</b></div>
+          <span class="pcard-vs-badge" style="font-size:10.5px;padding:2px 7px">VS</span>
+          <div class="bundle-new"><span>Prix Yonix :</span><b id="jbPrice" style="font-size:21px"></b></div>
+        </div>
+        <div class="qty-row" id="jbQtyRow">
+          <div class="qty-label">
+            <b>Quantité</b>
+            <span>1 à 10 produits max</span>
+          </div>
+          <div class="qty-stepper">
+            <button type="button" class="qty-btn" id="jbQtyMinus" aria-label="Diminuer la quantité">−</button>
+            <input type="number" class="qty-input" id="jbQtyInput" value="1" min="1" max="10" aria-label="Quantité">
+            <button type="button" class="qty-btn" id="jbQtyPlus" aria-label="Augmenter la quantité">+</button>
+          </div>
+        </div>
       </div>
-      <div class="qty-row" id="jbQtyRow">
-        <div class="qty-label">
-          <b>Quantité</b>
-          <span>Entre 1 et 10 produits max</span>
+      <div class="promo-manual-box">
+        <div class="promo-manual-info">
+          <b>Code de réduction (saisir à la main)</b>
+          <span id="jbLivePriceBreakdown" class="js-promo-breakdown-text">+ TVA &amp; Frais Stripe CB inclus au paiement</span>
         </div>
-        <div class="qty-stepper">
-          <button type="button" class="qty-btn" id="jbQtyMinus" aria-label="Diminuer la quantité">−</button>
-          <input type="number" class="qty-input" id="jbQtyInput" value="1" min="1" max="10" aria-label="Quantité">
-          <button type="button" class="qty-btn" id="jbQtyPlus" aria-label="Augmenter la quantité">+</button>
+        <div class="promo-manual-form">
+          <input type="text" id="jbPromoInput" class="promo-manual-input js-promo-manual-input" placeholder="Écrire le code..." autocomplete="off">
+          <button type="button" class="promo-manual-apply" onclick="window.applyPromoFromField('jbPromoInput')">Appliquer</button>
+          <button type="button" class="promo-clear-pill js-promo-clear-btn" onclick="window.clearManualPromo()" style="display:none">✕</button>
         </div>
-      </div>
-      <div style="margin-bottom:12px;padding:10px 12px;border-radius:12px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
-        <div style="font-size:12px;color:var(--ink-secondary);line-height:1.4">
-          <b style="color:var(--ink)">Code promo YONIX10 (-10%)</b>
-          <div style="font-size:11.5px;margin-top:2px">+ TVA &amp; Frais Stripe CB inclus au paiement</div>
-        </div>
-        <button type="button" class="js-promo-toggle-btn" onclick="window.togglePromoYonix10()" style="padding:6px 12px;border-radius:999px;background:var(--blue-soft);border:1px solid var(--blue-border);color:var(--blue);font-size:12px;font-weight:800;cursor:pointer">
-          Activer YONIX10 (-10%)
-        </button>
       </div>
       <div class="cgv-check">
         <input type="checkbox" id="jbCgvCheck" name="jbcgv" checked>
@@ -5493,10 +5674,23 @@ function setJBQty(val) {
   if (qMin) qMin.disabled = jbQty <= 1;
   if (qMax) qMax.disabled = jbQty >= 10;
   if (curJB) {
+    const promoOn = typeof window.isPromoYonix10Active === 'function' && window.isPromoYonix10Active();
+    const baseTotal = parsePriceNum(curJB.price) * jbQty;
+    const discountedTotal = promoOn ? Math.round(baseTotal * 0.90 * 100) / 100 : baseTotal;
+    const fmtE = n => (Number.isInteger(n) ? `${n}€` : `${n.toFixed(2).replace('.', ',')}€`);
     if ($('#jbOldPrice')) $('#jbOldPrice').textContent = multiplyPriceStr(curJB.oldPrice || '49,99€', jbQty);
-    if ($('#jbPrice')) $('#jbPrice').textContent = multiplyPriceStr(curJB.price, jbQty);
+    if ($('#jbPrice')) $('#jbPrice').textContent = fmtE(discountedTotal);
+    const brk = $('#jbLivePriceBreakdown');
+    if (brk) {
+      brk.textContent = promoOn
+        ? `✓ Code YONIX10 (-10%) appliqué : ${fmtE(discountedTotal)} (+ TVA Stripe au paiement)`
+        : '+ TVA & Frais Stripe CB inclus au paiement';
+      brk.style.color = promoOn ? 'var(--green)' : '';
+      brk.style.fontWeight = promoOn ? '700' : '';
+    }
   }
 }
+window.updateJBPriceComparison = () => setJBQty(jbQty);
 
 $('#jbQtyMinus')?.addEventListener('click', () => setJBQty(jbQty - 1));
 $('#jbQtyPlus')?.addEventListener('click', () => setJBQty(jbQty + 1));
@@ -6155,11 +6349,13 @@ window.toast = toast;
   })();
 })();
 
-/* ===== PROMO BANNER + COUNTDOWN + GLOBAL YONIX10 PROMO ENGINE ===== */
+/* ===== PROMO BANNER + COUNTDOWN + MANUAL PROMO CODE ENGINE ===== */
 (function() {
   let promoActive = false;
   try {
-    promoActive = (localStorage.getItem('yonix_promo_code') || '').toUpperCase() === 'YONIX10';
+    // Clear legacy one-click promo persistence so customer always types the code manually
+    localStorage.removeItem('yonix_promo_code');
+    promoActive = (sessionStorage.getItem('yonix_manual_promo') || '').toUpperCase() === 'YONIX10';
   } catch (e) {}
 
   window.isPromoYonix10Active = function() {
@@ -6167,36 +6363,24 @@ window.toast = toast;
   };
 
   window.syncAllPromoUI = function() {
-    const bannerBtn = document.getElementById('bannerPromoBtn');
-    const bannerTxt = document.getElementById('bannerPromoBtnText');
-    if (bannerBtn && bannerTxt) {
+    document.querySelectorAll('.js-promo-manual-input').forEach(inp => {
       if (promoActive) {
-        bannerBtn.style.background = 'rgba(34,197,94,0.22)';
-        bannerBtn.style.borderColor = 'rgba(34,197,94,0.65)';
-        bannerTxt.textContent = '✓ Code YONIX10 (-10%) Actif';
-      } else {
-        bannerBtn.style.background = 'rgba(78,124,255,0.22)';
-        bannerBtn.style.borderColor = 'rgba(78,124,255,0.55)';
-        bannerTxt.textContent = 'Activer -10%';
+        inp.value = 'YONIX10';
+      } else if (inp.value.trim().toUpperCase() === 'YONIX10') {
+        inp.value = '';
       }
-    }
-
-    const cartQuickBtn = document.getElementById('cartQuickPromoBtn');
-    const cartIn = document.getElementById('cartPromoInput');
-    if (cartQuickBtn) {
-      cartQuickBtn.textContent = promoActive ? '✓ YONIX10 (-10%) Actif · Retirer' : 'Activer YONIX10 (-10%)';
-      cartQuickBtn.style.background = promoActive ? 'var(--green-soft)' : 'var(--blue-soft)';
-      cartQuickBtn.style.color = promoActive ? 'var(--green)' : 'var(--blue)';
-    }
-    if (cartIn) cartIn.value = promoActive ? 'YONIX10' : '';
-
-    document.querySelectorAll('.js-promo-toggle-btn').forEach(btn => {
-      btn.textContent = promoActive ? '✓ YONIX10 (-10%) Actif' : 'Activer YONIX10 (-10%)';
-      btn.style.background = promoActive ? 'var(--green-soft)' : 'var(--blue-soft)';
-      btn.style.color = promoActive ? 'var(--green)' : 'var(--blue)';
-      btn.style.borderColor = promoActive ? 'rgba(34,197,94,0.4)' : 'var(--blue-border)';
     });
 
+    document.querySelectorAll('.js-promo-clear-btn').forEach(btn => {
+      btn.style.display = promoActive ? 'inline-flex' : 'none';
+    });
+
+    document.querySelectorAll('.js-promo-status-msg').forEach(msg => {
+      msg.style.display = promoActive ? 'block' : 'none';
+    });
+
+    if (typeof window.updateModalPriceComparison === 'function') window.updateModalPriceComparison();
+    if (typeof window.updateJBPriceComparison === 'function') window.updateJBPriceComparison();
     if (typeof window._rerenderCartPromo === 'function') window._rerenderCartPromo();
     if (typeof window.syncCbModalPricing === 'function') window.syncCbModalPricing();
   };
@@ -6204,32 +6388,44 @@ window.toast = toast;
   window.setPromoYonix10 = function(state, silent = false) {
     promoActive = Boolean(state);
     try {
-      if (promoActive) localStorage.setItem('yonix_promo_code', 'YONIX10');
-      else localStorage.removeItem('yonix_promo_code');
+      if (promoActive) sessionStorage.setItem('yonix_manual_promo', 'YONIX10');
+      else sessionStorage.removeItem('yonix_manual_promo');
+      localStorage.removeItem('yonix_promo_code');
     } catch (e) {}
     window.syncAllPromoUI();
     if (!silent && typeof window.toast === 'function') {
-      window.toast(promoActive ? 'Code promo YONIX10 (-10%) activé sur ta commande ✓' : 'Code promo YONIX10 retiré.');
+      window.toast(promoActive ? 'Code promo YONIX10 (-10%) appliqué sur ta commande ✓' : 'Code promo retiré.');
     }
   };
 
-  window.togglePromoYonix10 = function() {
-    window.setPromoYonix10(!promoActive, false);
+  window.clearManualPromo = function() {
+    document.querySelectorAll('.js-promo-manual-input').forEach(inp => { inp.value = ''; });
+    window.setPromoYonix10(false, false);
   };
 
   window.applyPromoFromField = function(inputId) {
     const el = document.getElementById(inputId);
     const val = (el?.value || '').trim().toUpperCase();
     if (!val) {
-      window.setPromoYonix10(false, false);
+      if (typeof window.toast === 'function') {
+        window.toast('Écris ton code promo dans le champ avant de cliquer sur Appliquer.');
+      }
+      el?.focus();
       return;
     }
     if (val === 'YONIX10') {
       window.setPromoYonix10(true, false);
     } else if (typeof window.toast === 'function') {
-      window.toast('Code promo invalide. Utilise le code YONIX10 (-10%).');
+      window.toast('Code promo invalide. Vérifie l\'orthographe du code affiché en haut.');
     }
   };
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && e.target && e.target.classList && e.target.classList.contains('js-promo-manual-input')) {
+      e.preventDefault();
+      if (e.target.id) window.applyPromoFromField(e.target.id);
+    }
+  });
 
   const cdH = document.getElementById('cdH');
   const cdM = document.getElementById('cdM');

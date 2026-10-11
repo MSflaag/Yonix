@@ -1,153 +1,1199 @@
+<!-- public/success.html — YONIX Confirmation de Commande (Identical Design System to index.html & profile.html) -->
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>YONIX</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Commande confirmée — YONIX</title>
+<link rel="icon" type="image/jpeg" href="/logos/Yonix.png?v=2">
+<meta name="theme-color" content="#0A0E17" id="metaThemeColor">
+<script>
+(function(){
+  try {
+    var saved = localStorage.getItem('yonix_theme');
+    var theme = (saved === 'light' || saved === 'dark') ? saved : 'dark';
+    document.documentElement.setAttribute('data-theme', theme);
+    var m = document.getElementById('metaThemeColor');
+    if (m) m.setAttribute('content', theme === 'dark' ? '#0A0E17' : '#FAFBFF');
+  } catch (e) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+})();
+</script>
 <style>
-  :root{--cyan:#00c8ff;--blue:#1a6fff;--green:#22c55e;--body:'Inter',sans-serif}
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{min-height:100vh;background:#0a0a12;color:#fff;font-family:var(--body);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;position:relative;overflow:hidden}
-  canvas{position:fixed;inset:0;pointer-events:none;opacity:.4}
-  .card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:40px;max-width:520px;width:100%;text-align:center;position:relative;z-index:1;backdrop-filter:blur(12px)}
-  .icon{width:72px;height:72px;border-radius:50%;background:radial-gradient(circle,rgba(34,197,94,.3),transparent);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:36px}
-  h1{font-size:24px;font-weight:800;margin-bottom:8px;background:linear-gradient(135deg,#4ade80,#22c55e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-  p{color:rgba(255,255,255,.6);line-height:1.6;margin-bottom:6px;font-size:14px}
-  .product-name{font:700 16px var(--body);color:#fff;background:rgba(255,255,255,.06);padding:10px 16px;border-radius:10px;margin:16px 0;display:inline-block}
-  .dl-section{margin-top:24px;padding-top:24px;border-top:1px solid rgba(255,255,255,.08)}
-  .dl-section h2{font-size:15px;font-weight:700;margin-bottom:14px;color:rgba(255,255,255,.8)}
-  .dl-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px 16px;margin-bottom:8px;background:linear-gradient(135deg,#00c8ff,#1a6fff);border:none;border-radius:12px;color:#000;font:700 14px var(--body);cursor:pointer;text-decoration:none;transition:transform .15s,box-shadow .2s}
-  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px -4px rgba(0,200,255,.4)}
-  .discord-info{margin-top:20px;padding:16px;background:rgba(88,101,242,.15);border:1px solid rgba(88,101,242,.3);border-radius:12px}
-  .discord-info p{color:rgba(255,255,255,.7)}
-  .back{display:inline-block;margin-top:24px;color:rgba(255,255,255,.4);font-size:13px;text-decoration:none;transition:color .2s}
-  .back:hover{color:var(--cyan)}
-  .loading{color:rgba(255,255,255,.5);font-size:14px;padding:20px 0}
-  .err{color:#ff6b6b;font-size:13px;margin-top:12px}
+:root {
+  --bg: #FAFBFF;
+  --bg-alt: #F2F4F8;
+  --white: #FFFFFF;
+  --night: #161618;
+  --night-soft: #1E2024;
+  --ink: #131826;
+  --ink-secondary: #475569;
+  --gray: #64748B;
+  --gray-light: #94A3B8;
+  --platinum: #D8DDE3;
+  --border: #E2E8F0;
+  --border-hover: #CBD5E1;
+  --blue: #4E7CFF;
+  --blue-hover: #3B66E6;
+  --blue-active: #2F56CC;
+  --blue-soft: rgba(78, 124, 255, 0.08);
+  --blue-mid: rgba(78, 124, 255, 0.16);
+  --blue-border: rgba(78, 124, 255, 0.35);
+  --blue-shadow: rgba(78, 124, 255, 0.28);
+  --green: #16A34A;
+  --green-soft: rgba(22, 163, 74, 0.09);
+  --green-border: rgba(22, 163, 74, 0.28);
+  --amber: #D97706;
+  --amber-soft: rgba(217, 119, 6, 0.1);
+  --amber-border: rgba(217, 119, 6, 0.28);
+  --red: #DC2626;
+  --red-soft: rgba(220, 38, 38, 0.08);
+  --red-border: rgba(220, 38, 38, 0.25);
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+  --shadow-xs: 0 1px 2px rgba(19, 24, 38, 0.04);
+  --shadow-sm: 0 4px 16px -2px rgba(19, 24, 38, 0.05), 0 1px 3px rgba(19, 24, 38, 0.03);
+  --shadow-md: 0 12px 32px -8px rgba(19, 24, 38, 0.08), 0 2px 6px rgba(19, 24, 38, 0.04);
+  --shadow-lg: 0 24px 56px -12px rgba(19, 24, 38, 0.12), 0 4px 12px rgba(19, 24, 38, 0.05);
+  --shadow-blue: 0 10px 24px -4px rgba(78, 124, 255, 0.38), 0 4px 10px -2px rgba(78, 124, 255, 0.2);
+}
+
+html[data-theme="dark"] {
+  --bg: #0A0E17;
+  --bg-alt: #131929;
+  --white: #111623;
+  --night: #F8FAFC;
+  --night-soft: #E2E8F0;
+  --ink: #F1F5F9;
+  --ink-secondary: #94A3B8;
+  --gray: #94A3B8;
+  --gray-light: #64748B;
+  --platinum: #263147;
+  --border: #1E2738;
+  --border-hover: #334155;
+  --blue: #4E7CFF;
+  --blue-hover: #638BFF;
+  --blue-active: #7AA0FF;
+  --blue-soft: rgba(78, 124, 255, 0.14);
+  --blue-mid: rgba(78, 124, 255, 0.24);
+  --blue-border: rgba(78, 124, 255, 0.45);
+  --blue-shadow: rgba(78, 124, 255, 0.35);
+  --green: #22C55E;
+  --green-soft: rgba(34, 197, 94, 0.14);
+  --green-border: rgba(34, 197, 94, 0.35);
+  --amber: #F59E0B;
+  --amber-soft: rgba(245, 158, 11, 0.14);
+  --amber-border: rgba(245, 158, 11, 0.35);
+  --red: #EF4444;
+  --red-soft: rgba(239, 68, 68, 0.14);
+  --red-border: rgba(239, 68, 68, 0.35);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --shadow-sm: 0 4px 16px -2px rgba(0, 0, 0, 0.55), 0 1px 3px rgba(0, 0, 0, 0.38);
+  --shadow-md: 0 12px 32px -8px rgba(0, 0, 0, 0.7), 0 2px 6px rgba(0, 0, 0, 0.48);
+  --shadow-lg: 0 24px 56px -12px rgba(0, 0, 0, 0.85), 0 4px 12px rgba(0, 0, 0, 0.6);
+  color-scheme: dark;
+}
+
+html[data-theme="dark"] .nav {
+  background: rgba(10, 14, 23, 0.88);
+}
+
+html[data-theme="dark"] #promoBanner {
+  background: #060911;
+  color: #FFFFFF;
+  border-bottom-color: rgba(78, 124, 255, 0.22);
+}
+
+html[data-theme="dark"] .promo-bolt,
+html[data-theme="dark"] .banner-code,
+html[data-theme="dark"] .cd-num,
+html[data-theme="dark"] .btn-blue,
+html[data-theme="dark"] .cart-badge {
+  color: #FFFFFF;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  color: var(--ink-secondary);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-xs);
+  background: var(--blue-soft);
+  border-color: var(--blue-border);
+  color: var(--blue);
+}
+
+.theme-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
+html[data-theme="dark"] .theme-toggle .icon-moon {
+  display: none;
+}
+
+html:not([data-theme="dark"]) .theme-toggle .icon-sun {
+  display: none;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+.wrap {
+  width: min(1440px, calc(100% - 40px));
+  margin-inline: auto;
+}
+
+/* ===== PROMO BANNER (Identical to Yonix Store) ===== */
+#promoBanner {
+  position: relative;
+  z-index: 110;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 9px 48px 9px 16px;
+  background: var(--night);
+  color: var(--white);
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.promo-bolt {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: var(--blue);
+  color: var(--white);
+  flex-shrink: 0;
+}
+
+.banner-code {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--blue);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+.countdown-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cd-unit {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.cd-num {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  background: rgba(255, 255, 255, 0.12);
+  padding: 1px 6px;
+  border-radius: 5px;
+  color: var(--white);
+  font-size: 12px;
+}
+
+.cd-label {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.cd-sep {
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* ===== NAVBAR (Identical to Yonix Store) ===== */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-in {
+  position: relative;
+  height: 68px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 20px;
+}
+
+.brand {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  font-weight: 800;
+  font-size: 1.35rem;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--night);
+  flex-shrink: 0;
+}
+
+.brand-mark {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(19, 24, 38, 0.16);
+  border: none;
+  flex-shrink: 0;
+}
+
+.brand-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.nav-links {
+  justify-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.nav-links a {
+  padding: 8px 16px;
+  border-radius: 999px;
+  color: var(--ink-secondary);
+  font-weight: 600;
+  font-size: 14.5px;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: var(--ink);
+  background: var(--bg-alt);
+}
+
+.nav-right {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.nav-login {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--ink-secondary);
+  font-size: 13.5px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.nav-login:hover {
+  border-color: var(--border-hover);
+  color: var(--ink);
+  background: var(--bg-alt);
+}
+
+#cartBubble {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  color: var(--ink-secondary);
+  transition: all 0.2s ease;
+}
+
+#cartBubble:hover {
+  background: var(--blue-soft);
+  border-color: var(--blue-border);
+  color: var(--blue);
+}
+
+#cartBubble svg {
+  width: 19px;
+  height: 19px;
+  stroke: currentColor;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 19px;
+  height: 19px;
+  border-radius: 999px;
+  background: var(--blue);
+  color: var(--white);
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+}
+
+.cart-badge:empty {
+  display: none;
+}
+
+/* ===== CONFIRMATION MAIN LAYOUT (Wide & Compact Single-Screen) ===== */
+main {
+  padding: 20px 0 40px;
+}
+
+.confirm-shell {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.s-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 22px 26px;
+  box-shadow: var(--shadow-md);
+}
+
+.confirm-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.status-pill.ok {
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  color: var(--green);
+}
+
+.status-pill.warn {
+  background: var(--red-soft);
+  border: 1px solid var(--red-border);
+  color: var(--red);
+}
+
+.status-pill i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.confirm-head {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.confirm-title {
+  font-size: clamp(1.35rem, 2.2vw, 1.65rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--night);
+  margin-bottom: 4px;
+}
+
+.confirm-sub {
+  font-size: 13.5px;
+  color: var(--ink-secondary);
+}
+
+/* Product Showcase Box with Official Icon */
+.product-showcase {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: var(--bg);
+  border: 1.5px solid var(--blue-border);
+  margin-bottom: 14px;
+}
+
+.product-icon-box {
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
+  background: radial-gradient(circle at 50% 50%, rgba(78, 124, 255, 0.22), transparent 72%), #070A12;
+  border: 1px solid rgba(78, 124, 255, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  flex-shrink: 0;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.product-icon-box img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.product-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.product-cat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  color: var(--blue);
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.product-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--night);
+  line-height: 1.25;
+}
+
+.product-tier {
+  font-size: 13px;
+  color: var(--ink-secondary);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.product-price-tag {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--blue);
+  white-space: nowrap;
+}
+
+/* Breakdown Table */
+.breakdown-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 13px;
+}
+
+.breakdown-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--ink-secondary);
+}
+
+.breakdown-row strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.breakdown-row.discount {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.breakdown-row.discount strong {
+  color: var(--green);
+}
+
+.breakdown-row.total {
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+  margin-top: 2px;
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--night);
+}
+
+.breakdown-row.total strong {
+  color: var(--blue);
+  font-size: 16px;
+}
+
+/* Steps Timeline */
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.step-box {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  text-align: left;
+}
+
+.step-box.done {
+  border-color: var(--green-border);
+  background: var(--green-soft);
+}
+
+.step-box.active {
+  border-color: var(--blue-border);
+  background: var(--blue-soft);
+}
+
+.step-num {
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gray);
+  margin-bottom: 2px;
+}
+
+.step-box.done .step-num {
+  color: var(--green);
+}
+
+.step-box.active .step-num {
+  color: var(--blue);
+}
+
+.step-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--night);
+}
+
+/* Delivered / Info Box */
+.delivery-info-box {
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  margin-bottom: 14px;
+}
+
+.delivery-info-box h3 {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--night);
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.delivery-info-box p {
+  font-size: 13px;
+  color: var(--ink-secondary);
+  line-height: 1.5;
+}
+
+.delivered-pre {
+  margin-top: 8px;
+  background: #0A0E17;
+  color: #F8FAFC;
+  border: 1px solid #263147;
+  border-radius: 10px;
+  padding: 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12.5px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Buttons */
+.btn-blue {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  background: var(--blue);
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: var(--shadow-blue);
+  transition: all 0.2s ease;
+}
+
+.btn-blue:hover {
+  background: var(--blue-hover);
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.btn-outline:hover {
+  border-color: var(--blue-border);
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+
+.actions-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.actions-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 36px 20px;
+  color: var(--gray);
+  font-size: 14px;
+}
+
+.loader-ring {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 3px solid var(--border);
+  border-top-color: var(--blue);
+  animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 860px) {
+  .confirm-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .s-card { padding: 18px 16px; }
+  .product-showcase { flex-direction: column; text-align: center; }
+  .steps-grid { grid-template-columns: 1fr; }
+  .actions-row { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
-<canvas id="bg"></canvas>
-<div class="card">
-  <div class="icon">✅</div>
-  <h1>Paiement confirmé !</h1>
-  <p>Merci pour ta commande sur Yonix.</p>
-  <div id="content"><p class="loading">Chargement de ta commande…</p></div>
-  <a href="/" class="back">← Retour à la boutique</a>
+
+<!-- PROMO BANNER -->
+<div id="promoBanner" role="region" aria-label="Offre promotionnelle">
+  <span class="promo-bolt" aria-hidden="true">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+  </span>
+  <span>Offre flash — </span>
+  <span class="countdown-wrap">
+    Expire dans :&nbsp;
+    <span class="cd-unit"><span class="cd-num" id="cdH">02</span><span class="cd-label">h</span></span>
+    <span class="cd-sep">:</span>
+    <span class="cd-unit"><span class="cd-num" id="cdM">00</span><span class="cd-label">min</span></span>
+    <span class="cd-sep">:</span>
+    <span class="cd-unit"><span class="cd-num" id="cdS">00</span><span class="cd-label">sec</span></span>
+  </span>
+  <span>— Code <span class="banner-code">YONIX10</span> -10% sur tout</span>
 </div>
 
-<script>
-// Particle canvas background
-(function(){
-  const cv=document.getElementById('bg');
-  const cx=cv.getContext('2d');
-  let W,H,pts=[];
-  function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight;pts=[]}
-  function init(){for(let i=0;i<60;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*2+1,o:Math.random()*.5+.1})}
-  function frame(){
-    cx.clearRect(0,0,W,H);
-    pts.forEach(p=>{
-      p.x+=p.vx;p.y+=p.vy;
-      if(p.x<0||p.x>W)p.vx*=-1;
-      if(p.y<0||p.y>H)p.vy*=-1;
-      cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      cx.fillStyle=`rgba(0,200,255,${p.o})`;cx.fill();
-    });
-    requestAnimationFrame(frame);
-  }
-  addEventListener('resize',()=>{resize();init()});
-  resize();init();frame();
-})();
+<!-- NAVBAR -->
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="/" aria-label="Yonix accueil">
+      <span class="brand-mark">
+        <img src="/logos/Yonix.png?v=2" alt="Yonix logo">
+      </span>
+      <span>YONIX</span>
+    </a>
 
-// BUNDLE file list — must match what's in /public/files/
-const BUNDLE_FILES=[
-  {label:'ChatGPT Unfiltered',file:'chatgpt-unfiltered.zip'},
-  {label:'Claude Unrestricted',file:'claude-unrestricted.zip'},
-  {label:'Gemini Bypass',file:'gemini-bypass.zip'},
-  {label:'Meta AI Jailbreak',file:'meta-ai-jailbreak.zip'},
-  {label:'Copilot Override',file:'copilot-override.zip'},
-  {label:'Grok Exploit',file:'grok-exploit.zip'},
-  {label:'Mistral Uncensored',file:'mistral-uncensored.zip'},
-  {label:'Perplexity Bypass',file:'perplexity-bypass.zip'},
-  {label:'DeepSeek Exploit',file:'deepseek-exploit.zip'},
-  {label:'Llama Jailbreak',file:'llama-jailbreak.zip'},
-  {label:'Pi AI Bypass',file:'pi-bypass.zip'},
-];
+    <nav class="nav-links" aria-label="Navigation principale">
+      <a href="/boutique">Boutique</a>
+      <a href="/avis">Avis</a>
+      <a href="/faq">FAQ</a>
+    </nav>
 
-async function loadOrder(){
-  const params=new URLSearchParams(location.search);
-  const sid=params.get('session_id');
-  const el=document.getElementById('content');
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" aria-label="Basculer le mode sombre / clair" title="Mode sombre / clair">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
 
-  if(!sid){
-    el.innerHTML=`<p class="err">Session introuvable. Contacte le support.</p>`;
-    return;
-  }
-
-  let localMeta = {};
-  try {
-    const raw = localStorage.getItem('yonix_last_order_' + sid) || localStorage.getItem('yonix_last_order');
-    if (raw) localMeta = JSON.parse(raw) || {};
-  } catch (e) {}
-
-  let data = null;
-  try{
-    const res=await fetch('/api/session?session_id='+encodeURIComponent(sid));
-    if (res.ok) data=await res.json();
-  }catch(e){}
-
-  if (!data && localMeta.productName) {
-    data = { status: 'paid', metadata: localMeta };
-  }
-
-  if(!data || data.status!=='paid'){
-    el.innerHTML=`<p class="err">Paiement non confirmé (statut : ${(data && data.status)||'inconnu'}). Contacte le support.</p>`;
-    return;
-  }
-
-  const m = { ...localMeta, ...(data.metadata || {}) };
-  const isBundle=m.productName&&m.productName.toLowerCase().includes('bundle');
-  const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const qtyNum = parseInt(m.quantity || '1', 10) || 1;
-  const qtyBadge = qtyNum > 1 ? ` ×${qtyNum}` : '';
-
-  let html=`<div class="product-name">${esc(m.productName||'Produit')}${qtyBadge}${m.tierName?' — '+esc(m.tierName):''}${m.priceRaw?' ('+esc(m.priceRaw)+')':''}</div>`;
-
-  if(m.deliveredProduct){
-    html+=`<div class="dl-section">
-      <h2>Ton produit livré sur le site</h2>
-      <pre style="text-align:left;white-space:pre-wrap;word-break:break-word;background:rgba(0,200,255,.08);border:1px solid rgba(0,200,255,.3);padding:14px;border-radius:10px;color:#fff;font-size:13.5px;margin-bottom:10px">${esc(m.deliveredProduct)}</pre>
-    </div>`;
-  }
-
-  if(m.downloadFile){
-    html+=`<div class="dl-section">
-      <h2>Ton fichier est prêt</h2>
-      <a class="dl-btn" href="/files/${encodeURIComponent(m.downloadFile)}" download>
-        Télécharger ${esc(m.downloadFile)}
+      <a href="/profile" class="nav-login" aria-label="Mon Profil">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Mon Profil</span>
       </a>
-    </div>`;
-  } else if(isBundle){
-    html+=`<div class="dl-section">
-      <h2>Tes 11 fichiers sont prêts</h2>
-      ${BUNDLE_FILES.map(f=>`<a class="dl-btn" href="/files/${encodeURIComponent(f.file)}" download>${esc(f.label)}</a>`).join('')}
-    </div>`;
-  } else if(!m.deliveredProduct){
-    html+=`<div class="discord-info">
-      <p><strong>Ta commande est bien enregistrée sur ton compte.</strong></p>
-      <p style="margin-top:8px">Ton produit (clé, identifiants ou fichier) te sera envoyé <strong>directement sur le site dans ton espace Mon Compte</strong> dès validation.</p>
-      <p style="margin-top:8px;font-size:12px;color:rgba(255,255,255,.4)">Réf. : ${esc(sid.slice(-12))}</p>
-    </div>`;
+
+      <a href="/panier" id="cartBubble" aria-label="Ouvrir le panier" title="Mon panier">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1.5"/>
+          <circle cx="19" cy="21" r="1.5"/>
+          <path d="M2.5 3h3l2.4 12.1a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 1.9-1.5L22.5 7H6.2"/>
+        </svg>
+        <span class="cart-badge" id="cartBadge"></span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="confirm-shell">
+      <div class="s-card" id="orderCard">
+        <div class="loader">
+          <div class="loader-ring"></div>
+          <span>Vérification bancaire de ta commande auprès de Stripe…</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+(function(){
+  window.toggleTheme = function() {
+    const html = document.documentElement;
+    const cur = html.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    const next = cur === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    try { localStorage.setItem('yonix_theme', next); } catch (e) {}
+    const m = document.getElementById('metaThemeColor');
+    if (m) m.setAttribute('content', next === 'dark' ? '#0A0E17' : '#FAFBFF');
+  };
+
+  // Countdown + Cart badge sync
+  (function initTopBar() {
+    try {
+      const cart = JSON.parse(localStorage.getItem('yonix_cart') || '[]');
+      const count = Array.isArray(cart) ? cart.reduce((s, x) => s + (x.qty || x.quantity || 1), 0) : 0;
+      const badge = document.getElementById('cartBadge');
+      if (badge) badge.textContent = count > 0 ? count : '';
+    } catch (e) {}
+
+    const KEY = 'yonix_cd_end';
+    let end = parseInt(sessionStorage.getItem(KEY) || '0', 10);
+    if (!end || end < Date.now()) {
+      end = Date.now() + 2 * 3600 * 1000;
+      sessionStorage.setItem(KEY, String(end));
+    }
+    const hEl = document.getElementById('cdH');
+    const mEl = document.getElementById('cdM');
+    const sEl = document.getElementById('cdS');
+    function tick() {
+      const rem = Math.max(0, end - Date.now());
+      if (hEl) hEl.textContent = String(Math.floor(rem / 3600000)).padStart(2, '0');
+      if (mEl) mEl.textContent = String(Math.floor((rem % 3600000) / 60000)).padStart(2, '0');
+      if (sEl) sEl.textContent = String(Math.floor((rem % 60000) / 1000)).padStart(2, '0');
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+
+  function resolveProductLogo(nameOrId, fallback) {
+    if (fallback && String(fallback).startsWith('/logos/')) return fallback;
+    const q = String(nameOrId || '').toLowerCase();
+    if (q.includes('basic') || q.includes('fit')) return '/logos/basicfit.png';
+    if (q.includes('photoshop') || q.includes('adobe')) return '/logos/adobe.png';
+    if (q.includes('tacos')) return '/logos/otacos.png';
+    if (q.includes('spotify')) return '/logos/spotify.png';
+    if (q.includes('netflix')) return '/logos/netflix.png';
+    if (q.includes('crunchyroll')) return '/logos/crunchyroll.png';
+    if (q.includes('canva')) return '/logos/canva.png';
+    if (q.includes('disney')) return '/logos/disneyplus.png';
+    if (q.includes('nitro') || q.includes('discord')) return '/logos/nitro_boost.png';
+    if (q.includes('cs2') || q.includes('counter')) return '/logos/csgo.png';
+    if (q.includes('valorant') || q.includes('val')) return '/logos/valorant.png';
+    if (q.includes('spoofer') || q.includes('hwid')) return '/logos/spoofer.png';
+    if (q.includes('antigravity') && q.includes('claude')) return '/logos/claude_antigravity.png';
+    if (q.includes('antigravity') && q.includes('gemini')) return '/logos/gemini_antigravity.png';
+    if (q.includes('claude')) return '/logos/claude.png';
+    if (q.includes('gemini')) return '/logos/gemini.png';
+    if (q.includes('chatgpt') || q.includes('gpt')) return '/logos/chatgpt.png';
+    if (q.includes('grok')) return '/logos/grok.png';
+    if (q.includes('deepseek')) return '/logos/deepseek.png';
+    if (q.includes('kimi')) return '/logos/kimi.png';
+    if (q.includes('qwen')) return '/logos/qwen.png';
+    if (q.includes('glm')) return '/logos/glm.png';
+    if (q.includes('arena')) return '/logos/arena.png';
+    return '/logos/Yonix.png?v=2';
   }
 
-  html+=`<div style="margin-top:18px">
-    <a class="dl-btn" href="/profile">Accéder à mes commandes &amp; produits reçus</a>
-  </div>`;
+  function resolveProductCategory(nameOrId) {
+    const q = String(nameOrId || '').toLowerCase();
+    if (q.includes('cs2') || q.includes('valorant')) return 'Gaming · CS2 & Valorant';
+    if (q.includes('spoofer') || q.includes('hwid')) return 'Protection · HWID Spoofer';
+    if (q.includes('jailbreak') || q.includes('gemini') || q.includes('claude') || q.includes('grok') || q.includes('deepseek') || q.includes('kimi') || q.includes('qwen') || q.includes('glm') || q.includes('arena')) return 'IA · Jailbreak & Prompts';
+    return 'Service Premium YONIX';
+  }
 
-  el.innerHTML=html;
-}
+  const BUNDLE_FILES = [
+    { label: 'Gemini Jailbreak', file: 'Gemini_jailbreak.txt' },
+    { label: 'Claude 4.6 Jailbreak', file: 'claude_4.6_jailbreak.txt' },
+    { label: 'Antigravity Claude', file: 'antigravity_claude_jai.txt' },
+    { label: 'ChatGPT Jailbreak', file: 'chatgpt_jailbreak.txt' },
+    { label: 'Grok Jailbreak', file: 'Grok_jailbreak.txt' },
+    { label: 'DeepSeek Jailbreak', file: 'deepseek_jailbreak.txt' },
+    { label: 'Kimi 2.6 Jailbreak', file: 'Kimi_2.6_jailbreak.txt' },
+    { label: 'Qwen Jailbreak', file: 'Qwen_Jailbreak.txt' },
+    { label: 'GLM Jailbreak', file: 'glm_jailbreak.txt' },
+    { label: 'Arena Jailbreak', file: 'arena_jailbreak.txt' }
+  ];
 
-loadOrder();
+  const esc = s => String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const formatEur = cents => (Math.max(0, cents) / 100).toFixed(2).replace('.', ',') + ' €';
+
+  async function loadOrder() {
+    const params = new URLSearchParams(location.search);
+    const sid = params.get('session_id');
+    const card = document.getElementById('orderCard');
+
+    if (!sid) {
+      card.innerHTML = `
+        <div class="confirm-head">
+          <span class="status-pill warn"><i></i>Session introuvable</span>
+          <h1 class="confirm-title">Aucune session de paiement trouvée</h1>
+          <p class="confirm-sub">Nous n'avons pas trouvé de référence de commande dans cette URL.</p>
+        </div>
+        <div class="actions-stack">
+          <a href="/boutique" class="btn-blue">← Retourner à la boutique</a>
+        </div>`;
+      return;
+    }
+
+    let localMeta = {};
+    try {
+      const raw = localStorage.getItem('yonix_last_order_' + sid) || localStorage.getItem('yonix_last_order');
+      if (raw) localMeta = JSON.parse(raw) || {};
+    } catch (e) {}
+
+    let data = null;
+    try {
+      const res = await fetch('/api/session?session_id=' + encodeURIComponent(sid));
+      data = await res.json();
+    } catch (e) {}
+
+    if (!data || data.status !== 'paid') {
+      card.innerHTML = `
+        <div class="confirm-head">
+          <span class="status-pill warn"><i></i>Paiement non confirmé</span>
+          <h1 class="confirm-title">Paiement en attente ou non débité</h1>
+          <p class="confirm-sub">Ta banque n'a pas encore confirmé le débit pour cette session (${esc((data && data.status) || 'non validé')}). Aucun montant n'a été débité.</p>
+        </div>
+        <div class="actions-stack">
+          <a href="/boutique" class="btn-blue">Réessayer le paiement sur la boutique</a>
+          <a href="/profile" class="btn-outline">Voir mon profil</a>
+        </div>`;
+      return;
+    }
+
+    const m = { ...localMeta, ...(data.metadata || {}) };
+    const prodName = m.productName || 'Produit YONIX';
+    const tierName = m.tierName || 'Accès immédiat';
+    const qtyNum = Math.max(1, parseInt(m.quantity || '1', 10) || 1);
+    const qtyBadge = qtyNum > 1 ? ` ×${qtyNum}` : '';
+    const prodLogo = resolveProductLogo(m.productId || prodName, m.productLogo || m.serviceImage);
+    const prodCat = resolveProductCategory(m.productId || prodName);
+
+    // Ensure confirmed Stripe order is also saved in yonix_local_orders so it appears immediately on /profile
+    try {
+      const existing = JSON.parse(localStorage.getItem('yonix_local_orders') || '[]');
+      const list = Array.isArray(existing) ? existing : [];
+      if (!list.some(o => o && o.id === sid)) {
+        const rawCents = String(m.priceRaw || '0').match(/(\d+(?:[.,]\d+)?)/);
+        const cents = data.amount || (rawCents ? Math.round(parseFloat(rawCents[1].replace(',', '.')) * 100) : 0);
+        list.unshift({
+          id: sid,
+          date: data.created || Math.floor(Date.now() / 1000),
+          customerEmail: m.accountEmail || localStorage.getItem('yonix_email') || '',
+          productName: prodName,
+          tierName: tierName,
+          priceRaw: m.priceRaw || formatEur(cents),
+          quantity: qtyNum,
+          amount: cents,
+          currency: 'eur',
+          serviceImage: prodLogo,
+          downloadFile: m.downloadFile || null,
+          deliveredProduct: m.deliveredProduct || '',
+          deliveryStatus: (m.downloadFile || m.deliveredProduct) ? 'delivered' : 'pending'
+        });
+        localStorage.setItem('yonix_local_orders', JSON.stringify(list.slice(0, 50)));
+      }
+      // Clear cart after verified payment
+      localStorage.removeItem('yonix_cart');
+      const badge = document.getElementById('cartBadge');
+      if (badge) badge.textContent = '';
+    } catch (e) {}
+
+    const discountCents = parseInt(m.discountCents || '0', 10) || 0;
+    const stripeFeeCents = parseInt(m.stripeFeeCents || '0', 10) || 0;
+    const basePriceRaw = m.basePriceRaw || m.priceRaw || '';
+    const totalPriceDisplay = m.priceRaw || (data.amount ? formatEur(data.amount) : basePriceRaw);
+    const isBundle = prodName.toLowerCase().includes('bundle');
+    const reviewUrl = `/avis?review=1&product=${encodeURIComponent(prodName)}`;
+
+    let deliveryHtml = '';
+    if (m.deliveredProduct) {
+      deliveryHtml = `
+        <div class="delivery-info-box">
+          <h3>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Ton produit / Tes accès sont disponibles :</span>
+          </h3>
+          <pre class="delivered-pre">${esc(m.deliveredProduct)}</pre>
+        </div>`;
+    } else if (m.downloadFile) {
+      deliveryHtml = `
+        <div class="delivery-info-box">
+          <h3>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Ton fichier est prêt au téléchargement immédiat</span>
+          </h3>
+          <p style="margin-bottom:12px">Tu peux télécharger ton produit ci-dessous ou le retrouver à tout moment dans ton espace Mon Profil.</p>
+          <a class="btn-blue" style="width:100%" href="/files/${encodeURIComponent(m.downloadFile)}" download>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Télécharger ${esc(m.downloadFile)}</span>
+          </a>
+        </div>`;
+    } else if (isBundle) {
+      deliveryHtml = `
+        <div class="delivery-info-box">
+          <h3><span>Ton Pack Bundle Complet est prêt :</span></h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-top:10px">
+            ${BUNDLE_FILES.map(f => `<a class="btn-outline" href="/files/${encodeURIComponent(f.file)}" download>${esc(f.label)}</a>`).join('')}
+          </div>
+        </div>`;
+    } else {
+      deliveryHtml = `
+        <div class="delivery-info-box">
+          <h3>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <span>Ta commande est bien enregistrée sur ton compte YONIX</span>
+          </h3>
+          <p>Ton produit (clé, identifiants ou accès <strong>${esc(prodName)}</strong>) te sera livré <strong>directement sur le site dans ton espace Mon Profil</strong> ainsi que par email avec l'image du produit dès validation.</p>
+        </div>`;
+    }
+
+    card.innerHTML = `
+      <div class="confirm-head">
+        <span class="status-pill ok">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Paiement vérifié &amp; confirmé</span>
+        </span>
+        <h1 class="confirm-title">Merci pour ta commande sur YONIX !</h1>
+        <p class="confirm-sub">Référence de transaction : <strong>#${esc(sid.slice(-12))}</strong>${m.accountEmail ? ` · Compte : <strong>${esc(m.accountEmail)}</strong>` : ''}</p>
+      </div>
+
+      <div class="confirm-grid">
+        <div>
+          <!-- PRODUCT SHOWCASE CARD WITH OFFICIAL PRODUCT ICON -->
+          <div class="product-showcase">
+            <div class="product-icon-box">
+              <img src="${esc(prodLogo)}" alt="${esc(prodName)}">
+            </div>
+            <div class="product-meta">
+              <span class="product-cat-badge">${esc(prodCat)}</span>
+              <div class="product-title">${esc(prodName)}${esc(qtyBadge)}</div>
+              <div class="product-tier">${esc(tierName)}</div>
+            </div>
+            <div class="product-price-tag">${esc(totalPriceDisplay)}</div>
+          </div>
+
+          <!-- PRICE & TVA BREAKDOWN -->
+          <div class="breakdown-card">
+            ${basePriceRaw && (discountCents > 0 || stripeFeeCents > 0) ? `
+              <div class="breakdown-row">
+                <span>Sous-total produit</span>
+                <strong>${esc(basePriceRaw)}</strong>
+              </div>
+            ` : ''}
+            ${discountCents > 0 ? `
+              <div class="breakdown-row discount">
+                <span>Code de réduction (${esc(m.promoCode || 'YONIX10')} -10%)</span>
+                <strong>-${esc(formatEur(discountCents))}</strong>
+              </div>
+            ` : ''}
+            ${stripeFeeCents > 0 ? `
+              <div class="breakdown-row">
+                <span>TVA &amp; Frais de transaction Stripe CB (2,9% + 0,25€)</span>
+                <strong>+${esc(formatEur(stripeFeeCents))}</strong>
+              </div>
+            ` : ''}
+            <div class="breakdown-row total">
+              <span>Total TTC réglé par Carte Bancaire</span>
+              <strong>${esc(totalPriceDisplay)}</strong>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <!-- 3-STEP PROGRESS TIMELINE -->
+          <div class="steps-grid">
+            <div class="step-box done">
+              <div class="step-num">✓ Étape 1</div>
+              <div class="step-label">Paiement CB confirmé</div>
+            </div>
+            <div class="step-box ${m.deliveredProduct || m.downloadFile ? 'done' : 'active'}">
+              <div class="step-num">${m.deliveredProduct || m.downloadFile ? '✓ Étape 2' : '● Étape 2'}</div>
+              <div class="step-label">Activation du service</div>
+            </div>
+            <div class="step-box ${m.deliveredProduct || m.downloadFile ? 'done' : ''}">
+              <div class="step-num">Étape 3</div>
+              <div class="step-label">Livré sur Profil &amp; Email</div>
+            </div>
+          </div>
+
+          ${deliveryHtml}
+
+          <div class="actions-stack">
+            <a href="/profile" class="btn-blue">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+              <span>Accéder à mes commandes &amp; produits reçus</span>
+            </a>
+            <div class="actions-row">
+              <a href="${esc(reviewUrl)}" class="btn-outline">
+                <span>★ Laisser un avis en direct</span>
+              </a>
+              <a href="/boutique" class="btn-outline">
+                <span>← Retourner à la boutique</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  loadOrder();
+})();
 </script>
 </body>
 </html>

@@ -225,7 +225,7 @@ img, svg {
 }
 
 .wrap {
-  width: min(1160px, calc(100% - 40px));
+  width: min(1440px, calc(100% - 40px));
   margin-inline: auto;
 }
 
@@ -574,7 +574,7 @@ img, svg {
 
 /* ===== MAIN LAYOUT ===== */
 main {
-  padding: 36px 0 80px;
+  padding: 20px 0 48px;
 }
 
 /* ===== PROFILE HERO CARD ===== */
@@ -582,13 +582,13 @@ main {
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
-  padding: 30px 32px;
+  padding: 20px 26px;
   box-shadow: var(--shadow-md);
-  margin-bottom: 26px;
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 20px;
   flex-wrap: wrap;
   position: relative;
   overflow: hidden;
@@ -827,11 +827,11 @@ main {
   align-items: center;
   gap: 8px;
   background: var(--white);
-  padding: 8px;
+  padding: 6px;
   border-radius: 16px;
   border: 1px solid var(--border);
   box-shadow: var(--shadow-xs);
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   overflow-x: auto;
 }
 
@@ -839,10 +839,10 @@ main {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 11px 18px;
+  padding: 9px 16px;
   border-radius: 11px;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 13.5px;
   color: var(--ink-secondary);
   white-space: nowrap;
   transition: all 0.2s ease;
@@ -872,9 +872,9 @@ main {
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
-  padding: 28px 30px;
+  padding: 20px 24px;
   box-shadow: var(--shadow-sm);
-  margin-bottom: 22px;
+  margin-bottom: 16px;
 }
 
 .s-card-head {
@@ -882,8 +882,8 @@ main {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 22px;
-  padding-bottom: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
   border-bottom: 1px solid var(--border);
   flex-wrap: wrap;
 }
@@ -1181,13 +1181,13 @@ main {
 
 /* ===== ORDERS LIST ===== */
 .orders-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(520px, 1fr));
   gap: 14px;
 }
 
 .order-card {
-  padding: 20px 22px;
+  padding: 16px 18px;
   border-radius: 16px;
   border: 1px solid var(--border);
   background: var(--bg);
@@ -1690,10 +1690,7 @@ main {
     <span class="cd-sep">:</span>
     <span class="cd-unit"><span class="cd-num" id="cdS">00</span><span class="cd-label">sec</span></span>
   </span>
-  <span>— Code <button type="button" class="banner-code" onclick="window.togglePromoYonix10()" title="Cliquer pour activer -10% sur ta commande" style="cursor:pointer;border:none">YONIX10</button> -10% sur tout</span>
-  <button type="button" id="bannerPromoBtn" onclick="window.togglePromoYonix10()" style="margin-left:6px;padding:3px 11px;border-radius:999px;background:rgba(78,124,255,0.22);border:1px solid rgba(78,124,255,0.55);color:#fff;font-size:11.5px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all .18s">
-    <span id="bannerPromoBtnText">Activer -10%</span>
-  </button>
+  <span>— Code <span class="banner-code">YONIX10</span> -10% sur tout</span>
 </div>
 
 <!-- NAVBAR -->
@@ -1846,7 +1843,7 @@ main {
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           <span>Sécurité &amp; 06</span>
         </button>
-        <button class="tab-btn" data-tab="admin" role="tab" onclick="switchTab('admin', this)">
+        <button class="tab-btn" id="adminTabBtn" data-tab="admin" role="tab" onclick="switchTab('admin', this)" hidden>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
           <span>Livraison Admin</span>
         </button>
@@ -2106,12 +2103,15 @@ main {
               <div class="sec-title">Session active sur cet appareil</div>
               <div class="sec-desc">Fermer ta session YONIX en toute sécurité</div>
             </div>
-            <button type="button" class="btn-danger-outline" onclick="doLogout()">Se déconnecter</button>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+              <button type="button" class="btn-outline" style="font-size:12px;padding:7px 12px;opacity:0.75" onclick="openAdminAccessGate()" title="Réservé à l'administrateur YONIX">🔒 Accès Admin</button>
+              <button type="button" class="btn-danger-outline" onclick="doLogout()">Se déconnecter</button>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- 5. ADMIN DELIVERY TAB -->
+      <!-- 5. ADMIN DELIVERY TAB (HIDDEN FOR CLIENTS — VISIBLE ONLY TO ADMIN) -->
       <div class="tab-panel" id="tab-admin">
         <div class="s-card">
           <div class="s-card-head">
@@ -2121,101 +2121,108 @@ main {
               </div>
               <div>
                 <h2>Espace Propriétaire — Livraison directe &amp; Carrousel Services Email</h2>
-                <p>Choisis un service dans le carrousel de catégories pour envoyer au client ses accès + un email avec l'image du produit et le lien d'avis en direct.</p>
+                <p>Accès strictement réservé à l'administrateur YONIX.</p>
               </div>
             </div>
+            <button type="button" class="btn-danger-outline" id="lockAdminBtn" hidden onclick="lockAdminMode()">
+              🔒 Verrouiller le mode Admin
+            </button>
           </div>
 
-          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;align-items:center">
-            <input class="form-input" id="adminKeyInput" type="password" placeholder="Code administrateur (ex: yonix-admin-2026)" style="flex:1;min-width:240px">
-            <button type="button" class="btn-blue" onclick="loadAdminOrders()">Charger toutes les commandes</button>
+          <!-- ADMIN PASSWORD GATE -->
+          <div id="adminAuthGate" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;align-items:center;padding:18px;border-radius:14px;background:var(--bg);border:1px solid var(--border)">
+            <input class="form-input" id="adminKeyInput" type="password" placeholder="Code administrateur requis pour déverrouiller le panneau" style="flex:1;min-width:240px" onkeydown="if(event.key==='Enter')loadAdminOrders()">
+            <button type="button" class="btn-blue" onclick="loadAdminOrders()">Déverrouiller le panneau Admin</button>
           </div>
 
-          <!-- MASTER CAROUSEL OF CATEGORIES & SERVICES TO GIVE / EMAIL TO ANY CLIENT -->
-          <div style="background:var(--bg);border:1.5px solid var(--blue-border);border-radius:18px;padding:20px;margin-bottom:24px">
-            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px">
-              <div>
-                <div style="font-size:16px;font-weight:800;color:var(--night)">Carrousel des Catégories &amp; Services à envoyer au client</div>
-                <div style="font-size:13px;color:var(--gray)">Clique sur n'importe quel service pour préparer automatiquement l'email avec l'image du produit et l'invitation à laisser un avis en direct.</div>
+          <!-- PROTECTED ADMIN WORKSPACE (ONLY VISIBLE WHEN ADMIN IS AUTHENTICATED) -->
+          <div id="adminProtectedZone" hidden>
+            <!-- MASTER CAROUSEL OF CATEGORIES & SERVICES TO GIVE / EMAIL TO ANY CLIENT -->
+            <div style="background:var(--bg);border:1.5px solid var(--blue-border);border-radius:18px;padding:20px;margin-bottom:24px">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px">
+                <div>
+                  <div style="font-size:16px;font-weight:800;color:var(--night)">Carrousel des Catégories &amp; Services à envoyer au client</div>
+                  <div style="font-size:13px;color:var(--gray)">Clique sur n'importe quel service pour préparer automatiquement l'email avec l'image du produit et l'invitation à laisser un avis en direct.</div>
+                </div>
+                <span class="badge-pill badge-email" id="masterSelectedBadge">Service : Basic Fit Ultimate</span>
               </div>
-              <span class="badge-pill badge-email" id="masterSelectedBadge">Service : Basic Fit Ultimate</span>
-            </div>
 
-            <!-- Category Filter Pills -->
-            <div class="admin-cat-bar" id="masterCatBar">
-              <button type="button" class="admin-cat-pill active" data-cat="all" onclick="filterMasterCarousel('all', this)">Tous les services (26)</button>
-              <button type="button" class="admin-cat-pill" data-cat="services" onclick="filterMasterCarousel('services', this)">Services Premium</button>
-              <button type="button" class="admin-cat-pill" data-cat="gaming" onclick="filterMasterCarousel('gaming', this)">CS2 &amp; Valorant</button>
-              <button type="button" class="admin-cat-pill" data-cat="spoofer" onclick="filterMasterCarousel('spoofer', this)">HWID Spoofer</button>
-              <button type="button" class="admin-cat-pill" data-cat="jailbreak" onclick="filterMasterCarousel('jailbreak', this)">Jailbreaks IA</button>
-            </div>
-
-            <!-- Scrollable Service Carousel -->
-            <div class="svc-carousel-shell">
-              <button type="button" class="svc-nav-btn" onclick="scrollCarousel('masterCarouselTrack', -320)" aria-label="Précédent">‹</button>
-              <div class="svc-carousel-track" id="masterCarouselTrack"></div>
-              <button type="button" class="svc-nav-btn" onclick="scrollCarousel('masterCarouselTrack', 320)" aria-label="Suivant">›</button>
-            </div>
-
-            <!-- Live Email Preview Banner with Product Image -->
-            <div class="email-preview-inline" id="masterEmailInlinePreview">
-              <div class="email-preview-inline-img">
-                <img id="masterPreviewImg" src="/logos/basicfit.png" alt="Produit">
+              <!-- Category Filter Pills -->
+              <div class="admin-cat-bar" id="masterCatBar">
+                <button type="button" class="admin-cat-pill active" data-cat="all" onclick="filterMasterCarousel('all', this)">Tous les services (26)</button>
+                <button type="button" class="admin-cat-pill" data-cat="services" onclick="filterMasterCarousel('services', this)">Services Premium</button>
+                <button type="button" class="admin-cat-pill" data-cat="gaming" onclick="filterMasterCarousel('gaming', this)">CS2 &amp; Valorant</button>
+                <button type="button" class="admin-cat-pill" data-cat="spoofer" onclick="filterMasterCarousel('spoofer', this)">HWID Spoofer</button>
+                <button type="button" class="admin-cat-pill" data-cat="jailbreak" onclick="filterMasterCarousel('jailbreak', this)">Jailbreaks IA</button>
               </div>
-              <div style="flex:1;min-width:220px">
-                <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#60A5FA;margin-bottom:2px">Aperçu de l'Email qui sera envoyé au client (avec image produit)</div>
-                <div style="font-size:15px;font-weight:800;color:#FFFFFF" id="masterPreviewTitle">Basic Fit Ultimate</div>
-                <div style="font-size:13px;color:#E2E8F0;margin-top:3px" id="masterPreviewMsg">Ton compte Basic Fit Ultimate est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇</div>
-              </div>
-              <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
-                <span style="font-size:11.5px;font-weight:800;padding:6px 12px;border-radius:8px;background:#4E7CFF;color:#FFFFFF">★ Laisser un petit avis juste ici</span>
-                <button type="button" class="btn-outline" style="padding:5px 11px;font-size:11.5px;background:rgba(255,255,255,0.08);color:#fff;border-color:rgba(255,255,255,0.2)" onclick="openFullEmailPreview('master')">Voir l'Email complet</button>
-              </div>
-            </div>
 
-            <!-- Quick Preset Message Chips -->
-            <div class="preset-msg-chips">
-              <button type="button" class="preset-msg-chip" onclick="applyMasterPreset('active')">✓ Compte activé + Demande d'avis</button>
-              <button type="button" class="preset-msg-chip" onclick="applyMasterPreset('key')">🔑 Clé / Loader livré + Demande d'avis</button>
-              <button type="button" class="preset-msg-chip" onclick="applyMasterPreset('tech')">⚡ Tech / Méthode livrée + Demande d'avis</button>
-            </div>
+              <!-- Scrollable Service Carousel -->
+              <div class="svc-carousel-shell">
+                <button type="button" class="svc-nav-btn" onclick="scrollCarousel('masterCarouselTrack', -320)" aria-label="Précédent">‹</button>
+                <div class="svc-carousel-track" id="masterCarouselTrack"></div>
+                <button type="button" class="svc-nav-btn" onclick="scrollCarousel('masterCarouselTrack', 320)" aria-label="Suivant">›</button>
+              </div>
 
-            <div class="form-grid">
+              <!-- Live Email Preview Banner with Product Image -->
+              <div class="email-preview-inline" id="masterEmailInlinePreview">
+                <div class="email-preview-inline-img">
+                  <img id="masterPreviewImg" src="/logos/basicfit.png" alt="Produit">
+                </div>
+                <div style="flex:1;min-width:220px">
+                  <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#60A5FA;margin-bottom:2px">Aperçu de l'Email qui sera envoyé au client (avec image produit)</div>
+                  <div style="font-size:15px;font-weight:800;color:#FFFFFF" id="masterPreviewTitle">Basic Fit Ultimate</div>
+                  <div style="font-size:13px;color:#E2E8F0;margin-top:3px" id="masterPreviewMsg">Ton compte Basic Fit Ultimate est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇</div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
+                  <span style="font-size:11.5px;font-weight:800;padding:6px 12px;border-radius:8px;background:#4E7CFF;color:#FFFFFF">★ Laisser un petit avis juste ici</span>
+                  <button type="button" class="btn-outline" style="padding:5px 11px;font-size:11.5px;background:rgba(255,255,255,0.08);color:#fff;border-color:rgba(255,255,255,0.2)" onclick="openFullEmailPreview('master')">Voir l'Email complet</button>
+                </div>
+              </div>
+
+              <!-- Quick Preset Message Chips -->
+              <div class="preset-msg-chips">
+                <button type="button" class="preset-msg-chip" onclick="applyMasterPreset('active')">✓ Compte activé + Demande d'avis</button>
+                <button type="button" class="preset-msg-chip" onclick="applyMasterPreset('key')">🔑 Clé / Loader livré + Demande d'avis</button>
+                <button type="button" class="preset-msg-chip" onclick="applyMasterPreset('tech')">⚡ Tech / Méthode livrée + Demande d'avis</button>
+              </div>
+
+              <div class="form-grid">
+                <div class="form-group" style="margin-bottom:10px">
+                  <label for="masterClientEmail">Email du client destinataire</label>
+                  <input class="form-input" id="masterClientEmail" type="email" placeholder="Ex: client@icloud.com">
+                </div>
+                <div class="form-group" style="margin-bottom:10px">
+                  <label for="masterDelivFile">Fichier téléchargeable optionnel</label>
+                  <input class="form-input" id="masterDelivFile" type="text" placeholder="Ex: Gemini_jailbreak.txt ou cs2-loader.zip">
+                </div>
+              </div>
+
               <div class="form-group" style="margin-bottom:10px">
-                <label for="masterClientEmail">Email du client destinataire</label>
-                <input class="form-input" id="masterClientEmail" type="email" placeholder="Ex: client@icloud.com">
+                <label for="masterCustomMsg">Message personnalisé dans l'email (avec bouton d'avis en direct) :</label>
+                <textarea class="form-input" id="masterCustomMsg" rows="2" oninput="syncMasterInlinePreview()">Ton compte Basic Fit Ultimate est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇</textarea>
               </div>
-              <div class="form-group" style="margin-bottom:10px">
-                <label for="masterDelivFile">Fichier téléchargeable optionnel</label>
-                <input class="form-input" id="masterDelivFile" type="text" placeholder="Ex: Gemini_jailbreak.txt ou cs2-loader.zip">
+
+              <div class="form-group" style="margin-bottom:12px">
+                <label for="masterDelivProduct">Accès / Identifiants / Clé ou Instructions à inclure (optionnel) :</label>
+                <textarea class="form-input" id="masterDelivProduct" rows="2" placeholder="Ex: Email : client@icloud.com | Mot de passe : •••••••• | Statut : Basic Fit Ultimate Actif"></textarea>
+              </div>
+
+              <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end">
+                <button type="button" class="btn-outline" onclick="openFullEmailPreview('master')">
+                  <span>Aperçu de l'Email avec image</span>
+                </button>
+                <button type="button" class="btn-blue" id="masterSendEmailBtn" onclick="sendMasterServiceEmail(this)">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
+                  <span>Envoyer l'Email avec image produit + Livrer au client</span>
+                </button>
               </div>
             </div>
 
-            <div class="form-group" style="margin-bottom:10px">
-              <label for="masterCustomMsg">Message personnalisé dans l'email (avec bouton d'avis en direct) :</label>
-              <textarea class="form-input" id="masterCustomMsg" rows="2" oninput="syncMasterInlinePreview()">Ton compte Basic Fit Ultimate est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇</textarea>
-            </div>
-
-            <div class="form-group" style="margin-bottom:12px">
-              <label for="masterDelivProduct">Accès / Identifiants / Clé ou Instructions à inclure (optionnel) :</label>
-              <textarea class="form-input" id="masterDelivProduct" rows="2" placeholder="Ex: Email : client@icloud.com | Mot de passe : •••••••• | Statut : Basic Fit Ultimate Actif"></textarea>
-            </div>
-
-            <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end">
-              <button type="button" class="btn-outline" onclick="openFullEmailPreview('master')">
-                <span>Aperçu de l'Email avec image</span>
-              </button>
-              <button type="button" class="btn-blue" id="masterSendEmailBtn" onclick="sendMasterServiceEmail(this)">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
-                <span>Envoyer l'Email avec image produit + Livrer au client</span>
-              </button>
-            </div>
-          </div>
-
-          <div id="adminOrdersContent">
-            <div class="empty-state">
-              <h3>Commandes Clients</h3>
-              <p>Entre ton code administrateur ci-dessus et clique sur « Charger toutes les commandes » pour afficher les commandes clients et choisir le service à leur envoyer.</p>
+            <div id="adminOrdersContent">
+              <div class="empty-state">
+                <h3>Commandes Clients</h3>
+                <p>Aucune commande en attente.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -3123,9 +3130,10 @@ main {
   };
 
   window.sendMasterServiceEmail = async function(btn) {
-    const adminKey = document.getElementById('adminKeyInput').value.trim();
-    if (!adminKey) {
-      toast('Entre d\'abord ton code administrateur en haut', false);
+    const adminKey = document.getElementById('adminKeyInput').value.trim() || sessionStorage.getItem('yonix_admin_key') || localStorage.getItem('yonix_admin_key') || '';
+    if (!adminKey && !window.__yonixIsServerAdmin) {
+      toast('Entre d\'abord ton code administrateur', false);
+      setAdminUnlockedState(false);
       document.getElementById('adminKeyInput').focus();
       return;
     }
@@ -3332,8 +3340,8 @@ main {
     } catch (e) {}
   };
 
-  // ─── ADMIN DELIVERY LOGIC & PER-ORDER SERVICE CAROUSEL ───
-  const savedAdminKey = sessionStorage.getItem('yonix_admin_key') || '';
+  // ─── ADMIN DELIVERY LOGIC & PER-ORDER SERVICE CAROUSEL (STRICTLY ADMIN-ONLY) ───
+  const savedAdminKey = sessionStorage.getItem('yonix_admin_key') || localStorage.getItem('yonix_admin_key') || '';
   if (savedAdminKey) {
     setTimeout(() => {
       const inp = document.getElementById('adminKeyInput');
@@ -3341,14 +3349,58 @@ main {
     }, 50);
   }
 
-  window.loadAdminOrders = async function(){
+  function setAdminUnlockedState(unlocked) {
+    const tabBtn = document.getElementById('adminTabBtn');
+    const zone = document.getElementById('adminProtectedZone');
+    const gate = document.getElementById('adminAuthGate');
+    const lockBtn = document.getElementById('lockAdminBtn');
+    if (unlocked) {
+      if (tabBtn) tabBtn.hidden = false;
+      if (zone) zone.hidden = false;
+      if (gate) gate.hidden = true;
+      if (lockBtn) lockBtn.hidden = false;
+      renderMasterCarousel();
+    } else {
+      if (zone) zone.hidden = true;
+      if (gate) gate.hidden = false;
+      if (lockBtn) lockBtn.hidden = true;
+    }
+  }
+
+  window.openAdminAccessGate = function() {
+    const tabBtn = document.getElementById('adminTabBtn');
+    if (tabBtn) tabBtn.hidden = false;
+    openTabByName('admin');
+    setTimeout(() => {
+      const inp = document.getElementById('adminKeyInput');
+      if (inp && !inp.closest('[hidden]')) inp.focus();
+    }, 100);
+  };
+
+  window.lockAdminMode = function() {
+    try {
+      sessionStorage.removeItem('yonix_admin_key');
+      localStorage.removeItem('yonix_admin_key');
+    } catch (e) {}
+    const inp = document.getElementById('adminKeyInput');
+    if (inp) inp.value = '';
+    setAdminUnlockedState(false);
+    const tabBtn = document.getElementById('adminTabBtn');
+    if (tabBtn) tabBtn.hidden = true;
+    openTabByName('orders');
+    toast('Mode Admin verrouillé (invisible pour les clients) ✓');
+  };
+
+  window.loadAdminOrders = async function(silent = false){
     const adminKey = document.getElementById('adminKeyInput').value.trim();
-    if (!adminKey) {
-      toast('Entre le code administrateur', false);
+    if (!adminKey && !window.__yonixIsServerAdmin) {
+      if (!silent) toast('Entre le code administrateur', false);
       return;
     }
     const box = document.getElementById('adminOrdersContent');
-    box.innerHTML = `<div class="loader"><div class="loader-ring"></div><span>Chargement des commandes clients…</span></div>`;
+    if (box) {
+      box.innerHTML = `<div class="loader"><div class="loader-ring"></div><span>Chargement des commandes clients…</span></div>`;
+    }
     try {
       const r = await apiFetch('/api/account/orders', {
         method: 'POST',
@@ -3357,11 +3409,23 @@ main {
       });
       const data = await r.json();
       if (!r.ok) {
-        box.innerHTML = `<div class="empty-state"><p style="color:var(--red);margin:0">${escHtml(data.error || 'Code administrateur invalide')}</p></div>`;
-        toast(data.error || 'Code invalide', false);
+        setAdminUnlockedState(false);
+        try {
+          sessionStorage.removeItem('yonix_admin_key');
+          localStorage.removeItem('yonix_admin_key');
+        } catch (e) {}
+        if (!silent) {
+          toast(data.error || 'Code administrateur invalide', false);
+        }
         return;
       }
-      sessionStorage.setItem('yonix_admin_key', adminKey);
+      if (adminKey) {
+        try {
+          sessionStorage.setItem('yonix_admin_key', adminKey);
+          localStorage.setItem('yonix_admin_key', adminKey);
+        } catch (e) {}
+      }
+      setAdminUnlockedState(true);
       let allOrders = Array.isArray(data.orders) ? [...data.orders] : [];
       try {
         const localOrds = JSON.parse(localStorage.getItem('yonix_local_orders') || '[]');
@@ -3376,8 +3440,9 @@ main {
         }
       } catch (e) {}
       renderAdminOrders(allOrders);
+      if (!silent) toast('Panneau Admin déverrouillé ✓');
     } catch (e) {
-      box.innerHTML = `<div class="empty-state"><p style="color:var(--red);margin:0">Erreur réseau.</p></div>`;
+      if (box) box.innerHTML = `<div class="empty-state"><p style="color:var(--red);margin:0">Erreur réseau.</p></div>`;
     }
   };
 
@@ -3549,7 +3614,7 @@ main {
   }
 
   window.sendProductToOrder = async function(sessionId, btn){
-    const adminKey = document.getElementById('adminKeyInput').value.trim();
+    const adminKey = document.getElementById('adminKeyInput').value.trim() || sessionStorage.getItem('yonix_admin_key') || localStorage.getItem('yonix_admin_key') || '';
     const deliveredProduct = document.getElementById('delivText_' + sessionId).value.trim();
     const deliveredFile = document.getElementById('delivFile_' + sessionId).value.trim();
     const customMessage = document.getElementById('delivMsg_' + sessionId).value.trim();
@@ -3647,6 +3712,7 @@ main {
       currentEmail = data.email || '';
       currentProfile = data.profile || {};
       currentCards = data.cards || [];
+      window.__yonixIsServerAdmin = Boolean(data.isAdmin);
       try {
         if (!currentCards.length) {
           const lc = JSON.parse(localStorage.getItem('yonix_saved_cards') || '[]');
@@ -3676,12 +3742,23 @@ main {
       document.getElementById('profileHeader').hidden = false;
       document.getElementById('mainContent').hidden = false;
 
-      // Handle URL query params (?tab=payment or ?card_saved=1)
+      // Auto-verify admin status if server marked isAdmin or if adminKey is stored
+      const storedKey = sessionStorage.getItem('yonix_admin_key') || localStorage.getItem('yonix_admin_key') || '';
+      if (data.isAdmin || storedKey) {
+        const inp = document.getElementById('adminKeyInput');
+        if (inp && storedKey) inp.value = storedKey;
+        loadAdminOrders(true);
+      }
+
+      // Handle URL query params (?tab=payment, ?card_saved=1, ?admin=1, or /admin)
       const params = new URLSearchParams(location.search);
+      const isPathAdmin = location.pathname.replace(/\/$/, '') === '/admin';
       if (params.get('card_saved') === '1') {
         openTabByName('payment');
         toast('Carte bancaire liée avec succès via Stripe ✓');
         history.replaceState({}, '', '/profile');
+      } else if (isPathAdmin || params.get('admin') === '1' || params.get('tab') === 'admin') {
+        openAdminAccessGate();
       } else if (params.get('tab')) {
         openTabByName(params.get('tab'));
       }
@@ -3695,46 +3772,12 @@ main {
     }
   })();
 
-  // ─── PROMO BANNER + YONIX10 + CART BADGE + LANG PICKER SYNC ───
-  function syncBannerPromoUI() {
-    const active = (() => {
-      try { return String(localStorage.getItem('yonix_promo_code') || '').trim().toUpperCase() === 'YONIX10'; }
-      catch (e) { return false; }
-    })();
-    const bannerBtn = document.getElementById('bannerPromoBtn');
-    const bannerText = document.getElementById('bannerPromoBtnText');
-    if (bannerBtn && bannerText) {
-      if (active) {
-        bannerBtn.style.background = 'rgba(22, 163, 74, 0.25)';
-        bannerBtn.style.borderColor = 'rgba(34, 197, 94, 0.65)';
-        bannerText.textContent = '✓ Code YONIX10 (-10%) Actif';
-      } else {
-        bannerBtn.style.background = 'rgba(78, 124, 255, 0.22)';
-        bannerBtn.style.borderColor = 'rgba(78, 124, 255, 0.55)';
-        bannerText.textContent = 'Activer -10%';
-      }
-    }
-  }
-
-  window.togglePromoYonix10 = function() {
-    let active = false;
-    try { active = String(localStorage.getItem('yonix_promo_code') || '').trim().toUpperCase() === 'YONIX10'; } catch (e) {}
-    if (active) {
-      try { localStorage.removeItem('yonix_promo_code'); } catch (e) {}
-      syncBannerPromoUI();
-      toast('Code YONIX10 désactivé');
-    } else {
-      try { localStorage.setItem('yonix_promo_code', 'YONIX10'); } catch (e) {}
-      syncBannerPromoUI();
-      toast('Code YONIX10 (-10%) activé sur toutes tes commandes ✓');
-    }
-  };
-
+  // ─── PROMO BANNER COUNTDOWN + CART BADGE + LANG PICKER SYNC ───
   (function initPromoCountdownAndCart() {
-    syncBannerPromoUI();
+    try { localStorage.removeItem('yonix_promo_code'); } catch (e) {}
     try {
       const cart = JSON.parse(localStorage.getItem('yonix_cart') || '[]');
-      const count = Array.isArray(cart) ? cart.reduce((s, x) => s + (x.qty || 1), 0) : 0;
+      const count = Array.isArray(cart) ? cart.reduce((s, x) => s + (x.qty || x.quantity || 1), 0) : 0;
       const badge = document.getElementById('cartBadge');
       if (badge) badge.textContent = count > 0 ? count : '';
     } catch (e) {}

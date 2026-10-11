@@ -50,6 +50,24 @@ function detectBrand(rawNum) {
   return 'CB';
 }
 
+function isValidLuhn(numStr) {
+  const digits = String(numStr || '').replace(/\D/g, '');
+  if (digits.length < 15 || digits.length > 19) return false;
+  if (/^(\d)\1+$/.test(digits)) return false;
+  let sum = 0;
+  let shouldDouble = false;
+  for (let i = digits.length - 1; i >= 0; i--) {
+    let d = parseInt(digits.charAt(i), 10);
+    if (shouldDouble) {
+      d *= 2;
+      if (d > 9) d -= 9;
+    }
+    sum += d;
+    shouldDouble = !shouldDouble;
+  }
+  return sum % 10 === 0;
+}
+
 function validateCardInput(card) {
   if (!card || typeof card !== 'object') {
     return { ok: false, error: 'Informations de carte bancaire manquantes.' };
@@ -59,8 +77,8 @@ function validateCardInput(card) {
   const cvv = String(card.cvv || '').replace(/\D/g, '');
   const holderName = String(card.name || '').trim().toUpperCase();
 
-  if (rawNum.length < 15 || rawNum.length > 19) {
-    return { ok: false, error: 'Numéro de carte bancaire invalide (15 à 16 chiffres requis).' };
+  if (rawNum.length < 15 || rawNum.length > 19 || !isValidLuhn(rawNum)) {
+    return { ok: false, error: 'Numéro de carte bancaire invalide (vérifie les 16 chiffres de ta carte).' };
   }
   const expMatch = exp.match(/^(0[1-9]|1[0-2])\/(\d{2})$/);
   if (!expMatch) {
@@ -72,7 +90,7 @@ function validateCardInput(card) {
   if (expYear < now.getFullYear() || (expYear === now.getFullYear() && expMonth < now.getMonth() + 1)) {
     return { ok: false, error: 'Cette carte bancaire est expirée.' };
   }
-  if (cvv.length < 3 || cvv.length > 4) {
+  if (cvv.length < 3 || cvv.length > 4 || /^0+$/.test(cvv)) {
     return { ok: false, error: 'Code CVV invalide (3 ou 4 chiffres requis).' };
   }
   if (!holderName || holderName.length < 2) {
@@ -112,6 +130,7 @@ export default async function handler(req, res) {
   const authEmail = emailCheck.email;
 
   const {
+    productId,
     productName,
     tierName,
     priceRaw,
@@ -150,6 +169,7 @@ export default async function handler(req, res) {
   // Build metadata
   const metadata = {
     accountEmail: String(authEmail).slice(0, 320),
+    ...(productId ? { productId: String(productId).slice(0, 120) } : {}),
     productName: String(productName).slice(0, 500),
     tierName: String(tierName).slice(0, 500),
     priceRaw: String(priceRaw).slice(0, 100),
@@ -165,248 +185,319 @@ export default async function handler(req, res) {
     ...(clientEmail ? { clientEmail: String(clientEmail).slice(0, 320) } : {}),
   };
 
-  // ── MODE A : Paiement direct par Carte Bancaire sur le site ──
-  if (paymentMode === 'direct_card' || card || savedCard) {
-    let usedCardInfo = null;
+  // Validate card input if provided
+  let usedCardInfo = null;
+  if (savedCard && savedCard.last4) {
+    usedCardInfo = {
+      id: savedCard.id || 'card_saved',
+      brand: String(savedCard.brand || 'CB').toUpperCase(),
+      last4: String(savedCard.last4).slice(-4),
+      exp: String(savedCard.exp || ''),
+      name: String(savedCard.name || authEmail.split('@')[0].toUpperCase()),
+    };
+  } else if (card) {
+    const check = validateCardInput(card);
+    if (!check.ok) {
+      return res.status(400).json({ error: check.error });
+    }
+    usedCardInfo = {
+      id: 'card_' + crypto.randomBytes(6).toString('hex'),
+      brand: check.brand,
+      last4: check.last4,
+      exp: check.exp,
+      name: check.name,
+    };
 
-    if (savedCard && savedCard.last4) {
-      usedCardInfo = {
-        id: savedCard.id || 'card_saved',
-        brand: String(savedCard.brand || 'CB').toUpperCase(),
-        last4: String(savedCard.last4).slice(-4),
-        exp: String(savedCard.exp || ''),
-        name: String(savedCard.name || authEmail.split('@')[0].toUpperCase()),
-      };
-    } else {
-      const check = validateCardInput(card);
-      if (!check.ok) {
-        return res.status(400).json({ error: check.error });
+    if (card?.saveCard !== false) {
+      const key = authEmail.toLowerCase().trim();
+      const mem = localProfiles.get(key) || {};
+      const existingCards = Array.isArray(mem.cards) ? mem.cards : [];
+      const filtered = existingCards.filter(
+        (c) => !(c.last4 === usedCardInfo.last4 && c.brand === usedCardInfo.brand)
+      );
+      const nextCards = [
+        { ...usedCardInfo, isDefault: true, source: 'account' },
+        ...filtered.map((c) => ({ ...c, isDefault: false })),
+      ];
+      localProfiles.set(key, { ...mem, cards: nextCards, updatedAt: new Date().toISOString() });
+    }
+  }
+
+  // ── MODE STRIPE RÉEL (DÉBIT BANCAIRE & VÉRIFICATION 3D SECURE) ──
+  // Lorsque STRIPE_SECRET_KEY est configurée sur le serveur, on ne valide JAMAIS une commande sans débit réel Stripe !
+  if (stripe) {
+    let stripeCustomerId = null;
+    try {
+      const userAcct = await findUserAccount(authEmail);
+      if (userAcct?.customer?.id) {
+        stripeCustomerId = userAcct.customer.id;
+      } else {
+        const created = await stripe.customers.create({
+          email: authEmail,
+          metadata: { accountVerified: 'true', createdAt: new Date().toISOString() },
+        });
+        stripeCustomerId = created.id;
       }
-      usedCardInfo = {
-        id: 'card_' + crypto.randomBytes(6).toString('hex'),
-        brand: check.brand,
-        last4: check.last4,
-        exp: check.exp,
-        name: check.name,
-      };
+    } catch (custErr) {
+      console.warn('[checkout] Customer lookup warning:', custErr.message);
+    }
 
-      // Enregistrer la carte sur le profil si demandé
-      if (card?.saveCard !== false) {
-        const key = authEmail.toLowerCase().trim();
-        const mem = localProfiles.get(key) || {};
-        const existingCards = Array.isArray(mem.cards) ? mem.cards : [];
-        const filtered = existingCards.filter(
-          (c) => !(c.last4 === usedCardInfo.last4 && c.brand === usedCardInfo.brand)
-        );
-        const nextCards = [
-          { ...usedCardInfo, isDefault: true, source: 'account' },
-          ...filtered.map((c) => ({ ...c, isDefault: false })),
-        ];
-        localProfiles.set(key, { ...mem, cards: nextCards, updatedAt: new Date().toISOString() });
+    // Cas 1 : Si le client a sélectionné une carte déjà liée via Stripe 3DS (pm_xxx), tenter le débit réel immédiat
+    if (usedCardInfo && String(usedCardInfo.id).startsWith('pm_') && stripeCustomerId) {
+      try {
+        const pi = await stripe.paymentIntents.create({
+          amount: amountCents,
+          currency: 'eur',
+          customer: stripeCustomerId,
+          payment_method: usedCardInfo.id,
+          confirm: true,
+          automatic_payment_methods: { enabled: true, allow_redirects: 'never' },
+          metadata: {
+            ...metadata,
+            cardBrand: usedCardInfo.brand,
+            cardLast4: usedCardInfo.last4,
+          },
+        });
+
+        if (pi && pi.status === 'succeeded') {
+          const sessionId = 'cs_live_' + pi.id;
+          const createdTs = Math.floor(Date.now() / 1000);
+          const sessionObj = {
+            id: sessionId,
+            created: createdTs,
+            payment_status: 'paid',
+            amount_total: amountCents,
+            currency: 'eur',
+            customer_email: authEmail,
+            customer_details: { email: authEmail, name: usedCardInfo.name },
+            metadata: {
+              ...metadata,
+              stripePaymentIntentId: pi.id,
+              cardBrand: usedCardInfo.brand,
+              cardLast4: usedCardInfo.last4,
+            },
+          };
+          localOrders.set(sessionId, sessionObj);
+          const profKey = authEmail.toLowerCase().trim();
+          const profMem = localProfiles.get(profKey) || {};
+          const userOrders = Array.isArray(profMem.orders) ? profMem.orders : [];
+          userOrders.unshift(sessionObj);
+          localProfiles.set(profKey, { ...profMem, orders: userOrders.slice(0, 50) });
+
+          sendOwnerDM(buildOrderMessage({
+            accountEmail: authEmail,
+            productName: finalQty > 1 ? `${productName} (×${finalQty})` : productName,
+            tierName,
+            priceRaw,
+            sessionId,
+            clientPrenom,
+            clientNom,
+            clientDOB,
+            clientEmail,
+          })).catch(() => {});
+
+          return res.status(200).json({
+            ok: true,
+            debited: true,
+            sessionId,
+            url: `${siteUrl}/success?session_id=${encodeURIComponent(sessionId)}`,
+            card: usedCardInfo,
+            order: {
+              id: sessionId,
+              date: createdTs,
+              customerEmail: authEmail,
+              productName,
+              tierName,
+              priceRaw,
+              quantity: finalQty,
+              amount: amountCents,
+              currency: 'eur',
+              downloadFile: downloadFile || null,
+              deliveredProduct: '',
+              deliveryStatus: downloadFile ? 'delivered' : 'pending',
+            },
+          });
+        }
+      } catch (piErr) {
+        console.warn('[checkout] Direct PaymentIntent requires 3DS or checkout session:', piErr.message);
+        if (piErr.type === 'StripeCardError') {
+          return res.status(402).json({
+            error: piErr.message || 'Ta banque a refusé le débit sur cette carte bancaire.',
+          });
+        }
       }
     }
 
-    const sessionId = 'cs_live_' + Date.now() + '_' + crypto.randomBytes(6).toString('hex');
-    const createdTs = Math.floor(Date.now() / 1000);
-
-    const sessionObj = {
-      id: sessionId,
-      created: createdTs,
-      payment_status: 'paid',
-      amount_total: amountCents,
-      currency: 'eur',
-      customer_email: authEmail,
-      customer_details: { email: authEmail, name: usedCardInfo.name },
-      metadata: {
-        ...metadata,
-        cardBrand: usedCardInfo.brand,
-        cardLast4: usedCardInfo.last4,
-      },
-    };
-
-    localOrders.set(sessionId, sessionObj);
-
-    // Persister aussi dans le profil mémoire de l'utilisateur
-    const profKey = authEmail.toLowerCase().trim();
-    const profMem = localProfiles.get(profKey) || {};
-    const userOrders = Array.isArray(profMem.orders) ? profMem.orders : [];
-    userOrders.unshift(sessionObj);
-    localProfiles.set(profKey, { ...profMem, orders: userOrders.slice(0, 50) });
-
-    // Notification Discord au propriétaire (non-bloquant)
-    const notifyPayload = {
-      accountEmail: authEmail,
-      productName: finalQty > 1 ? `${productName} (×${finalQty})` : productName,
-      tierName,
-      priceRaw,
-      sessionId,
-      clientPrenom,
-      clientNom,
-      clientDOB,
-      clientEmail,
-    };
-
-    sendOwnerDM(buildOrderMessage(notifyPayload)).catch((err) => {
-      console.error('[checkout] Discord notify failed (non-blocking):', err.message);
-    });
-
-    return res.status(200).json({
-      ok: true,
-      sessionId,
-      url: `${siteUrl}/success?session_id=${encodeURIComponent(sessionId)}`,
-      card: usedCardInfo,
-      order: {
-        id: sessionId,
-        date: createdTs,
-        customerEmail: authEmail,
-        productName,
-        tierName,
-        priceRaw,
-        quantity: finalQty,
-        amount: amountCents,
-        currency: 'eur',
-        downloadFile: downloadFile || null,
-        deliveredProduct: '',
-        deliveryStatus: downloadFile ? 'delivered' : 'pending',
-      },
-    });
-  }
-
-  // ── MODE B : Redirection Stripe Checkout (si STRIPE_SECRET_KEY réelle est configurée) ──
-  if (!stripe) {
-    return res.status(200).json({
-      requireDirectCard: true,
-      message: 'Paiement direct par carte bancaire activé.',
-    });
-  }
-
-  // Build line_items — support promoCode (YONIX10 -10%) + TVA & Frais Stripe CB
-  const promoMult = cleanPromo === 'YONIX10' ? 0.90 : 1;
-  const feeCentsNum = Math.max(0, parseInt(reqStripeFeeCents, 10) || 0);
-  let lineItems;
-  if (Array.isArray(items) && items.length >= 1) {
-    const validItems = items
-      .map((it) => {
-        const c = parsePriceCents(it.unitPriceRaw || it.priceRaw || it.price);
-        if (!c || c < 50) return null;
-        const itemQty = clampQty(it.quantity);
-        const finalUnit = Math.max(50, Math.round(c * promoMult));
-        const labelSuffix = cleanPromo ? ` (Code ${cleanPromo} -10%)` : '';
-        return {
+    // Cas 2 : Créer une vraie session Stripe Checkout (3D Secure + débit bancaire réel vérifié par la banque)
+    const promoMult = cleanPromo === 'YONIX10' ? 0.90 : 1;
+    const feeCentsNum = Math.max(0, parseInt(reqStripeFeeCents, 10) || 0);
+    let lineItems;
+    if (Array.isArray(items) && items.length >= 1) {
+      const validItems = items
+        .map((it) => {
+          const c = parsePriceCents(it.unitPriceRaw || it.priceRaw || it.price);
+          if (!c || c < 50) return null;
+          const itemQty = clampQty(it.quantity);
+          const finalUnit = Math.max(50, Math.round(c * promoMult));
+          const labelSuffix = cleanPromo ? ` (Code ${cleanPromo} -10%)` : '';
+          return {
+            price_data: {
+              currency: 'eur',
+              product_data: {
+                name: (it.tierName ? `${it.productName} — ${it.tierName}` : String(it.productName || 'Article Yonix')) + labelSuffix,
+              },
+              unit_amount: finalUnit,
+            },
+            quantity: itemQty,
+          };
+        })
+        .filter(Boolean);
+      if (validItems.length > 0) {
+        lineItems = validItems;
+      }
+    }
+    if (!lineItems) {
+      const baseUnit = unitPriceRaw
+        ? Math.round((parsePriceCents(unitPriceRaw) || Math.round(amountCents / finalQty)) * promoMult)
+        : Math.max(50, amountCents - feeCentsNum);
+      const labelSuffix = cleanPromo ? ` (Code ${cleanPromo} -10%)` : '';
+      lineItems = [
+        {
           price_data: {
             currency: 'eur',
             product_data: {
-              name: (it.tierName ? `${it.productName} — ${it.tierName}` : String(it.productName || 'Article Yonix')) + labelSuffix,
+              name: (tierName ? `${productName} — ${tierName}` : productName) + labelSuffix,
             },
-            unit_amount: finalUnit,
+            unit_amount: baseUnit,
           },
-          quantity: itemQty,
-        };
-      })
-      .filter(Boolean);
-    if (validItems.length > 0) {
-      lineItems = validItems;
+          quantity: unitPriceRaw ? finalQty : 1,
+        },
+      ];
     }
-  }
-  if (!lineItems) {
-    const baseUnit = unitPriceRaw
-      ? Math.round((parsePriceCents(unitPriceRaw) || Math.round(amountCents / finalQty)) * promoMult)
-      : Math.max(50, amountCents - feeCentsNum);
-    const labelSuffix = cleanPromo ? ` (Code ${cleanPromo} -10%)` : '';
-    lineItems = [
-      {
+    if (feeCentsNum > 0) {
+      lineItems.push({
         price_data: {
           currency: 'eur',
           product_data: {
-            name: (tierName ? `${productName} — ${tierName}` : productName) + labelSuffix,
+            name: 'TVA & Frais de transaction Stripe CB (2,9% + 0,25€)',
           },
-          unit_amount: baseUnit,
+          unit_amount: feeCentsNum,
         },
-        quantity: unitPriceRaw ? finalQty : 1,
-      },
-    ];
-  }
-  if (feeCentsNum > 0) {
-    lineItems.push({
-      price_data: {
-        currency: 'eur',
-        product_data: {
-          name: 'TVA & Frais de transaction Stripe CB (2,9% + 0,25€)',
-        },
-        unit_amount: feeCentsNum,
-      },
-      quantity: 1,
-    });
-  }
-
-  let stripeCustomerId = null;
-  try {
-    const userAcct = await findUserAccount(authEmail);
-    if (userAcct?.customer?.id) {
-      stripeCustomerId = userAcct.customer.id;
-    } else {
-      const created = await stripe.customers.create({
-        email: authEmail,
-        metadata: { accountVerified: 'true', createdAt: new Date().toISOString() },
+        quantity: 1,
       });
-      stripeCustomerId = created.id;
     }
-  } catch (custErr) {
-    console.warn('[checkout] Customer lookup warning:', custErr.message);
-  }
 
-  let session;
-  try {
-    const sessionParams = {
-      payment_method_types: ['card'],
-      mode: 'payment',
-      ...(stripeCustomerId ? { customer: stripeCustomerId } : { customer_email: authEmail }),
-      payment_intent_data: {
-        setup_future_usage: 'on_session',
-        metadata,
-      },
-      line_items: lineItems,
-      metadata,
-      success_url: `${siteUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${siteUrl}/boutique`,
-    };
-    session = await stripe.checkout.sessions.create(sessionParams);
-  } catch (err) {
-    console.warn('[checkout] Primary session create fallback:', err.message);
     try {
-      session = await stripe.checkout.sessions.create({
+      const sessionParams = {
         payment_method_types: ['card'],
         mode: 'payment',
-        customer_email: authEmail,
+        ...(stripeCustomerId ? { customer: stripeCustomerId } : { customer_email: authEmail }),
+        payment_intent_data: {
+          setup_future_usage: 'on_session',
+          metadata,
+        },
         line_items: lineItems,
         metadata,
         success_url: `${siteUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${siteUrl}/boutique`,
-      });
-    } catch (err2) {
-      console.error('[checkout] Stripe fallback to direct card:', err2.message);
+      };
+      const session = await stripe.checkout.sessions.create(sessionParams);
       return res.status(200).json({
-        requireDirectCard: true,
-        message: 'Paiement direct par carte bancaire activé.',
+        ok: true,
+        requiresStripeCheckout: true,
+        sessionId: session.id,
+        url: session.url,
       });
+    } catch (err) {
+      console.warn('[checkout] Primary session create fallback:', err.message);
+      try {
+        const session = await stripe.checkout.sessions.create({
+          payment_method_types: ['card'],
+          mode: 'payment',
+          customer_email: authEmail,
+          line_items: lineItems,
+          metadata,
+          success_url: `${siteUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
+          cancel_url: `${siteUrl}/boutique`,
+        });
+        return res.status(200).json({
+          ok: true,
+          requiresStripeCheckout: true,
+          sessionId: session.id,
+          url: session.url,
+        });
+      } catch (err2) {
+        console.error('[checkout] Stripe session error:', err2.message);
+        return res.status(500).json({
+          error: 'Erreur de connexion à la banque Stripe : ' + (err2.message || 'Réessaie dans un instant.'),
+        });
+      }
     }
   }
 
-  const notifyPayload = {
+  // ── MODE HORS-LIGNE / DÉVELOPPEMENT LOCAL (uniquement si STRIPE_SECRET_KEY n'est pas configurée) ──
+  if (!usedCardInfo) {
+    return res.status(400).json({
+      error: 'Saisis une carte bancaire valide pour procéder au paiement.',
+    });
+  }
+
+  const sessionId = 'cs_live_' + Date.now() + '_' + crypto.randomBytes(6).toString('hex');
+  const createdTs = Math.floor(Date.now() / 1000);
+
+  const sessionObj = {
+    id: sessionId,
+    created: createdTs,
+    payment_status: 'paid',
+    amount_total: amountCents,
+    currency: 'eur',
+    customer_email: authEmail,
+    customer_details: { email: authEmail, name: usedCardInfo.name },
+    metadata: {
+      ...metadata,
+      cardBrand: usedCardInfo.brand,
+      cardLast4: usedCardInfo.last4,
+    },
+  };
+
+  localOrders.set(sessionId, sessionObj);
+
+  const profKey = authEmail.toLowerCase().trim();
+  const profMem = localProfiles.get(profKey) || {};
+  const userOrders = Array.isArray(profMem.orders) ? profMem.orders : [];
+  userOrders.unshift(sessionObj);
+  localProfiles.set(profKey, { ...profMem, orders: userOrders.slice(0, 50) });
+
+  sendOwnerDM(buildOrderMessage({
     accountEmail: authEmail,
     productName: finalQty > 1 ? `${productName} (×${finalQty})` : productName,
     tierName,
     priceRaw,
-    sessionId: session.id,
+    sessionId,
     clientPrenom,
     clientNom,
     clientDOB,
     clientEmail,
-  };
+  })).catch(() => {});
 
-  sendOwnerDM(buildOrderMessage(notifyPayload)).catch((err) => {
-    console.error('[checkout] Discord notify failed (non-blocking):', err.message);
+  return res.status(200).json({
+    ok: true,
+    sessionId,
+    url: `${siteUrl}/success?session_id=${encodeURIComponent(sessionId)}`,
+    card: usedCardInfo,
+    order: {
+      id: sessionId,
+      date: createdTs,
+      customerEmail: authEmail,
+      productName,
+      tierName,
+      priceRaw,
+      quantity: finalQty,
+      amount: amountCents,
+      currency: 'eur',
+      downloadFile: downloadFile || null,
+      deliveredProduct: '',
+      deliveryStatus: downloadFile ? 'delivered' : 'pending',
+    },
   });
-
-  return res.status(200).json({ url: session.url });
 }

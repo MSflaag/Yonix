@@ -4,7 +4,7 @@
 
 import Stripe from 'stripe';
 import crypto from 'crypto';
-import { findUserAccount, saveUserAccount, hashPassword } from '../auth/send-link.js';
+import { findUserAccount, saveUserAccount, hashPassword, getAuthenticatedEmail } from '../auth/send-link.js';
 import { sendOwnerDM } from '../notify.js';
 
 const AUTH_SECRET = process.env.AUTH_SECRET || 'changeme-32-chars-secret-key-here';
@@ -253,7 +253,7 @@ function formatSessionOrder(s) {
 }
 
 export default async function handler(req, res) {
-  const email = getEmailFromCookie(req.headers.cookie);
+  const email = getAuthenticatedEmail(req);
 
   // ── POST : Actions Utilisateur & Actions d'Administration ──
   if (req.method === 'POST') {

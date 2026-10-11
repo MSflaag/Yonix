@@ -4,7 +4,7 @@
 
 import Stripe from 'stripe';
 import { buildOrderMessage, sendOwnerDM } from './notify.js';
-import { getEmailFromCookie, validateVerifiedEmail, findUserAccount } from './auth/send-link.js';
+import { getAuthenticatedEmail, validateVerifiedEmail, findUserAccount } from './auth/send-link.js';
 
 const stripeKey = (process.env.STRIPE_SECRET_KEY || '').trim();
 const stripe = stripeKey
@@ -28,7 +28,7 @@ export default async function handler(req, res) {
   }
 
   // 1. Vérification stricte de la connexion client
-  const sessionEmail = getEmailFromCookie(req.headers.cookie);
+  const sessionEmail = getAuthenticatedEmail(req);
   if (!sessionEmail) {
     return res.status(401).json({
       error: 'Connexion obligatoire : tu dois te connecter ou créer un compte pour passer commande.',

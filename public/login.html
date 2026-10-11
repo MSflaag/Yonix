@@ -279,9 +279,13 @@ input::placeholder{color:var(--dim)}
         body: JSON.stringify({ email, password, action: 'login' })
       });
       const data = await r.json();
-      if (r.ok) {
-        showMsg('loginMsg', 'Connexion réussie ! Redirection…', 'ok');
-        setTimeout(() => { location.href = '/profile'; }, 500);
+      if (r.ok && data.ok) {
+        try {
+          if (data.token) localStorage.setItem('yonix_token', data.token);
+          if (data.email) localStorage.setItem('yonix_email', data.email);
+        } catch (e) {}
+        showMsg('loginMsg', 'Connexion réussie ! Redirection vers ton profil…', 'ok');
+        setTimeout(() => { location.href = '/profile'; }, 400);
       } else {
         showMsg('loginMsg', data.error || 'Erreur de connexion.', 'err');
       }
@@ -312,9 +316,13 @@ input::placeholder{color:var(--dim)}
         body: JSON.stringify({ email, password, action: 'register' })
       });
       const data = await r.json();
-      if (r.ok) {
-        showMsg('signupMsg', 'Compte créé et connecté ! Redirection…', 'ok');
-        setTimeout(() => { location.href = '/profile'; }, 500);
+      if (r.ok && data.ok) {
+        try {
+          if (data.token) localStorage.setItem('yonix_token', data.token);
+          if (data.email) localStorage.setItem('yonix_email', data.email);
+        } catch (e) {}
+        showMsg('signupMsg', 'Compte créé et connecté ! Redirection vers ton profil…', 'ok');
+        setTimeout(() => { location.href = '/profile'; }, 400);
       } else {
         showMsg('signupMsg', data.error || 'Erreur lors de la création du compte.', 'err');
       }

@@ -4,6 +4,7 @@
 // Env: AUTH_SECRET, SITE_URL, DOWNLOAD_SECRET
 
 import crypto from 'crypto';
+import { getAuthenticatedEmail } from '../auth/send-link.js';
 
 const AUTH_SECRET = process.env.AUTH_SECRET || 'changeme-32-chars-secret-key-here';
 const DOWNLOAD_SECRET = process.env.DOWNLOAD_SECRET || 'download-secret-key-here';
@@ -30,27 +31,6 @@ const ALLOWED_FILES = new Set([
   'spoofer-perm.zip',
 ]);
 
-function getEmailFromCookie(cookieHeader) {
-  if (!cookieHeader) return null;
-  const match = cookieHeader.match(/yonix_session=([^;]+)/);
-  if (!match) return null;
-  try {
-    const token = match[1];
-    const decoded = Buffer.from(token, 'base64url').toString('utf8');
-    const parts = decoded.split('|');
-    if (parts.length !== 3) return null;
-    const [email, expiresStr, hmac] = parts;
-    const expires = parseInt(expiresStr, 10);
-    if (Date.now() > expires) return null;
-    const payload = `${email}|${expires}`;
-    const expected = crypto.createHmac('sha256', AUTH_SECRET).update(payload).digest('hex');
-    if (!crypto.timingSafeEqual(Buffer.from(hmac), Buffer.from(expected))) return null;
-    return email;
-  } catch {
-    return null;
-  }
-}
-
 function generateSignedUrl(filename, email) {
   const expires = Date.now() + 10 * 60 * 1000; // 10 minutes
   const payload = `${filename}|${email}|${expires}`;
@@ -64,7 +44,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const email = getEmailFromCookie(req.headers.cookie);
+  const email = getAuthenticatedEmail(req);
   if (!email) {
     return res.status(401).json({ error: 'Non authentifié.' });
   }

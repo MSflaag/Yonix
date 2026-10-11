@@ -3596,7 +3596,10 @@ $$('.rv').forEach((el, i) => reveal(el, (i % 4) * 50));
     try {
       const res = await fetch('/api/checkout', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-yonix-token': localStorage.getItem('yonix_token') || ''
+        },
         body: JSON.stringify({ productName: BUNDLE.name, tierName: 'Bundle Complet', priceRaw: BUNDLE.price })
       });
       const data = await res.json();
@@ -3830,7 +3833,14 @@ $('#dlgBuy').addEventListener('click', async () => {
     btn.textContent = 'Redirection Stripe…';
     try {
       const payload = { productName: curProd.name, tierName: tier.dur, priceRaw: tier.price, clientPrenom: prenom, clientNom: nom, clientDOB: dob, clientEmail: email };
-      const res = await fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-yonix-token': localStorage.getItem('yonix_token') || ''
+        },
+        body: JSON.stringify(payload)
+      });
       const data = await res.json();
       if (res.status === 401 || data.requireAuth) {
         btn.disabled = false;
@@ -4068,14 +4078,32 @@ window.toast = toast;
     return { ok: true };
   }
 
-  function applyAuthenticatedState(email) {
+  function applyAuthenticatedState(email, token) {
     window.CURRENT_USER_EMAIL = email;
+    try {
+      if (token) localStorage.setItem('yonix_token', token);
+      if (email) localStorage.setItem('yonix_email', email);
+    } catch (e) {}
     const label = document.getElementById('navLoginLabel');
-    if (label) label.textContent = 'Mon compte';
+    if (label) label.textContent = 'Mon Profil';
     const btn = document.getElementById('navLoginBtn');
-    if (btn) btn.onclick = () => { window.location.href = '/profile'; };
+    if (btn) {
+      btn.removeAttribute('onclick');
+      btn.onclick = (e) => {
+        if (e) e.preventDefault();
+        window.location.href = '/profile';
+      };
+    }
     const mobLabel = document.getElementById('mobLoginLabel');
-    if (mobLabel) mobLabel.textContent = 'Mon compte (' + email + ')';
+    if (mobLabel) mobLabel.textContent = 'Mon Profil (' + email + ')';
+    const mobBtn = document.getElementById('mobLoginBtn');
+    if (mobBtn) {
+      mobBtn.removeAttribute('onclick');
+      mobBtn.onclick = (e) => {
+        if (e) e.preventDefault();
+        window.location.href = '/profile';
+      };
+    }
   }
 
   window.requireAuthForOrder = function(callback) {
@@ -4088,6 +4116,10 @@ window.toast = toast;
   };
 
   window.openAuth = function(tab, skipPush = false) {
+    if (window.CURRENT_USER_EMAIL && !pendingOrderCallback) {
+      window.location.href = '/profile';
+      return;
+    }
     if (!overlay.classList.contains('open')) {
       prevPathBeforeAuth = (location.pathname === '/connexion' || location.pathname === '/inscription') ? '/' : (location.pathname || '/');
     }
@@ -4176,15 +4208,16 @@ window.toast = toast;
     try {
       const r = await fetch('/api/auth/send-link', {
         method: 'POST',
+        credentials: 'same-origin',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password, action: isReg ? 'register' : 'login' })
       });
       const data = await r.json();
       if (r.ok && data.ok) {
-        applyAuthenticatedState(data.email || email);
+        applyAuthenticatedState(data.email || email, data.token);
         msg.textContent = isReg
-          ? 'Compte créé et connecté !'
-          : 'Connexion réussie !';
+          ? 'Compte créé et connecté ! Redirection vers ton profil…'
+          : 'Connexion réussie ! Redirection vers ton profil…';
         msg.className = 'auth-msg ok';
         if (window.toast) {
           window.toast(isReg ? 'Compte créé ! Tu es connecté.' : 'Connecté avec succès !');
@@ -4192,13 +4225,15 @@ window.toast = toast;
         setTimeout(() => {
           btn.disabled = false;
           locked = false;
-          closeAuth();
           if (pendingOrderCallback) {
+            closeAuth();
             const cb = pendingOrderCallback;
             pendingOrderCallback = null;
             cb();
+          } else {
+            window.location.href = '/profile';
           }
-        }, 500);
+        }, 400);
       } else {
         msg.textContent = data.error || 'Erreur lors de l\'authentification.';
         msg.className = 'auth-msg err';
@@ -4232,12 +4267,26 @@ window.toast = toast;
 
   (async function checkSession() {
     try {
-      const r = await fetch('/api/account/orders');
+      const cachedTok = localStorage.getItem('yonix_token') || '';
+      const cachedEmail = localStorage.getItem('yonix_email') || '';
+      if (cachedTok && cachedEmail) {
+        applyAuthenticatedState(cachedEmail, cachedTok);
+      }
+      const r = await fetch('/api/account/orders', {
+        credentials: 'same-origin',
+        headers: cachedTok ? { 'x-yonix-token': cachedTok } : {}
+      });
       if (r.ok) {
         const data = await r.json();
         if (data && data.email) {
-          applyAuthenticatedState(data.email);
+          applyAuthenticatedState(data.email, cachedTok);
         }
+      } else if (r.status === 401) {
+        window.CURRENT_USER_EMAIL = '';
+        try {
+          localStorage.removeItem('yonix_token');
+          localStorage.removeItem('yonix_email');
+        } catch (e) {}
       }
     } catch (e) {}
   })();
@@ -4429,7 +4478,15 @@ window.toast = toast;
           downloadFile: i.downloadFile || ''
         }))
       };
-      const r = await fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      const r = await fetch('/api/checkout', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-yonix-token': localStorage.getItem('yonix_token') || ''
+        },
+        body: JSON.stringify(body)
+      });
       const d = await r.json();
       if (r.status === 401 || d.requireAuth) {
         btn.disabled = false;
@@ -4530,6 +4587,7 @@ window.toast = toast;
   function applyLang(lang) {
     const dict = T[lang] || T.fr;
     MAP.forEach(([key, [sel, prop]]) => {
+      if (key === 'nav_login' && window.CURRENT_USER_EMAIL) return;
       const el = document.querySelector(sel);
       if (el && dict[key] !== undefined) el[prop] = dict[key];
     });

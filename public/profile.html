@@ -1480,6 +1480,23 @@ main {
   let currentProfile = {};
   let currentCards = [];
 
+  function getStoredToken(){
+    try { return localStorage.getItem('yonix_token') || ''; } catch (e) { return ''; }
+  }
+
+  function apiFetch(url, opts = {}){
+    const tok = getStoredToken();
+    const headers = {
+      ...(opts.headers || {}),
+      ...(tok ? { 'x-yonix-token': tok } : {})
+    };
+    return fetch(url, {
+      ...opts,
+      credentials: 'same-origin',
+      headers
+    });
+  }
+
   // Preset gaming/clean SVG data URLs for quick avatar selection
   const PRESET_AVATARS = [
     'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4E7CFF"/><stop offset="1" stop-color="#1E3A8A"/></linearGradient></defs><rect width="120" height="120" fill="url(#g)"/><path fill="#fff" d="M34 32h22l18 28v20l-14 12V60zM74 32h18L72 58l-8-10z"/></svg>'),
@@ -1654,7 +1671,7 @@ main {
     } catch (e) {}
     renderProfileUI();
     try {
-      const r = await fetch('/api/account/orders', {
+      const r = await apiFetch('/api/account/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1689,7 +1706,7 @@ main {
     const btn = document.getElementById('saveProfileBtn');
     btn.disabled = true;
     try {
-      const r = await fetch('/api/account/orders', {
+      const r = await apiFetch('/api/account/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1733,7 +1750,7 @@ main {
     const btn = document.getElementById('sendPhoneCodeBtn');
     btn.disabled = true;
     try {
-      const r = await fetch('/api/account/orders', {
+      const r = await apiFetch('/api/account/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'send_phone_code', phone })
@@ -1763,7 +1780,7 @@ main {
       return;
     }
     try {
-      const r = await fetch('/api/account/orders', {
+      const r = await apiFetch('/api/account/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'verify_phone_code', code })
@@ -1784,7 +1801,7 @@ main {
 
   window.togglePhone2fa = async function(){
     try {
-      const r = await fetch('/api/account/orders', {
+      const r = await apiFetch('/api/account/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'toggle_2fa_phone' })
@@ -1800,7 +1817,7 @@ main {
 
   window.removePhoneSecurity = async function(){
     try {
-      const r = await fetch('/api/account/orders', {
+      const r = await apiFetch('/api/account/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'remove_phone' })
@@ -1823,7 +1840,7 @@ main {
       return;
     }
     try {
-      const r = await fetch('/api/account/orders', {
+      const r = await apiFetch('/api/account/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'change_password', currentPassword, newPassword })
@@ -1944,7 +1961,7 @@ main {
     const btn = document.getElementById('saveCardBtn');
     btn.disabled = true;
     try {
-      const r = await fetch('/api/account/orders', {
+      const r = await apiFetch('/api/account/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1973,7 +1990,7 @@ main {
 
   window.setDefaultCard = async function(cardId){
     try {
-      const r = await fetch('/api/account/orders', {
+      const r = await apiFetch('/api/account/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'set_default_card', cardId })
@@ -1989,7 +2006,7 @@ main {
 
   window.deleteCard = async function(cardId){
     try {
-      const r = await fetch('/api/account/orders', {
+      const r = await apiFetch('/api/account/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'delete_card', cardId })
@@ -2006,7 +2023,7 @@ main {
   window.startStripeCardSetup = async function(btn){
     btn.disabled = true;
     try {
-      const r = await fetch('/api/account/orders', {
+      const r = await apiFetch('/api/account/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'create_setup_session' })
@@ -2123,7 +2140,7 @@ main {
 
   window.reloadUserOrders = async function(){
     try {
-      const r = await fetch('/api/account/orders');
+      const r = await apiFetch('/api/account/orders');
       if (!r.ok) return;
       const data = await r.json();
       document.getElementById('ordersContent').innerHTML = renderOrders(data.orders || []);
@@ -2149,7 +2166,7 @@ main {
     const box = document.getElementById('adminOrdersContent');
     box.innerHTML = `<div class="loader"><div class="loader-ring"></div><span>Chargement des commandes clients…</span></div>`;
     try {
-      const r = await fetch('/api/account/orders', {
+      const r = await apiFetch('/api/account/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'list_all', adminKey })
@@ -2221,7 +2238,7 @@ main {
     btn.disabled = true;
     btn.textContent = 'Envoi en cours…';
     try {
-      const r = await fetch('/api/account/orders', {
+      const r = await apiFetch('/api/account/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -2251,14 +2268,18 @@ main {
 
   // ─── LOGOUT ───
   window.doLogout = async function(){
-    try { await fetch('/api/auth/logout'); } catch (e) {}
+    try {
+      localStorage.removeItem('yonix_token');
+      localStorage.removeItem('yonix_email');
+    } catch (e) {}
+    try { await apiFetch('/api/auth/logout'); } catch (e) {}
     location.href = '/';
   };
 
   // ─── INIT ───
   (async function init(){
     try {
-      const r = await fetch('/api/account/orders');
+      const r = await apiFetch('/api/account/orders');
       if (r.status === 401) {
         location.href = '/connexion';
         return;

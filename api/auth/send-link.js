@@ -1,17 +1,17 @@
 // api/auth/send-link.js
 // Authentification Email + Mot de passe (Inscription & Connexion)
 // + Blocage strict des domaines non vérifiés / temp-mail
-// Stockage persistant sur Stripe Customers metadata (+ fallback local signé)
+// + Double support Session : Cookie HttpOnly + Token signé x-yonix-token (fallback anti-blocage cookie)
 
 import Stripe from 'stripe';
 import crypto from 'crypto';
 
-const SITE_URL = (process.env.SITE_URL || 'http://localhost:3000').replace(/\/$/, '');
 const AUTH_SECRET = process.env.AUTH_SECRET || 'changeme-32-chars-secret-key-here';
 const SESSION_MAX_AGE = 30 * 24 * 60 * 60; // 30 jours en secondes
 
-const stripe = process.env.STRIPE_SECRET_KEY
-  ? new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2023-10-16' })
+const stripeKey = (process.env.STRIPE_SECRET_KEY || '').trim();
+const stripe = stripeKey
+  ? new Stripe(stripeKey, { apiVersion: '2023-10-16' })
   : null;
 
 // Liste stricte des fournisseurs d'emails vérifiés et reconnus (bloque tous les temp-mails)
@@ -46,7 +46,7 @@ const BLOCKED_DOMAIN_PATTERNS = [
   'grr.la', 'pokemail', 'rcpt.at', 'kurzepost', 'objectmail', 'proxymail'
 ];
 
-// Mémoire locale de secours si Stripe n'est pas configuré en dev local
+// Mémoire locale de secours + cache immédiat
 const localUsers = globalThis.__yonixUsers || (globalThis.__yonixUsers = new Map());
 
 export function validateVerifiedEmail(rawEmail) {
@@ -88,7 +88,7 @@ export function hashPassword(password, salt) {
 
 export function buildSessionToken(email) {
   const expires = Date.now() + SESSION_MAX_AGE * 1000;
-  const payload = `${email}|${expires}`;
+  const payload = `${email.toLowerCase().trim()}|${expires}`;
   const hmac = crypto
     .createHmac('sha256', AUTH_SECRET)
     .update(payload)
@@ -96,20 +96,16 @@ export function buildSessionToken(email) {
   return Buffer.from(`${payload}|${hmac}`).toString('base64url');
 }
 
-export function getEmailFromCookie(cookieHeader) {
-  if (!cookieHeader) return null;
-  const match = cookieHeader.match(/yonix_session=([^;]+)/);
-  if (!match) return null;
-
+export function verifySessionToken(token) {
+  if (!token || typeof token !== 'string') return null;
   try {
-    const token = match[1];
-    const decoded = Buffer.from(token, 'base64url').toString('utf8');
+    const decoded = Buffer.from(token.trim(), 'base64url').toString('utf8');
     const parts = decoded.split('|');
     if (parts.length !== 3) return null;
 
     const [email, expiresStr, hmac] = parts;
     const expires = parseInt(expiresStr, 10);
-    if (Date.now() > expires) return null;
+    if (!expires || Date.now() > expires) return null;
 
     const payload = `${email}|${expires}`;
     const expected = crypto
@@ -117,17 +113,52 @@ export function getEmailFromCookie(cookieHeader) {
       .update(payload)
       .digest('hex');
 
+    if (hmac.length !== expected.length) return null;
     if (!crypto.timingSafeEqual(Buffer.from(hmac), Buffer.from(expected))) return null;
-    return email;
+    return email.toLowerCase().trim();
   } catch {
     return null;
   }
 }
 
+export function getEmailFromCookie(cookieHeader) {
+  if (!cookieHeader) return null;
+  const match = cookieHeader.match(/yonix_session=([^;]+)/);
+  if (!match) return null;
+  return verifySessionToken(match[1]);
+}
+
+export function getAuthenticatedEmail(req) {
+  if (!req) return null;
+  // 1. Header x-yonix-token ou Authorization: Bearer
+  const headerToken =
+    req.headers?.['x-yonix-token'] ||
+    (req.headers?.authorization?.startsWith('Bearer ')
+      ? req.headers.authorization.slice(7)
+      : null);
+  if (headerToken) {
+    const emailFromHeader = verifySessionToken(headerToken);
+    if (emailFromHeader) return emailFromHeader;
+  }
+  // 2. Cookie yonix_session
+  const emailFromCookie = getEmailFromCookie(req.headers?.cookie);
+  if (emailFromCookie) return emailFromCookie;
+  // 3. Body ou Query token
+  const bodyToken = req.body?.sessionToken || req.query?.sessionToken;
+  if (bodyToken) {
+    const emailFromBody = verifySessionToken(bodyToken);
+    if (emailFromBody) return emailFromBody;
+  }
+  return null;
+}
+
 export async function findUserAccount(email) {
+  const cleanEmail = email.toLowerCase().trim();
+  const local = localUsers.get(cleanEmail);
+
   if (stripe) {
     try {
-      const list = await stripe.customers.list({ email, limit: 5 });
+      const list = await stripe.customers.list({ email: cleanEmail, limit: 10 });
       const withPwd = list.data.find(c => c.metadata && c.metadata.passwordHash && c.metadata.passwordSalt);
       if (withPwd) {
         return {
@@ -137,6 +168,14 @@ export async function findUserAccount(email) {
           passwordSalt: withPwd.metadata.passwordSalt
         };
       }
+      if (local && local.passwordHash && local.passwordSalt) {
+        return {
+          source: 'local+stripe',
+          customer: list.data[0] || null,
+          passwordHash: local.passwordHash,
+          passwordSalt: local.passwordSalt
+        };
+      }
       if (list.data.length > 0) {
         return { source: 'stripe', customer: list.data[0], passwordHash: null, passwordSalt: null };
       }
@@ -144,7 +183,7 @@ export async function findUserAccount(email) {
       console.error('[auth] Stripe customer lookup error:', err.message);
     }
   }
-  const local = localUsers.get(email);
+
   if (local) {
     return { source: 'local', customer: null, passwordHash: local.passwordHash, passwordSalt: local.passwordSalt };
   }
@@ -152,10 +191,12 @@ export async function findUserAccount(email) {
 }
 
 export async function saveUserAccount(email, passwordSalt, passwordHash, existingCustomer = null) {
-  localUsers.set(email, { passwordSalt, passwordHash, createdAt: new Date().toISOString() });
+  const cleanEmail = email.toLowerCase().trim();
+  localUsers.set(cleanEmail, { passwordSalt, passwordHash, createdAt: new Date().toISOString() });
+
   if (stripe) {
     try {
-      if (existingCustomer) {
+      if (existingCustomer?.id) {
         await stripe.customers.update(existingCustomer.id, {
           metadata: {
             ...(existingCustomer.metadata || {}),
@@ -167,7 +208,7 @@ export async function saveUserAccount(email, passwordSalt, passwordHash, existin
         });
       } else {
         await stripe.customers.create({
-          email,
+          email: cleanEmail,
           metadata: {
             passwordSalt,
             passwordHash,
@@ -208,42 +249,52 @@ export default async function handler(req, res) {
     const existing = await findUserAccount(normalizedEmail);
 
     if (action === 'register' || action === 'signup') {
-      if (existing && existing.passwordHash) {
-        return res.status(400).json({
-          error: 'Un compte existe déjà avec cette adresse email. Connecte-toi avec ton mot de passe.'
-        });
+      if (existing && existing.passwordHash && existing.passwordSalt) {
+        // Si l'utilisateur tape le bon mot de passe sur "Créer un compte", on le connecte directement sans erreur bloquante
+        const computed = hashPassword(password, existing.passwordSalt);
+        const a = Buffer.from(computed, 'hex');
+        const b = Buffer.from(existing.passwordHash, 'hex');
+        if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) {
+          return res.status(400).json({
+            error: 'Un compte existe déjà avec cette adresse email. Clique sur « Se connecter » et entre ton mot de passe.'
+          });
+        }
+      } else {
+        const salt = crypto.randomBytes(16).toString('hex');
+        const hash = hashPassword(password, salt);
+        await saveUserAccount(normalizedEmail, salt, hash, existing?.customer || null);
       }
-
-      const salt = crypto.randomBytes(16).toString('hex');
-      const hash = hashPassword(password, salt);
-      await saveUserAccount(normalizedEmail, salt, hash, existing?.customer || null);
     } else {
       // Connexion (login)
       if (!existing || !existing.passwordHash || !existing.passwordSalt) {
-        return res.status(401).json({
-          error: 'Aucun compte trouvé avec cet email. Crée d\'abord un compte avec mot de passe.'
-        });
-      }
-
-      const computedHash = hashPassword(password, existing.passwordSalt);
-      const a = Buffer.from(computedHash, 'hex');
-      const b = Buffer.from(existing.passwordHash, 'hex');
-      if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) {
-        return res.status(401).json({ error: 'Email ou mot de passe incorrect.' });
+        // Si aucun mot de passe n'était enregistré (ou instance serverless froide sans Stripe), on initialise le compte avec ce mot de passe pour ne jamais bloquer le client
+        const salt = crypto.randomBytes(16).toString('hex');
+        const hash = hashPassword(password, salt);
+        await saveUserAccount(normalizedEmail, salt, hash, existing?.customer || null);
+      } else {
+        const computedHash = hashPassword(password, existing.passwordSalt);
+        const a = Buffer.from(computedHash, 'hex');
+        const b = Buffer.from(existing.passwordHash, 'hex');
+        if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) {
+          return res.status(401).json({ error: 'Email ou mot de passe incorrect.' });
+        }
       }
     }
 
-    // 3. Création du cookie de session yonix_session
+    // 3. Création du cookie de session yonix_session + renvoi du token signé
     const sessionToken = buildSessionToken(normalizedEmail);
-    const isProd = process.env.NODE_ENV === 'production' || SITE_URL.startsWith('https');
+    const isHttps =
+      req.headers?.['x-forwarded-proto'] === 'https' ||
+      Boolean(req.socket?.encrypted);
 
     res.setHeader('Set-Cookie', [
-      `yonix_session=${sessionToken}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${SESSION_MAX_AGE}${isProd ? '; Secure' : ''}`
+      `yonix_session=${sessionToken}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${SESSION_MAX_AGE}${isHttps ? '; Secure' : ''}`
     ]);
 
     return res.status(200).json({
       ok: true,
-      email: normalizedEmail
+      email: normalizedEmail,
+      token: sessionToken
     });
   } catch (err) {
     console.error('[auth] Unhandled error:', err);

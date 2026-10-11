@@ -1,11 +1,24 @@
-<!-- public/profile.html — YONIX Mon Compte & Profil (Logopoint Light Design System) -->
+<!-- public/profile.html — YONIX Mon Compte & Profil (Dark & Light Design System) -->
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Mon Profil — YONIX</title>
-<meta name="theme-color" content="#FAFBFF">
+<meta name="theme-color" content="#0A0E17" id="metaThemeColor">
+<script>
+(function(){
+  try {
+    var saved = localStorage.getItem('yonix_theme');
+    var theme = (saved === 'light' || saved === 'dark') ? saved : 'dark';
+    document.documentElement.setAttribute('data-theme', theme);
+    var m = document.getElementById('metaThemeColor');
+    if (m) m.setAttribute('content', theme === 'dark' ? '#0A0E17' : '#FAFBFF');
+  } catch (e) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -49,6 +62,101 @@
   --shadow-md: 0 12px 32px -8px rgba(19, 24, 38, 0.08), 0 2px 6px rgba(19, 24, 38, 0.04);
   --shadow-lg: 0 24px 56px -12px rgba(19, 24, 38, 0.12), 0 4px 12px rgba(19, 24, 38, 0.05);
   --shadow-blue: 0 10px 24px -4px rgba(78, 124, 255, 0.38), 0 4px 10px -2px rgba(78, 124, 255, 0.2);
+}
+
+html[data-theme="dark"] {
+  --bg: #0A0E17;
+  --bg-alt: #131929;
+  --white: #111623;
+  --night: #F8FAFC;
+  --night-soft: #E2E8F0;
+  --ink: #F1F5F9;
+  --ink-secondary: #94A3B8;
+  --gray: #94A3B8;
+  --gray-light: #64748B;
+  --platinum: #263147;
+  --border: #1E2738;
+  --border-hover: #334155;
+  --blue: #4E7CFF;
+  --blue-hover: #638BFF;
+  --blue-active: #7AA0FF;
+  --blue-soft: rgba(78, 124, 255, 0.14);
+  --blue-mid: rgba(78, 124, 255, 0.24);
+  --blue-border: rgba(78, 124, 255, 0.45);
+  --blue-shadow: rgba(78, 124, 255, 0.35);
+  --green: #22C55E;
+  --green-soft: rgba(34, 197, 94, 0.14);
+  --green-border: rgba(34, 197, 94, 0.35);
+  --amber: #F59E0B;
+  --amber-soft: rgba(245, 158, 11, 0.14);
+  --amber-border: rgba(245, 158, 11, 0.35);
+  --red: #EF4444;
+  --red-soft: rgba(239, 68, 68, 0.14);
+  --red-border: rgba(239, 68, 68, 0.35);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --shadow-sm: 0 4px 16px -2px rgba(0, 0, 0, 0.55), 0 1px 3px rgba(0, 0, 0, 0.38);
+  --shadow-md: 0 12px 32px -8px rgba(0, 0, 0, 0.7), 0 2px 6px rgba(0, 0, 0, 0.48);
+  --shadow-lg: 0 24px 56px -12px rgba(0, 0, 0, 0.85), 0 4px 12px rgba(0, 0, 0, 0.6);
+  color-scheme: dark;
+}
+
+html[data-theme="dark"] .nav {
+  background: rgba(10, 14, 23, 0.88);
+}
+
+html[data-theme="dark"] .brand-mark,
+html[data-theme="dark"] .pm-brand-box,
+html[data-theme="dark"] .avatar-edit-badge {
+  background: #070A12;
+  color: #FFFFFF;
+}
+
+html[data-theme="dark"] .btn-blue,
+html[data-theme="dark"] .tab-btn.active,
+html[data-theme="dark"] .pm-badge-def,
+html[data-theme="dark"] .profile-avatar,
+html[data-theme="dark"] .avatar-preview-lg,
+html[data-theme="dark"] .credit-card-visual {
+  color: #FFFFFF;
+}
+
+html[data-theme="dark"] .toast {
+  background: #1E293B;
+  color: #FFFFFF;
+  border: 1px solid var(--blue-border);
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  color: var(--ink-secondary);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+  background: var(--blue-soft);
+  border-color: var(--blue-border);
+  color: var(--blue);
+}
+
+.theme-toggle svg {
+  width: 17px;
+  height: 17px;
+}
+
+html[data-theme="dark"] .theme-toggle .icon-moon {
+  display: none;
+}
+
+html:not([data-theme="dark"]) .theme-toggle .icon-sun {
+  display: none;
 }
 
 *, *::before, *::after {
@@ -1089,6 +1197,22 @@ main {
     </nav>
 
     <div class="nav-right">
+      <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" aria-label="Basculer le mode sombre / clair" title="Mode sombre / clair">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
       <a href="/boutique" class="btn-nav-store">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         <span>Boutique</span>
@@ -2317,6 +2441,17 @@ main {
       wrap.appendChild(box);
     }
   })();
+
+  window.toggleTheme = function() {
+    const html = document.documentElement;
+    const cur = html.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    const next = cur === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    try { localStorage.setItem('yonix_theme', next); } catch (e) {}
+    const m = document.getElementById('metaThemeColor');
+    if (m) m.setAttribute('content', next === 'dark' ? '#0A0E17' : '#FAFBFF');
+    toast(next === 'dark' ? 'Mode sombre activé' : 'Mode clair activé');
+  };
 })();
 </script>
 </body>

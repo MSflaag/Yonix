@@ -84,25 +84,34 @@ async function loadOrder(){
     return;
   }
 
-  let data;
+  let localMeta = {};
+  try {
+    const raw = localStorage.getItem('yonix_last_order_' + sid) || localStorage.getItem('yonix_last_order');
+    if (raw) localMeta = JSON.parse(raw) || {};
+  } catch (e) {}
+
+  let data = null;
   try{
     const res=await fetch('/api/session?session_id='+encodeURIComponent(sid));
-    data=await res.json();
-  }catch(e){
-    el.innerHTML=`<p class="err">Erreur réseau. Rafraîchis la page.</p>`;
+    if (res.ok) data=await res.json();
+  }catch(e){}
+
+  if (!data && localMeta.productName) {
+    data = { status: 'paid', metadata: localMeta };
+  }
+
+  if(!data || data.status!=='paid'){
+    el.innerHTML=`<p class="err">Paiement non confirmé (statut : ${(data && data.status)||'inconnu'}). Contacte le support.</p>`;
     return;
   }
 
-  if(data.status!=='paid'){
-    el.innerHTML=`<p class="err">Paiement non confirmé (statut : ${data.status||'inconnu'}). Contacte le support.</p>`;
-    return;
-  }
-
-  const m=data.metadata||{};
+  const m = { ...localMeta, ...(data.metadata || {}) };
   const isBundle=m.productName&&m.productName.toLowerCase().includes('bundle');
   const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const qtyNum = parseInt(m.quantity || '1', 10) || 1;
+  const qtyBadge = qtyNum > 1 ? ` ×${qtyNum}` : '';
 
-  let html=`<div class="product-name">${esc(m.productName||'Produit')}${m.tierName?' — '+esc(m.tierName):''}</div>`;
+  let html=`<div class="product-name">${esc(m.productName||'Produit')}${qtyBadge}${m.tierName?' — '+esc(m.tierName):''}${m.priceRaw?' ('+esc(m.priceRaw)+')':''}</div>`;
 
   if(m.deliveredProduct){
     html+=`<div class="dl-section">

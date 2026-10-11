@@ -10,7 +10,12 @@ const AUTH_SECRET = process.env.AUTH_SECRET || 'changeme-32-chars-secret-key-her
 const SESSION_MAX_AGE = 30 * 24 * 60 * 60; // 30 jours en secondes
 
 const stripeKey = (process.env.STRIPE_SECRET_KEY || '').trim();
-const stripe = stripeKey
+const isRealStripeKey =
+  Boolean(stripeKey) &&
+  (stripeKey.startsWith('sk_live_') || stripeKey.startsWith('sk_test_')) &&
+  !stripeKey.includes('...');
+
+const stripe = isRealStripeKey
   ? new Stripe(stripeKey, { apiVersion: '2023-10-16' })
   : null;
 

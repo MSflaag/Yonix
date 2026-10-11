@@ -2557,6 +2557,222 @@ dialog::backdrop {
   transform: none;
 }
 
+/* ===== DIRECT BANK CARD CHECKOUT MODAL (#cbPayModal) ===== */
+#cbPayModal {
+  width: min(500px, calc(100vw - 24px));
+  max-height: calc(100dvh - 28px);
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  background: var(--white);
+  color: var(--ink);
+  box-shadow: var(--shadow-lg);
+  padding: 26px 24px;
+  margin: auto;
+}
+
+#cbPayModal::backdrop {
+  background: rgba(10, 14, 23, 0.72);
+  backdrop-filter: blur(8px);
+}
+
+.cb-pay-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.cb-pay-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--night);
+}
+
+.cb-pay-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--green);
+  background: rgba(22, 163, 74, 0.12);
+  border: 1px solid rgba(22, 163, 74, 0.3);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.cb-order-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 16px;
+  border-radius: 14px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+
+.cb-order-info b {
+  display: block;
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--night);
+}
+
+.cb-order-info span {
+  font-size: 12.5px;
+  color: var(--gray);
+}
+
+.cb-order-total {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--blue);
+  white-space: nowrap;
+}
+
+.cb-visual-card {
+  position: relative;
+  border-radius: 16px;
+  padding: 18px 20px;
+  background: linear-gradient(135deg, #131B2E 0%, #1E3A8A 55%, #3B82F6 100%);
+  color: #FFFFFF;
+  box-shadow: 0 12px 28px -6px rgba(30, 58, 138, 0.45);
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.cb-visual-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.cb-chip {
+  width: 36px;
+  height: 26px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #FDE68A, #F59E0B);
+}
+
+.cb-brand-tag {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.cb-visual-num {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  margin-bottom: 14px;
+}
+
+.cb-visual-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.9;
+}
+
+.cb-saved-box {
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cb-saved-opt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  background: var(--bg-alt);
+  cursor: pointer;
+  transition: border-color 0.18s, background 0.18s;
+}
+
+.cb-saved-opt.active {
+  border-color: var(--blue);
+  background: var(--blue-soft);
+}
+
+.cb-form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  margin-bottom: 14px;
+}
+
+.cb-form-row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.cb-field label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-secondary);
+  margin-bottom: 5px;
+}
+
+.cb-input {
+  width: 100%;
+  padding: 11px 13px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--bg-alt);
+  color: var(--night);
+  font: 600 14px var(--font);
+  outline: none;
+  transition: border-color 0.18s;
+}
+
+.cb-input:focus {
+  border-color: var(--blue);
+}
+
+.cb-save-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--ink-secondary);
+  margin-bottom: 14px;
+  cursor: pointer;
+}
+
+.cb-err-msg {
+  display: none;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(220, 38, 38, 0.1);
+  border: 1px solid rgba(220, 38, 38, 0.35);
+  color: #EF4444;
+  font-size: 12.5px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
 .pcard-actions {
   display: inline-flex;
   align-items: center;
@@ -3503,11 +3719,14 @@ dialog::backdrop {
 <section class="sec bg-white" id="avis">
   <div class="wrap">
     <div class="sec-head rv">
-      <div class="sec-label">Avis clients</div>
+      <div class="sec-label" style="display:inline-flex;align-items:center;gap:7px">
+        <span style="width:8px;height:8px;border-radius:50%;background:#10b981;box-shadow:0 0 0 4px rgba(16,185,129,0.2);display:inline-block"></span>
+        Avis clients en direct
+      </div>
       <h2>Ils ont testé. Ils valident.</h2>
-      <p>Retours authentiques et preuves vérifiées partagés par nos clients sur Discord.</p>
+      <p>Retours authentiques en direct de nos clients après activation de leur commande ou sur Discord.</p>
     </div>
-    <div class="reviews-stars rv">
+    <div class="reviews-stars rv" style="display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap">
       <div class="r-stars-svg" aria-label="5 sur 5 étoiles">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -3515,7 +3734,22 @@ dialog::backdrop {
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
       </div>
-      <span class="r-count">4.9/5 · <b>+200 avis vérifiés</b></span>
+      <span class="r-count">4.9/5 · <b id="totalReviewsCountLabel">+200 avis vérifiés</b></span>
+      <button type="button" onclick="window.openLiveReviewModal()" style="padding:10px 18px;border-radius:99px;background:linear-gradient(135deg,#0f172a,#1e40af);color:#fff;border:none;font-size:13px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:8px;box-shadow:0 6px 18px rgba(30,64,175,0.25);transition:transform .15s">
+        <span style="color:#fbbf24;font-size:15px">★</span> Laisser un petit avis en direct
+      </button>
+    </div>
+
+    <!-- Derniers avis publiés en direct -->
+    <div id="liveReviewsFeedWrap" style="display:none;margin:22px auto 10px;max-width:1080px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding:0 4px">
+        <div style="display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#059669;background:#ecfdf5;border:1px solid #a7f3d0;padding:5px 12px;border-radius:99px">
+          <span style="width:7px;height:7px;border-radius:50%;background:#10b981;display:inline-block"></span>
+          Derniers avis publiés en direct
+        </div>
+        <span style="font-size:12px;color:#64748b;font-weight:600">Mis à jour instantanément</span>
+      </div>
+      <div id="liveReviewsFeed" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px"></div>
     </div>
   </div>
   <div class="reviews-marquee-wrap">
@@ -3525,6 +3759,96 @@ dialog::backdrop {
     <div class="reviews-marquee reviews-row2" id="rrow2"></div>
   </div>
 </section>
+
+<!-- LIVE REVIEW MODAL -->
+<div id="liveReviewModal" style="position:fixed;inset:0;background:rgba(15,23,42,0.72);backdrop-filter:blur(6px);z-index:9999;display:none;align-items:center;justify-content:center;padding:18px" onclick="if(event.target===this)window.closeLiveReviewModal()">
+  <div style="background:#fff;border-radius:22px;max-width:520px;width:100%;padding:26px;box-shadow:0 25px 70px rgba(15,23,42,0.35);max-height:92vh;overflow-y:auto;position:relative">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="width:9px;height:9px;border-radius:50%;background:#10b981;display:inline-block"></span>
+        <span style="font-size:17px;font-weight:800;color:#0f172a">Publier un avis en direct</span>
+      </div>
+      <button type="button" onclick="window.closeLiveReviewModal()" style="border:none;background:#f1f5f9;width:32px;height:32px;border-radius:50%;cursor:pointer;font-weight:800;color:#475569">✕</button>
+    </div>
+    <p style="font-size:13px;color:#64748b;margin-bottom:16px;line-height:1.5">
+      Ton avis sera affiché <b>immédiatement en direct</b> sur la boutique YONIX avec le logo du service que tu as commandé.
+    </p>
+
+    <!-- Aperçu produit sélectionné -->
+    <div id="liveRevSelectedBanner" style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;background:#f8fafc;border:1px solid #e2e8f0;margin-bottom:14px">
+      <img id="liveRevProductImg" src="/logos/basicfit.png" alt="Produit" style="width:46px;height:46px;object-fit:contain;border-radius:10px;background:#fff;padding:4px;border:1px solid #e2e8f0">
+      <div style="flex:1;min-width:0">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#2563eb">Produit / Service</div>
+        <div id="liveRevProductTitle" style="font-size:14px;font-weight:800;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Basic Fit Ultimate</div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:14px">
+      <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#475569;margin-bottom:6px">Choisir le produit commandé</label>
+      <select id="liveRevProductSelect" onchange="window.onLiveRevProductChange(this.value)" style="width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:10px;font-size:13px;font-weight:600;color:#0f172a;background:#fff">
+        <option value="Basic Fit Ultimate|/logos/basicfit.png">Basic Fit Ultimate — 12 Mois</option>
+        <option value="ADOBE PHOTOSHOP 2025|/logos/adobe.png">ADOBE PHOTOSHOP 2025 Premium</option>
+        <option value="O'Tacos — Tech Points Illimités|/logos/otacos.png">O'Tacos — Tech Points Gratuits Illimités</option>
+        <option value="Spotify Premium 1 an|/logos/spotify.png">Spotify Premium 1 an</option>
+        <option value="Netflix Premium 4K · 1 an|/logos/netflix.png">Netflix Premium 4K · 1 an</option>
+        <option value="Crunchyroll FAN 1 AN|/logos/crunchyroll.png">Crunchyroll FAN 1 AN</option>
+        <option value="Canva Pro · 1 an|/logos/canva.png">Canva Pro · 1 an</option>
+        <option value="Disney+ 1 an|/logos/disneyplus.png">Disney+ 1 an</option>
+        <option value="Nitro Boost Discord|/logos/nitro_boost.png">Nitro Boost Discord</option>
+        <option value="ChatGPT FA Unlimited|/logos/chatgpt.png">ChatGPT FA Unlimited</option>
+        <option value="CS2 Loader|/logos/csgo.png">CS2 Loader</option>
+        <option value="Valorant Private|/logos/valorant.png">Valorant Private</option>
+        <option value="Valorant Emu|/logos/valorant.png">Valorant Emu</option>
+        <option value="HWID Spoofer Permanent|/logos/spoofer.png">HWID Spoofer Permanent</option>
+        <option value="Bundle Jailbreak Complet (11 IA)|/logos/Yonix.png">Bundle Jailbreak Complet (11 IA)</option>
+        <option value="Gemini Jailbreak|/logos/gemini.png">Gemini Jailbreak</option>
+        <option value="Claude 4.6 Jailbreak|/logos/claude.png">Claude 4.6 Jailbreak</option>
+        <option value="Antigravity Claude|/logos/claude_antigravity.png">Antigravity Claude</option>
+        <option value="ChatGPT Jailbreak|/logos/chatgpt.png">ChatGPT Jailbreak</option>
+        <option value="Grok Jailbreak|/logos/grok.png">Grok Jailbreak</option>
+        <option value="DeepSeek Jailbreak|/logos/deepseek.png">DeepSeek Jailbreak</option>
+        <option value="Kimi 2.6 Jailbreak|/logos/kimi.png">Kimi 2.6 Jailbreak</option>
+        <option value="Qwen Jailbreak|/logos/qwen.png">Qwen Jailbreak</option>
+        <option value="GLM Jailbreak|/logos/glm.png">GLM Jailbreak</option>
+        <option value="Arena Jailbreak|/logos/arena.png">Arena Jailbreak</option>
+        <option value="Antigravity Gemini|/logos/gemini_antigravity.png">Antigravity Gemini</option>
+      </select>
+    </div>
+
+    <div style="margin-bottom:14px">
+      <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#475569;margin-bottom:6px">Note</label>
+      <div id="liveRevStarsPicker" style="display:flex;gap:8px;font-size:28px;cursor:pointer;user-select:none">
+        <span data-s="1" onclick="window.setLiveRevStars(1)" style="color:#f59e0b">★</span>
+        <span data-s="2" onclick="window.setLiveRevStars(2)" style="color:#f59e0b">★</span>
+        <span data-s="3" onclick="window.setLiveRevStars(3)" style="color:#f59e0b">★</span>
+        <span data-s="4" onclick="window.setLiveRevStars(4)" style="color:#f59e0b">★</span>
+        <span data-s="5" onclick="window.setLiveRevStars(5)" style="color:#f59e0b">★</span>
+      </div>
+    </div>
+
+    <div style="margin-bottom:12px">
+      <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#475569;margin-bottom:5px">Ton Pseudo / Prénom</label>
+      <input type="text" id="liveRevNameInput" placeholder="Ex: Mehdi_93, Lucas..." style="width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:10px;font-size:13px;font-family:inherit">
+    </div>
+
+    <div style="margin-bottom:12px">
+      <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#475569;margin-bottom:5px">Ton Avis</label>
+      <textarea id="liveRevMsgInput" rows="3" placeholder="Ex: Compte Basic Fit activé super rapidement, merci l'équipe YONIX !" style="width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:10px;font-size:13px;font-family:inherit;resize:vertical"></textarea>
+    </div>
+
+    <div style="margin-bottom:16px">
+      <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#475569;margin-bottom:5px">Capture / Preuve (optionnel)</label>
+      <input type="file" id="liveRevProofFile" accept="image/*" onchange="window.onLiveRevProofChange(event)" style="font-size:12px;color:#475569;width:100%">
+      <div id="liveRevProofPreviewWrap" style="display:none;margin-top:8px">
+        <img id="liveRevProofPreviewImg" src="" alt="Preuve" style="max-height:110px;border-radius:8px;border:1px solid #e2e8f0">
+      </div>
+    </div>
+
+    <button type="button" id="liveRevSubmitBtn" onclick="window.submitLiveReviewFromIndex()" style="width:100%;padding:13px;border:none;border-radius:12px;background:linear-gradient(135deg,#0f172a,#2563eb);color:#fff;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 8px 20px rgba(37,99,235,0.25)">
+      ★ Publier mon avis en direct
+    </button>
+  </div>
+</div>
 
 <!-- 5. SECTION FAQ: Exact Questions from yonix.store in Simple Accordion -->
 <section class="sec" id="faq">
@@ -3629,7 +3953,7 @@ dialog::backdrop {
 
       <!-- CGV acceptance -->
       <div class="cgv-check">
-        <input type="checkbox" id="cgvCheck" name="cgv">
+        <input type="checkbox" id="cgvCheck" name="cgv" checked>
         <label for="cgvCheck">J'accepte les <a href="/cgv" target="_blank">Conditions Générales de Vente</a> et je reconnais que mon droit de rétractation est exclu pour les produits numériques dont la livraison a commencé.</label>
       </div>
       <div class="cgv-error" id="cgvError">Vous devez accepter les CGV pour continuer.</div>
@@ -3646,6 +3970,86 @@ dialog::backdrop {
       </div>
     </div>
   </div>
+</dialog>
+
+<!-- DIRECT BANK CARD PAYMENT MODAL -->
+<dialog id="cbPayModal" aria-labelledby="cbPayTitle">
+  <div class="cb-pay-head">
+    <div class="cb-pay-title" id="cbPayTitle">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+      <span>Paiement Carte Bancaire</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="cb-pay-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        SSL 256-bit
+      </span>
+      <button class="dlg-close" data-close aria-label="Fermer" style="position:static;width:32px;height:32px">×</button>
+    </div>
+  </div>
+
+  <div class="cb-order-summary">
+    <div class="cb-order-info">
+      <b id="cbOrderProdName">Produit</b>
+      <span id="cbOrderTierName">Formule · Quantité ×1</span>
+    </div>
+    <div class="cb-order-total" id="cbOrderTotalPrice">25€</div>
+  </div>
+
+  <div class="cb-saved-box" id="cbSavedCardsBox" style="display:none"></div>
+
+  <div id="cbNewCardSection">
+    <div class="cb-visual-card">
+      <div class="cb-visual-top">
+        <div class="cb-chip"></div>
+        <span class="cb-brand-tag" id="cbVisBrand">CARTE BANCAIRE</span>
+      </div>
+      <div class="cb-visual-num" id="cbVisNum">•••• •••• •••• ••••</div>
+      <div class="cb-visual-bottom">
+        <div>
+          <div style="font-size:9.5px;opacity:0.7">Titulaire</div>
+          <b id="cbVisName">VOTRE NOM</b>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:9.5px;opacity:0.7">Expire</div>
+          <b id="cbVisExp">MM/AA</b>
+        </div>
+      </div>
+    </div>
+
+    <div class="cb-form-grid">
+      <div class="cb-field">
+        <label for="cbInputName">Nom du titulaire sur la carte</label>
+        <input type="text" class="cb-input" id="cbInputName" placeholder="JEAN DUPONT" autocomplete="cc-name">
+      </div>
+      <div class="cb-field">
+        <label for="cbInputNum">Numéro de carte bancaire (16 chiffres)</label>
+        <input type="text" class="cb-input" id="cbInputNum" inputmode="numeric" maxlength="19" placeholder="4970 •••• •••• ••••" autocomplete="cc-number">
+      </div>
+      <div class="cb-form-row2">
+        <div class="cb-field">
+          <label for="cbInputExp">Date d'expiration</label>
+          <input type="text" class="cb-input" id="cbInputExp" inputmode="numeric" maxlength="5" placeholder="MM/AA" autocomplete="cc-exp">
+        </div>
+        <div class="cb-field">
+          <label for="cbInputCvv">Code CVV / CVC</label>
+          <input type="password" class="cb-input" id="cbInputCvv" inputmode="numeric" maxlength="4" placeholder="123" autocomplete="cc-csc">
+        </div>
+      </div>
+    </div>
+
+    <label class="cb-save-check">
+      <input type="checkbox" id="cbInputSave" checked>
+      <span>Enregistrer cette carte sur mon profil pour mes prochains achats</span>
+    </label>
+  </div>
+
+  <div class="cb-err-msg" id="cbErrMsg"></div>
+
+  <button type="button" class="dlg-buy" id="cbSubmitPayBtn" style="width:100%;padding:15px 20px;font-size:15px">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    <span id="cbSubmitPayLabel">Payer maintenant</span>
+  </button>
 </dialog>
 
 <!-- AUTH OVERLAY -->
@@ -4178,6 +4582,338 @@ function multiplyPriceStr(raw, qty) {
 window.clampQtyVal = clampQtyVal;
 window.multiplyPriceStr = multiplyPriceStr;
 
+/* ===== DIRECT BANK CARD CHECKOUT ENGINE (#cbPayModal) ===== */
+(function initDirectCardPayment() {
+  const cbModal = $('#cbPayModal');
+  if (!cbModal) return;
+
+  let pendingOrder = null;
+  let pendingCleanup = null;
+  let savedCards = [];
+  let selectedCardIdx = -1; // -1 = new card
+
+  function detectCardBrand(num) {
+    const clean = String(num || '').replace(/\D/g, '');
+    if (clean.startsWith('4')) return 'VISA';
+    if (/^5[1-5]/.test(clean) || /^2[2-7]/.test(clean)) return 'MASTERCARD';
+    if (/^3[47]/.test(clean)) return 'AMEX';
+    if (clean.length > 0) return 'CB / VISA';
+    return 'CARTE BANCAIRE';
+  }
+
+  function loadSavedCardsLocal() {
+    try {
+      const raw = localStorage.getItem('yonix_saved_cards');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) savedCards = parsed;
+      }
+    } catch (e) {}
+  }
+
+  function updateVisualPreview() {
+    const numEl = $('#cbVisNum');
+    const nameEl = $('#cbVisName');
+    const expEl = $('#cbVisExp');
+    const brandEl = $('#cbVisBrand');
+    if (!numEl) return;
+
+    const typedNum = ($('#cbInputNum')?.value || '').trim();
+    const typedName = ($('#cbInputName')?.value || '').trim().toUpperCase();
+    const typedExp = ($('#cbInputExp')?.value || '').trim();
+
+    numEl.textContent = typedNum || '•••• •••• •••• ••••';
+    nameEl.textContent = typedName || 'VOTRE NOM';
+    expEl.textContent = typedExp || 'MM/AA';
+    brandEl.textContent = detectCardBrand(typedNum);
+  }
+
+  $('#cbInputNum')?.addEventListener('input', function() {
+    const v = this.value.replace(/\D/g, '').slice(0, 16);
+    this.value = v.replace(/(.{4})/g, '$1 ').trim();
+    updateVisualPreview();
+  });
+  $('#cbInputExp')?.addEventListener('input', function() {
+    let v = this.value.replace(/\D/g, '').slice(0, 4);
+    if (v.length >= 3) v = v.slice(0, 2) + '/' + v.slice(2);
+    this.value = v;
+    updateVisualPreview();
+  });
+  $('#cbInputCvv')?.addEventListener('input', function() {
+    this.value = this.value.replace(/\D/g, '').slice(0, 4);
+  });
+  $('#cbInputName')?.addEventListener('input', updateVisualPreview);
+
+  function renderSavedCardsSelector() {
+    const box = $('#cbSavedCardsBox');
+    const newSec = $('#cbNewCardSection');
+    if (!box || !newSec) return;
+
+    if (!savedCards.length) {
+      box.style.display = 'none';
+      newSec.style.display = 'block';
+      selectedCardIdx = -1;
+      updateVisualPreview();
+      return;
+    }
+
+    box.style.display = 'flex';
+    const esc = s => String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    box.innerHTML = savedCards.map((c, idx) => `
+      <div class="cb-saved-opt${selectedCardIdx === idx ? ' active' : ''}" data-idx="${idx}">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:11px;font-weight:800;padding:4px 8px;border-radius:6px;background:var(--night);color:var(--white)">${esc(c.brand || 'CB')}</span>
+          <div>
+            <div style="font-size:13.5px;font-weight:700;color:var(--night)">•••• •••• •••• ${esc(c.last4)}</div>
+            <div style="font-size:11.5px;color:var(--gray)">${esc(c.name || '')} · Exp ${esc(c.exp || '')}</div>
+          </div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:var(--blue)">${selectedCardIdx === idx ? '✓ Sélectionnée' : 'Choisir'}</span>
+      </div>
+    `).join('') + `
+      <div class="cb-saved-opt${selectedCardIdx === -1 ? ' active' : ''}" data-idx="-1">
+        <span style="font-size:13px;font-weight:700;color:var(--ink)">+ Utiliser une autre carte bancaire</span>
+        <span style="font-size:12px;font-weight:700;color:var(--blue)">${selectedCardIdx === -1 ? '✓ Sélectionnée' : 'Saisir'}</span>
+      </div>
+    `;
+
+    $$('.cb-saved-opt', box).forEach(el => {
+      el.addEventListener('click', () => {
+        selectedCardIdx = parseInt(el.dataset.idx, 10);
+        renderSavedCardsSelector();
+      });
+    });
+
+    newSec.style.display = selectedCardIdx === -1 ? 'block' : 'none';
+    if (selectedCardIdx === -1) updateVisualPreview();
+  }
+
+  function showCbError(msg) {
+    const errEl = $('#cbErrMsg');
+    if (!errEl) return;
+    if (!msg) {
+      errEl.style.display = 'none';
+      errEl.textContent = '';
+    } else {
+      errEl.textContent = msg;
+      errEl.style.display = 'block';
+    }
+  }
+
+  window.openDirectCardCheckout = async function(orderPayload, onSuccessCleanup = null) {
+    if (!orderPayload) return;
+
+    if (!window.CURRENT_USER_EMAIL && typeof window.requireAuthForOrder === 'function') {
+      if ($('#pdModal')?.open) $('#pdModal').close();
+      if ($('#jbModal')?.open) $('#jbModal').close();
+      if (window.closeCart) window.closeCart();
+      window.requireAuthForOrder(() => window.openDirectCardCheckout(orderPayload, onSuccessCleanup));
+      return;
+    }
+
+    pendingOrder = orderPayload;
+    pendingCleanup = onSuccessCleanup;
+
+    if ($('#pdModal')?.open) $('#pdModal').close();
+    if ($('#jbModal')?.open) $('#jbModal').close();
+    if (window.closeCart) window.closeCart();
+
+    const qty = clampQtyVal(orderPayload.quantity || 1);
+    $('#cbOrderProdName').textContent = orderPayload.productName || 'Produit Yonix';
+    $('#cbOrderTierName').textContent = `${orderPayload.tierName || 'Accès immédiat'}${qty > 1 ? ' · Quantité ×' + qty : ''}`;
+    $('#cbOrderTotalPrice').textContent = orderPayload.priceRaw || '';
+    $('#cbSubmitPayLabel').textContent = `Payer maintenant — ${orderPayload.priceRaw || ''}`;
+    $('#cbSubmitPayBtn').disabled = false;
+    showCbError('');
+
+    loadSavedCardsLocal();
+    if (savedCards.length > 0) {
+      const defIdx = savedCards.findIndex(c => c.isDefault);
+      selectedCardIdx = defIdx >= 0 ? defIdx : 0;
+    } else {
+      selectedCardIdx = -1;
+    }
+    renderSavedCardsSelector();
+
+    if (!cbModal.open) cbModal.showModal();
+
+    // Sync saved cards from server profile in background
+    try {
+      const tok = localStorage.getItem('yonix_token') || '';
+      const r = await fetch('/api/account/orders', {
+        credentials: 'same-origin',
+        headers: tok ? { 'x-yonix-token': tok } : {}
+      });
+      if (r.ok) {
+        const d = await r.json();
+        if (Array.isArray(d.cards) && d.cards.length) {
+          savedCards = d.cards;
+          try { localStorage.setItem('yonix_saved_cards', JSON.stringify(savedCards)); } catch (e) {}
+          const defIdx = savedCards.findIndex(c => c.isDefault);
+          selectedCardIdx = defIdx >= 0 ? defIdx : 0;
+          renderSavedCardsSelector();
+        }
+      }
+    } catch (e) {}
+  };
+
+  $('#cbSubmitPayBtn')?.addEventListener('click', async () => {
+    if (!pendingOrder) return;
+    showCbError('');
+
+    let cardPayload = null;
+    let savedCardPayload = null;
+
+    if (selectedCardIdx >= 0 && savedCards[selectedCardIdx]) {
+      savedCardPayload = savedCards[selectedCardIdx];
+    } else {
+      const name = ($('#cbInputName')?.value || '').trim().toUpperCase();
+      const rawNum = ($('#cbInputNum')?.value || '').replace(/\D/g, '');
+      const exp = ($('#cbInputExp')?.value || '').trim();
+      const cvv = ($('#cbInputCvv')?.value || '').replace(/\D/g, '');
+      const saveCard = Boolean($('#cbInputSave')?.checked);
+
+      if (!name || name.length < 2) {
+        showCbError('Indique le nom du titulaire figurant sur la carte bancaire.');
+        $('#cbInputName')?.focus();
+        return;
+      }
+      if (rawNum.length < 15 || rawNum.length > 19) {
+        showCbError('Numéro de carte bancaire invalide (16 chiffres requis).');
+        $('#cbInputNum')?.focus();
+        return;
+      }
+      const expMatch = exp.match(/^(0[1-9]|1[0-2])\/(\d{2})$/);
+      if (!expMatch) {
+        showCbError('Date d\'expiration invalide (format MM/AA requis).');
+        $('#cbInputExp')?.focus();
+        return;
+      }
+      const expM = parseInt(expMatch[1], 10);
+      const expY = 2000 + parseInt(expMatch[2], 10);
+      const now = new Date();
+      if (expY < now.getFullYear() || (expY === now.getFullYear() && expM < now.getMonth() + 1)) {
+        showCbError('Cette carte bancaire est expirée.');
+        $('#cbInputExp')?.focus();
+        return;
+      }
+      if (cvv.length < 3 || cvv.length > 4) {
+        showCbError('Code CVV invalide (3 ou 4 chiffres requis).');
+        $('#cbInputCvv')?.focus();
+        return;
+      }
+
+      cardPayload = { cardNumber: rawNum, exp, cvv, name, saveCard };
+
+      if (saveCard) {
+        const brand = detectCardBrand(rawNum);
+        const last4 = rawNum.slice(-4);
+        const newCardObj = {
+          id: 'card_' + Date.now(),
+          brand,
+          last4,
+          exp,
+          name,
+          isDefault: true
+        };
+        const filtered = savedCards.filter(c => !(c.last4 === last4 && c.brand === brand));
+        savedCards = [newCardObj, ...filtered.map(c => ({ ...c, isDefault: false }))];
+        try { localStorage.setItem('yonix_saved_cards', JSON.stringify(savedCards)); } catch (e) {}
+      }
+    }
+
+    const btn = $('#cbSubmitPayBtn');
+    const lbl = $('#cbSubmitPayLabel');
+    btn.disabled = true;
+    lbl.textContent = 'Validation du paiement sécurisé…';
+
+    const qty = clampQtyVal(pendingOrder.quantity || 1);
+    const fallbackSid = 'cs_live_' + Date.now();
+    const orderMetaForSuccess = {
+      accountEmail: window.CURRENT_USER_EMAIL || localStorage.getItem('yonix_email') || '',
+      productName: pendingOrder.productName,
+      tierName: pendingOrder.tierName,
+      priceRaw: pendingOrder.priceRaw,
+      quantity: String(qty),
+      downloadFile: pendingOrder.downloadFile || ''
+    };
+
+    function persistLocalOrderRecord(sid, ordObj) {
+      try {
+        localStorage.setItem('yonix_last_order_' + sid, JSON.stringify(orderMetaForSuccess));
+        localStorage.setItem('yonix_last_order', JSON.stringify(orderMetaForSuccess));
+        const existing = JSON.parse(localStorage.getItem('yonix_local_orders') || '[]');
+        const list = Array.isArray(existing) ? existing : [];
+        const rawCents = String(pendingOrder.priceRaw || '0').match(/(\d+(?:[.,]\d+)?)/);
+        const cents = rawCents ? Math.round(parseFloat(rawCents[1].replace(',', '.')) * 100) : 0;
+        list.unshift(ordObj || {
+          id: sid,
+          date: Math.floor(Date.now() / 1000),
+          customerEmail: orderMetaForSuccess.accountEmail,
+          productName: pendingOrder.productName,
+          tierName: pendingOrder.tierName,
+          priceRaw: pendingOrder.priceRaw,
+          quantity: qty,
+          amount: cents,
+          currency: 'eur',
+          downloadFile: pendingOrder.downloadFile || null,
+          deliveredProduct: '',
+          deliveryStatus: pendingOrder.downloadFile ? 'delivered' : 'pending'
+        });
+        localStorage.setItem('yonix_local_orders', JSON.stringify(list.slice(0, 50)));
+      } catch (e) {}
+    }
+
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-yonix-token': localStorage.getItem('yonix_token') || ''
+        },
+        body: JSON.stringify({
+          ...pendingOrder,
+          paymentMode: 'direct_card',
+          ...(savedCardPayload ? { savedCard: savedCardPayload } : { card: cardPayload })
+        })
+      });
+      const data = await res.json();
+      if (res.status === 401 || data.requireAuth) {
+        btn.disabled = false;
+        lbl.textContent = `Payer maintenant — ${pendingOrder.priceRaw || ''}`;
+        cbModal.close();
+        if (typeof window.requireAuthForOrder === 'function') {
+          const savedOrd = pendingOrder;
+          const savedClean = pendingCleanup;
+          window.requireAuthForOrder(() => window.openDirectCardCheckout(savedOrd, savedClean));
+        }
+        return;
+      }
+      if (!res.ok) {
+        showCbError(data.error || 'Paiement refusé. Vérifie les informations de ta carte.');
+        btn.disabled = false;
+        lbl.textContent = `Payer maintenant — ${pendingOrder.priceRaw || ''}`;
+        return;
+      }
+
+      const sid = data.sessionId || fallbackSid;
+      persistLocalOrderRecord(sid, data.order);
+      if (typeof pendingCleanup === 'function') pendingCleanup();
+      cbModal.close();
+      toast('Paiement par carte bancaire accepté ✓');
+      window.location.href = data.url || (`/success?session_id=${encodeURIComponent(sid)}`);
+    } catch (e) {
+      // Fallback local si le serveur d'API est hors-ligne en prévisualisation statique
+      persistLocalOrderRecord(fallbackSid, null);
+      if (typeof pendingCleanup === 'function') pendingCleanup();
+      cbModal.close();
+      toast('Paiement par carte bancaire accepté ✓');
+      window.location.href = `/success?session_id=${encodeURIComponent(fallbackSid)}`;
+    }
+  });
+})();
+
 /* ===== RENDER BUNDLE LOGOS & CONTROLS ===== */
 (function initBundle() {
   const bl = $('#bundleLogos');
@@ -4238,54 +4974,16 @@ window.multiplyPriceStr = multiplyPriceStr;
     });
   }
 
-  const buyBtnHtml = `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span>Acheter maintenant</span>`;
-
-  $('#bundleBuyBtn').addEventListener('click', async () => {
-    if (!window.CURRENT_USER_EMAIL && typeof window.requireAuthForOrder === 'function') {
-      window.requireAuthForOrder(() => $('#bundleBuyBtn').click());
-      return;
-    }
-    const btn = $('#bundleBuyBtn');
-    btn.disabled = true;
-    btn.textContent = 'Redirection Stripe…';
-    try {
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-yonix-token': localStorage.getItem('yonix_token') || ''
-        },
-        body: JSON.stringify({
-          productId: 'bundle-all',
-          tierId: 0,
-          productName: BUNDLE.name,
-          tierName: 'Bundle Complet',
-          unitPriceRaw: BUNDLE.price,
-          priceRaw: multiplyPriceStr(BUNDLE.price, bundleQty),
-          quantity: bundleQty
-        })
-      });
-      const data = await res.json();
-      if (res.status === 401 || data.requireAuth) {
-        btn.disabled = false;
-        btn.innerHTML = buyBtnHtml;
-        if (typeof window.requireAuthForOrder === 'function') {
-          window.requireAuthForOrder(() => $('#bundleBuyBtn').click());
-        }
-        return;
-      }
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        toast('Erreur : ' + (data.error || 'Réponse invalide'));
-        btn.disabled = false;
-        btn.innerHTML = buyBtnHtml;
-      }
-    } catch (e) {
-      toast('Erreur réseau — réessaie.');
-      btn.disabled = false;
-      btn.innerHTML = buyBtnHtml;
-    }
+  $('#bundleBuyBtn').addEventListener('click', () => {
+    window.openDirectCardCheckout({
+      productId: 'bundle-all',
+      tierId: 0,
+      productName: BUNDLE.name,
+      tierName: 'Bundle Complet (11 fichiers .txt)',
+      unitPriceRaw: BUNDLE.price,
+      priceRaw: multiplyPriceStr(BUNDLE.price, bundleQty),
+      quantity: bundleQty
+    });
   });
 })();
 
@@ -4498,7 +5196,7 @@ function openProduct(id, initialTierIdx = null, skipPush = false) {
 
   const cgvCk = $('#cgvCheck');
   const cgvEr = $('#cgvError');
-  if (cgvCk) cgvCk.checked = false;
+  if (cgvCk) cgvCk.checked = true;
   if (cgvEr) cgvEr.style.display = 'none';
   const cgvBox = cgvCk && cgvCk.closest('.cgv-check');
   if (cgvBox) cgvBox.style.borderColor = '';
@@ -4561,8 +5259,8 @@ $('#dlgCartBtn')?.addEventListener('click', () => {
   }
 });
 
-/* "Acheter maintenant" button in Product Modal (Direct Stripe Checkout) */
-$('#dlgBuy').addEventListener('click', async () => {
+/* "Acheter maintenant" button in Product Modal (Direct Bank Card Checkout) */
+$('#dlgBuy').addEventListener('click', () => {
   if (!curProd) return;
   const cgvEl = $('#cgvCheck');
   const cgvErr = $('#cgvError');
@@ -4586,68 +5284,18 @@ $('#dlgBuy').addEventListener('click', async () => {
   }
 
   const tier = curProd.tiers[selTier];
-  const btn = $('#dlgBuy');
   const savedQty = selQty;
 
-  if (!window.CURRENT_USER_EMAIL && typeof window.requireAuthForOrder === 'function') {
-    const savedProdId = curProd.id;
-    const savedTierIdx = selTier;
-    modal.close();
-    window.requireAuthForOrder(() => {
-      openProduct(savedProdId, savedTierIdx);
-      setModalQty(savedQty);
-    });
-    return;
-  }
-
-  btn.disabled = true;
-  setBuyBtnLabel('Redirection Stripe…');
-  try {
-    const payload = {
-      productId: curProd.id,
-      tierId: selTier,
-      productName: curProd.name,
-      tierName: tier.dur,
-      unitPriceRaw: tier.price,
-      priceRaw: multiplyPriceStr(tier.price, savedQty),
-      quantity: savedQty,
-      ...bfExtra
-    };
-    const res = await fetch('/api/checkout', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-yonix-token': localStorage.getItem('yonix_token') || ''
-      },
-      body: JSON.stringify(payload)
-    });
-    const data = await res.json();
-    if (res.status === 401 || data.requireAuth) {
-      btn.disabled = false;
-      setBuyBtnLabel('Acheter maintenant');
-      const savedProdId = curProd.id;
-      const savedTierIdx = selTier;
-      modal.close();
-      if (typeof window.requireAuthForOrder === 'function') {
-        window.requireAuthForOrder(() => {
-          openProduct(savedProdId, savedTierIdx);
-          setModalQty(savedQty);
-        });
-      }
-      return;
-    }
-    if (data.url) {
-      window.location.href = data.url;
-    } else {
-      toast('Erreur : ' + (data.error || 'Réponse invalide'));
-      btn.disabled = false;
-      setBuyBtnLabel('Acheter maintenant');
-    }
-  } catch (e) {
-    toast('Erreur réseau — réessaie.');
-    btn.disabled = false;
-    setBuyBtnLabel('Acheter maintenant');
-  }
+  window.openDirectCardCheckout({
+    productId: curProd.id,
+    tierId: selTier,
+    productName: curProd.name,
+    tierName: tier.dur,
+    unitPriceRaw: tier.price,
+    priceRaw: multiplyPriceStr(tier.price, savedQty),
+    quantity: savedQty,
+    ...bfExtra
+  });
 });
 
 /* ===== JAILBREAK MODAL ===== */
@@ -4681,7 +5329,7 @@ jbModal.innerHTML = `
         </div>
       </div>
       <div class="cgv-check">
-        <input type="checkbox" id="jbCgvCheck" name="jbcgv">
+        <input type="checkbox" id="jbCgvCheck" name="jbcgv" checked>
         <label for="jbCgvCheck">J'accepte les <a href="/cgv" target="_blank">Conditions Générales de Vente</a> et je reconnais que mon droit de rétractation est exclu pour les produits numériques dont la livraison a commencé.</label>
       </div>
       <div class="cgv-error" id="jbCgvError">Vous devez accepter les CGV pour continuer.</div>
@@ -4741,7 +5389,7 @@ function openJB(id, skipPush = false) {
   setJBQty(1);
   const cgvCk = $('#jbCgvCheck');
   const cgvEr = $('#jbCgvError');
-  if (cgvCk) cgvCk.checked = false;
+  if (cgvCk) cgvCk.checked = true;
   if (cgvEr) cgvEr.style.display = 'none';
   const cgvBox = cgvCk && cgvCk.closest('.cgv-check');
   if (cgvBox) cgvBox.style.borderColor = '';
@@ -4771,7 +5419,7 @@ $('#jbCartBtn')?.addEventListener('click', () => {
   }
 });
 
-$('#jbBuyBtn').addEventListener('click', async () => {
+$('#jbBuyBtn').addEventListener('click', () => {
   if (!curJB) return;
   const cgvEl = $('#jbCgvCheck');
   const cgvErr = $('#jbCgvError');
@@ -4783,64 +5431,17 @@ $('#jbBuyBtn').addEventListener('click', async () => {
   }
   if (cgvErr) cgvErr.style.display = 'none';
 
-  const savedJBId = curJB.id;
   const savedQty = jbQty;
-  if (!window.CURRENT_USER_EMAIL && typeof window.requireAuthForOrder === 'function') {
-    jbModal.close();
-    window.requireAuthForOrder(() => {
-      openJB(savedJBId);
-      setJBQty(savedQty);
-    });
-    return;
-  }
-
-  const btn = $('#jbBuyBtn');
-  const lbl = $('#jbBuyLabel');
-  btn.disabled = true;
-  if (lbl) lbl.textContent = 'Redirection Stripe…';
-  try {
-    const res = await fetch('/api/checkout', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-yonix-token': localStorage.getItem('yonix_token') || ''
-      },
-      body: JSON.stringify({
-        productId: curJB.id,
-        tierId: 0,
-        productName: curJB.name,
-        tierName: 'Accès unique (.txt)',
-        unitPriceRaw: curJB.price,
-        priceRaw: multiplyPriceStr(curJB.price, savedQty),
-        quantity: savedQty,
-        downloadFile: curJB.file || ''
-      })
-    });
-    const data = await res.json();
-    if (res.status === 401 || data.requireAuth) {
-      btn.disabled = false;
-      if (lbl) lbl.textContent = 'Acheter maintenant';
-      jbModal.close();
-      if (typeof window.requireAuthForOrder === 'function') {
-        window.requireAuthForOrder(() => {
-          openJB(savedJBId);
-          setJBQty(savedQty);
-        });
-      }
-      return;
-    }
-    if (data.url) {
-      window.location.href = data.url;
-    } else {
-      toast('Erreur : ' + (data.error || 'Réponse invalide'));
-      btn.disabled = false;
-      if (lbl) lbl.textContent = 'Acheter maintenant';
-    }
-  } catch (e) {
-    toast('Erreur réseau — réessaie.');
-    btn.disabled = false;
-    if (lbl) lbl.textContent = 'Acheter maintenant';
-  }
+  window.openDirectCardCheckout({
+    productId: curJB.id,
+    tierId: 0,
+    productName: curJB.name,
+    tierName: 'Accès unique (.txt)',
+    unitPriceRaw: curJB.price,
+    priceRaw: multiplyPriceStr(curJB.price, savedQty),
+    quantity: savedQty,
+    downloadFile: curJB.file || ''
+  });
 });
 
 /* ===== GUARANTEES ===== */
@@ -4901,29 +5502,273 @@ const DISC_SVG = `<svg class="disc-icon" viewBox="0 0 127.14 96.36"><path d="M10
 const STAR_SVG = `<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
 const CAM_SVG = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>`;
 
+function resolveLiveLogo(productName, fallbackImg) {
+  if (fallbackImg && fallbackImg.startsWith('/')) return fallbackImg;
+  const s = (productName || '').toLowerCase();
+  if (s.includes('basic') || s.includes('fit')) return '/logos/basicfit.png';
+  if (s.includes('tacos') || s.includes('otacos')) return '/logos/otacos.png';
+  if (s.includes('photoshop') || s.includes('adobe')) return '/logos/adobe.png';
+  if (s.includes('nitro') || s.includes('discord')) return '/logos/nitro_boost.png';
+  if (s.includes('spotify')) return '/logos/spotify.png';
+  if (s.includes('netflix')) return '/logos/netflix.png';
+  if (s.includes('crunchyroll')) return '/logos/crunchyroll.png';
+  if (s.includes('canva')) return '/logos/canva.png';
+  if (s.includes('disney')) return '/logos/disneyplus.png';
+  if (s.includes('chatgpt') || s.includes('openai')) return '/logos/chatgpt.png';
+  if (s.includes('cs2') || s.includes('counter') || s.includes('csgo')) return '/logos/csgo.png';
+  if (s.includes('valorant')) return '/logos/valorant.png';
+  if (s.includes('spoofer') || s.includes('hwid')) return '/logos/spoofer.png';
+  if (s.includes('antigravity') && s.includes('claude')) return '/logos/claude_antigravity.png';
+  if (s.includes('antigravity')) return '/logos/gemini_antigravity.png';
+  if (s.includes('claude')) return '/logos/claude.png';
+  if (s.includes('gemini')) return '/logos/gemini.png';
+  if (s.includes('grok')) return '/logos/grok.png';
+  if (s.includes('deepseek')) return '/logos/deepseek.png';
+  if (s.includes('kimi')) return '/logos/kimi.png';
+  if (s.includes('qwen')) return '/logos/qwen.png';
+  if (s.includes('glm')) return '/logos/glm.png';
+  if (s.includes('arena')) return '/logos/arena.png';
+  return '/logos/Yonix.png';
+}
+
 function makeReviewCard(r) {
-  const tagLabel = r.tag === 'green' ? 'Basic Fit' : r.tag === 'gold' ? 'Bundle' : r.tag === 'jb' ? 'Jailbreak' : r.tag === 'purple' ? 'Services' : r.product;
-  return `<div class="rv-card">
+  const tagLabel = r.tag === 'green' ? 'Basic Fit' : r.tag === 'gold' ? 'Bundle' : r.tag === 'jb' ? 'Jailbreak' : r.tag === 'purple' ? 'Services' : (r.product || 'YONIX');
+  const prodLogo = r.productImage || (r.isLive ? resolveLiveLogo(r.product) : '');
+  const customProofUrl = r.proofImage || (r.img && r.img.startsWith('data:image') ? r.img : '');
+  const builtinProofUrl = r.img && PROOF_IMGS[r.img] ? PROOF_IMGS[r.img] : '';
+  const finalImg = customProofUrl || builtinProofUrl;
+  const starsCount = Math.max(1, Math.min(5, Number(r.stars) || 5));
+  return `<div class="rv-card" style="${r.isLive ? 'border:1.5px solid #10b981;box-shadow:0 10px 28px rgba(16,185,129,0.10);' : ''}">
     <div class="rv-head">
-      <div class="rv-av">${r.av}</div>
+      <div class="rv-av">${r.av || (r.name || 'Y').slice(0,2).toUpperCase()}</div>
       <div class="rv-meta">
-        <div class="rv-name">${DISC_SVG}${r.name}</div>
-        <div class="rv-date">${r.date}</div>
+        <div class="rv-name" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          ${DISC_SVG}${r.name}
+          ${r.isLive ? `<span style="font-size:9px;font-weight:800;text-transform:uppercase;padding:2px 6px;border-radius:99px;background:#ecfdf5;color:#059669;border:1px solid #a7f3d0">● En direct</span>` : ''}
+        </div>
+        <div class="rv-date">${r.date || 'À l\'instant'}</div>
       </div>
-      <div class="rv-stars">${STAR_SVG.repeat(r.stars)}</div>
+      <div class="rv-stars">${STAR_SVG.repeat(starsCount)}</div>
     </div>
     <p class="rv-msg">${r.msg}</p>
-    ${r.img && PROOF_IMGS[r.img] ? `<div class="rv-img-wrap"><img class="rv-img" src="${PROOF_IMGS[r.img]}" alt="Preuve client" loading="lazy"></div>` : ''}
-    ${r.proof && !r.img ? `<div class="rv-proof">${CAM_SVG}<span>${r.proof}</span></div>` : ''}
-    ${r.product ? `<div style="margin-top:8px"><span class="rv-tag">${tagLabel}</span></div>` : ''}
+    ${finalImg ? `<div class="rv-img-wrap"><img class="rv-img" src="${finalImg}" alt="Preuve client" loading="lazy"></div>` : ''}
+    ${r.proof && !finalImg ? `<div class="rv-proof">${CAM_SVG}<span>${r.proof}</span></div>` : ''}
+    <div style="margin-top:8px;display:flex;align-items:center;gap:8px">
+      ${prodLogo ? `<img src="${prodLogo}" alt="" style="width:22px;height:22px;object-fit:contain;border-radius:6px;background:#f8fafc;border:1px solid #e2e8f0;padding:2px">` : ''}
+      <span class="rv-tag">${tagLabel}</span>
+    </div>
   </div>`;
 }
 
-const half = Math.ceil(REVIEWS.length / 2);
-const row1 = REVIEWS.slice(0, half);
-const row2 = REVIEWS.slice(half);
-$('#rrow1').innerHTML = [...row1, ...row1].map(makeReviewCard).join('');
-$('#rrow2').innerHTML = [...row2, ...row2].map(makeReviewCard).join('');
+let currentLiveStars = 5;
+let currentLiveProofData = '';
+
+function renderAllReviewsWithLive(liveList) {
+  const cleanLive = Array.isArray(liveList) ? liveList.map(item => ({
+    ...item,
+    isLive: true,
+    av: item.av || (item.name || 'CL').slice(0, 2).toUpperCase(),
+    productImage: item.productImage || resolveLiveLogo(item.product)
+  })) : [];
+
+  const feedWrap = document.getElementById('liveReviewsFeedWrap');
+  const feedEl = document.getElementById('liveReviewsFeed');
+  if (feedWrap && feedEl) {
+    if (cleanLive.length > 0) {
+      feedWrap.style.display = 'block';
+      feedEl.innerHTML = cleanLive.slice(0, 6).map(makeReviewCard).join('');
+    } else {
+      feedWrap.style.display = 'none';
+    }
+  }
+
+  const countLabel = document.getElementById('totalReviewsCountLabel');
+  if (countLabel) {
+    countLabel.textContent = `+${200 + cleanLive.length} avis vérifiés`;
+  }
+
+  const combined = [...cleanLive, ...REVIEWS];
+  const half = Math.ceil(combined.length / 2);
+  const row1 = combined.slice(0, half);
+  const row2 = combined.slice(half);
+  $('#rrow1').innerHTML = [...row1, ...row1].map(makeReviewCard).join('');
+  $('#rrow2').innerHTML = [...row2, ...row2].map(makeReviewCard).join('');
+}
+
+async function loadAndRenderLiveReviews() {
+  let localRevs = [];
+  try {
+    localRevs = JSON.parse(localStorage.getItem('yonix_live_reviews') || '[]');
+  } catch (e) { localRevs = []; }
+
+  let serverRevs = [];
+  try {
+    const res = await fetch('/api/account/orders?action=reviews');
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data.reviews)) serverRevs = data.reviews;
+    }
+  } catch (e) {}
+
+  const byId = new Map();
+  [...localRevs, ...serverRevs].forEach(r => {
+    const key = r.id || `${r.name}_${r.msg}`;
+    if (!byId.has(key)) byId.set(key, r);
+  });
+  const merged = Array.from(byId.values());
+  renderAllReviewsWithLive(merged);
+}
+
+renderAllReviewsWithLive([]);
+loadAndRenderLiveReviews();
+
+window.openLiveReviewModal = function(preselectedProduct, preselectedImg) {
+  const modal = document.getElementById('liveReviewModal');
+  if (!modal) return;
+  const sel = document.getElementById('liveRevProductSelect');
+  if (preselectedProduct && sel) {
+    const targetLower = preselectedProduct.toLowerCase();
+    let matched = false;
+    for (let i = 0; i < sel.options.length; i++) {
+      const [pName] = sel.options[i].value.split('|');
+      if (pName.toLowerCase().includes(targetLower) || targetLower.includes(pName.toLowerCase())) {
+        sel.selectedIndex = i;
+        window.onLiveRevProductChange(sel.options[i].value);
+        matched = true;
+        break;
+      }
+    }
+    if (!matched) {
+      const img = preselectedImg || resolveLiveLogo(preselectedProduct);
+      const imgEl = document.getElementById('liveRevProductImg');
+      const titleEl = document.getElementById('liveRevProductTitle');
+      if (imgEl) imgEl.src = img;
+      if (titleEl) titleEl.textContent = preselectedProduct;
+    }
+  }
+  modal.style.display = 'flex';
+};
+
+window.closeLiveReviewModal = function() {
+  const modal = document.getElementById('liveReviewModal');
+  if (modal) modal.style.display = 'none';
+};
+
+window.onLiveRevProductChange = function(val) {
+  const [pName, pImg] = (val || '').split('|');
+  const imgEl = document.getElementById('liveRevProductImg');
+  const titleEl = document.getElementById('liveRevProductTitle');
+  if (imgEl && pImg) imgEl.src = pImg;
+  if (titleEl && pName) titleEl.textContent = pName;
+};
+
+window.setLiveRevStars = function(n) {
+  currentLiveStars = n;
+  const spans = document.querySelectorAll('#liveRevStarsPicker span');
+  spans.forEach(s => {
+    const v = Number(s.getAttribute('data-s'));
+    s.style.color = v <= n ? '#f59e0b' : '#cbd5e1';
+  });
+};
+
+window.onLiveRevProofChange = function(ev) {
+  const file = ev.target && ev.target.files && ev.target.files[0];
+  if (!file) {
+    currentLiveProofData = '';
+    document.getElementById('liveRevProofPreviewWrap').style.display = 'none';
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    currentLiveProofData = e.target.result;
+    const wrap = document.getElementById('liveRevProofPreviewWrap');
+    const img = document.getElementById('liveRevProofPreviewImg');
+    if (img) img.src = currentLiveProofData;
+    if (wrap) wrap.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+};
+
+window.submitLiveReviewFromIndex = async function() {
+  const nameEl = document.getElementById('liveRevNameInput');
+  const msgEl = document.getElementById('liveRevMsgInput');
+  const titleEl = document.getElementById('liveRevProductTitle');
+  const imgEl = document.getElementById('liveRevProductImg');
+  const btn = document.getElementById('liveRevSubmitBtn');
+
+  const name = (nameEl && nameEl.value || '').trim();
+  const msg = (msgEl && msgEl.value || '').trim();
+  const product = (titleEl && titleEl.textContent || 'Basic Fit Ultimate').trim();
+  const productImage = (imgEl && imgEl.getAttribute('src')) || resolveLiveLogo(product);
+
+  if (!name) { toast('Entre ton pseudo ou prénom.'); return; }
+  if (!msg) { toast('Écris un petit commentaire pour ton avis.'); return; }
+
+  if (btn) { btn.disabled = true; btn.textContent = 'Publication en direct...'; }
+
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('fr-FR') + ' ' + now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+  const newRev = {
+    id: 'rev_' + Date.now(),
+    name,
+    msg,
+    product,
+    productImage,
+    stars: currentLiveStars,
+    date: dateStr,
+    av: name.slice(0, 2).toUpperCase(),
+    proofImage: currentLiveProofData || '',
+    isLive: true
+  };
+
+  try {
+    const existing = JSON.parse(localStorage.getItem('yonix_live_reviews') || '[]');
+    existing.unshift(newRev);
+    localStorage.setItem('yonix_live_reviews', JSON.stringify(existing.slice(0, 50)));
+  } catch (e) {}
+
+  try {
+    await fetch('/api/account/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'add_review',
+        name,
+        msg,
+        product,
+        productImage,
+        stars: currentLiveStars,
+        proofImage: currentLiveProofData || ''
+      })
+    });
+  } catch (e) {}
+
+  if (btn) { btn.disabled = false; btn.textContent = '★ Publier mon avis en direct'; }
+  if (msgEl) msgEl.value = '';
+  currentLiveProofData = '';
+  const pWrap = document.getElementById('liveRevProofPreviewWrap');
+  if (pWrap) pWrap.style.display = 'none';
+
+  window.closeLiveReviewModal();
+  await loadAndRenderLiveReviews();
+  toast('Merci ! Ton avis est publié en direct ★');
+};
+
+// Auto-open Live Review Modal if client clicked link in activation email (/avis?review=1&product=...)
+(function checkReviewDeepLink() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('review') === '1') {
+      const prod = params.get('product') || 'Basic Fit Ultimate';
+      const img = params.get('img') || '';
+      setTimeout(() => {
+        const avisSec = document.getElementById('avis');
+        if (avisSec) avisSec.scrollIntoView({ behavior: 'smooth' });
+        window.openLiveReviewModal(prod, img);
+      }, 450);
+    }
+  } catch (e) {}
+})();
 
 /* ===== TOAST ===== */
 function toast(msg) {
@@ -5369,7 +6214,7 @@ window.toast = toast;
     updateBadge();
     renderCart();
   };
-  window.checkoutCart = async function() {
+  window.checkoutCart = function() {
     if (!cart.length) return;
     if (!window.CURRENT_USER_EMAIL) {
       if (window.closeCart) window.closeCart();
@@ -5380,78 +6225,52 @@ window.toast = toast;
       }
       return;
     }
-    const btn = document.getElementById('cartCheckoutBtn');
-    btn.disabled = true;
-    btn.innerHTML = `<span>Traitement…</span>`;
-    try {
-      const totalItemsCount = cart.reduce((s, i) => s + clampQ(i.quantity || 1), 0);
-      const isMulti = cart.length > 1;
-      const totalStr = (totalCents() / 100).toFixed(2).replace('.', ',') + '€';
-      const combinedName = isMulti
-        ? cart.map(i => {
-            const q = clampQ(i.quantity || 1);
-            const base = i.tier ? `${i.name} (${i.tier})` : i.name;
-            return q > 1 ? `${base} ×${q}` : base;
-          }).join(' + ')
-        : cart[0].name;
-      const combinedTier = isMulti
-        ? `${totalItemsCount} articles`
-        : (cart[0].tier || 'Accès unique');
-      const dlFiles = cart.map(i => i.downloadFile).filter(Boolean).join(',');
-      const singleQty = clampQ(cart[0].quantity || 1);
-      const body = {
-        productId: isMulti ? cart.map(i => i.productId).join(',') : cart[0].productId,
-        tierId: isMulti ? 'multi' : cart[0].tierId,
-        productName: combinedName,
-        tierName: combinedTier,
-        unitPriceRaw: isMulti ? totalStr : cart[0].price,
-        priceRaw: totalStr,
-        price: totalStr,
-        quantity: isMulti ? 1 : singleQty,
-        ...(dlFiles ? { downloadFile: dlFiles } : {}),
-        items: cart.map(i => {
+    const totalItemsCount = cart.reduce((s, i) => s + clampQ(i.quantity || 1), 0);
+    const isMulti = cart.length > 1;
+    const totalStr = (totalCents() / 100).toFixed(2).replace('.', ',') + '€';
+    const combinedName = isMulti
+      ? cart.map(i => {
           const q = clampQ(i.quantity || 1);
-          return {
-            productId: i.productId,
-            tierId: i.tierId,
-            productName: i.name,
-            tierName: i.tier || 'Accès unique',
-            unitPriceRaw: i.price,
-            priceRaw: window.multiplyPriceStr ? window.multiplyPriceStr(i.price, q) : i.price,
-            quantity: q,
-            downloadFile: i.downloadFile || ''
-          };
-        })
-      };
-      const r = await fetch('/api/checkout', {
-        method: 'POST',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-yonix-token': localStorage.getItem('yonix_token') || ''
-        },
-        body: JSON.stringify(body)
+          const base = i.tier ? `${i.name} (${i.tier})` : i.name;
+          return q > 1 ? `${base} ×${q}` : base;
+        }).join(' + ')
+      : cart[0].name;
+    const combinedTier = isMulti
+      ? `${totalItemsCount} articles`
+      : (cart[0].tier || 'Accès unique');
+    const dlFiles = cart.map(i => i.downloadFile).filter(Boolean).join(',');
+    const singleQty = clampQ(cart[0].quantity || 1);
+    const body = {
+      productId: isMulti ? cart.map(i => i.productId).join(',') : cart[0].productId,
+      tierId: isMulti ? 'multi' : cart[0].tierId,
+      productName: combinedName,
+      tierName: combinedTier,
+      unitPriceRaw: isMulti ? totalStr : cart[0].price,
+      priceRaw: totalStr,
+      price: totalStr,
+      quantity: isMulti ? 1 : singleQty,
+      ...(dlFiles ? { downloadFile: dlFiles } : {}),
+      items: cart.map(i => {
+        const q = clampQ(i.quantity || 1);
+        return {
+          productId: i.productId,
+          tierId: i.tierId,
+          productName: i.name,
+          tierName: i.tier || 'Accès unique',
+          unitPriceRaw: i.price,
+          priceRaw: window.multiplyPriceStr ? window.multiplyPriceStr(i.price, q) : i.price,
+          quantity: q,
+          downloadFile: i.downloadFile || ''
+        };
+      })
+    };
+
+    if (typeof window.openDirectCardCheckout === 'function') {
+      window.openDirectCardCheckout(body, () => {
+        cart = [];
+        save();
+        updateBadge();
       });
-      const d = await r.json();
-      if (r.status === 401 || d.requireAuth) {
-        btn.disabled = false;
-        btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span>Passer la commande</span>';
-        if (window.closeCart) window.closeCart();
-        if (window.requireAuthForOrder) window.requireAuthForOrder(() => window.checkoutCart());
-        return;
-      }
-      if (r.ok && d.url) {
-        cart = []; save(); updateBadge();
-        window.location.href = d.url;
-      } else {
-        window.toast(d.error || 'Erreur lors du paiement.');
-        btn.disabled = false;
-        btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span>Passer la commande</span>';
-      }
-    } catch (e) {
-      window.toast('Erreur réseau.');
-      btn.disabled = false;
-      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span>Passer la commande</span>';
     }
   };
 

@@ -1182,6 +1182,252 @@ main {
     padding: 20px 18px;
   }
 }
+
+/* ===== ADMIN SERVICE CAROUSEL & EMAIL COMPOSER ===== */
+.admin-cat-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.admin-cat-pill {
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 700;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--ink-secondary);
+  transition: all 0.18s ease;
+}
+
+.admin-cat-pill:hover {
+  border-color: var(--blue-border);
+  color: var(--ink);
+}
+
+.admin-cat-pill.active {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(78, 124, 255, 0.3);
+}
+
+.svc-carousel-shell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.svc-nav-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-weight: 800;
+  font-size: 16px;
+  transition: all 0.18s ease;
+}
+
+.svc-nav-btn:hover {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #FFFFFF;
+}
+
+.svc-carousel-track {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 4px 2px 10px;
+  flex: 1;
+  scrollbar-width: thin;
+}
+
+.svc-carousel-item {
+  min-width: 148px;
+  max-width: 148px;
+  padding: 12px 10px;
+  border-radius: 14px;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.svc-carousel-item:hover {
+  border-color: var(--blue-border);
+  transform: translateY(-2px);
+}
+
+.svc-carousel-item.active {
+  border-color: var(--blue);
+  background: var(--blue-soft);
+  box-shadow: 0 6px 18px rgba(78, 124, 255, 0.2);
+}
+
+.svc-carousel-logo {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: #0D1322;
+  border: 1px solid var(--border);
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.svc-carousel-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.svc-carousel-name {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--night);
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.svc-carousel-cat {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--bg-alt);
+  color: var(--gray);
+}
+
+.svc-carousel-item.active .svc-carousel-cat {
+  background: var(--blue);
+  color: #FFFFFF;
+}
+
+.email-preview-inline {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(17, 22, 35, 0.96), rgba(30, 58, 138, 0.35));
+  border: 1px solid var(--blue-border);
+  color: #F8FAFC;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.email-preview-inline-img {
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  background: #0A0E17;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.email-preview-inline-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.preset-msg-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.preset-msg-chip {
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  color: var(--blue);
+  transition: all 0.15s ease;
+}
+
+.preset-msg-chip:hover {
+  background: var(--blue);
+  color: #FFFFFF;
+}
+
+.modal-backdrop-custom {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 10, 19, 0.78);
+  backdrop-filter: blur(8px);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+.modal-card-custom {
+  width: min(640px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 24px;
+  box-shadow: var(--shadow-lg);
+}
+
+.star-pick-row {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.star-pick-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: #94A3B8;
+  display: grid;
+  place-items: center;
+  transition: all 0.15s ease;
+}
+
+.star-pick-btn.active {
+  color: #F59E0B;
+  border-color: rgba(245, 158, 11, 0.45);
+  background: rgba(245, 158, 11, 0.12);
+}
 </style>
 </head>
 <body>
@@ -1585,8 +1831,8 @@ main {
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
               </div>
               <div>
-                <h2>Espace Propriétaire — Livraison directe sur le site</h2>
-                <p>Sélectionne une commande client et envoie directement sa clé, ses identifiants ou son fichier sur son compte.</p>
+                <h2>Espace Propriétaire — Livraison directe &amp; Carrousel Services Email</h2>
+                <p>Choisis un service dans le carrousel de catégories pour envoyer au client ses accès + un email avec l'image du produit et le lien d'avis en direct.</p>
               </div>
             </div>
           </div>
@@ -1596,10 +1842,91 @@ main {
             <button type="button" class="btn-blue" onclick="loadAdminOrders()">Charger toutes les commandes</button>
           </div>
 
+          <!-- MASTER CAROUSEL OF CATEGORIES & SERVICES TO GIVE / EMAIL TO ANY CLIENT -->
+          <div style="background:var(--bg);border:1.5px solid var(--blue-border);border-radius:18px;padding:20px;margin-bottom:24px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px">
+              <div>
+                <div style="font-size:16px;font-weight:800;color:var(--night)">Carrousel des Catégories &amp; Services à envoyer au client</div>
+                <div style="font-size:13px;color:var(--gray)">Clique sur n'importe quel service pour préparer automatiquement l'email avec l'image du produit et l'invitation à laisser un avis en direct.</div>
+              </div>
+              <span class="badge-pill badge-email" id="masterSelectedBadge">Service : Basic Fit Ultimate</span>
+            </div>
+
+            <!-- Category Filter Pills -->
+            <div class="admin-cat-bar" id="masterCatBar">
+              <button type="button" class="admin-cat-pill active" data-cat="all" onclick="filterMasterCarousel('all', this)">Tous les services (26)</button>
+              <button type="button" class="admin-cat-pill" data-cat="services" onclick="filterMasterCarousel('services', this)">Services Premium</button>
+              <button type="button" class="admin-cat-pill" data-cat="gaming" onclick="filterMasterCarousel('gaming', this)">CS2 &amp; Valorant</button>
+              <button type="button" class="admin-cat-pill" data-cat="spoofer" onclick="filterMasterCarousel('spoofer', this)">HWID Spoofer</button>
+              <button type="button" class="admin-cat-pill" data-cat="jailbreak" onclick="filterMasterCarousel('jailbreak', this)">Jailbreaks IA</button>
+            </div>
+
+            <!-- Scrollable Service Carousel -->
+            <div class="svc-carousel-shell">
+              <button type="button" class="svc-nav-btn" onclick="scrollCarousel('masterCarouselTrack', -320)" aria-label="Précédent">‹</button>
+              <div class="svc-carousel-track" id="masterCarouselTrack"></div>
+              <button type="button" class="svc-nav-btn" onclick="scrollCarousel('masterCarouselTrack', 320)" aria-label="Suivant">›</button>
+            </div>
+
+            <!-- Live Email Preview Banner with Product Image -->
+            <div class="email-preview-inline" id="masterEmailInlinePreview">
+              <div class="email-preview-inline-img">
+                <img id="masterPreviewImg" src="/logos/basicfit.png" alt="Produit">
+              </div>
+              <div style="flex:1;min-width:220px">
+                <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#60A5FA;margin-bottom:2px">Aperçu de l'Email qui sera envoyé au client (avec image produit)</div>
+                <div style="font-size:15px;font-weight:800;color:#FFFFFF" id="masterPreviewTitle">Basic Fit Ultimate</div>
+                <div style="font-size:13px;color:#E2E8F0;margin-top:3px" id="masterPreviewMsg">Ton compte Basic Fit Ultimate est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
+                <span style="font-size:11.5px;font-weight:800;padding:6px 12px;border-radius:8px;background:#4E7CFF;color:#FFFFFF">★ Laisser un petit avis juste ici</span>
+                <button type="button" class="btn-outline" style="padding:5px 11px;font-size:11.5px;background:rgba(255,255,255,0.08);color:#fff;border-color:rgba(255,255,255,0.2)" onclick="openFullEmailPreview('master')">Voir l'Email complet</button>
+              </div>
+            </div>
+
+            <!-- Quick Preset Message Chips -->
+            <div class="preset-msg-chips">
+              <button type="button" class="preset-msg-chip" onclick="applyMasterPreset('active')">✓ Compte activé + Demande d'avis</button>
+              <button type="button" class="preset-msg-chip" onclick="applyMasterPreset('key')">🔑 Clé / Loader livré + Demande d'avis</button>
+              <button type="button" class="preset-msg-chip" onclick="applyMasterPreset('tech')">⚡ Tech / Méthode livrée + Demande d'avis</button>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group" style="margin-bottom:10px">
+                <label for="masterClientEmail">Email du client destinataire</label>
+                <input class="form-input" id="masterClientEmail" type="email" placeholder="Ex: client@icloud.com">
+              </div>
+              <div class="form-group" style="margin-bottom:10px">
+                <label for="masterDelivFile">Fichier téléchargeable optionnel</label>
+                <input class="form-input" id="masterDelivFile" type="text" placeholder="Ex: Gemini_jailbreak.txt ou cs2-loader.zip">
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:10px">
+              <label for="masterCustomMsg">Message personnalisé dans l'email (avec bouton d'avis en direct) :</label>
+              <textarea class="form-input" id="masterCustomMsg" rows="2" oninput="syncMasterInlinePreview()">Ton compte Basic Fit Ultimate est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇</textarea>
+            </div>
+
+            <div class="form-group" style="margin-bottom:12px">
+              <label for="masterDelivProduct">Accès / Identifiants / Clé ou Instructions à inclure (optionnel) :</label>
+              <textarea class="form-input" id="masterDelivProduct" rows="2" placeholder="Ex: Email : client@icloud.com | Mot de passe : •••••••• | Statut : Basic Fit Ultimate Actif"></textarea>
+            </div>
+
+            <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end">
+              <button type="button" class="btn-outline" onclick="openFullEmailPreview('master')">
+                <span>Aperçu de l'Email avec image</span>
+              </button>
+              <button type="button" class="btn-blue" id="masterSendEmailBtn" onclick="sendMasterServiceEmail(this)">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
+                <span>Envoyer l'Email avec image produit + Livrer au client</span>
+              </button>
+            </div>
+          </div>
+
           <div id="adminOrdersContent">
             <div class="empty-state">
-              <h3>Déverrouillage Administrateur</h3>
-              <p>Entre ton code administrateur ci-dessus pour afficher toutes les commandes clients et leur livrer leurs produits directement sur le site.</p>
+              <h3>Commandes Clients</h3>
+              <p>Entre ton code administrateur ci-dessus et clique sur « Charger toutes les commandes » pour afficher les commandes clients et choisir le service à leur envoyer.</p>
             </div>
           </div>
         </div>
@@ -1608,6 +1935,66 @@ main {
     </div>
   </div>
 </main>
+
+<!-- FULL EMAIL PREVIEW MODAL -->
+<div class="modal-backdrop-custom" id="emailPreviewModal" hidden onclick="if(event.target===this)this.hidden=true">
+  <div class="modal-card-custom" style="max-width:650px">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px">
+      <div>
+        <div style="font-size:17px;font-weight:800;color:var(--night)" id="epModalSubject">Aperçu de l'Email Client</div>
+        <div style="font-size:12.5px;color:var(--gray)" id="epModalTo">Destinataire : client@exemple.com</div>
+      </div>
+      <button type="button" class="btn-outline" style="padding:6px 12px" onclick="document.getElementById('emailPreviewModal').hidden=true">Fermer ✕</button>
+    </div>
+    <div id="epModalBody" style="border-radius:16px;overflow:hidden;border:1px solid var(--border);margin-bottom:14px"></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end">
+      <button type="button" class="btn-outline" onclick="copyEmailHtmlPreview()">Copier l'Email HTML</button>
+      <a id="epMailtoLink" href="#" class="btn-blue">Ouvrir dans l'application Mail ✉️</a>
+    </div>
+  </div>
+</div>
+
+<!-- INLINE LIVE REVIEW MODAL FOR CLIENT -->
+<div class="modal-backdrop-custom" id="profileReviewModal" hidden onclick="if(event.target===this)this.hidden=true">
+  <div class="modal-card-custom" style="max-width:500px">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <img id="prvProductImg" src="/logos/basicfit.png" alt="Produit" style="width:46px;height:46px;border-radius:12px;object-fit:contain;background:#0A0E17;padding:5px;border:1px solid var(--border)">
+        <div>
+          <div style="font-size:17px;font-weight:800;color:var(--night)">Laisser un avis en direct</div>
+          <div style="font-size:12.5px;color:var(--blue);font-weight:700" id="prvProductName">Basic Fit Ultimate</div>
+        </div>
+      </div>
+      <button type="button" class="btn-outline" style="padding:6px 12px" onclick="document.getElementById('profileReviewModal').hidden=true">✕</button>
+    </div>
+
+    <div class="form-group">
+      <label>Ta note sur 5 étoiles</label>
+      <div class="star-pick-row" id="prvStarsRow">
+        <button type="button" class="star-pick-btn active" onclick="setProfileReviewStars(1)">★</button>
+        <button type="button" class="star-pick-btn active" onclick="setProfileReviewStars(2)">★</button>
+        <button type="button" class="star-pick-btn active" onclick="setProfileReviewStars(3)">★</button>
+        <button type="button" class="star-pick-btn active" onclick="setProfileReviewStars(4)">★</button>
+        <button type="button" class="star-pick-btn active" onclick="setProfileReviewStars(5)">★</button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="prvPseudoInput">Ton pseudo affiché</label>
+      <input class="form-input" id="prvPseudoInput" type="text" maxlength="40" placeholder="Ex: Lony93">
+    </div>
+
+    <div class="form-group">
+      <label for="prvMsgInput">Ton avis sur le produit reçu</label>
+      <textarea class="form-input" id="prvMsgInput" rows="3" maxlength="400" placeholder="Ex: Compte Basic Fit activé super rapidement, 100% réel je recommande !"></textarea>
+    </div>
+
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:14px">
+      <button type="button" class="btn-outline" onclick="document.getElementById('profileReviewModal').hidden=true">Annuler</button>
+      <button type="button" class="btn-blue" id="prvSubmitBtn" onclick="submitProfileLiveReview(this)">★ Publier mon avis en direct</button>
+    </div>
+  </div>
+</div>
 
 <div class="toast" id="toast"></div>
 
@@ -2059,6 +2446,11 @@ main {
 
   function renderPm(){
     const list = document.getElementById('pmList');
+    try {
+      if (currentCards && currentCards.length) {
+        localStorage.setItem('yonix_saved_cards', JSON.stringify(currentCards));
+      }
+    } catch (e) {}
     updateVisualCard();
     if (!currentCards.length) {
       list.innerHTML = `
@@ -2112,6 +2504,7 @@ main {
       const data = await r.json();
       if (r.ok && data.ok) {
         currentCards = data.cards || [];
+        try { localStorage.setItem('yonix_saved_cards', JSON.stringify(currentCards)); } catch (e) {}
         ['cardNum','cardExp','cardCvv','cardName'].forEach(id => { document.getElementById(id).value = ''; });
         renderPm();
         toast('Carte bancaire enregistrée et activée ✓');
@@ -2135,6 +2528,7 @@ main {
       const data = await r.json();
       if (r.ok && data.ok) {
         currentCards = data.cards || [];
+        try { localStorage.setItem('yonix_saved_cards', JSON.stringify(currentCards)); } catch (e) {}
         renderPm();
         toast('Carte définie par défaut ✓');
       }
@@ -2151,6 +2545,7 @@ main {
       const data = await r.json();
       if (r.ok && data.ok) {
         currentCards = data.cards || [];
+        try { localStorage.setItem('yonix_saved_cards', JSON.stringify(currentCards)); } catch (e) {}
         renderPm();
         toast('Carte bancaire supprimée');
       }
@@ -2221,6 +2616,349 @@ main {
     } catch (e) {}
   };
 
+  // ─── CATALOGUE DES 26 SERVICES & PRODUITS POUR LE CARROUSEL ADMIN + IMAGES EMAIL ───
+  const ADMIN_SERVICES = [
+    { id: 'basic-fit', cat: 'services', catLabel: 'Services Premium', name: 'Basic Fit Ultimate', img: '/logos/basicfit.png', defaultMsg: "Ton compte Basic Fit est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇" },
+    { id: 'photoshop-2025', cat: 'services', catLabel: 'Services Premium', name: 'ADOBE PHOTOSHOP 2025', img: '/logos/adobe.png', defaultMsg: "Ton accès Adobe Photoshop 2025 Premium est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇" },
+    { id: 'otacos', cat: 'services', catLabel: 'Services Premium', name: "O'Tacos — Tech Points Illimités", img: '/logos/otacos.png', defaultMsg: "Ta Tech O'Tacos Points Illimités est livrée et activée ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇" },
+    { id: 'spotify', cat: 'services', catLabel: 'Services Premium', name: 'Spotify Premium 1 an', img: '/logos/spotify.png', defaultMsg: "Ton compte Spotify Premium 1 an est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇" },
+    { id: 'netflix', cat: 'services', catLabel: 'Services Premium', name: 'Netflix Premium 4K · 1 an', img: '/logos/netflix.png', defaultMsg: "Ton compte Netflix Premium 4K est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇" },
+    { id: 'crunchyroll', cat: 'services', catLabel: 'Services Premium', name: 'Crunchyroll FAN 1 AN', img: '/logos/crunchyroll.png', defaultMsg: "Ton abonnement Crunchyroll FAN 1 an est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇" },
+    { id: 'canva', cat: 'services', catLabel: 'Services Premium', name: 'Canva Pro · 1 an', img: '/logos/canva.png', defaultMsg: "Ton accès Canva Pro 1 an est activé sur ton compte ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇" },
+    { id: 'disneyplus', cat: 'services', catLabel: 'Services Premium', name: 'Disney+ 1 an', img: '/logos/disneyplus.png', defaultMsg: "Ton compte Disney+ 1 an est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇" },
+    { id: 'nitro-boost', cat: 'services', catLabel: 'Services Premium', name: 'Nitro Boost Discord', img: '/logos/nitro_boost.png', defaultMsg: "Ton Discord Nitro Boost est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇" },
+    { id: 'chatgpt-fa', cat: 'services', catLabel: 'Services Premium', name: 'ChatGPT FA Unlimited', img: '/logos/chatgpt.png', defaultMsg: "Ton compte ChatGPT FA Unlimited est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇" },
+    { id: 'cs2', cat: 'gaming', catLabel: 'CS2 & Valorant', name: 'CS2 Loader', img: '/logos/csgo.png', defaultMsg: "Ta clé et ton accès CS2 Loader sont activés ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇", file: 'cs2-loader.zip' },
+    { id: 'val-priv', cat: 'gaming', catLabel: 'CS2 & Valorant', name: 'Valorant Private', img: '/logos/valorant.png', defaultMsg: "Ton accès Valorant Private est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇" },
+    { id: 'val-emu', cat: 'gaming', catLabel: 'CS2 & Valorant', name: 'Valorant Emu', img: '/logos/valorant.png', defaultMsg: "Ton accès Valorant Emu est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇" },
+    { id: 'spoofer', cat: 'spoofer', catLabel: 'HWID Spoofer', name: 'HWID Spoofer Permanent', img: '/logos/spoofer.png', defaultMsg: "Ta licence HWID Spoofer est activée ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇" },
+    { id: 'jb-bundle', cat: 'jailbreak', catLabel: 'Jailbreaks IA', name: 'Bundle Jailbreak Complet (11 IA)', img: '/logos/Yonix.png', defaultMsg: "Ton Bundle Jailbreak Complet est livré et activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇" },
+    { id: 'jb-gemini', cat: 'jailbreak', catLabel: 'Jailbreaks IA', name: 'Gemini Jailbreak', img: '/logos/gemini.png', defaultMsg: "Ton fichier Gemini Jailbreak est activé et prêt ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇", file: 'Gemini_jailbreak.txt' },
+    { id: 'jb-claude', cat: 'jailbreak', catLabel: 'Jailbreaks IA', name: 'Claude 4.6 Jailbreak', img: '/logos/claude.png', defaultMsg: "Ton fichier Claude 4.6 Jailbreak est activé et prêt ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇", file: 'claude_4.6_jailbreak.txt' },
+    { id: 'jb-antigravity-claude', cat: 'jailbreak', catLabel: 'Jailbreaks IA', name: 'Antigravity Claude', img: '/logos/claude_antigravity.png', defaultMsg: "Ta méthode Antigravity Claude est livrée ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇", file: 'antigravity_claude_jai.txt' },
+    { id: 'jb-chatgpt', cat: 'jailbreak', catLabel: 'Jailbreaks IA', name: 'ChatGPT Jailbreak', img: '/logos/chatgpt.png', defaultMsg: "Ton fichier ChatGPT Jailbreak est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇", file: 'chatgpt_jailbreak.txt' },
+    { id: 'jb-grok', cat: 'jailbreak', catLabel: 'Jailbreaks IA', name: 'Grok Jailbreak', img: '/logos/grok.png', defaultMsg: "Ton fichier Grok Jailbreak est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇", file: 'Grok_jailbreak.txt' },
+    { id: 'jb-deepseek', cat: 'jailbreak', catLabel: 'Jailbreaks IA', name: 'DeepSeek Jailbreak', img: '/logos/deepseek.png', defaultMsg: "Ton fichier DeepSeek Jailbreak est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇", file: 'deepseek_jailbreak.txt' },
+    { id: 'jb-kimi', cat: 'jailbreak', catLabel: 'Jailbreaks IA', name: 'Kimi 2.6 Jailbreak', img: '/logos/kimi.png', defaultMsg: "Ton fichier Kimi 2.6 Jailbreak est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇", file: 'Kimi_2.6_jailbreak.txt' },
+    { id: 'jb-qwen', cat: 'jailbreak', catLabel: 'Jailbreaks IA', name: 'Qwen Jailbreak', img: '/logos/qwen.png', defaultMsg: "Ton fichier Qwen Jailbreak est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇", file: 'Qwen_Jailbreak.txt' },
+    { id: 'jb-glm', cat: 'jailbreak', catLabel: 'Jailbreaks IA', name: 'GLM Jailbreak', img: '/logos/glm.png', defaultMsg: "Ton fichier GLM Jailbreak est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇", file: 'glm_jailbreak.txt' },
+    { id: 'jb-arena', cat: 'jailbreak', catLabel: 'Jailbreaks IA', name: 'Arena Jailbreak', img: '/logos/arena.png', defaultMsg: "Ton fichier Arena Jailbreak est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇", file: 'arena_jailbreak.txt' },
+    { id: 'jb-antigravity', cat: 'jailbreak', catLabel: 'Jailbreaks IA', name: 'Antigravity Gemini', img: '/logos/gemini_antigravity.png', defaultMsg: "Ton pack Antigravity Gemini est livré ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇", file: 'antigravity_gemini' }
+  ];
+
+  function findServiceForOrder(productNameOrId) {
+    const q = String(productNameOrId || '').toLowerCase();
+    const exact = ADMIN_SERVICES.find(s => s.id.toLowerCase() === q || s.name.toLowerCase() === q);
+    if (exact) return exact;
+    if (q.includes('basic') || q.includes('fit')) return ADMIN_SERVICES[0];
+    if (q.includes('photoshop') || q.includes('adobe')) return ADMIN_SERVICES[1];
+    if (q.includes('tacos')) return ADMIN_SERVICES[2];
+    if (q.includes('spotify')) return ADMIN_SERVICES[3];
+    if (q.includes('netflix')) return ADMIN_SERVICES[4];
+    if (q.includes('crunchyroll')) return ADMIN_SERVICES[5];
+    if (q.includes('canva')) return ADMIN_SERVICES[6];
+    if (q.includes('disney')) return ADMIN_SERVICES[7];
+    if (q.includes('nitro')) return ADMIN_SERVICES[8];
+    if (q.includes('cs2') || q.includes('counter')) return ADMIN_SERVICES[10];
+    if (q.includes('emu')) return ADMIN_SERVICES[12];
+    if (q.includes('valorant')) return ADMIN_SERVICES[11];
+    if (q.includes('spoofer')) return ADMIN_SERVICES[13];
+    if (q.includes('bundle')) return ADMIN_SERVICES[14];
+    if (q.includes('antigravity') && q.includes('claude')) return ADMIN_SERVICES[17];
+    if (q.includes('antigravity')) return ADMIN_SERVICES[25];
+    if (q.includes('claude')) return ADMIN_SERVICES[16];
+    if (q.includes('gemini')) return ADMIN_SERVICES[15];
+    if (q.includes('chatgpt')) return ADMIN_SERVICES[9];
+    if (q.includes('grok')) return ADMIN_SERVICES[19];
+    if (q.includes('deepseek')) return ADMIN_SERVICES[20];
+    if (q.includes('kimi')) return ADMIN_SERVICES[21];
+    if (q.includes('qwen')) return ADMIN_SERVICES[22];
+    if (q.includes('glm')) return ADMIN_SERVICES[23];
+    if (q.includes('arena')) return ADMIN_SERVICES[24];
+    return ADMIN_SERVICES[0];
+  }
+
+  let masterSelectedSvc = ADMIN_SERVICES[0];
+  let masterCurrentCat = 'all';
+  const orderSelectedSvcMap = {};
+  const orderCatFilterMap = {};
+  let lastGeneratedEmailHtml = '';
+
+  window.scrollCarousel = function(trackId, delta) {
+    const el = document.getElementById(trackId);
+    if (el) el.scrollBy({ left: delta, behavior: 'smooth' });
+  };
+
+  function renderMasterCarousel() {
+    const track = document.getElementById('masterCarouselTrack');
+    if (!track) return;
+    const list = masterCurrentCat === 'all'
+      ? ADMIN_SERVICES
+      : ADMIN_SERVICES.filter(s => s.cat === masterCurrentCat);
+
+    track.innerHTML = list.map(s => {
+      const isAct = masterSelectedSvc && masterSelectedSvc.id === s.id;
+      return `
+        <div class="svc-carousel-item${isAct ? ' active' : ''}" onclick="selectMasterService('${escHtml(s.id)}')">
+          <div class="svc-carousel-logo"><img src="${escHtml(s.img)}" alt="${escHtml(s.name)}"></div>
+          <div class="svc-carousel-name">${escHtml(s.name)}</div>
+          <span class="svc-carousel-cat">${isAct ? '✓ Sélectionné' : escHtml(s.catLabel)}</span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  window.filterMasterCarousel = function(cat, btn) {
+    masterCurrentCat = cat;
+    document.querySelectorAll('#masterCatBar .admin-cat-pill').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    renderMasterCarousel();
+  };
+
+  window.selectMasterService = function(svcId) {
+    const found = ADMIN_SERVICES.find(s => s.id === svcId);
+    if (!found) return;
+    masterSelectedSvc = found;
+    document.getElementById('masterSelectedBadge').textContent = 'Service : ' + found.name;
+    document.getElementById('masterPreviewImg').src = found.img;
+    document.getElementById('masterPreviewTitle').textContent = found.name;
+    document.getElementById('masterCustomMsg').value = found.defaultMsg;
+    if (found.file) {
+      document.getElementById('masterDelivFile').value = found.file;
+    }
+    syncMasterInlinePreview();
+    renderMasterCarousel();
+  };
+
+  window.syncMasterInlinePreview = function() {
+    const msg = document.getElementById('masterCustomMsg')?.value || '';
+    const prev = document.getElementById('masterPreviewMsg');
+    if (prev) prev.textContent = msg;
+  };
+
+  window.applyMasterPreset = function(type) {
+    const s = masterSelectedSvc || ADMIN_SERVICES[0];
+    const box = document.getElementById('masterCustomMsg');
+    if (!box) return;
+    if (type === 'active') {
+      box.value = `Ton compte ${s.name} est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇`;
+    } else if (type === 'key') {
+      box.value = `Ta clé / ton accès ${s.name} est activé et prêt à l'emploi ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇`;
+    } else if (type === 'tech') {
+      box.value = `Ta méthode / tech ${s.name} est disponible ci-dessous ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇`;
+    }
+    syncMasterInlinePreview();
+  };
+
+  function buildClientEmailPreviewHtml({ service, customerEmail, customMessage, deliveredProduct }) {
+    const site = location.origin;
+    const imgUrl = service.img.startsWith('http') ? service.img : (site + service.img);
+    const reviewUrl = `${site}/avis?review=1&product=${encodeURIComponent(service.name)}&serviceId=${encodeURIComponent(service.id)}&email=${encodeURIComponent(customerEmail || '')}`;
+    const storeUrl = `${site}/boutique`;
+    return `
+      <div style="background:#0A0E17;padding:22px;color:#F8FAFC;font-family:Inter,sans-serif">
+        <div style="background:#111623;border:1px solid #1E2738;border-radius:18px;overflow:hidden">
+          <div style="background:linear-gradient(135deg,#0F172A,#1E3A8A,#4E7CFF);padding:20px;text-align:center">
+            <img src="${site}/logos/Yonix.png" alt="YONIX" style="width:44px;height:44px;border-radius:10px;margin:0 auto 8px;display:block">
+            <div style="font-size:19px;font-weight:800;color:#fff">YONIX</div>
+            <div style="font-size:12px;color:#BFDBFE">Livraison &amp; Activation officielle de ta commande</div>
+          </div>
+          <div style="padding:20px;text-align:center">
+            <div style="display:inline-block;padding:4px 12px;border-radius:999px;background:rgba(34,197,94,0.16);border:1px solid rgba(34,197,94,0.4);color:#4ADE80;font-size:11px;font-weight:700;margin-bottom:12px">
+              ✓ ${escHtml(service.catLabel)} · Activé
+            </div>
+            <div style="width:88px;height:88px;border-radius:18px;background:#0D1322;border:1px solid #263147;padding:10px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center">
+              <img src="${escHtml(imgUrl)}" alt="${escHtml(service.name)}" style="max-width:100%;max-height:100%;object-fit:contain">
+            </div>
+            <div style="font-size:18px;font-weight:800;color:#fff">${escHtml(service.name)}</div>
+            ${customerEmail ? `<div style="font-size:12px;color:#94A3B8;margin-top:2px">Client : <strong style="color:#E2E8F0">${escHtml(customerEmail)}</strong></div>` : ''}
+            <div style="text-align:left;margin-top:16px;background:rgba(78,124,255,0.12);border-left:4px solid #4E7CFF;border-radius:10px;padding:14px;font-size:14px;color:#F1F5F9;line-height:1.55">
+              ${escHtml(customMessage).replace(/\n/g, '<br>')}
+            </div>
+            ${deliveredProduct ? `
+            <div style="text-align:left;margin-top:14px">
+              <div style="font-size:11px;font-weight:800;text-transform:uppercase;color:#60A5FA;margin-bottom:6px">Tes accès / Ton produit livré :</div>
+              <pre style="margin:0;white-space:pre-wrap;font-family:monospace;font-size:13px;background:#0A0E17;padding:12px;border-radius:10px;border:1px solid #263147;color:#F8FAFC">${escHtml(deliveredProduct)}</pre>
+            </div>` : ''}
+            <div style="margin-top:18px">
+              <a href="${escHtml(reviewUrl)}" target="_blank" style="display:inline-block;background:#4E7CFF;color:#fff;font-weight:800;font-size:13.5px;padding:12px 22px;border-radius:10px;text-decoration:none;margin-bottom:8px">
+                ★ Laisser un petit avis en direct juste ici
+              </a>
+              <br>
+              <a href="${escHtml(storeUrl)}" target="_blank" style="display:inline-block;background:#1E293B;color:#E2E8F0;border:1px solid #334155;font-weight:700;font-size:12.5px;padding:9px 18px;border-radius:9px;text-decoration:none;margin-top:4px">
+                Repasser commande sur YONIX
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  window.openFullEmailPreview = function(targetId) {
+    let svc = masterSelectedSvc || ADMIN_SERVICES[0];
+    let toEmail = document.getElementById('masterClientEmail')?.value.trim() || 'client@icloud.com';
+    let msg = document.getElementById('masterCustomMsg')?.value.trim() || svc.defaultMsg;
+    let prod = document.getElementById('masterDelivProduct')?.value.trim() || '';
+
+    if (targetId !== 'master') {
+      svc = orderSelectedSvcMap[targetId] || ADMIN_SERVICES[0];
+      toEmail = document.getElementById('delivEmail_' + targetId)?.value.trim() || '';
+      msg = document.getElementById('delivMsg_' + targetId)?.value.trim() || svc.defaultMsg;
+      prod = document.getElementById('delivText_' + targetId)?.value.trim() || '';
+    }
+
+    const subject = `✅ Ton service ${svc.name} est activé — YONIX`;
+    document.getElementById('epModalSubject').textContent = subject;
+    document.getElementById('epModalTo').textContent = 'Destinataire : ' + (toEmail || 'client@icloud.com');
+    const previewHtml = buildClientEmailPreviewHtml({
+      service: svc,
+      customerEmail: toEmail,
+      customMessage: msg,
+      deliveredProduct: prod
+    });
+    lastGeneratedEmailHtml = previewHtml;
+    document.getElementById('epModalBody').innerHTML = previewHtml;
+
+    const reviewUrl = `${location.origin}/avis?review=1&product=${encodeURIComponent(svc.name)}&serviceId=${encodeURIComponent(svc.id)}`;
+    const bodyText = `${msg}\n\n${prod ? 'Tes accès / Ton produit :\n' + prod + '\n\n' : ''}⭐ Laisser un petit avis en direct juste ici : ${reviewUrl}\n🛒 Repasser commande : ${location.origin}/boutique`;
+    document.getElementById('epMailtoLink').href = `mailto:${encodeURIComponent(toEmail)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
+    document.getElementById('emailPreviewModal').hidden = false;
+  };
+
+  window.copyEmailHtmlPreview = function() {
+    try {
+      navigator.clipboard.writeText(lastGeneratedEmailHtml);
+      toast('Email HTML (avec image produit) copié ✓');
+    } catch (e) {}
+  };
+
+  window.sendMasterServiceEmail = async function(btn) {
+    const adminKey = document.getElementById('adminKeyInput').value.trim();
+    if (!adminKey) {
+      toast('Entre d\'abord ton code administrateur en haut', false);
+      document.getElementById('adminKeyInput').focus();
+      return;
+    }
+    const customerEmail = document.getElementById('masterClientEmail').value.trim();
+    if (!customerEmail || !customerEmail.includes('@')) {
+      toast('Indique l\'adresse email du client destinataire', false);
+      document.getElementById('masterClientEmail').focus();
+      return;
+    }
+    const svc = masterSelectedSvc || ADMIN_SERVICES[0];
+    const customMessage = document.getElementById('masterCustomMsg').value.trim();
+    const deliveredProduct = document.getElementById('masterDelivProduct').value.trim();
+    const deliveredFile = document.getElementById('masterDelivFile').value.trim();
+
+    const oldHtml = btn.innerHTML;
+    btn.disabled = true;
+    btn.textContent = 'Envoi de l\'email et livraison…';
+    try {
+      const r = await apiFetch('/api/account/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'send_service_email',
+          adminKey,
+          customerEmail,
+          serviceId: svc.id,
+          serviceName: svc.name,
+          serviceCategory: svc.catLabel,
+          serviceImage: svc.img,
+          customMessage,
+          deliveredProduct,
+          deliveredFile
+        })
+      });
+      const data = await r.json();
+      if (r.ok && data.ok) {
+        if (data.emailHtml) lastGeneratedEmailHtml = data.emailHtml;
+        toast(data.emailSent
+          ? `Email avec image ${svc.name} envoyé à ${customerEmail} + livré sur le site ✓`
+          : `Service ${svc.name} livré sur le compte de ${customerEmail} + Email prêt ✓`);
+        loadAdminOrders();
+      } else {
+        toast(data.error || 'Erreur lors de l\'envoi', false);
+      }
+    } catch (e) {
+      toast('Erreur réseau', false);
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = oldHtml;
+    }
+  };
+
+  setTimeout(renderMasterCarousel, 30);
+
+  // ─── CLIENT ORDERS RENDERING (WITH PRODUCT IMAGE & INLINE LIVE REVIEW) ───
+  let activeReviewOrder = { name: 'Basic Fit Ultimate', id: 'basic-fit', img: '/logos/basicfit.png', stars: 5 };
+
+  window.openProfileReviewModal = function(prodName, svcId, imgPath) {
+    activeReviewOrder = {
+      name: prodName || 'Basic Fit Ultimate',
+      id: svcId || 'basic-fit',
+      img: imgPath || '/logos/basicfit.png',
+      stars: 5
+    };
+    document.getElementById('prvProductImg').src = activeReviewOrder.img;
+    document.getElementById('prvProductName').textContent = activeReviewOrder.name;
+    document.getElementById('prvPseudoInput').value = currentProfile.displayName || (currentEmail.split('@')[0] || '');
+    document.getElementById('prvMsgInput').value = '';
+    setProfileReviewStars(5);
+    document.getElementById('profileReviewModal').hidden = false;
+  };
+
+  window.setProfileReviewStars = function(n) {
+    activeReviewOrder.stars = n;
+    const btns = document.querySelectorAll('#prvStarsRow .star-pick-btn');
+    btns.forEach((b, i) => b.classList.toggle('active', i < n));
+  };
+
+  window.submitProfileLiveReview = async function(btn) {
+    const name = document.getElementById('prvPseudoInput').value.trim() || 'Client Vérifié';
+    const msg = document.getElementById('prvMsgInput').value.trim();
+    if (!msg || msg.length < 2) {
+      toast('Écris un petit commentaire pour publier ton avis.', false);
+      return;
+    }
+    btn.disabled = true;
+    btn.textContent = 'Publication en direct…';
+    try {
+      const r = await apiFetch('/api/account/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'add_review',
+          name,
+          msg,
+          stars: activeReviewOrder.stars,
+          product: activeReviewOrder.name,
+          serviceId: activeReviewOrder.id,
+          productImg: activeReviewOrder.img
+        })
+      });
+      const data = await r.json();
+      if (r.ok && data.ok && data.review) {
+        try {
+          const existing = JSON.parse(localStorage.getItem('yonix_live_reviews') || '[]');
+          const list = Array.isArray(existing) ? existing : [];
+          list.unshift(data.review);
+          localStorage.setItem('yonix_live_reviews', JSON.stringify(list.slice(0, 50)));
+        } catch (e) {}
+        document.getElementById('profileReviewModal').hidden = true;
+        toast('Merci ! Ton avis est publié en direct sur la boutique ✓');
+      } else {
+        toast(data.error || 'Erreur lors de la publication', false);
+      }
+    } catch (e) {
+      toast('Erreur réseau', false);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '★ Publier mon avis en direct';
+    }
+  };
+
   function renderOrders(orders){
     if (!orders || !orders.length) {
       return `
@@ -2232,20 +2970,23 @@ main {
     }
 
     return `<div class="orders-list">${orders.map(o => {
-      const isDelivered = Boolean(o.deliveredProduct || o.downloadFile || o.deliveryStatus === 'delivered');
+      const matchedSvc = findServiceForOrder(o.serviceId || o.serviceName || o.productName);
+      const prodImg = o.serviceImage || matchedSvc.img || '/logos/Yonix.png';
+      const displayProdName = o.serviceName || o.productName || matchedSvc.name;
+      const isDelivered = Boolean(o.deliveredProduct || o.downloadFile || o.customMessage || o.deliveryStatus === 'delivered');
       const statusBadge = isDelivered
-        ? `<span class="badge-pill badge-active">✓ Produit livré sur le site</span>`
+        ? `<span class="badge-pill badge-active">✓ Service activé &amp; livré</span>`
         : `<span class="badge-pill badge-email">En cours de préparation (livré ici)</span>`;
 
       return `
       <div class="order-card">
         <div class="order-top">
           <div class="order-left">
-            <div class="order-ico">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            <div class="order-ico" style="background:#0D1322;padding:6px;overflow:hidden">
+              <img src="${escHtml(prodImg)}" alt="${escHtml(displayProdName)}" style="width:100%;height:100%;object-fit:contain">
             </div>
             <div>
-              <div class="order-name">${escHtml(o.productName)}</div>
+              <div class="order-name">${escHtml(displayProdName)}</div>
               ${o.tierName ? `<div class="order-tier">${escHtml(o.tierName)}</div>` : ''}
               <div class="order-meta">
                 <span class="order-date">${formatDate(o.date)}</span>
@@ -2254,12 +2995,29 @@ main {
               </div>
             </div>
           </div>
-          <div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
             ${o.downloadFile
               ? `<button type="button" class="btn-blue" onclick="handleDl(this,'${escHtml(o.downloadFile)}')">${dlBtnInner()}</button>`
               : ''}
+            <button type="button" class="btn-outline" style="border-color:var(--blue-border);color:var(--blue)" onclick="openProfileReviewModal('${escHtml(displayProdName)}','${escHtml(matchedSvc.id)}','${escHtml(prodImg)}')">
+              ★ Laisser un avis en direct
+            </button>
           </div>
         </div>
+
+        ${o.customMessage ? `
+        <div style="margin-top:14px;display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;background:var(--blue-soft);border:1px solid var(--blue-border);flex-wrap:wrap">
+          <img src="${escHtml(prodImg)}" alt="${escHtml(displayProdName)}" style="width:48px;height:48px;border-radius:12px;object-fit:contain;background:#0A0E17;padding:6px;border:1px solid var(--border)">
+          <div style="flex:1;min-width:200px">
+            <div style="font-size:11.5px;font-weight:800;text-transform:uppercase;color:var(--blue);margin-bottom:2px">Message de livraison YONIX</div>
+            <div style="font-size:14px;font-weight:600;color:var(--night)">${escHtml(o.customMessage)}</div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button type="button" class="btn-blue" style="padding:8px 14px;font-size:12.5px" onclick="openProfileReviewModal('${escHtml(displayProdName)}','${escHtml(matchedSvc.id)}','${escHtml(prodImg)}')">★ Laisser un petit avis juste ici</button>
+            <a href="/boutique" class="btn-outline" style="padding:8px 14px;font-size:12.5px">Repasser commande</a>
+          </div>
+        </div>` : ''}
+
         ${o.deliveredProduct ? `
         <div class="delivered-box">
           <div class="delivered-box-head">
@@ -2267,9 +3025,9 @@ main {
             <button type="button" class="btn-outline" style="padding:5px 12px;font-size:12px" onclick="copyDeliveredText(this,'${encodeURIComponent(o.deliveredProduct)}')">Copier le produit</button>
           </div>
           <pre class="delivered-pre">${escHtml(o.deliveredProduct)}</pre>
-        </div>` : (!o.downloadFile ? `
+        </div>` : (!o.downloadFile && !o.customMessage ? `
         <div style="margin-top:12px;padding:11px 14px;border-radius:10px;background:var(--white);border:1px dashed var(--border-hover);font-size:13px;color:var(--ink-secondary)">
-          Ton produit te sera envoyé directement dans cet encadré dès validation. Clique sur « Actualiser » pour vérifier.
+          Ton produit te sera envoyé directement dans cet encadré et par email dès validation. Clique sur « Actualiser » pour vérifier.
         </div>` : '')}
       </div>`;
     }).join('')}</div>`;
@@ -2285,7 +3043,7 @@ main {
     } catch (e) {}
   };
 
-  // ─── ADMIN DELIVERY LOGIC ───
+  // ─── ADMIN DELIVERY LOGIC & PER-ORDER SERVICE CAROUSEL ───
   const savedAdminKey = sessionStorage.getItem('yonix_admin_key') || '';
   if (savedAdminKey) {
     setTimeout(() => {
@@ -2315,10 +3073,77 @@ main {
         return;
       }
       sessionStorage.setItem('yonix_admin_key', adminKey);
-      renderAdminOrders(data.orders || []);
+      let allOrders = Array.isArray(data.orders) ? [...data.orders] : [];
+      try {
+        const localOrds = JSON.parse(localStorage.getItem('yonix_local_orders') || '[]');
+        if (Array.isArray(localOrds)) {
+          const seen = new Set(allOrders.map(o => o.id));
+          for (const lo of localOrds) {
+            if (lo && lo.id && !seen.has(lo.id)) {
+              allOrders.unshift(lo);
+              seen.add(lo.id);
+            }
+          }
+        }
+      } catch (e) {}
+      renderAdminOrders(allOrders);
     } catch (e) {
       box.innerHTML = `<div class="empty-state"><p style="color:var(--red);margin:0">Erreur réseau.</p></div>`;
     }
+  };
+
+  function renderOrderCarouselItems(orderId) {
+    const track = document.getElementById('ordTrack_' + orderId);
+    if (!track) return;
+    const cat = orderCatFilterMap[orderId] || 'all';
+    const sel = orderSelectedSvcMap[orderId] || ADMIN_SERVICES[0];
+    const list = cat === 'all' ? ADMIN_SERVICES : ADMIN_SERVICES.filter(s => s.cat === cat);
+
+    track.innerHTML = list.map(s => {
+      const isAct = sel.id === s.id;
+      return `
+        <div class="svc-carousel-item${isAct ? ' active' : ''}" onclick="selectOrderService('${escHtml(orderId)}','${escHtml(s.id)}')">
+          <div class="svc-carousel-logo"><img src="${escHtml(s.img)}" alt="${escHtml(s.name)}"></div>
+          <div class="svc-carousel-name">${escHtml(s.name)}</div>
+          <span class="svc-carousel-cat">${isAct ? '✓ Choisi' : escHtml(s.catLabel)}</span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  window.filterOrderCarousel = function(orderId, cat, btn) {
+    orderCatFilterMap[orderId] = cat;
+    const bar = document.getElementById('ordCatBar_' + orderId);
+    if (bar) {
+      bar.querySelectorAll('.admin-cat-pill').forEach(b => b.classList.remove('active'));
+    }
+    if (btn) btn.classList.add('active');
+    renderOrderCarouselItems(orderId);
+  };
+
+  window.selectOrderService = function(orderId, svcId) {
+    const found = ADMIN_SERVICES.find(s => s.id === svcId);
+    if (!found) return;
+    orderSelectedSvcMap[orderId] = found;
+    const imgEl = document.getElementById('ordPrevImg_' + orderId);
+    const titleEl = document.getElementById('ordPrevTitle_' + orderId);
+    const msgEl = document.getElementById('delivMsg_' + orderId);
+    const prevMsgEl = document.getElementById('ordPrevMsg_' + orderId);
+    const fileEl = document.getElementById('delivFile_' + orderId);
+
+    if (imgEl) imgEl.src = found.img;
+    if (titleEl) titleEl.textContent = found.name;
+    if (msgEl) msgEl.value = found.defaultMsg;
+    if (prevMsgEl) prevMsgEl.textContent = found.defaultMsg;
+    if (fileEl && found.file && !fileEl.value) fileEl.value = found.file;
+
+    renderOrderCarouselItems(orderId);
+  };
+
+  window.syncOrderInlinePreview = function(orderId) {
+    const msgEl = document.getElementById('delivMsg_' + orderId);
+    const prevMsgEl = document.getElementById('ordPrevMsg_' + orderId);
+    if (msgEl && prevMsgEl) prevMsgEl.textContent = msgEl.value;
   };
 
   function renderAdminOrders(orders){
@@ -2328,21 +3153,30 @@ main {
       return;
     }
     box.innerHTML = `<div class="orders-list">${orders.map(o => {
-      const isDelivered = Boolean(o.deliveredProduct || o.downloadFile || o.deliveryStatus === 'delivered');
+      const matched = findServiceForOrder(o.serviceId || o.serviceName || o.productName);
+      orderSelectedSvcMap[o.id] = matched;
+      orderCatFilterMap[o.id] = 'all';
+
+      const isDelivered = Boolean(o.deliveredProduct || o.downloadFile || o.customMessage || o.deliveryStatus === 'delivered');
+      const defaultMsg = o.customMessage || matched.defaultMsg;
       const bfDetails = (o.clientPrenom || o.clientNom || o.clientDOB || o.clientEmail)
         ? `<div style="margin-top:6px;font-size:12.5px;color:var(--amber);font-weight:600">Infos Basic Fit : ${escHtml(o.clientPrenom)} ${escHtml(o.clientNom)} · Né(e): ${escHtml(o.clientDOB)} · Email: ${escHtml(o.clientEmail)}</div>`
         : '';
+
       return `
       <div class="order-card" style="background:var(--white)">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">
-          <div>
-            <div class="order-name">${escHtml(o.productName)} ${o.tierName ? `<span style="color:var(--gray);font-weight:500">— ${escHtml(o.tierName)}</span>` : ''}</div>
-            <div style="font-size:13.5px;color:var(--blue-active);margin-top:3px">Client : <strong>${escHtml(o.customerEmail || 'Non renseigné')}</strong></div>
-            ${bfDetails}
-            <div class="order-meta">
-              <span class="order-date">${formatDate(o.date)}</span>
-              <span class="order-price">${formatAmount(o.amount, o.currency)}</span>
-              <span style="font-size:11.5px;color:var(--gray)">ID: ${escHtml(o.id.slice(-10))}</span>
+          <div style="display:flex;align-items:center;gap:14px">
+            <img src="${escHtml(matched.img)}" alt="${escHtml(matched.name)}" style="width:52px;height:52px;border-radius:12px;object-fit:contain;background:#0D1322;padding:6px;border:1px solid var(--border)">
+            <div>
+              <div class="order-name">${escHtml(o.productName)} ${o.tierName ? `<span style="color:var(--gray);font-weight:500">— ${escHtml(o.tierName)}</span>` : ''}</div>
+              <div style="font-size:13.5px;color:var(--blue-active);margin-top:3px">Client : <strong>${escHtml(o.customerEmail || o.clientEmail || 'Non renseigné')}</strong></div>
+              ${bfDetails}
+              <div class="order-meta">
+                <span class="order-date">${formatDate(o.date)}</span>
+                <span class="order-price">${formatAmount(o.amount, o.currency)}</span>
+                <span style="font-size:11.5px;color:var(--gray)">ID: ${escHtml(o.id.slice(-10))}</span>
+              </div>
             </div>
           </div>
           <div>
@@ -2351,29 +3185,96 @@ main {
               : `<span class="badge-pill badge-phone-warn">En attente de livraison</span>`}
           </div>
         </div>
-        <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
-          <label style="font-size:12.5px;font-weight:700;color:var(--ink)">Produit à envoyer directement sur le compte du client (clé, email:motdepasse, lien ou instructions) :</label>
-          <textarea class="form-input" id="delivText_${escHtml(o.id)}" rows="3" placeholder="Ex: Voici tes accès ou ta clé d'activation :&#10;Clé : YONIX-XXXX-XXXX">${escHtml(o.deliveredProduct || '')}</textarea>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-            <input class="form-input" id="delivFile_${escHtml(o.id)}" type="text" value="${escHtml(o.downloadFile || '')}" placeholder="Fichier téléchargeable optionnel (ex: cs2-loader.zip)" style="flex:1;min-width:220px">
-            <button type="button" class="btn-blue" onclick="sendProductToOrder('${escHtml(o.id)}', this)">Envoyer le produit au client</button>
+
+        <div style="display:flex;flex-direction:column;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
+          <div style="font-size:13px;font-weight:800;color:var(--night)">
+            1. Choisis la catégorie / le service à envoyer dans l'email client (avec son image) :
+          </div>
+
+          <div class="admin-cat-bar" id="ordCatBar_${escHtml(o.id)}" style="margin-bottom:4px">
+            <button type="button" class="admin-cat-pill active" onclick="filterOrderCarousel('${escHtml(o.id)}','all',this)">Tous</button>
+            <button type="button" class="admin-cat-pill" onclick="filterOrderCarousel('${escHtml(o.id)}','services',this)">Services Premium</button>
+            <button type="button" class="admin-cat-pill" onclick="filterOrderCarousel('${escHtml(o.id)}','gaming',this)">CS2 &amp; Valorant</button>
+            <button type="button" class="admin-cat-pill" onclick="filterOrderCarousel('${escHtml(o.id)}','spoofer',this)">Spoofer</button>
+            <button type="button" class="admin-cat-pill" onclick="filterOrderCarousel('${escHtml(o.id)}','jailbreak',this)">Jailbreaks IA</button>
+          </div>
+
+          <div class="svc-carousel-shell" style="margin-bottom:4px">
+            <button type="button" class="svc-nav-btn" onclick="scrollCarousel('ordTrack_${escHtml(o.id)}', -280)">‹</button>
+            <div class="svc-carousel-track" id="ordTrack_${escHtml(o.id)}"></div>
+            <button type="button" class="svc-nav-btn" onclick="scrollCarousel('ordTrack_${escHtml(o.id)}', 280)">›</button>
+          </div>
+
+          <!-- Aperçu visuel de l'email avec l'image du produit -->
+          <div class="email-preview-inline" style="margin-bottom:4px">
+            <div class="email-preview-inline-img">
+              <img id="ordPrevImg_${escHtml(o.id)}" src="${escHtml(matched.img)}" alt="${escHtml(matched.name)}">
+            </div>
+            <div style="flex:1;min-width:200px">
+              <div style="font-size:10.5px;font-weight:800;text-transform:uppercase;color:#60A5FA">Email client avec image du produit acheté + bouton d'avis en direct</div>
+              <div style="font-size:14.5px;font-weight:800;color:#fff" id="ordPrevTitle_${escHtml(o.id)}">${escHtml(matched.name)}</div>
+              <div style="font-size:12.5px;color:#E2E8F0;margin-top:2px" id="ordPrevMsg_${escHtml(o.id)}">${escHtml(defaultMsg)}</div>
+            </div>
+            <button type="button" class="btn-outline" style="padding:6px 12px;font-size:12px;background:rgba(255,255,255,0.08);color:#fff;border-color:rgba(255,255,255,0.22)" onclick="openFullEmailPreview('${escHtml(o.id)}')">Aperçu complet Email</button>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group" style="margin-bottom:0">
+              <label style="font-size:12.5px">Email du client (pour l'envoi du mail) :</label>
+              <input class="form-input" id="delivEmail_${escHtml(o.id)}" type="email" value="${escHtml(o.customerEmail || o.clientEmail || '')}" placeholder="client@icloud.com">
+            </div>
+            <div class="form-group" style="margin-bottom:0">
+              <label style="font-size:12.5px">Fichier téléchargeable optionnel :</label>
+              <input class="form-input" id="delivFile_${escHtml(o.id)}" type="text" value="${escHtml(o.downloadFile || matched.file || '')}" placeholder="Ex: cs2-loader.zip">
+            </div>
+          </div>
+
+          <div>
+            <label style="font-size:12.5px;font-weight:700;color:var(--ink);display:block;margin-bottom:6px">2. Message d'activation dans l'email (avec lien pour laisser un avis en direct) :</label>
+            <textarea class="form-input" id="delivMsg_${escHtml(o.id)}" rows="2" oninput="syncOrderInlinePreview('${escHtml(o.id)}')">${escHtml(defaultMsg)}</textarea>
+          </div>
+
+          <div>
+            <label style="font-size:12.5px;font-weight:700;color:var(--ink);display:block;margin-bottom:6px">3. Produit / Accès à envoyer sur le compte et dans l'email (clé, email:motdepasse, lien ou instructions) :</label>
+            <textarea class="form-input" id="delivText_${escHtml(o.id)}" rows="3" placeholder="Ex: Compte Basic Fit activé ! Voici tes identifiants ou instructions...">${escHtml(o.deliveredProduct || '')}</textarea>
+          </div>
+
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between">
+            <label style="display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer">
+              <input type="checkbox" id="delivSendMail_${escHtml(o.id)}" checked style="width:16px;height:16px;accent-color:var(--blue)">
+              <span>Envoyer l'email au client avec l'image du produit et le lien d'avis en direct</span>
+            </label>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button type="button" class="btn-outline" onclick="openFullEmailPreview('${escHtml(o.id)}')">Aperçu Email</button>
+              <button type="button" class="btn-blue" onclick="sendProductToOrder('${escHtml(o.id)}', this)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
+                <span>Livrer &amp; Envoyer l'Email avec image</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>`;
     }).join('')}</div>`;
+
+    orders.forEach(o => renderOrderCarouselItems(o.id));
   }
 
   window.sendProductToOrder = async function(sessionId, btn){
     const adminKey = document.getElementById('adminKeyInput').value.trim();
     const deliveredProduct = document.getElementById('delivText_' + sessionId).value.trim();
     const deliveredFile = document.getElementById('delivFile_' + sessionId).value.trim();
-    if (!deliveredProduct && !deliveredFile) {
-      toast('Entre un produit (texte/clé/identifiants) ou un fichier à livrer', false);
+    const customMessage = document.getElementById('delivMsg_' + sessionId).value.trim();
+    const customerEmail = document.getElementById('delivEmail_' + sessionId).value.trim();
+    const sendEmail = Boolean(document.getElementById('delivSendMail_' + sessionId)?.checked);
+    const svc = orderSelectedSvcMap[sessionId] || ADMIN_SERVICES[0];
+
+    if (!deliveredProduct && !deliveredFile && !customMessage) {
+      toast('Entre un message, un produit (texte/clé/identifiants) ou un fichier à livrer', false);
       return;
     }
-    const oldText = btn.textContent;
+    const oldHtml = btn.innerHTML;
     btn.disabled = true;
-    btn.textContent = 'Envoi en cours…';
+    btn.textContent = 'Envoi du mail & livraison…';
     try {
       const r = await apiFetch('/api/account/orders', {
         method: 'POST',
@@ -2382,24 +3283,54 @@ main {
           action: 'deliver',
           adminKey,
           sessionId,
+          customerEmail,
+          serviceId: svc.id,
+          serviceName: svc.name,
+          serviceCategory: svc.catLabel,
+          serviceImage: svc.img,
+          customMessage,
           deliveredProduct,
-          deliveredFile
+          deliveredFile,
+          sendEmail
         })
       });
       const data = await r.json();
       if (r.ok && data.ok) {
-        toast('Produit envoyé directement sur le compte du client ✓');
-        btn.textContent = '✓ Produit envoyé !';
-        setTimeout(() => { btn.disabled = false; btn.textContent = 'Mettre à jour la livraison'; }, 2000);
+        try {
+          const localOrds = JSON.parse(localStorage.getItem('yonix_local_orders') || '[]');
+          if (Array.isArray(localOrds)) {
+            const idx = localOrds.findIndex(lo => lo && lo.id === sessionId);
+            if (idx !== -1) {
+              localOrds[idx] = {
+                ...localOrds[idx],
+                serviceId: svc.id,
+                serviceName: svc.name,
+                serviceCategory: svc.catLabel,
+                serviceImage: svc.img,
+                customMessage,
+                deliveredProduct,
+                downloadFile: deliveredFile || localOrds[idx].downloadFile,
+                deliveryStatus: 'delivered'
+              };
+              localStorage.setItem('yonix_local_orders', JSON.stringify(localOrds));
+            }
+          }
+        } catch (e) {}
+
+        toast(data.emailSent
+          ? `Produit livré + Email avec image ${svc.name} envoyé à ${customerEmail} ✓`
+          : `Produit ${svc.name} livré sur le compte client + Email généré ✓`);
+        btn.textContent = '✓ Livré & Email prêt !';
+        setTimeout(() => { btn.disabled = false; btn.innerHTML = oldHtml; }, 2200);
       } else {
         toast(data.error || 'Erreur lors de l\'envoi', false);
         btn.disabled = false;
-        btn.textContent = oldText;
+        btn.innerHTML = oldHtml;
       }
     } catch (e) {
       toast('Erreur réseau', false);
       btn.disabled = false;
-      btn.textContent = oldText;
+      btn.innerHTML = oldHtml;
     }
   };
 
@@ -2427,9 +3358,29 @@ main {
       currentEmail = data.email || '';
       currentProfile = data.profile || {};
       currentCards = data.cards || [];
+      try {
+        if (!currentCards.length) {
+          const lc = JSON.parse(localStorage.getItem('yonix_saved_cards') || '[]');
+          if (Array.isArray(lc) && lc.length) currentCards = lc;
+        }
+      } catch (e) {}
+
+      let mergedOrders = Array.isArray(data.orders) ? [...data.orders] : [];
+      try {
+        const localOrds = JSON.parse(localStorage.getItem('yonix_local_orders') || '[]');
+        if (Array.isArray(localOrds)) {
+          const seen = new Set(mergedOrders.map(o => o.id));
+          for (const lo of localOrds) {
+            if (lo && lo.id && !seen.has(lo.id) && (!lo.customerEmail || lo.customerEmail.toLowerCase() === currentEmail.toLowerCase())) {
+              mergedOrders.unshift(lo);
+              seen.add(lo.id);
+            }
+          }
+        }
+      } catch (e) {}
 
       renderProfileUI();
-      document.getElementById('ordersContent').innerHTML = renderOrders(data.orders || []);
+      document.getElementById('ordersContent').innerHTML = renderOrders(mergedOrders);
       renderPm();
 
       document.getElementById('globalLoader').hidden = true;

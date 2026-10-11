@@ -7,6 +7,7 @@
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/files/(.*)", "destination": "/files/$1" },
+    { "source": "/logos/(.*)", "destination": "/logos/$1" },
     { "source": "/account", "destination": "/profile.html" },
     { "source": "/profile", "destination": "/profile.html" },
     { "source": "/login", "destination": "/login.html" },

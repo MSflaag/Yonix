@@ -7,7 +7,9 @@ import Stripe from 'stripe';
 
 const SITE_URL    = (process.env.SITE_URL || 'http://localhost:3000').replace(/\/$/, '');
 const AUTH_SECRET = process.env.AUTH_SECRET || 'changeme-32-chars-secret-key-here';
-const stripe      = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2023-10-16' });
+const stripeKey   = (process.env.STRIPE_SECRET_KEY || '').trim();
+const isRealKey   = Boolean(stripeKey) && (stripeKey.startsWith('sk_live_') || stripeKey.startsWith('sk_test_')) && !stripeKey.includes('...');
+const stripe      = isRealKey ? new Stripe(stripeKey, { apiVersion: '2023-10-16' }) : null;
 
 function getEmailFromCookie(cookieHeader) {
   if (!cookieHeader) return null;

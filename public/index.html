@@ -2379,27 +2379,31 @@ dialog[open] .dlg-vis svg {
 
 /* Manual Promo Code Input Box */
 .promo-manual-box {
-  margin-bottom: 9px;
-  padding: 8px 11px;
-  border-radius: 11px;
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
   background: var(--bg);
   border: 1px solid var(--border);
 }
 
-.promo-manual-top {
+.promo-manual-top,
+.promo-manual-info {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  margin-bottom: 5px;
+  margin-bottom: 7px;
+  flex-wrap: wrap;
 }
 
+.promo-manual-info b,
 .promo-manual-lbl {
   font-size: 11.5px;
   font-weight: 700;
   color: var(--ink);
 }
 
+.promo-manual-info span,
 .promo-manual-lbl small {
   font-weight: 500;
   color: var(--gray);
@@ -2427,43 +2431,81 @@ dialog[open] .dlg-vis svg {
   cursor: pointer;
 }
 
-.promo-manual-row {
+.promo-manual-row,
+.promo-manual-form {
   display: flex;
-  gap: 6px;
+  align-items: stretch;
+  gap: 8px;
 }
 
 .promo-manual-input {
   flex: 1;
-  min-width: 120px;
-  padding: 7px 11px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
+  min-width: 0;
+  padding: 8px 12px;
+  border-radius: 9px;
+  border: 1.5px solid var(--border);
   background: var(--white);
   color: var(--ink);
   font-size: 12.5px;
   font-weight: 700;
   text-transform: uppercase;
   outline: none;
-  transition: border-color 0.18s;
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+
+.promo-manual-input::placeholder {
+  text-transform: none;
+  font-weight: 500;
+  color: var(--gray);
 }
 
 .promo-manual-input:focus {
   border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--blue-soft);
 }
 
-.promo-manual-btn {
-  padding: 7px 14px;
-  border-radius: 8px;
+.promo-manual-btn,
+.promo-manual-apply {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 15px;
+  border-radius: 9px;
   background: var(--blue);
   color: #FFFFFF;
-  font-size: 12px;
+  font-size: 12.5px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.18s, transform 0.15s, box-shadow 0.18s;
+  box-shadow: 0 2px 8px rgba(78, 124, 255, 0.25);
+}
+
+.promo-manual-btn:hover,
+.promo-manual-apply:hover {
+  background: var(--blue-hover);
+  transform: translateY(-1px);
+}
+
+.promo-clear-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(239, 68, 68, 0.14);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #EF4444;
+  font-size: 11px;
   font-weight: 700;
   cursor: pointer;
   transition: background 0.18s;
 }
 
-.promo-manual-btn:hover {
-  background: var(--blue-hover);
+.promo-clear-pill:hover {
+  background: rgba(239, 68, 68, 0.24);
 }
 
 /* CGV Checkbox */
@@ -2653,8 +2695,8 @@ dialog[open] .dlg-vis svg {
 
 .dlg-actions {
   display: grid;
-  grid-template-columns: 0.9fr 1.15fr 1fr;
-  gap: 8px;
+  grid-template-columns: 0.95fr 1.05fr 1.05fr;
+  gap: 9px;
   align-items: stretch;
 }
 
@@ -2664,8 +2706,8 @@ dialog[open] .dlg-vis svg {
   justify-content: center;
   gap: 7px;
   width: 100%;
-  padding: 11px 14px;
-  border-radius: 999px;
+  padding: 12px 14px;
+  border-radius: 12px;
   font-weight: 700;
   font-size: 13px;
   color: var(--blue);
@@ -2685,15 +2727,15 @@ dialog[open] .dlg-vis svg {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
+  gap: 8px;
   width: 100%;
-  padding: 11px 15px;
-  border-radius: 999px;
+  padding: 12px 16px;
+  border-radius: 12px;
   font-weight: 700;
   font-size: 13.5px;
   color: var(--white);
   background: var(--blue);
-  box-shadow: 0 4px 14px rgba(78, 124, 255, 0.3);
+  box-shadow: 0 4px 14px rgba(78, 124, 255, 0.28);
   transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
   white-space: nowrap;
 }
@@ -2708,15 +2750,15 @@ dialog[open] .dlg-vis svg {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
+  gap: 8px;
   width: 100%;
-  padding: 11px 15px;
-  border-radius: 999px;
+  padding: 12px 16px;
+  border-radius: 12px;
   font-weight: 800;
   font-size: 13.5px;
   color: #FFFFFF;
-  background: linear-gradient(135deg, #000000 0%, #1E293B 100%);
-  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  background: linear-gradient(135deg, #0B0F19 0%, #1E293B 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
   transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s, background 0.2s;
   white-space: nowrap;
@@ -2730,7 +2772,7 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
 
 .dlg-apple-pay:hover {
   transform: translateY(-2px);
-  border-color: rgba(255, 255, 255, 0.45);
+  border-color: rgba(99, 91, 255, 0.7);
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
 }
 
@@ -2740,7 +2782,7 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   letter-spacing: 0.04em;
   text-transform: uppercase;
   padding: 2px 6px;
-  border-radius: 999px;
+  border-radius: 6px;
   background: rgba(99, 91, 255, 0.28);
   border: 1px solid rgba(99, 91, 255, 0.55);
   color: #C7D2FE;
@@ -2756,7 +2798,7 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
 
 /* ===== DIRECT BANK CARD & APPLE PAY CHECKOUT MODAL (#cbPayModal) ===== */
 #cbPayModal {
-  width: min(810px, calc(100vw - 32px));
+  width: min(830px, calc(100vw - 32px));
   max-height: calc(100dvh - 24px);
   overflow-y: auto;
   border: 1px solid var(--border);
@@ -2764,7 +2806,7 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   background: var(--white);
   color: var(--ink);
   box-shadow: var(--shadow-lg);
-  padding: 20px 24px;
+  padding: 22px 26px;
   margin: auto;
 }
 
@@ -2775,16 +2817,27 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
 
 .cb-modal-grid {
   display: grid;
-  grid-template-columns: 0.96fr 1.04fr;
-  gap: 18px;
-  align-items: start;
+  grid-template-columns: 0.98fr 1.02fr;
+  gap: 20px;
+  align-items: stretch;
+}
+
+.cb-col-left,
+.cb-col-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .cb-method-tabs {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
-  margin-bottom: 12px;
+  padding: 4px;
+  border-radius: 14px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  margin-bottom: 14px;
 }
 
 .cb-method-tab {
@@ -2793,9 +2846,9 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   justify-content: center;
   gap: 7px;
   padding: 10px 12px;
-  border-radius: 12px;
-  border: 1.5px solid var(--border);
-  background: var(--bg-alt);
+  border-radius: 10px;
+  border: 1.5px solid transparent;
+  background: transparent;
   color: var(--ink-secondary);
   font-size: 13px;
   font-weight: 700;
@@ -2804,7 +2857,6 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
 }
 
 .cb-method-tab:hover {
-  border-color: var(--border-hover);
   color: var(--ink);
 }
 
@@ -2812,33 +2864,69 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   border-color: var(--blue);
   background: var(--blue-soft);
   color: var(--blue);
-  box-shadow: 0 2px 10px rgba(78, 124, 255, 0.18);
+  box-shadow: 0 2px 10px rgba(78, 124, 255, 0.16);
 }
 
 .cb-method-tab.apay.active {
   border-color: #635BFF;
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(99, 91, 255, 0.25));
+  background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 100%);
   color: #FFFFFF;
+  box-shadow: 0 2px 12px rgba(99, 91, 255, 0.32);
 }
 
 .cb-apay-box {
   display: none;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 12px;
-  padding: 18px;
+  padding: 24px 20px;
   border-radius: 16px;
   background: linear-gradient(135deg, #0B0F1A 0%, #161E31 60%, #1E1B4B 100%);
   border: 1.5px solid rgba(99, 91, 255, 0.45);
   color: #F8FAFC;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   text-align: center;
+  min-height: 210px;
+}
+
+.cb-saved-status-box {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(22, 163, 74, 0.08);
+  border: 1px solid rgba(22, 163, 74, 0.28);
+  margin-bottom: 14px;
+}
+
+.cb-saved-status-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+  color: var(--ink);
+}
+
+.cb-saved-status-info b {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--green);
+}
+
+.cb-saved-status-info span {
+  font-size: 11.5px;
+  color: var(--gray);
 }
 
 .cb-pay-btns-row {
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
+  display: flex;
+  flex-direction: column;
   gap: 8px;
-  align-items: stretch;
+  margin-top: auto;
 }
 
 .cb-pay-head {
@@ -2846,7 +2934,9 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 14px;
+  padding-bottom: 14px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border);
 }
 
 .cb-pay-title {
@@ -2876,7 +2966,7 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 12px 14px;
+  padding: 14px 16px;
   border-radius: 14px;
   background: var(--bg-alt);
   border: 1px solid var(--border);
@@ -2885,7 +2975,7 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
 
 .cb-order-info b {
   display: block;
-  font-size: 14.5px;
+  font-size: 15px;
   font-weight: 800;
   color: var(--night);
 }
@@ -2896,7 +2986,7 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
 }
 
 .cb-order-total {
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 800;
   color: var(--blue);
   white-space: nowrap;
@@ -2905,11 +2995,11 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
 .cb-visual-card {
   position: relative;
   border-radius: 16px;
-  padding: 15px 18px;
+  padding: 18px 20px;
   background: linear-gradient(135deg, #131B2E 0%, #1E3A8A 55%, #3B82F6 100%);
   color: #FFFFFF;
   box-shadow: 0 12px 28px -6px rgba(30, 58, 138, 0.45);
-  margin-bottom: 0;
+  margin-bottom: 14px;
   overflow: hidden;
 }
 
@@ -4309,8 +4399,8 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
 
   <div class="cb-modal-grid">
     <!-- Left Column: Order Summary, Manual Promo Input, Price Breakdown & Saved Cards -->
-    <div>
-      <div class="cb-order-summary" style="flex-direction:column;align-items:stretch;gap:10px;margin-bottom:12px">
+    <div class="cb-col-left">
+      <div class="cb-order-summary" style="flex-direction:column;align-items:stretch;gap:12px;margin-bottom:12px">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
           <div class="cb-order-info">
             <b id="cbOrderProdName">Produit</b>
@@ -4320,7 +4410,7 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
         </div>
 
         <!-- Manual Code Promo + Détail TVA & Frais Stripe -->
-        <div style="border-top:1px solid var(--border);padding-top:10px;display:flex;flex-direction:column;gap:8px">
+        <div style="border-top:1px solid var(--border);padding-top:12px;display:flex;flex-direction:column;gap:10px">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
             <span style="font-size:11.5px;font-weight:700;color:var(--ink-secondary)">Code de réduction (saisir à la main)</span>
             <button type="button" class="promo-clear-pill js-promo-clear-btn" onclick="window.clearManualPromo()" style="display:none">✕ Retirer</button>
@@ -4329,7 +4419,7 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
             <input type="text" id="cbPromoInput" class="promo-manual-input js-promo-manual-input" placeholder="Écrire le code promo..." autocomplete="off">
             <button type="button" class="promo-manual-apply" onclick="window.applyPromoFromField('cbPromoInput')">Appliquer</button>
           </div>
-          <div style="display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:var(--ink-secondary);padding-top:2px">
+          <div style="display:flex;flex-direction:column;gap:5px;font-size:12.5px;color:var(--ink-secondary);padding-top:2px">
             <div style="display:flex;justify-content:space-between">
               <span>Sous-total produit(s)</span>
               <b id="cbSubtotalVal" style="color:var(--ink)">25,00 €</b>
@@ -4346,93 +4436,105 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
         </div>
       </div>
 
-      <div class="cb-saved-box" id="cbSavedCardsBox" style="display:none"></div>
+      <div class="cb-saved-box" id="cbSavedCardsBox" style="display:none;margin-bottom:0"></div>
     </div>
 
-    <!-- Right Column: Payment Method Selector + Visual Card / Apple Pay + Pay CTAs -->
-    <div>
-      <!-- Payment Method Switcher: Carte Bancaire vs Apple Pay (Stripe) -->
-      <div class="cb-method-tabs" role="tablist" aria-label="Choisir le moyen de paiement">
-        <button type="button" class="cb-method-tab active" id="cbTabCard" data-method="card">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-          <span>Carte Bancaire</span>
-        </button>
-        <button type="button" class="cb-method-tab apay" id="cbTabApay" data-method="apple_pay">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-          <span>Apple Pay · Stripe</span>
-        </button>
-      </div>
-
-      <div id="cbCardPanel">
-        <div class="cb-visual-card" id="cbVisualCardBox">
-          <div class="cb-visual-top">
-            <div class="cb-chip"></div>
-            <span class="cb-brand-tag" id="cbVisBrand">CARTE BANCAIRE</span>
-          </div>
-          <div class="cb-visual-num" id="cbVisNum">•••• •••• •••• ••••</div>
-          <div class="cb-visual-bottom">
-            <div>
-              <div style="font-size:9.5px;opacity:0.7">Titulaire</div>
-              <b id="cbVisName">VOTRE NOM</b>
-            </div>
-            <div style="text-align:right">
-              <div style="font-size:9.5px;opacity:0.7">Expire</div>
-              <b id="cbVisExp">MM/AA</b>
-            </div>
-          </div>
+    <!-- Right Column: Payment Method Selector + Visual Card / Apple Pay + Pay CTA -->
+    <div class="cb-col-right">
+      <div>
+        <!-- Payment Method Switcher: Carte Bancaire vs Apple Pay (Stripe) -->
+        <div class="cb-method-tabs" role="tablist" aria-label="Choisir le moyen de paiement">
+          <button type="button" class="cb-method-tab active" id="cbTabCard" data-method="card">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            <span>Carte Bancaire</span>
+          </button>
+          <button type="button" class="cb-method-tab apay" id="cbTabApay" data-method="apple_pay">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+            <span>Apple Pay · Stripe</span>
+          </button>
         </div>
 
-        <div id="cbNewCardSection">
-          <div class="cb-form-grid">
-            <div class="cb-field">
-              <label for="cbInputName">Nom du titulaire sur la carte</label>
-              <input type="text" class="cb-input" id="cbInputName" placeholder="JEAN DUPONT" autocomplete="cc-name">
+        <div id="cbCardPanel">
+          <div class="cb-visual-card" id="cbVisualCardBox">
+            <div class="cb-visual-top">
+              <div class="cb-chip"></div>
+              <span class="cb-brand-tag" id="cbVisBrand">CARTE BANCAIRE</span>
             </div>
-            <div class="cb-field">
-              <label for="cbInputNum">Numéro de carte bancaire (16 chiffres)</label>
-              <input type="text" class="cb-input" id="cbInputNum" inputmode="numeric" maxlength="19" placeholder="4970 •••• •••• ••••" autocomplete="cc-number">
-            </div>
-            <div class="cb-form-row2">
-              <div class="cb-field">
-                <label for="cbInputExp">Date d'expiration</label>
-                <input type="text" class="cb-input" id="cbInputExp" inputmode="numeric" maxlength="5" placeholder="MM/AA" autocomplete="cc-exp">
+            <div class="cb-visual-num" id="cbVisNum">•••• •••• •••• ••••</div>
+            <div class="cb-visual-bottom">
+              <div>
+                <div style="font-size:9.5px;opacity:0.7">Titulaire</div>
+                <b id="cbVisName">VOTRE NOM</b>
               </div>
-              <div class="cb-field">
-                <label for="cbInputCvv">Code CVV / CVC</label>
-                <input type="password" class="cb-input" id="cbInputCvv" inputmode="numeric" maxlength="4" placeholder="123" autocomplete="cc-csc">
+              <div style="text-align:right">
+                <div style="font-size:9.5px;opacity:0.7">Expire</div>
+                <b id="cbVisExp">MM/AA</b>
               </div>
             </div>
           </div>
 
-          <label class="cb-save-check">
-            <input type="checkbox" id="cbInputSave" checked>
-            <span>Enregistrer cette carte sur mon profil pour mes prochains achats</span>
-          </label>
-        </div>
-      </div>
+          <div class="cb-saved-status-box" id="cbSavedCardStatusBox">
+            <div class="cb-saved-status-info">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              <div>
+                <b id="cbSavedCardStatusTitle">Carte enregistrée prête</b>
+                <span>Validation bancaire 3D Secure instantanée</span>
+              </div>
+            </div>
+          </div>
 
-      <!-- Apple Pay via Stripe Panel -->
-      <div class="cb-apay-box" id="cbApayPanel">
-        <div style="display:inline-flex;align-items:center;justify-content:center;gap:8px;margin:0 auto;padding:6px 14px;border-radius:999px;background:rgba(99,91,255,0.22);border:1px solid rgba(99,91,255,0.5);font-size:12px;font-weight:800;color:#C7D2FE">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-          <span>Apple Pay · Stripe Checkout officiel</span>
-        </div>
-        <div style="font-size:15px;font-weight:800;color:#FFFFFF">Validation biométrique Face ID / Touch ID</div>
-        <p style="font-size:12.5px;color:#94A3B8;line-height:1.5;margin:0">
-          Tu vas être redirigé vers la page officielle <b style="color:#E2E8F0">Stripe Checkout</b> pour régler instantanément en 1 clic avec <b style="color:#E2E8F0">Apple Pay</b>, Link ou ta carte enregistrée sur ton appareil.
-        </p>
-      </div>
+          <div id="cbNewCardSection">
+            <div class="cb-form-grid">
+              <div class="cb-field">
+                <label for="cbInputName">Nom du titulaire sur la carte</label>
+                <input type="text" class="cb-input" id="cbInputName" placeholder="JEAN DUPONT" autocomplete="cc-name">
+              </div>
+              <div class="cb-field">
+                <label for="cbInputNum">Numéro de carte bancaire (16 chiffres)</label>
+                <input type="text" class="cb-input" id="cbInputNum" inputmode="numeric" maxlength="19" placeholder="4970 •••• •••• ••••" autocomplete="cc-number">
+              </div>
+              <div class="cb-form-row2">
+                <div class="cb-field">
+                  <label for="cbInputExp">Date d'expiration</label>
+                  <input type="text" class="cb-input" id="cbInputExp" inputmode="numeric" maxlength="5" placeholder="MM/AA" autocomplete="cc-exp">
+                </div>
+                <div class="cb-field">
+                  <label for="cbInputCvv">Code CVV / CVC</label>
+                  <input type="password" class="cb-input" id="cbInputCvv" inputmode="numeric" maxlength="4" placeholder="123" autocomplete="cc-csc">
+                </div>
+              </div>
+            </div>
 
-      <div class="cb-err-msg" id="cbErrMsg"></div>
+            <label class="cb-save-check">
+              <input type="checkbox" id="cbInputSave" checked>
+              <span>Enregistrer cette carte sur mon profil pour mes prochains achats</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Apple Pay via Stripe Panel -->
+        <div class="cb-apay-box" id="cbApayPanel">
+          <div style="display:inline-flex;align-items:center;justify-content:center;gap:8px;margin:0 auto;padding:6px 14px;border-radius:999px;background:rgba(99,91,255,0.22);border:1px solid rgba(99,91,255,0.5);font-size:12px;font-weight:800;color:#C7D2FE">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+            <span>Apple Pay · Stripe Checkout officiel</span>
+          </div>
+          <div style="font-size:16px;font-weight:800;color:#FFFFFF">Validation biométrique Face ID / Touch ID</div>
+          <p style="font-size:12.5px;color:#94A3B8;line-height:1.55;margin:0;max-width:340px">
+            Tu vas être redirigé vers la page officielle <b style="color:#E2E8F0">Stripe Checkout</b> pour régler instantanément en 1 clic avec <b style="color:#E2E8F0">Apple Pay</b>, Link ou ton portefeuille numérique.
+          </p>
+        </div>
+
+        <div class="cb-err-msg" id="cbErrMsg"></div>
+      </div>
 
       <div class="cb-pay-btns-row">
-        <button type="button" class="dlg-buy" id="cbSubmitPayBtn" style="padding:12px 14px;font-size:13.5px">
+        <button type="button" class="dlg-buy" id="cbSubmitPayBtn" style="width:100%;padding:13px 18px;font-size:14px">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          <span id="cbSubmitPayLabel">Payer par CB</span>
+          <span id="cbSubmitPayLabel">Payer par Carte Bancaire</span>
         </button>
-        <button type="button" class="dlg-apple-pay" id="cbApplePayBtn" style="padding:12px 14px;font-size:13.5px" title="Payer avec Apple Pay via Stripe">
+        <button type="button" class="dlg-apple-pay" id="cbApplePayBtn" style="width:100%;padding:13px 18px;font-size:14px;display:none" title="Payer avec Apple Pay via Stripe">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-          <span id="cbApplePayLabel">Apple Pay</span>
+          <span id="cbApplePayLabel">Payer avec Apple Pay</span>
           <span class="apay-stripe-tag">Stripe</span>
         </button>
       </div>
@@ -5068,11 +5170,15 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
     const cardPanel = $('#cbCardPanel');
     const apayPanel = $('#cbApayPanel');
     const savedBox = $('#cbSavedCardsBox');
+    const cbBtn = $('#cbSubmitPayBtn');
+    const apayBtn = $('#cbApplePayBtn');
 
     if (tabCard) tabCard.classList.toggle('active', activePayMethod === 'card');
     if (tabApay) tabApay.classList.toggle('active', activePayMethod === 'apple_pay');
     if (cardPanel) cardPanel.style.display = activePayMethod === 'card' ? 'block' : 'none';
     if (apayPanel) apayPanel.style.display = activePayMethod === 'apple_pay' ? 'flex' : 'none';
+    if (cbBtn) cbBtn.style.display = activePayMethod === 'card' ? 'inline-flex' : 'none';
+    if (apayBtn) apayBtn.style.display = activePayMethod === 'apple_pay' ? 'inline-flex' : 'none';
     if (savedBox) {
       savedBox.style.display = (activePayMethod === 'card' && savedCards.length > 0) ? 'flex' : 'none';
     }
@@ -5086,11 +5192,14 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
   function renderSavedCardsSelector() {
     const box = $('#cbSavedCardsBox');
     const newSec = $('#cbNewCardSection');
+    const statusBox = $('#cbSavedCardStatusBox');
+    const statusTitle = $('#cbSavedCardStatusTitle');
     if (!box || !newSec) return;
 
     if (!savedCards.length) {
       box.style.display = 'none';
       newSec.style.display = 'block';
+      if (statusBox) statusBox.style.display = 'none';
       selectedCardIdx = -1;
       updateVisualPreview();
       return;
@@ -5124,7 +5233,15 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
       });
     });
 
-    newSec.style.display = selectedCardIdx === -1 ? 'block' : 'none';
+    const hasSelCard = selectedCardIdx >= 0 && savedCards[selectedCardIdx];
+    newSec.style.display = hasSelCard ? 'none' : 'block';
+    if (statusBox) {
+      statusBox.style.display = hasSelCard ? 'flex' : 'none';
+      if (hasSelCard && statusTitle) {
+        const sc = savedCards[selectedCardIdx];
+        statusTitle.textContent = `Carte ${sc.brand || 'CB'} •••• ${sc.last4 || ''} prête`;
+      }
+    }
     updateVisualPreview();
   }
 
@@ -5182,10 +5299,10 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
     if (feeEl) feeEl.textContent = '+' + formatEurHelper(stripeFeeCents);
     if (totEl) totEl.textContent = totalFormatted;
     if (payLbl && !$('#cbSubmitPayBtn')?.disabled) {
-      payLbl.textContent = `Carte CB — ${totalFormatted}`;
+      payLbl.textContent = `Payer par Carte Bancaire — ${totalFormatted}`;
     }
     if (apayLbl && !$('#cbApplePayBtn')?.disabled) {
-      apayLbl.textContent = `Apple Pay`;
+      apayLbl.textContent = `Payer avec Apple Pay — ${totalFormatted}`;
     }
     if (cbIn) cbIn.value = isPromo ? 'YONIX10' : '';
   };
@@ -5328,7 +5445,7 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
       if (res.status === 401 || data.requireAuth) {
         if (apayBtn) apayBtn.disabled = false;
         if (cbBtn) cbBtn.disabled = false;
-        if (apayLbl) apayLbl.textContent = 'Apple Pay';
+        if (apayLbl) apayLbl.textContent = `Payer avec Apple Pay — ${pendingOrder.priceRaw || ''}`;
         cbModal.close();
         if (typeof window.requireAuthForOrder === 'function') {
           const savedOrd = pendingOrder;
@@ -5341,7 +5458,7 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
         showCbError(data.error || 'Impossible de lancer Apple Pay via Stripe. Réessaie ou utilise ta Carte Bancaire.');
         if (apayBtn) apayBtn.disabled = false;
         if (cbBtn) cbBtn.disabled = false;
-        if (apayLbl) apayLbl.textContent = 'Apple Pay';
+        if (apayLbl) apayLbl.textContent = `Payer avec Apple Pay — ${pendingOrder.priceRaw || ''}`;
         return;
       }
 
@@ -5362,7 +5479,7 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
       showCbError('Impossible de contacter Stripe pour Apple Pay. Vérifie ta connexion et réessaie.');
       if (apayBtn) apayBtn.disabled = false;
       if (cbBtn) cbBtn.disabled = false;
-      if (apayLbl) apayLbl.textContent = 'Apple Pay';
+      if (apayLbl) apayLbl.textContent = `Payer avec Apple Pay — ${pendingOrder.priceRaw || ''}`;
     }
   }
 
@@ -5479,7 +5596,7 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
       if (res.status === 401 || data.requireAuth) {
         btn.disabled = false;
         if (apayBtn) apayBtn.disabled = false;
-        lbl.textContent = `Carte CB — ${pendingOrder.priceRaw || ''}`;
+        lbl.textContent = `Payer par Carte Bancaire — ${pendingOrder.priceRaw || ''}`;
         cbModal.close();
         if (typeof window.requireAuthForOrder === 'function') {
           const savedOrd = pendingOrder;
@@ -5492,7 +5609,7 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
         showCbError(data.error || 'Paiement refusé par la banque. Vérifie les informations de ta carte.');
         btn.disabled = false;
         if (apayBtn) apayBtn.disabled = false;
-        lbl.textContent = `Carte CB — ${pendingOrder.priceRaw || ''}`;
+        lbl.textContent = `Payer par Carte Bancaire — ${pendingOrder.priceRaw || ''}`;
         return;
       }
 
@@ -5514,7 +5631,7 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
       showCbError('Impossible de contacter le serveur de paiement sécurisé. Vérifie ta connexion et réessaie.');
       btn.disabled = false;
       if (apayBtn) apayBtn.disabled = false;
-      lbl.textContent = `Carte CB — ${pendingOrder.priceRaw || ''}`;
+      lbl.textContent = `Payer par Carte Bancaire — ${pendingOrder.priceRaw || ''}`;
     }
   });
 })();

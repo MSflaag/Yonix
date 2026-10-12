@@ -3879,39 +3879,6 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   }
 }
 
-/* Universal Liquid Click Wave */
-.yonix-liquid-wave {
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  border-radius: 999px;
-  transform: translate(-50%, -50%) scale(0.15);
-  background: radial-gradient(
-    circle,
-    rgba(78, 124, 255, 0.32) 0%,
-    rgba(96, 165, 250, 0.22) 48%,
-    rgba(78, 124, 255, 0.0) 74%
-  );
-  border: 1.5px solid rgba(78, 124, 255, 0.42);
-  box-shadow: 0 0 18px rgba(78, 124, 255, 0.28);
-  animation: yonixLiquidDropWave 0.62s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes yonixLiquidDropWave {
-  0% {
-    opacity: 0.92;
-    transform: translate(-50%, -50%) scale(0.18);
-  }
-  55% {
-    opacity: 0.55;
-    transform: translate(-50%, -50%) scale(1) skewX(1.5deg);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.38);
-  }
-}
-
 .auth-label {
   display: block;
   font-size: 12px;
@@ -8107,22 +8074,11 @@ window.toast = toast;
   backdrop.addEventListener('click', closeAuth);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAuth(); });
 
-  // Universal Liquid Click Wave + Elastic Jelly Rebound on every click
+  // Fluid elastic movement on click (no halo ring)
   document.addEventListener('pointerdown', function(e) {
     if (e.button && e.button !== 0) return;
     const el = e.target.closest('button, a.btn-blue, a.btn-secondary, .nav-links a, .mob-link, .flt, .tier-btn, .pcard, .faq-q, .cb-method-tab, .auth-tab, .lang-btn, .lang-option, .theme-toggle, #cartBubble, .nav-login, .qty-btn');
     if (!el || el.disabled) return;
-
-    const wave = document.createElement('span');
-    wave.className = 'yonix-liquid-wave';
-    const rect = el.getBoundingClientRect();
-    const size = Math.min(135, Math.max(48, Math.max(rect.width, rect.height) * 0.95));
-    wave.style.width = size + 'px';
-    wave.style.height = size + 'px';
-    wave.style.left = e.clientX + 'px';
-    wave.style.top = e.clientY + 'px';
-    document.body.appendChild(wave);
-    setTimeout(() => wave.remove(), 640);
 
     if (typeof el.animate === 'function') {
       const isCard = el.classList.contains('pcard');

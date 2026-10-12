@@ -812,7 +812,7 @@ html[data-theme="dark"] .nav.scrolled .nav-in {
   display: none;
   width: 40px;
   height: 40px;
-  border-radius: 10px;
+  border-radius: 999px;
   background: var(--white);
   border: 1px solid var(--border);
   color: var(--ink);
@@ -820,10 +820,11 @@ html[data-theme="dark"] .nav.scrolled .nav-in {
   justify-content: center;
   padding: 0;
   flex-shrink: 0;
-  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
-#hamBtn:hover {
+#hamBtn:hover,
+#hamBtn[aria-expanded="true"] {
   border-color: var(--blue-border);
   background: var(--blue-soft);
   color: var(--blue);
@@ -833,6 +834,25 @@ html[data-theme="dark"] .nav.scrolled .nav-in {
   width: 20px;
   height: 20px;
   stroke: currentColor;
+}
+
+#hamBtn svg line {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+
+#hamBtn[aria-expanded="true"] svg line:nth-child(1) {
+  transform: translateY(5px) rotate(45deg);
+}
+
+#hamBtn[aria-expanded="true"] svg line:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0.2);
+}
+
+#hamBtn[aria-expanded="true"] svg line:nth-child(3) {
+  transform: translateY(-5px) rotate(-45deg);
 }
 
 /* ===== HERO SECTION ===== */
@@ -3695,50 +3715,105 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   color: var(--gray);
 }
 
-/* ===== MOBILE MENU DRAWER ===== */
-#mobileMenu {
+/* ===== MOBILE MENU (Unrolls Downward from Top Navbar) ===== */
+#mobileMenuBackdrop {
   position: fixed;
   inset: 0;
-  z-index: 150;
+  z-index: 175;
+  background: rgba(8, 12, 22, 0.52);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s ease;
+}
+
+#mobileMenuBackdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#mobileMenu {
+  position: fixed;
+  top: var(--mob-menu-top, 76px);
+  left: 12px;
+  right: 12px;
+  max-height: calc(100dvh - var(--mob-menu-top, 76px) - 20px);
+  z-index: 182;
   display: flex;
   flex-direction: column;
-  background: var(--white);
-  transform: translateY(-105%);
-  transition: transform 0.3s ease;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  border: 1.5px solid rgba(78, 124, 255, 0.30);
+  border-radius: 22px;
+  box-shadow: 0 22px 50px -8px rgba(19, 24, 38, 0.26),
+              0 4px 16px rgba(78, 124, 255, 0.12);
+  transform-origin: top center;
+  opacity: 0;
+  transform: translateY(-16px) scaleY(0.86) scaleX(0.97);
+  clip-path: inset(0 0 100% 0 round 22px);
+  pointer-events: none;
+  visibility: hidden;
   overflow-y: auto;
+  transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.36s cubic-bezier(0.16, 1, 0.3, 1),
+              clip-path 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.38s;
+}
+
+html[data-theme="dark"] #mobileMenu {
+  background: rgba(11, 16, 29, 0.97);
+  border-color: rgba(78, 124, 255, 0.36);
+  box-shadow: 0 24px 56px -6px rgba(0, 0, 0, 0.85),
+              0 0 28px rgba(78, 124, 255, 0.16),
+              0 0 0 1px rgba(255, 255, 255, 0.06) inset;
 }
 
 #mobileMenu.open {
-  transform: none;
+  opacity: 1;
+  transform: translateY(0) scaleY(1) scaleX(1);
+  clip-path: inset(0 0 0% 0 round 22px);
+  pointer-events: auto;
+  visibility: visible;
 }
 
 .mob-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 18px 20px;
-  border-bottom: 1px solid var(--border);
+  display: none;
 }
 
 .mob-links {
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  gap: 6px;
-  flex: 1;
+  padding: 14px 14px 10px;
+  gap: 4px;
 }
 
 .mob-link {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 14px 16px;
-  border-radius: 12px;
-  font-size: 16px;
+  padding: 13px 16px;
+  border-radius: 14px;
+  font-size: 15.5px;
   font-weight: 600;
   color: var(--ink);
   text-align: left;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: background 0.18s ease, color 0.18s ease, opacity 0.28s ease, transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+#mobileMenu.open .mob-link {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#mobileMenu.open .mob-link:nth-child(1) { transition-delay: 0.04s; }
+#mobileMenu.open .mob-link:nth-child(2) { transition-delay: 0.07s; }
+#mobileMenu.open .mob-link:nth-child(3) { transition-delay: 0.10s; }
+#mobileMenu.open .mob-link:nth-child(5) { transition-delay: 0.13s; }
+#mobileMenu.open .mob-link:nth-child(6) { transition-delay: 0.16s; }
 
 .mob-link:hover {
   background: var(--bg-alt);
@@ -3749,12 +3824,13 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   width: 20px;
   height: 20px;
   color: var(--blue);
+  flex-shrink: 0;
 }
 
 .mob-sep {
   height: 1px;
   background: var(--border);
-  margin: 8px 0;
+  margin: 6px 8px;
 }
 
 .mob-login-btn {
@@ -3762,13 +3838,22 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin: 0 20px 28px;
-  padding: 14px 18px;
+  margin: 4px 14px 16px;
+  padding: 13px 18px;
   border-radius: 999px;
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 14.5px;
+  font-weight: 700;
   color: var(--white);
   background: var(--blue);
+  box-shadow: 0 6px 18px rgba(78, 124, 255, 0.32);
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.3s ease 0.18s, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.18s, background 0.2s ease;
+}
+
+#mobileMenu.open .mob-login-btn {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ===== TOAST ===== */
@@ -3941,16 +4026,8 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
 </div>
 
 <!-- MOBILE MENU -->
+<div id="mobileMenuBackdrop" onclick="closeMobileMenu()" aria-hidden="true"></div>
 <div id="mobileMenu" role="dialog" aria-modal="true" aria-label="Menu navigation">
-  <div class="mob-head">
-    <a class="brand" href="/" data-nav="top" onclick="closeMobileMenu()">
-      <span class="brand-mark"><img class="js-yonix-logo" alt="Yonix"></span>
-      <span>YONIX</span>
-    </a>
-    <button id="mobClose" onclick="closeMobileMenu()" aria-label="Fermer le menu" class="cart-close">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-  </div>
   <nav class="mob-links" aria-label="Navigation mobile">
     <a class="mob-link" href="#boutique" data-nav="boutique" onclick="closeMobileMenu()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
@@ -7426,24 +7503,37 @@ window.toast = toast;
   updateBadge();
 })();
 
-/* ===== HAMBURGER MOBILE MENU ===== */
+/* ===== HAMBURGER MOBILE MENU (Unrolls directly below #nav) ===== */
 (function() {
   let menuOpen = false;
+  function syncMobMenuTop() {
+    const navIn = document.querySelector('#nav .nav-in') || document.getElementById('nav');
+    const menu = document.getElementById('mobileMenu');
+    if (navIn && menu) {
+      const rect = navIn.getBoundingClientRect();
+      menu.style.setProperty('--mob-menu-top', Math.max(56, Math.round(rect.bottom + 8)) + 'px');
+    }
+  }
   window.toggleMobileMenu = function() {
     menuOpen = !menuOpen;
+    syncMobMenuTop();
     const menu = document.getElementById('mobileMenu');
+    const backdrop = document.getElementById('mobileMenuBackdrop');
     const btn = document.getElementById('hamBtn');
-    menu.classList.toggle('open', menuOpen);
-    btn.setAttribute('aria-expanded', menuOpen);
+    if (menu) menu.classList.toggle('open', menuOpen);
+    if (backdrop) backdrop.classList.toggle('open', menuOpen);
+    if (btn) btn.setAttribute('aria-expanded', String(menuOpen));
     document.body.style.overflow = menuOpen ? 'hidden' : '';
   };
   window.closeMobileMenu = function() {
     menuOpen = false;
-    document.getElementById('mobileMenu').classList.remove('open');
+    document.getElementById('mobileMenu')?.classList.remove('open');
+    document.getElementById('mobileMenuBackdrop')?.classList.remove('open');
     const btn = document.getElementById('hamBtn');
     if (btn) btn.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
   };
+  window.addEventListener('resize', () => { if (menuOpen) syncMobMenuTop(); }, { passive: true });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && menuOpen) closeMobileMenu(); });
 })();
 

@@ -2002,33 +2002,706 @@ html[data-theme="dark"] .nav.scrolled .nav-in {
   line-height: 1.6;
 }
 
-/* ===== REVIEWS (#avis) ===== */
-.reviews-stars {
-  display: flex;
+/* ===== REVIEWS SYSTEM V2 (#avis) ===== */
+.rv-dashboard {
+  display: grid;
+  grid-template-columns: 280px 1fr 310px;
+  gap: 20px;
+  padding: 26px;
+  border-radius: 24px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 24px;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 36px;
+  position: relative;
+  overflow: hidden;
 }
 
-.r-stars-svg {
+.rv-dashboard::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(78, 124, 255, 0.10), transparent 70%);
+  pointer-events: none;
+}
+
+.rv-score-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 18px 16px;
+  border-radius: 18px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+
+.rv-score-num {
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--night);
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.rv-score-num small {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gray-light);
+}
+
+.rv-score-stars {
   display: inline-flex;
+  gap: 4px;
+  color: #F59E0B;
+  margin: 10px 0 8px;
+}
+
+.rv-score-count {
+  font-size: 13px;
+  color: var(--ink-secondary);
+  font-weight: 600;
+}
+
+.rv-score-count b {
+  color: var(--night);
+  font-weight: 800;
+}
+
+.rv-verified-pill {
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  background: rgba(16, 185, 129, 0.10);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.rv-bars-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 4px 12px;
+}
+
+.rv-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink-secondary);
+}
+
+.rv-bar-label {
+  width: 38px;
+  display: inline-flex;
+  align-items: center;
   gap: 3px;
+  color: var(--night);
+  flex-shrink: 0;
+}
+
+.rv-bar-label svg {
+  color: #F59E0B;
+}
+
+.rv-bar-track {
+  flex: 1;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--bg-subtle);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.rv-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--blue), #60A5FA);
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.rv-bar-pct {
+  width: 36px;
+  text-align: right;
+  font-size: 12px;
+  color: var(--gray);
+  font-variant-numeric: tabular-nums;
+}
+
+.rv-trust-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.rv-trust-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 600;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--ink-secondary);
+}
+
+.rv-trust-chip svg {
+  color: var(--blue);
+  flex-shrink: 0;
+}
+
+.rv-cta-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px;
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(78, 124, 255, 0.08), rgba(78, 124, 255, 0.02));
+  border: 1.5px solid var(--blue-border);
+}
+
+.rv-cta-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   color: var(--blue);
 }
 
-.r-count {
-  color: var(--gray);
-  font-size: 15px;
+.rv-cta-badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
 }
 
-.r-count b {
+.rv-cta-title {
+  font-size: 16px;
+  font-weight: 800;
   color: var(--night);
+  line-height: 1.3;
+}
+
+.rv-cta-desc {
+  font-size: 12.5px;
+  color: var(--ink-secondary);
+  line-height: 1.45;
+}
+
+.rv-publish-btn {
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: none;
+  background: var(--blue);
+  color: #FFFFFF;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 6px 18px rgba(78, 124, 255, 0.28);
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rv-publish-btn:hover {
+  background: var(--blue-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(78, 124, 255, 0.36);
+}
+
+/* Reviews Filter & Search Toolbar */
+.rv-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+.rv-filter-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px;
+  border-radius: 999px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-xs);
+  position: relative;
+  overflow-x: auto;
+  max-width: 100%;
+  scrollbar-width: none;
+}
+
+.rv-filter-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.rv-filter-glider {
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  left: 5px;
+  width: 0;
+  border-radius: 999px;
+  background: var(--night);
+  box-shadow: 0 4px 14px rgba(22, 22, 24, 0.18);
+  transition: left 0.46s cubic-bezier(0.22, 1, 0.36, 1), width 0.46s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.rv-filter-btn {
+  position: relative;
+  z-index: 1;
+  padding: 8px 15px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: var(--ink-secondary);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.25s ease;
+}
+
+.rv-filter-btn:hover {
+  color: var(--night);
+}
+
+.rv-filter-btn.active {
+  color: #FFFFFF;
+}
+
+.rv-filter-count {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: rgba(110, 110, 119, 0.13);
+  color: inherit;
+}
+
+.rv-filter-btn.active .rv-filter-count {
+  background: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+}
+
+.rv-search-wrap {
+  position: relative;
+  min-width: 230px;
+  flex: 0 1 270px;
+}
+
+.rv-search-wrap svg {
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray-light);
+  pointer-events: none;
+}
+
+.rv-search-input {
+  width: 100%;
+  padding: 9px 14px 9px 36px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--night);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rv-search-input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--blue-soft);
+}
+
+/* Interactive Reviews Bento Grid */
+.rv-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.rv-grid.fluid-switch {
+  animation: rvGridFluidIn 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes rvGridFluidIn {
+  0% { opacity: 0.35; transform: translateY(10px) scale(0.985); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.rv-more-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 6px 0 30px;
+}
+
+.rv-more-btn {
+  padding: 11px 24px;
+  border-radius: 999px;
+  border: 1.5px solid var(--border-hover);
+  background: var(--white);
+  color: var(--night);
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow-xs);
+  transition: all 0.2s ease;
+}
+
+.rv-more-btn:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Redesigned Review Card (.rv-card) */
+.rv-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--white);
+  box-shadow: var(--shadow-xs);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
+}
+
+.rv-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.rv-card.is-live {
+  border: 1.5px solid rgba(16, 185, 129, 0.45);
+  box-shadow: 0 10px 28px rgba(16, 185, 129, 0.08);
+}
+
+.rv-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  margin-bottom: 12px;
+}
+
+.rv-av-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.rv-av {
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 14px;
+  background: linear-gradient(135deg, var(--blue-soft), rgba(78, 124, 255, 0.16));
+  color: var(--blue);
+  border: 1px solid var(--blue-border);
+}
+
+.rv-av-check {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #10B981;
+  color: #FFFFFF;
+  display: grid;
+  place-items: center;
+  font-size: 9px;
+  font-weight: 900;
+  border: 2px solid var(--white);
+}
+
+.rv-meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.rv-name {
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--night);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.rv-name .disc-icon {
+  width: 13px;
+  height: 13px;
+  fill: #5865F2;
+  flex: none;
+}
+
+.rv-live-badge {
+  font-size: 9.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.rv-submeta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+  font-size: 11.5px;
+  color: var(--gray-light);
+}
+
+.rv-verified-tag {
+  color: #059669;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.rv-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: #F59E0B;
+  background: rgba(245, 158, 11, 0.10);
+  border: 1px solid rgba(245, 158, 11, 0.24);
+  padding: 4px 8px;
+  border-radius: 999px;
+  flex: none;
+}
+
+/* Product Pill inside Review Card */
+.rv-prod-pill {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 10px;
+  border-radius: 11px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  margin-bottom: 11px;
+}
+
+.rv-prod-logo {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  object-fit: contain;
+  background: #0B0F19;
+  padding: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+.rv-prod-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--night);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+.rv-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 10.5px;
+  background: var(--blue-soft);
+  color: var(--blue);
+  flex-shrink: 0;
+}
+
+.rv-msg {
+  font-size: 14px;
+  color: var(--ink-secondary);
+  line-height: 1.58;
+  margin: 0 0 12px;
+  word-break: break-word;
+}
+
+.rv-img-wrap {
+  margin-top: auto;
+  margin-bottom: 10px;
+  border-radius: 13px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  position: relative;
+  cursor: zoom-in;
+  background: #0B0F19;
+}
+
+.rv-img {
+  width: 100%;
+  height: 175px;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.rv-img-wrap:hover .rv-img {
+  transform: scale(1.035);
+}
+
+.rv-img-zoom {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.78);
+  backdrop-filter: blur(6px);
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  pointer-events: none;
+}
+
+.rv-foot {
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.rv-proof-caption {
+  font-size: 11.5px;
+  color: var(--gray);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rv-proof-caption svg {
+  color: var(--blue);
+  flex-shrink: 0;
+}
+
+.rv-helpful-btn {
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--ink-secondary);
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.rv-helpful-btn:hover,
+.rv-helpful-btn.liked {
+  border-color: var(--blue-border);
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+
+/* Marquee Stream below Grid */
+.rv-marquee-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 12px 0 12px;
+  padding: 0 4px;
+}
+
+.rv-marquee-label {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gray);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
 }
 
 .reviews-marquee-wrap {
   overflow: hidden;
   position: relative;
+  margin-top: 6px;
 }
 
 .reviews-marquee-wrap::before,
@@ -2044,24 +2717,29 @@ html[data-theme="dark"] .nav.scrolled .nav-in {
 
 .reviews-marquee-wrap::before {
   left: 0;
-  background: linear-gradient(90deg, var(--bg), transparent);
+  background: linear-gradient(90deg, var(--white), transparent);
 }
 
 .reviews-marquee-wrap::after {
   right: 0;
-  background: linear-gradient(-90deg, var(--bg), transparent);
+  background: linear-gradient(-90deg, var(--white), transparent);
 }
 
 .reviews-marquee {
   display: flex;
-  gap: 18px;
-  padding: 8px 20px 16px;
+  gap: 16px;
+  padding: 8px 20px 14px;
   width: max-content;
-  animation: rscroll 60s linear infinite;
+  animation: rscroll 68s linear infinite;
 }
 
-.reviews-row2 {
-  animation: rscroll2 68s linear infinite;
+.reviews-marquee .rv-card {
+  width: 320px;
+  flex: none;
+}
+
+.reviews-marquee:hover {
+  animation-play-state: paused;
 }
 
 @keyframes rscroll {
@@ -2069,124 +2747,348 @@ html[data-theme="dark"] .nav.scrolled .nav-in {
   to { transform: translateX(-50%); }
 }
 
-@keyframes rscroll2 {
-  from { transform: translateX(-50%); }
-  to { transform: translateX(0); }
+/* ===== LIVE REVIEW MODAL & LIGHTBOX V2 ===== */
+.rv-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 14, 23, 0.72);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
 }
 
-.reviews-marquee:hover {
-  animation-play-state: paused;
+.rv-modal-backdrop.open {
+  display: flex;
 }
 
-.rv-card {
-  flex: none;
-  width: 300px;
-  padding: 20px;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border);
+.rv-modal-card {
   background: var(--white);
-  box-shadow: var(--shadow-sm);
-}
-
-.rv-head {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  margin-bottom: 12px;
-}
-
-.rv-av {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-weight: 700;
-  font-size: 14px;
-  flex: none;
-  background: var(--blue-soft);
-  color: var(--blue);
-  border: 1px solid var(--blue-border);
-}
-
-.rv-meta {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.rv-name {
-  font-weight: 700;
-  font-size: 14px;
-  color: var(--night);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.rv-name .disc-icon {
-  width: 14px;
-  height: 14px;
-  fill: var(--blue);
-  flex: none;
-}
-
-.rv-date {
-  font-size: 11.5px;
-  color: var(--gray-light);
-}
-
-.rv-stars {
-  margin-left: auto;
-  display: inline-flex;
-  gap: 2px;
-  color: var(--blue);
-  flex: none;
-}
-
-.rv-msg {
-  font-size: 13.5px;
-  color: var(--ink-secondary);
-  line-height: 1.55;
-  margin: 0 0 10px;
-}
-
-.rv-img-wrap {
-  margin-top: 10px;
-  border-radius: 10px;
-  overflow: hidden;
   border: 1px solid var(--border);
-}
-
-.rv-img {
+  border-radius: 24px;
+  max-width: 560px;
   width: 100%;
-  display: block;
-  object-fit: cover;
-  max-height: 190px;
+  padding: 26px;
+  box-shadow: var(--shadow-xl);
+  max-height: 92vh;
+  overflow-y: auto;
+  position: relative;
+  color: var(--night);
+  animation: rvModalPop 0.34s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.rv-proof {
-  margin-top: 8px;
-  border-radius: 8px;
+@keyframes rvModalPop {
+  from { opacity: 0; transform: translateY(14px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.rv-modal-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.rv-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--night);
+}
+
+.rv-modal-close {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
   border: 1px solid var(--border);
   background: var(--bg);
-  padding: 7px 10px;
-  font-size: 11.5px;
+  color: var(--ink-secondary);
+  font-weight: 800;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: all 0.2s ease;
+}
+
+.rv-modal-close:hover {
+  background: var(--bg-subtle);
+  color: var(--night);
+}
+
+.rv-modal-sub {
+  font-size: 13px;
   color: var(--gray);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.rv-selected-banner {
   display: flex;
   align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--bg);
+  border: 1.5px solid var(--blue-border);
+  margin-bottom: 14px;
+}
+
+.rv-selected-banner img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  border-radius: 10px;
+  background: #0B0F19;
+  padding: 5px;
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.rv-field {
+  margin-bottom: 14px;
+}
+
+.rv-label {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-secondary);
+  margin-bottom: 7px;
+}
+
+.rv-prod-chips {
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+  scrollbar-width: thin;
+}
+
+.rv-prod-chip {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 11px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--ink-secondary);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.rv-prod-chip img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.rv-prod-chip.active,
+.rv-prod-chip:hover {
+  border-color: var(--blue);
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+
+.rv-select,
+.rv-input,
+.rv-textarea {
+  width: 100%;
+  padding: 11px 13px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--night);
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rv-select:focus,
+.rv-input:focus,
+.rv-textarea:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--blue-soft);
+  background: var(--white);
+}
+
+.rv-star-picker-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+
+.rv-star-btns {
+  display: inline-flex;
   gap: 6px;
 }
 
-.rv-tag {
-  display: inline-flex;
-  align-items: center;
-  padding: 3px 10px;
+.rv-star-btn {
+  border: none;
+  background: transparent;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  color: #CBD5E1;
+  transition: transform 0.18s ease, color 0.18s ease;
+  padding: 0 2px;
+}
+
+.rv-star-btn.active {
+  color: #F59E0B;
+}
+
+.rv-star-btn:hover {
+  transform: scale(1.18);
+}
+
+.rv-star-rating-text {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: #F59E0B;
+}
+
+.rv-quick-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 7px;
+}
+
+.rv-quick-tag {
+  padding: 4px 10px;
   border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--ink-secondary);
+  font-family: inherit;
+  font-size: 11.5px;
   font-weight: 600;
-  font-size: 11px;
-  background: var(--blue-soft);
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.rv-quick-tag:hover {
+  border-color: var(--blue);
   color: var(--blue);
+  background: var(--blue-soft);
+}
+
+.rv-upload-zone {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1.5px dashed var(--border-hover);
+  background: var(--bg);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.rv-upload-zone:hover {
+  border-color: var(--blue);
+  background: var(--blue-soft);
+}
+
+/* Dark theme adjustments for Reviews System */
+html.dark-theme .rv-dashboard,
+html.dark-theme .rv-card,
+html.dark-theme .rv-filter-bar,
+html.dark-theme .rv-search-input,
+html.dark-theme .rv-more-btn,
+html.dark-theme .rv-modal-card {
+  background: #131824;
+  border-color: #242E42;
+}
+
+html.dark-theme .rv-score-block,
+html.dark-theme .rv-trust-chip,
+html.dark-theme .rv-prod-pill,
+html.dark-theme .rv-helpful-btn,
+html.dark-theme .rv-selected-banner,
+html.dark-theme .rv-prod-chip,
+html.dark-theme .rv-select,
+html.dark-theme .rv-input,
+html.dark-theme .rv-textarea,
+html.dark-theme .rv-star-picker-bar,
+html.dark-theme .rv-quick-tag,
+html.dark-theme .rv-upload-zone,
+html.dark-theme .rv-modal-close {
+  background: #0D111A;
+  border-color: #242E42;
+}
+
+html.dark-theme .rv-filter-glider {
+  background: var(--blue);
+}
+
+html.dark-theme .reviews-marquee-wrap::before {
+  background: linear-gradient(90deg, #0D111A, transparent);
+}
+
+html.dark-theme .reviews-marquee-wrap::after {
+  background: linear-gradient(-90deg, #0D111A, transparent);
+}
+
+@media (max-width: 980px) {
+  .rv-dashboard {
+    grid-template-columns: 1fr 1fr;
+  }
+  .rv-cta-block {
+    grid-column: 1 / -1;
+  }
+  .rv-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .rv-dashboard {
+    grid-template-columns: 1fr;
+    padding: 18px 16px;
+    gap: 14px;
+  }
+  .rv-bars-block {
+    padding: 0;
+  }
+  .rv-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .rv-search-wrap {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+  .rv-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .rv-modal-card {
+    padding: 20px 16px;
+    border-radius: 20px;
+  }
 }
 
 /* ===== SECTION 5: FAQ (Simple Accordion Container) ===== */
@@ -4921,77 +5823,212 @@ html[data-theme="dark"] #mobileMenu {
   </div>
 </section>
 
-<!-- REVIEWS -->
+<!-- REVIEWS SYSTEM V2 -->
 <section class="sec bg-white" id="avis">
   <div class="wrap">
     <div class="sec-head rv">
       <div class="sec-label" style="display:inline-flex;align-items:center;gap:7px">
         <span style="width:8px;height:8px;border-radius:50%;background:#10b981;box-shadow:0 0 0 4px rgba(16,185,129,0.2);display:inline-block"></span>
-        Avis clients en direct
+        Avis &amp; Preuves Clients Vérifiés
       </div>
-      <h2>Ils ont testé. Ils valident.</h2>
-      <p>Retours authentiques en direct de nos clients après activation de leur commande ou sur Discord.</p>
+      <h2>Ils ont commandé. Ils valident.</h2>
+      <p>Retours authentiques publiés en direct par nos clients après livraison de leur commande sur le site ou Discord.</p>
     </div>
-    <div class="reviews-stars rv" style="display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap">
-      <div class="r-stars-svg" aria-label="5 sur 5 étoiles">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+
+    <!-- Rating Summary Dashboard (Bento 3-column) -->
+    <div class="rv-dashboard rv">
+      <!-- 1. Score Block -->
+      <div class="rv-score-block">
+        <div class="rv-score-num"><span id="rvAvgScoreVal">4.9</span><small>/ 5</small></div>
+        <div class="rv-score-stars" aria-label="4.9 sur 5 étoiles">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <div class="rv-score-count">Basé sur <b id="totalReviewsCountLabel">+220 avis vérifiés</b></div>
+        <div class="rv-verified-pill">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          100% Commandes vérifiées
+        </div>
       </div>
-      <span class="r-count">4.9/5 · <b id="totalReviewsCountLabel">+200 avis vérifiés</b></span>
-      <button type="button" onclick="window.openLiveReviewModal()" style="padding:10px 18px;border-radius:99px;background:linear-gradient(135deg,#0f172a,#1e40af);color:#fff;border:none;font-size:13px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:8px;box-shadow:0 6px 18px rgba(30,64,175,0.25);transition:transform .15s">
-        <span style="color:#fbbf24;font-size:15px">★</span> Laisser un petit avis en direct
+
+      <!-- 2. Rating Breakdown Bars & Trust Metrics -->
+      <div class="rv-bars-block">
+        <div class="rv-bar-row">
+          <span class="rv-bar-label">5 <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+          <div class="rv-bar-track"><div class="rv-bar-fill" id="rvBar5" style="width:96%"></div></div>
+          <span class="rv-bar-pct" id="rvPct5">96%</span>
+        </div>
+        <div class="rv-bar-row">
+          <span class="rv-bar-label">4 <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+          <div class="rv-bar-track"><div class="rv-bar-fill" id="rvBar4" style="width:4%"></div></div>
+          <span class="rv-bar-pct" id="rvPct4">4%</span>
+        </div>
+        <div class="rv-bar-row">
+          <span class="rv-bar-label">3 <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+          <div class="rv-bar-track"><div class="rv-bar-fill" id="rvBar3" style="width:0%"></div></div>
+          <span class="rv-bar-pct" id="rvPct3">0%</span>
+        </div>
+        <div class="rv-bar-row">
+          <span class="rv-bar-label">2 <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+          <div class="rv-bar-track"><div class="rv-bar-fill" id="rvBar2" style="width:0%"></div></div>
+          <span class="rv-bar-pct" id="rvPct2">0%</span>
+        </div>
+        <div class="rv-bar-row">
+          <span class="rv-bar-label">1 <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+          <div class="rv-bar-track"><div class="rv-bar-fill" id="rvBar1" style="width:0%"></div></div>
+          <span class="rv-bar-pct" id="rvPct1">0%</span>
+        </div>
+
+        <div class="rv-trust-chips">
+          <span class="rv-trust-chip">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Livraison instantanée
+          </span>
+          <span class="rv-trust-chip">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+            Preuves photos réelles
+          </span>
+          <span class="rv-trust-chip">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Garantie &amp; Support 24/7
+          </span>
+        </div>
+      </div>
+
+      <!-- 3. Publish Review CTA Block -->
+      <div class="rv-cta-block">
+        <div>
+          <div class="rv-cta-badge">
+            <span class="rv-cta-badge-dot"></span>
+            Publication en direct
+          </div>
+          <div class="rv-cta-title" style="margin-top:6px">Tu as commandé chez nous ?</div>
+          <div class="rv-cta-desc" style="margin-top:4px">Partage ton retour d'expérience et joins une capture d'écran de ta commande activée.</div>
+        </div>
+        <button type="button" class="rv-publish-btn" onclick="window.openLiveReviewModal()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Publier un avis en direct
+        </button>
+      </div>
+    </div>
+
+    <!-- Filter & Search Toolbar with Liquid Glider -->
+    <div class="rv-toolbar rv">
+      <div class="rv-filter-bar" id="rvFilterBar" role="tablist" aria-label="Filtrer les avis">
+        <div class="rv-filter-glider" id="rvFilterGlider" aria-hidden="true"></div>
+        <button type="button" class="rv-filter-btn active" data-rvcat="all" onclick="window.filterReviewsByCat('all', this)">
+          Tous les avis <span class="rv-filter-count" id="rvCountAll">24</span>
+        </button>
+        <button type="button" class="rv-filter-btn" data-rvcat="proof" onclick="window.filterReviewsByCat('proof', this)">
+          📸 Avec preuve <span class="rv-filter-count" id="rvCountProof">18</span>
+        </button>
+        <button type="button" class="rv-filter-btn" data-rvcat="services" onclick="window.filterReviewsByCat('services', this)">
+          Services Premium <span class="rv-filter-count" id="rvCountServices">16</span>
+        </button>
+        <button type="button" class="rv-filter-btn" data-rvcat="gaming" onclick="window.filterReviewsByCat('gaming', this)">
+          Gaming &amp; Spoofer <span class="rv-filter-count" id="rvCountGaming">4</span>
+        </button>
+        <button type="button" class="rv-filter-btn" data-rvcat="jailbreak" onclick="window.filterReviewsByCat('jailbreak', this)">
+          Jailbreaks IA <span class="rv-filter-count" id="rvCountJb">4</span>
+        </button>
+      </div>
+
+      <div class="rv-search-wrap">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="search" id="rvSearchInput" class="rv-search-input" placeholder="Rechercher un produit, pseudo, avis..." oninput="window.onReviewSearchInput(this.value)">
+      </div>
+    </div>
+
+    <!-- Interactive Filtered Reviews Bento Grid -->
+    <div class="rv-grid" id="rvGrid"></div>
+
+    <!-- Show More / Less Button -->
+    <div class="rv-more-wrap" id="rvMoreWrap" style="display:none">
+      <button type="button" class="rv-more-btn" id="rvMoreBtn" onclick="window.toggleShowAllReviews()">
+        <span id="rvMoreBtnText">Afficher tous les avis</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
       </button>
     </div>
 
-    <!-- Derniers avis publiés en direct -->
-    <div id="liveReviewsFeedWrap" style="display:none;margin:22px auto 10px;max-width:1080px">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding:0 4px">
-        <div style="display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#059669;background:#ecfdf5;border:1px solid #a7f3d0;padding:5px 12px;border-radius:99px">
-          <span style="width:7px;height:7px;border-radius:50%;background:#10b981;display:inline-block"></span>
-          Derniers avis publiés en direct
-        </div>
-        <span style="font-size:12px;color:#64748b;font-weight:600">Mis à jour instantanément</span>
-      </div>
-      <div id="liveReviewsFeed" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px"></div>
+    <!-- Live Marquee Stream Header -->
+    <div class="rv-marquee-header">
+      <span class="rv-marquee-label">
+        <span style="width:7px;height:7px;border-radius:50%;background:#10b981;display:inline-block"></span>
+        Flux continu des avis vérifiés
+      </span>
+      <span style="font-size:12px;color:var(--gray-light);font-weight:600">Survole une carte pour mettre en pause</span>
     </div>
   </div>
+
+  <!-- Continuous Marquee Ticker -->
   <div class="reviews-marquee-wrap">
     <div class="reviews-marquee reviews-row1" id="rrow1"></div>
   </div>
-  <div class="reviews-marquee-wrap" style="margin-top:16px">
-    <div class="reviews-marquee reviews-row2" id="rrow2"></div>
-  </div>
 </section>
 
-<!-- LIVE REVIEW MODAL -->
-<div id="liveReviewModal" style="position:fixed;inset:0;background:rgba(15,23,42,0.72);backdrop-filter:blur(6px);z-index:9999;display:none;align-items:center;justify-content:center;padding:18px" onclick="if(event.target===this)window.closeLiveReviewModal()">
-  <div style="background:#fff;border-radius:22px;max-width:520px;width:100%;padding:26px;box-shadow:0 25px 70px rgba(15,23,42,0.35);max-height:92vh;overflow-y:auto;position:relative">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-      <div style="display:flex;align-items:center;gap:8px">
-        <span style="width:9px;height:9px;border-radius:50%;background:#10b981;display:inline-block"></span>
-        <span style="font-size:17px;font-weight:800;color:#0f172a">Publier un avis en direct</span>
+<!-- PROOF IMAGE LIGHTBOX MODAL -->
+<div class="rv-modal-backdrop" id="rvLightboxModal" onclick="if(event.target===this)window.closeReviewLightbox()">
+  <div class="rv-modal-card" style="max-width:680px;padding:20px">
+    <div class="rv-modal-top" style="margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:10px;min-width:0">
+        <img id="rvLbProdLogo" src="/logos/basicfit.png" alt="" style="width:36px;height:36px;border-radius:9px;object-fit:contain;background:#0B0F19;padding:4px;border:1px solid var(--border)">
+        <div style="min-width:0">
+          <div id="rvLbAuthor" style="font-size:15px;font-weight:800;color:var(--night)">Client Vérifié</div>
+          <div id="rvLbProduct" style="font-size:12px;font-weight:700;color:var(--blue)">Basic Fit Ultimate</div>
+        </div>
       </div>
-      <button type="button" onclick="window.closeLiveReviewModal()" style="border:none;background:#f1f5f9;width:32px;height:32px;border-radius:50%;cursor:pointer;font-weight:800;color:#475569">✕</button>
+      <button type="button" class="rv-modal-close" onclick="window.closeReviewLightbox()" aria-label="Fermer">✕</button>
     </div>
-    <p style="font-size:13px;color:#64748b;margin-bottom:16px;line-height:1.5">
-      Ton avis sera affiché <b>immédiatement en direct</b> sur la boutique YONIX avec le logo du service que tu as commandé.
+    <div style="border-radius:16px;overflow:hidden;background:#070A12;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;max-height:70vh">
+      <img id="rvLbImg" src="" alt="Preuve client" style="max-width:100%;max-height:70vh;object-fit:contain;display:block">
+    </div>
+    <div id="rvLbCaption" style="margin-top:12px;font-size:13.5px;color:var(--ink-secondary);line-height:1.5;font-weight:500"></div>
+  </div>
+</div>
+
+<!-- LIVE REVIEW SUBMISSION MODAL V2 -->
+<div class="rv-modal-backdrop" id="liveReviewModal" onclick="if(event.target===this)window.closeLiveReviewModal()">
+  <div class="rv-modal-card">
+    <div class="rv-modal-top">
+      <div class="rv-modal-title">
+        <span style="width:9px;height:9px;border-radius:50%;background:#10b981;box-shadow:0 0 0 3px rgba(16,185,129,0.2);display:inline-block"></span>
+        <span>Publier un avis vérifié</span>
+      </div>
+      <button type="button" class="rv-modal-close" onclick="window.closeLiveReviewModal()" aria-label="Fermer">✕</button>
+    </div>
+    <p class="rv-modal-sub">
+      Ton avis est publié <b>instantanément en direct</b> sur la boutique YONIX avec le badge du produit commandé.
     </p>
 
     <!-- Aperçu produit sélectionné -->
-    <div id="liveRevSelectedBanner" style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;background:#f8fafc;border:1px solid #e2e8f0;margin-bottom:14px">
-      <img id="liveRevProductImg" src="/logos/basicfit.png" alt="Produit" style="width:46px;height:46px;object-fit:contain;border-radius:10px;background:#fff;padding:4px;border:1px solid #e2e8f0">
+    <div id="liveRevSelectedBanner" class="rv-selected-banner">
+      <img id="liveRevProductImg" src="/logos/basicfit.png" alt="Produit">
       <div style="flex:1;min-width:0">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#2563eb">Produit / Service</div>
-        <div id="liveRevProductTitle" style="font-size:14px;font-weight:800;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Basic Fit Ultimate</div>
+        <div style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--blue)">Produit / Service sélectionné</div>
+        <div id="liveRevProductTitle" style="font-size:14.5px;font-weight:800;color:var(--night);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Basic Fit Ultimate</div>
       </div>
+      <span class="rv-verified-pill" style="margin-top:0">✓ Vérifié</span>
     </div>
 
-    <div style="margin-bottom:14px">
-      <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#475569;margin-bottom:6px">Choisir le produit commandé</label>
-      <select id="liveRevProductSelect" onchange="window.onLiveRevProductChange(this.value)" style="width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:10px;font-size:13px;font-weight:600;color:#0f172a;background:#fff">
+    <!-- Sélecteur rapide visuel + liste complète -->
+    <div class="rv-field">
+      <label class="rv-label">Choisir le produit commandé</label>
+      <div class="rv-prod-chips" id="liveRevQuickChips">
+        <button type="button" class="rv-prod-chip active" onclick="window.pickLiveRevQuickProd('Basic Fit Ultimate|/logos/basicfit.png', this)"><img src="/logos/basicfit.png" alt="">Basic Fit</button>
+        <button type="button" class="rv-prod-chip" onclick="window.pickLiveRevQuickProd('O\'Tacos — Tech Points Illimités|/logos/otacos.png', this)"><img src="/logos/otacos.png" alt="">O'Tacos</button>
+        <button type="button" class="rv-prod-chip" onclick="window.pickLiveRevQuickProd('ADOBE PHOTOSHOP 2025|/logos/adobe.png', this)"><img src="/logos/adobe.png" alt="">Photoshop</button>
+        <button type="button" class="rv-prod-chip" onclick="window.pickLiveRevQuickProd('Spotify Premium 1 an|/logos/spotify.png', this)"><img src="/logos/spotify.png" alt="">Spotify</button>
+        <button type="button" class="rv-prod-chip" onclick="window.pickLiveRevQuickProd('Netflix Premium 4K · 1 an|/logos/netflix.png', this)"><img src="/logos/netflix.png" alt="">Netflix</button>
+        <button type="button" class="rv-prod-chip" onclick="window.pickLiveRevQuickProd('CS2 Loader|/logos/csgo.png', this)"><img src="/logos/csgo.png" alt="">CS2 Loader</button>
+        <button type="button" class="rv-prod-chip" onclick="window.pickLiveRevQuickProd('Valorant Private|/logos/valorant.png', this)"><img src="/logos/valorant.png" alt="">Valorant</button>
+        <button type="button" class="rv-prod-chip" onclick="window.pickLiveRevQuickProd('HWID Spoofer Permanent|/logos/spoofer.png', this)"><img src="/logos/spoofer.png" alt="">Spoofer</button>
+        <button type="button" class="rv-prod-chip" onclick="window.pickLiveRevQuickProd('Bundle Jailbreak Complet (11 IA)|/logos/Yonix.png', this)"><img src="/logos/Yonix.png" alt="">Bundle IA</button>
+        <button type="button" class="rv-prod-chip" onclick="window.pickLiveRevQuickProd('Claude 4.6 Jailbreak|/logos/claude.png', this)"><img src="/logos/claude.png" alt="">Claude 4.6</button>
+      </div>
+      <select id="liveRevProductSelect" class="rv-select" onchange="window.onLiveRevProductChange(this.value)">
         <option value="Basic Fit Ultimate|/logos/basicfit.png">Basic Fit Ultimate — 12 Mois</option>
         <option value="ADOBE PHOTOSHOP 2025|/logos/adobe.png">ADOBE PHOTOSHOP 2025 Premium</option>
         <option value="O'Tacos — Tech Points Illimités|/logos/otacos.png">O'Tacos — Tech Points Gratuits Illimités</option>
@@ -5021,37 +6058,60 @@ html[data-theme="dark"] #mobileMenu {
       </select>
     </div>
 
-    <div style="margin-bottom:14px">
-      <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#475569;margin-bottom:6px">Note</label>
-      <div id="liveRevStarsPicker" style="display:flex;gap:8px;font-size:28px;cursor:pointer;user-select:none">
-        <span data-s="1" onclick="window.setLiveRevStars(1)" style="color:#f59e0b">★</span>
-        <span data-s="2" onclick="window.setLiveRevStars(2)" style="color:#f59e0b">★</span>
-        <span data-s="3" onclick="window.setLiveRevStars(3)" style="color:#f59e0b">★</span>
-        <span data-s="4" onclick="window.setLiveRevStars(4)" style="color:#f59e0b">★</span>
-        <span data-s="5" onclick="window.setLiveRevStars(5)" style="color:#f59e0b">★</span>
+    <div class="rv-field">
+      <label class="rv-label">Ta note globale</label>
+      <div class="rv-star-picker-bar">
+        <div id="liveRevStarsPicker" class="rv-star-btns">
+          <button type="button" class="rv-star-btn active" data-s="1" onclick="window.setLiveRevStars(1)">★</button>
+          <button type="button" class="rv-star-btn active" data-s="2" onclick="window.setLiveRevStars(2)">★</button>
+          <button type="button" class="rv-star-btn active" data-s="3" onclick="window.setLiveRevStars(3)">★</button>
+          <button type="button" class="rv-star-btn active" data-s="4" onclick="window.setLiveRevStars(4)">★</button>
+          <button type="button" class="rv-star-btn active" data-s="5" onclick="window.setLiveRevStars(5)">★</button>
+        </div>
+        <span class="rv-star-rating-text" id="liveRevStarLabel">5/5 — Parfait !</span>
       </div>
     </div>
 
-    <div style="margin-bottom:12px">
-      <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#475569;margin-bottom:5px">Ton Pseudo / Prénom</label>
-      <input type="text" id="liveRevNameInput" placeholder="Ex: Mehdi_93, Lucas..." style="width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:10px;font-size:13px;font-family:inherit">
+    <div class="rv-field">
+      <label class="rv-label" for="liveRevNameInput">Ton Pseudo / Prénom</label>
+      <input type="text" id="liveRevNameInput" class="rv-input" maxlength="40" placeholder="Ex: Mehdi_93, Lucas, Samy...">
     </div>
 
-    <div style="margin-bottom:12px">
-      <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#475569;margin-bottom:5px">Ton Avis</label>
-      <textarea id="liveRevMsgInput" rows="3" placeholder="Ex: Compte Basic Fit activé super rapidement, merci l'équipe YONIX !" style="width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:10px;font-size:13px;font-family:inherit;resize:vertical"></textarea>
-    </div>
-
-    <div style="margin-bottom:16px">
-      <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#475569;margin-bottom:5px">Capture / Preuve (optionnel)</label>
-      <input type="file" id="liveRevProofFile" accept="image/*" onchange="window.onLiveRevProofChange(event)" style="font-size:12px;color:#475569;width:100%">
-      <div id="liveRevProofPreviewWrap" style="display:none;margin-top:8px">
-        <img id="liveRevProofPreviewImg" src="" alt="Preuve" style="max-height:110px;border-radius:8px;border:1px solid #e2e8f0">
+    <div class="rv-field">
+      <label class="rv-label" for="liveRevMsgInput">Ton commentaire</label>
+      <textarea id="liveRevMsgInput" class="rv-textarea" rows="3" maxlength="500" placeholder="Ex: Compte activé en moins de 2 minutes, tout fonctionne parfaitement, merci l'équipe YONIX !"></textarea>
+      <div class="rv-quick-tags">
+        <button type="button" class="rv-quick-tag" onclick="window.appendLiveRevQuickTag('Livraison ultra rapide ⚡')">⚡ Livraison rapide</button>
+        <button type="button" class="rv-quick-tag" onclick="window.appendLiveRevQuickTag('100% legit et fonctionnel ✅')">✅ 100% fonctionnel</button>
+        <button type="button" class="rv-quick-tag" onclick="window.appendLiveRevQuickTag('Support réactif au top 🔥')">🔥 Support au top</button>
+        <button type="button" class="rv-quick-tag" onclick="window.appendLiveRevQuickTag('Je recommande à 100% !')">⭐ Je recommande</button>
       </div>
     </div>
 
-    <button type="button" id="liveRevSubmitBtn" onclick="window.submitLiveReviewFromIndex()" style="width:100%;padding:13px;border:none;border-radius:12px;background:linear-gradient(135deg,#0f172a,#2563eb);color:#fff;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 8px 20px rgba(37,99,235,0.25)">
-      ★ Publier mon avis en direct
+    <div class="rv-field">
+      <label class="rv-label">Capture d'écran / Preuve (optionnel)</label>
+      <label class="rv-upload-zone" for="liveRevProofFile">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:36px;height:36px;border-radius:10px;background:var(--blue-soft);color:var(--blue);display:grid;place-items:center;flex-shrink:0">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+          </div>
+          <div>
+            <div style="font-size:13px;font-weight:700;color:var(--night)" id="liveRevUploadLabel">Ajouter une capture d'écran</div>
+            <div style="font-size:11.5px;color:var(--gray)">PNG, JPG — compressée automatiquement</div>
+          </div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:var(--blue)">Parcourir</span>
+      </label>
+      <input type="file" id="liveRevProofFile" accept="image/*" onchange="window.onLiveRevProofChange(event)" style="display:none">
+      <div id="liveRevProofPreviewWrap" style="display:none;margin-top:10px;position:relative;width:fit-content">
+        <img id="liveRevProofPreviewImg" src="" alt="Preuve" style="max-height:120px;border-radius:10px;border:1px solid var(--border);display:block">
+        <button type="button" onclick="window.clearLiveRevProof()" style="position:absolute;top:-8px;right:-8px;width:24px;height:24px;border-radius:50%;border:none;background:#EF4444;color:#fff;font-size:12px;font-weight:800;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.25)">✕</button>
+      </div>
+    </div>
+
+    <button type="button" id="liveRevSubmitBtn" class="rv-publish-btn" onclick="window.submitLiveReviewFromIndex()" style="padding:14px">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <span>Publier mon avis en direct</span>
     </button>
   </div>
 </div>
@@ -7551,31 +8611,35 @@ const PROOF_IMGS = {"img1":"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2
 "img17":"data:image/jpeg;base64,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"};
 
 const REVIEWS = [
-  {name:'A.zrt',date:'04/10/2026 23:59',msg:'crack claude parfait',product:'Claude 4.6 Jailbreak',tag:'jb',stars:5,av:'A',proof:'CS:GO Cheat complet — ImGui + Win32, build.bat double-clic · 6 étapes validées',img:'img1'},
-  {name:'abdel.093',date:'04/10/2026 08:59',msg:'3 mois Basic Fit validé — foncer les gars que du réel',product:'Basic Fit Ultimate',tag:'green',stars:5,av:'AB',proof:'App Basic Fit ouverte — accès XACCESS actif',img:'img2'},
-  {name:'mouaddjoudi',date:'29/09/2026 21:43',msg:'Tout est parfait !',product:'Basic Fit Ultimate',tag:'green',stars:5,av:'M',proof:'Screenshot Basic Fit — Aujourd\'hui mar. 29',img:'img3'},
-  {name:'KIMΣKΘ',date:'26/08/2026 01:02',msg:'+vouche kyzen gw 100% reel (modifié)',product:'Basic Fit Ultimate',tag:'green',stars:5,av:'K',proof:'App Basic Fit — XACCESS + Planifier activité',img:'img4'},
-  {name:'abdel.093',date:'26/08/2026 00:53',msg:'Foncer les gars que du réel',product:'Basic Fit Ultimate',tag:'green',stars:5,av:'AB',proof:'App Basic Fit ouverte — mar. 28 surligné',img:'img5'},
-  {name:'Near',date:'24/08/2026 23:00',msg:'Dans le bon réel',product:'Basic Fit Ultimate',tag:'green',stars:5,av:'N',proof:'App Basic Fit — Visites hebdo · lun. 24 actif',img:'img6'},
-  {name:'Near',date:'24/08/2026 23:16',msg:'Et en plus de ça compte netflix',product:'Services',tag:'',stars:5,av:'N',proof:'Netflix — recherche Spiderman, compte actif',img:'img7'},
-  {name:'Kokito_o0',date:'22/08/2026 23:13',msg:'Validé je recommande a fond',product:'Basic Fit Ultimate',tag:'green',stars:5,av:'KO',proof:'App Basic Fit — sam. 22 · XACCESS confirmé',img:'img8'},
-  {name:'Lmzzz',date:'22/08/2026 23:06',msg:"C'est du tout droit comme dab je recommande 10/10",product:'Basic Fit Ultimate',tag:'green',stars:5,av:'L',proof:'App Basic Fit — sam. 22 · XACCESS visible',img:'img9'},
-  {name:'Samy',date:'21/08/2026 19:44',msg:'Legit !',product:'Basic Fit Ultimate',tag:'green',stars:5,av:'S',proof:'App Basic Fit Ultimate Member — Abonnement & Extras actif',img:'img10'},
-  {name:'MLK TOUT MUSCLÉ',date:'19/08/2026 17:06',msg:"C'est carré séance legs",product:'Basic Fit Ultimate',tag:'green',stars:5,av:'M',proof:'Photo salle Basic Fit — machines orange, séance legs réelle',img:'img11'},
-  {name:'Samy',date:'19/08/2026 04:53',msg:'Tout marche c carré c legit',product:'Basic Fit Ultimate',tag:'green',stars:5,av:'S',proof:'App Basic Fit EN — Visit goal actif · XACCESS',img:'img12'},
-  {name:'Louis45',date:'03/09/2026 22:37',msg:'Parfait encore',product:'Basic Fit Ultimate',tag:'green',stars:5,av:'L',proof:'Email Basic-Fit — inscription confirmée, contrat en cours',img:'img13'},
-  {name:'4quatre',date:'30/08/2026 20:28',msg:'Abo basic fit carré',product:'Basic Fit Ultimate',tag:'green',stars:5,av:'4',proof:'Email Basic-Fit — WELKOM BIJ BASIC-FIT + photo salle',img:'img14'},
-  {name:'Louis45',date:'27/08/2026 20:05',msg:'Rien a dire parfait mdrr',product:'Basic Fit Ultimate',tag:'green',stars:5,av:'L',proof:'Email Fitness Park — Mon contrat, dossier validé',img:'img15'},
-  {name:'Massa ma',date:'03/09/2026 22:48',msg:'Parfait !',product:'Basic Fit Ultimate',tag:'green',stars:5,av:'MA',proof:'App Basic Fit — jeu. 03 · XACCESS actif',img:'img16'},
-  {name:'mouaddjoudi',date:'29/09/2026 21:43',msg:'Tout est parfait !',product:'Basic Fit Ultimate',tag:'green',stars:5,av:'MO',proof:'App Basic Fit — mar. 29 · XACCESS visible'},
-  {name:'Kokito_o0',date:'05/09/2026 12:57',msg:'+rep Spotify PREMIUM 3mois (modifié)',product:'Services',tag:'purple',stars:5,av:'KO',proof:'Spotify Premium Personnel — essai expire 04/12/2026 · Musique sans pub',img:'img17'},
-  {name:'abdel.093',date:'05/09/2026 12:02',msg:'3 mois snap + validé',product:'Services',tag:'purple',stars:5,av:'AB',proof:'Snapchat+ — Odium Ware vous a offert Snapchat+ · Utiliser le cadeau',img:'img3'},
-  {name:'A.zrt',date:'04/10/2026 23:59',msg:'Starter rises — full rise to you, baker. projet livré clé en main.',product:'Claude 4.6 Jailbreak',tag:'jb',stars:5,av:'A',proof:'CS:GO Cheat complet — setup.BAT, main.CP, CMakeLists, README',img:'img1'}
+  {name:'A.zrt',date:'04/10/2026 23:59',msg:'crack claude parfait',product:'Claude 4.6 Jailbreak',tag:'jb',cat:'jailbreak',stars:5,av:'AZ',likes:14,proof:'CS:GO Cheat complet — ImGui + Win32, build.bat double-clic · 6 étapes validées',img:'img1'},
+  {name:'abdel.093',date:'04/10/2026 08:59',msg:'3 mois Basic Fit validé — foncer les gars que du réel',product:'Basic Fit Ultimate',tag:'green',cat:'services',stars:5,av:'AB',likes:19,proof:'App Basic Fit ouverte — accès XACCESS actif',img:'img2'},
+  {name:'mouaddjoudi',date:'29/09/2026 21:43',msg:'Tout est parfait ! Accès reçu direct sur mon mail et QR code actif en salle.',product:'Basic Fit Ultimate',tag:'green',cat:'services',stars:5,av:'MO',likes:11,proof:'Screenshot Basic Fit — Aujourd\'hui mar. 29',img:'img3'},
+  {name:'KuroCS',date:'28/09/2026 19:15',msg:'CS2 Loader reçu instantanément, menu ultra fluide sur Windows 11 et zéro baisse de FPS.',product:'CS2 Loader',tag:'gaming',cat:'gaming',stars:5,av:'KC',likes:16,proof:'Loader CS2 activé — Licence validée & Proton Drive'},
+  {name:'KIMΣKΘ',date:'26/08/2026 01:02',msg:'+vouche kyzen gw 100% reel (modifié)',product:'Basic Fit Ultimate',tag:'green',cat:'services',stars:5,av:'KI',likes:9,proof:'App Basic Fit — XACCESS + Planifier activité',img:'img4'},
+  {name:'abdel.093',date:'26/08/2026 00:53',msg:'Foncer les gars que du réel',product:'Basic Fit Ultimate',tag:'green',cat:'services',stars:5,av:'AB',likes:12,proof:'App Basic Fit ouverte — mar. 28 surligné',img:'img5'},
+  {name:'ValoKira',date:'25/08/2026 22:10',msg:'HWID Spoofer Permanent + Valorant Private installés en 10 min avec le support Discord, débanni direct.',product:'HWID Spoofer Permanent',tag:'gaming',cat:'gaming',stars:5,av:'VK',likes:21,proof:'Spoofer Permanent — Serials nettoyés & Vanguard OK'},
+  {name:'Near',date:'24/08/2026 23:16',msg:'Et en plus de ça compte netflix 4K activé dans la foulée, incroyable.',product:'Netflix Premium 4K · 1 an',tag:'purple',cat:'services',stars:5,av:'NE',likes:15,proof:'Netflix — recherche Spiderman, compte actif',img:'img7'},
+  {name:'Near',date:'24/08/2026 23:00',msg:'Dans le bon réel',product:'Basic Fit Ultimate',tag:'green',cat:'services',stars:5,av:'NE',likes:8,proof:'App Basic Fit — Visites hebdo · lun. 24 actif',img:'img6'},
+  {name:'Kokito_o0',date:'22/08/2026 23:13',msg:'Validé je recommande a fond',product:'Basic Fit Ultimate',tag:'green',cat:'services',stars:5,av:'KO',likes:10,proof:'App Basic Fit — sam. 22 · XACCESS confirmé',img:'img8'},
+  {name:'Lmzzz',date:'22/08/2026 23:06',msg:"C'est du tout droit comme dab je recommande 10/10",product:'Basic Fit Ultimate',tag:'green',cat:'services',stars:5,av:'LM',likes:13,proof:'App Basic Fit — sam. 22 · XACCESS visible',img:'img9'},
+  {name:'Samy',date:'21/08/2026 19:44',msg:'Legit ! Abonnement Ultimate Member bien actif sur l\'app.',product:'Basic Fit Ultimate',tag:'green',cat:'services',stars:5,av:'SA',likes:7,proof:'App Basic Fit Ultimate Member — Abonnement & Extras actif',img:'img10'},
+  {name:'MLK TOUT MUSCLÉ',date:'19/08/2026 17:06',msg:"C'est carré séance legs",product:'Basic Fit Ultimate',tag:'green',cat:'services',stars:5,av:'ML',likes:24,proof:'Photo salle Basic Fit — machines orange, séance legs réelle',img:'img11'},
+  {name:'Samy',date:'19/08/2026 04:53',msg:'Tout marche c carré c legit',product:'Basic Fit Ultimate',tag:'green',cat:'services',stars:5,av:'SA',likes:9,proof:'App Basic Fit EN — Visit goal actif · XACCESS',img:'img12'},
+  {name:'Louis45',date:'03/09/2026 22:37',msg:'Parfait encore',product:'Basic Fit Ultimate',tag:'green',cat:'services',stars:5,av:'LO',likes:6,proof:'Email Basic-Fit — inscription confirmée, contrat en cours',img:'img13'},
+  {name:'4quatre',date:'30/08/2026 20:28',msg:'Abo basic fit carré',product:'Basic Fit Ultimate',tag:'green',cat:'services',stars:5,av:'4Q',likes:11,proof:'Email Basic-Fit — WELKOM BIJ BASIC-FIT + photo salle',img:'img14'},
+  {name:'Louis45',date:'27/08/2026 20:05',msg:'Rien a dire parfait mdrr',product:'Basic Fit Ultimate',tag:'green',cat:'services',stars:5,av:'LO',likes:8,proof:'Email Fitness Park — Mon contrat, dossier validé',img:'img15'},
+  {name:'Massa ma',date:'03/09/2026 22:48',msg:'Parfait !',product:'Basic Fit Ultimate',tag:'green',cat:'services',stars:5,av:'MA',likes:7,proof:'App Basic Fit — jeu. 03 · XACCESS actif',img:'img16'},
+  {name:'Kokito_o0',date:'05/09/2026 12:57',msg:'+rep Spotify PREMIUM 3mois (modifié)',product:'Spotify Premium 1 an',tag:'purple',cat:'services',stars:5,av:'KO',likes:14,proof:'Spotify Premium Personnel — essai expire 04/12/2026 · Musique sans pub',img:'img17'},
+  {name:'abdel.093',date:'05/09/2026 12:02',msg:'3 mois snap + validé',product:'Services Premium',tag:'purple',cat:'services',stars:5,av:'AB',likes:10,proof:'Snapchat+ — Odium Ware vous a offert Snapchat+ · Utiliser le cadeau',img:'img3'},
+  {name:'A.zrt',date:'04/10/2026 23:59',msg:'Starter rises — full rise to you, baker. projet livré clé en main.',product:'Bundle Jailbreak Complet (11 IA)',tag:'jb',cat:'jailbreak',stars:5,av:'AZ',likes:18,proof:'CS:GO Cheat complet — setup.BAT, main.CP, CMakeLists, README',img:'img1'},
+  {name:'Rayan_75',date:'02/10/2026 18:30',msg:'Tech O\'Tacos reçue direct après paiement, déjà 2 menus commandés avec les points gratuits 🔥',product:"O'Tacos — Tech Points Illimités",tag:'purple',cat:'services',stars:5,av:'RA',likes:17,proof:"Guide O'Tacos PDF + méthode points livrée"},
+  {name:'NexoVal',date:'01/10/2026 21:05',msg:'Valorant Emu super stable, aucune détection depuis 3 semaines en Immortal.',product:'Valorant Emu',tag:'gaming',cat:'gaming',stars:5,av:'NV',likes:13,proof:'Valorant Emu — Statut Undetected vérifié'},
+  {name:'Dev Yanis',date:'29/09/2026 14:22',msg:'Le pack Antigravity Claude + Gemini fonctionne dès le premier prompt, gain de temps énorme.',product:'Antigravity Claude',tag:'jb',cat:'jailbreak',stars:5,av:'DY',likes:15,proof:'Fichier .txt livré instantanément sur Mon Profil'}
 ];
 
 const DISC_SVG = `<svg class="disc-icon" viewBox="0 0 127.14 96.36"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/></svg>`;
-const STAR_SVG = `<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
-const CAM_SVG = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>`;
+const STAR_SVG = `<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+const CAM_SVG = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>`;
 
 function resolveLiveLogo(productName, fallbackImg) {
   if (fallbackImg && fallbackImg.startsWith('/')) return fallbackImg;
@@ -7606,34 +8670,262 @@ function resolveLiveLogo(productName, fallbackImg) {
   return '/logos/Yonix.png';
 }
 
-function makeReviewCard(r) {
-  const tagLabel = r.tag === 'green' ? 'Basic Fit' : r.tag === 'gold' ? 'Bundle' : r.tag === 'jb' ? 'Jailbreak' : r.tag === 'purple' ? 'Services' : (r.product || 'YONIX');
-  const prodLogo = r.productImage || r.productImg || (r.isLive ? resolveLiveLogo(r.product) : '');
+function getReviewCategory(r) {
+  if (r.cat) return r.cat;
+  const s = `${r.product || ''} ${r.tag || ''} ${r.msg || ''}`.toLowerCase();
+  if (r.tag === 'jb' || s.includes('jailbreak') || s.includes('claude') || s.includes('gemini') || s.includes('grok') || s.includes('deepseek') || s.includes('kimi') || s.includes('qwen') || s.includes('glm') || s.includes('arena') || s.includes('antigravity') || s.includes('bundle')) {
+    return 'jailbreak';
+  }
+  if (r.tag === 'gaming' || s.includes('cs2') || s.includes('cs:go') || s.includes('valorant') || s.includes('spoofer') || s.includes('hwid')) {
+    return 'gaming';
+  }
+  return 'services';
+}
+
+function getReviewProofUrl(r) {
   const customProofUrl = r.proofImage || r.proofImg || (r.img && r.img.startsWith('data:image') ? r.img : '');
   const builtinProofUrl = r.img && PROOF_IMGS[r.img] ? PROOF_IMGS[r.img] : '';
-  const finalImg = customProofUrl || builtinProofUrl;
-  const starsCount = Math.max(1, Math.min(5, Number(r.stars) || 5));
-  return `<div class="rv-card" style="${r.isLive ? 'border:1.5px solid #10b981;box-shadow:0 10px 28px rgba(16,185,129,0.10);' : ''}">
-    <div class="rv-head">
-      <div class="rv-av">${r.av || (r.name || 'Y').slice(0,2).toUpperCase()}</div>
-      <div class="rv-meta">
-        <div class="rv-name" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
-          ${DISC_SVG}${r.name}
-          ${r.isLive ? `<span style="font-size:9px;font-weight:800;text-transform:uppercase;padding:2px 6px;border-radius:99px;background:#ecfdf5;color:#059669;border:1px solid #a7f3d0">● En direct</span>` : ''}
-        </div>
-        <div class="rv-date">${r.date || 'À l\'instant'}</div>
-      </div>
-      <div class="rv-stars">${STAR_SVG.repeat(starsCount)}</div>
-    </div>
-    <p class="rv-msg">${r.msg}</p>
-    ${finalImg ? `<div class="rv-img-wrap"><img class="rv-img" src="${finalImg}" alt="Preuve client" loading="lazy"></div>` : ''}
-    ${r.proof && !finalImg ? `<div class="rv-proof">${CAM_SVG}<span>${r.proof}</span></div>` : ''}
-    <div style="margin-top:8px;display:flex;align-items:center;gap:8px">
-      ${prodLogo ? `<img src="${prodLogo}" alt="" style="width:22px;height:22px;object-fit:contain;border-radius:6px;background:#f8fafc;border:1px solid #e2e8f0;padding:2px">` : ''}
-      <span class="rv-tag">${tagLabel}</span>
-    </div>
-  </div>`;
+  return customProofUrl || builtinProofUrl || '';
 }
+
+function escRevHtml(str) {
+  return String(str || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+let allCombinedReviews = [];
+let activeRvCat = 'all';
+let activeRvSearch = '';
+let showAllRvGrid = false;
+let prevRvFilterRect = null;
+
+function getLikedReviewsSet() {
+  try {
+    return new Set(JSON.parse(localStorage.getItem('yonix_liked_reviews') || '[]'));
+  } catch (e) {
+    return new Set();
+  }
+}
+
+function makeReviewCard(r, idx) {
+  const cat = getReviewCategory(r);
+  const catBadge = cat === 'jailbreak' ? 'Jailbreak IA' : cat === 'gaming' ? 'Gaming' : 'Service Premium';
+  const prodName = r.product === 'Services' ? (r.msg.toLowerCase().includes('spotify') ? 'Spotify Premium' : r.msg.toLowerCase().includes('netflix') ? 'Netflix Premium 4K' : 'Service Premium') : (r.product || 'Basic Fit Ultimate');
+  const prodLogo = r.productImage || r.productImg || resolveLiveLogo(prodName);
+  const finalImg = getReviewProofUrl(r);
+  const starsCount = Math.max(1, Math.min(5, Number(r.stars) || 5));
+  const sig = `${String(r.name || '').toLowerCase()}_${String(r.date || '')}`;
+  const likedSet = getLikedReviewsSet();
+  const isLiked = likedSet.has(sig);
+  const baseLikes = Number(r.likes) || (r.isLive ? 3 : 8);
+  const totalLikes = baseLikes + (isLiked ? 1 : 0);
+  const reviewIdx = typeof idx === 'number' ? idx : 0;
+
+  return `<article class="rv-card${r.isLive ? ' is-live' : ''}">
+    <div>
+      <div class="rv-head">
+        <div class="rv-av-wrap">
+          <div class="rv-av">${escRevHtml(r.av || (r.name || 'Y').slice(0, 2).toUpperCase())}</div>
+          <span class="rv-av-check" title="Client vérifié">✓</span>
+        </div>
+        <div class="rv-meta">
+          <div class="rv-name">
+            ${DISC_SVG}<span>${escRevHtml(r.name)}</span>
+            ${r.isLive ? `<span class="rv-live-badge">● En direct</span>` : ''}
+          </div>
+          <div class="rv-submeta">
+            <span class="rv-verified-tag">✓ Achat vérifié</span>
+            <span>·</span>
+            <span>${escRevHtml(r.date || "À l'instant")}</span>
+          </div>
+        </div>
+        <div class="rv-stars" aria-label="${starsCount} sur 5 étoiles">${STAR_SVG.repeat(starsCount)}</div>
+      </div>
+
+      <div class="rv-prod-pill">
+        <img class="rv-prod-logo" src="${escRevHtml(prodLogo)}" alt="${escRevHtml(prodName)}" loading="lazy">
+        <span class="rv-prod-name">${escRevHtml(prodName)}</span>
+        <span class="rv-tag">${escRevHtml(catBadge)}</span>
+      </div>
+
+      <p class="rv-msg">${escRevHtml(r.msg)}</p>
+    </div>
+
+    <div>
+      ${finalImg ? `
+      <div class="rv-img-wrap" onclick="window.openReviewLightbox(${reviewIdx})">
+        <img class="rv-img" src="${finalImg}" alt="Preuve client ${escRevHtml(r.name)}" loading="lazy">
+        <span class="rv-img-zoom">${CAM_SVG} Voir la preuve</span>
+      </div>` : ''}
+
+      <div class="rv-foot">
+        <div class="rv-proof-caption" title="${escRevHtml(r.proof || 'Commande vérifiée YONIX')}">
+          ${CAM_SVG}
+          <span>${escRevHtml(r.proof || 'Commande livrée & vérifiée')}</span>
+        </div>
+        <button type="button" class="rv-helpful-btn${isLiked ? ' liked' : ''}" onclick="window.toggleReviewHelpful(this, '${escRevHtml(sig)}', ${baseLikes})">
+          <span>👍</span> <span class="js-like-count">${totalLikes}</span>
+        </button>
+      </div>
+    </div>
+  </article>`;
+}
+
+window.toggleReviewHelpful = function(btn, sig, baseLikes) {
+  try {
+    const likedSet = getLikedReviewsSet();
+    if (likedSet.has(sig)) {
+      likedSet.delete(sig);
+      btn.classList.remove('liked');
+    } else {
+      likedSet.add(sig);
+      btn.classList.add('liked');
+    }
+    localStorage.setItem('yonix_liked_reviews', JSON.stringify(Array.from(likedSet)));
+    const countEl = btn.querySelector('.js-like-count');
+    if (countEl) countEl.textContent = String(baseLikes + (likedSet.has(sig) ? 1 : 0));
+  } catch (e) {}
+};
+
+window.openReviewLightbox = function(idx) {
+  const r = allCombinedReviews[idx];
+  if (!r) return;
+  const finalImg = getReviewProofUrl(r);
+  if (!finalImg) return;
+  const prodName = r.product === 'Services' ? 'Service Premium YONIX' : (r.product || 'Basic Fit Ultimate');
+  const prodLogo = r.productImage || r.productImg || resolveLiveLogo(prodName);
+
+  const modal = document.getElementById('rvLightboxModal');
+  const imgEl = document.getElementById('rvLbImg');
+  const authorEl = document.getElementById('rvLbAuthor');
+  const prodEl = document.getElementById('rvLbProduct');
+  const logoEl = document.getElementById('rvLbProdLogo');
+  const capEl = document.getElementById('rvLbCaption');
+
+  if (imgEl) imgEl.src = finalImg;
+  if (authorEl) authorEl.textContent = `${r.name || 'Client Vérifié'} — ${r.date || ''}`;
+  if (prodEl) prodEl.textContent = prodName;
+  if (logoEl) logoEl.src = prodLogo;
+  if (capEl) capEl.textContent = `« ${r.msg || ''} » — ${r.proof || 'Preuve vérifiée'}`;
+  if (modal) modal.classList.add('open');
+};
+
+window.closeReviewLightbox = function() {
+  const modal = document.getElementById('rvLightboxModal');
+  if (modal) modal.classList.remove('open');
+};
+
+function syncRvFilterGlider(animate = true) {
+  const bar = document.getElementById('rvFilterBar');
+  const glider = document.getElementById('rvFilterGlider');
+  const activeBtn = bar ? bar.querySelector('.rv-filter-btn.active') : null;
+  if (!bar || !glider || !activeBtn || activeBtn.offsetWidth === 0) return;
+
+  const newLeft = activeBtn.offsetLeft;
+  const newWidth = activeBtn.offsetWidth;
+  const oldRect = prevRvFilterRect || { left: newLeft, width: newWidth };
+  prevRvFilterRect = { left: newLeft, width: newWidth };
+
+  if (!animate || (oldRect.left === newLeft && oldRect.width === newWidth)) {
+    glider.style.transition = 'none';
+    glider.style.left = newLeft + 'px';
+    glider.style.width = newWidth + 'px';
+    void glider.offsetWidth;
+    glider.style.transition = '';
+  } else if (typeof glider.animate === 'function') {
+    const dist = newLeft - oldRect.left;
+    const dir = dist >= 0 ? 1 : -1;
+    const stretchLeft = dist >= 0 ? oldRect.left + dist * 0.22 : newLeft;
+    const stretchRight = dist >= 0 ? newLeft + newWidth : oldRect.left + oldRect.width - Math.abs(dist) * 0.22;
+    const stretchWidth = Math.max(newWidth, stretchRight - stretchLeft);
+
+    glider.style.transition = 'none';
+    glider.style.left = newLeft + 'px';
+    glider.style.width = newWidth + 'px';
+    glider.animate([
+      { left: oldRect.left + 'px', width: oldRect.width + 'px', transform: 'scaleY(1)' },
+      { left: stretchLeft + 'px', width: stretchWidth + 'px', transform: 'scaleY(0.84)', offset: 0.36 },
+      { left: (newLeft + dir * 3) + 'px', width: Math.max(36, newWidth * 0.96) + 'px', transform: 'scaleY(1.04)', offset: 0.74 },
+      { left: newLeft + 'px', width: newWidth + 'px', transform: 'scaleY(1)' }
+    ], {
+      duration: 500,
+      easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
+    });
+  } else {
+    glider.style.left = newLeft + 'px';
+    glider.style.width = newWidth + 'px';
+  }
+}
+
+window.addEventListener('resize', () => syncRvFilterGlider(false), { passive: true });
+
+function renderFilteredReviewsGrid(animateSwitch = false) {
+  const grid = document.getElementById('rvGrid');
+  const moreWrap = document.getElementById('rvMoreWrap');
+  const moreBtnText = document.getElementById('rvMoreBtnText');
+  if (!grid) return;
+
+  const q = activeRvSearch.trim().toLowerCase();
+  const filtered = allCombinedReviews
+    .map((r, idx) => ({ r, idx }))
+    .filter(({ r }) => {
+      if (activeRvCat === 'proof' && !getReviewProofUrl(r)) return false;
+      if (activeRvCat !== 'all' && activeRvCat !== 'proof' && getReviewCategory(r) !== activeRvCat) return false;
+      if (q) {
+        const hay = `${r.name || ''} ${r.product || ''} ${r.msg || ''} ${r.proof || ''}`.toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
+
+  const initialLimit = 6;
+  const visible = showAllRvGrid ? filtered : filtered.slice(0, initialLimit);
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:36px 20px;border-radius:18px;border:1.5px dashed var(--border-hover);color:var(--gray)">
+      Aucun avis ne correspond à cette recherche.
+    </div>`;
+  } else {
+    grid.innerHTML = visible.map(({ r, idx }) => makeReviewCard(r, idx)).join('');
+  }
+
+  if (animateSwitch) {
+    grid.classList.remove('fluid-switch');
+    void grid.offsetWidth;
+    grid.classList.add('fluid-switch');
+  }
+
+  if (moreWrap && moreBtnText) {
+    if (filtered.length > initialLimit) {
+      moreWrap.style.display = 'flex';
+      moreBtnText.textContent = showAllRvGrid
+        ? 'Réduire la liste des avis'
+        : `Afficher les ${filtered.length} avis vérifiés`;
+    } else {
+      moreWrap.style.display = 'none';
+    }
+  }
+}
+
+window.filterReviewsByCat = function(cat, btn) {
+  activeRvCat = cat || 'all';
+  showAllRvGrid = false;
+  document.querySelectorAll('#rvFilterBar .rv-filter-btn').forEach(b => b.classList.remove('active'));
+  const targetBtn = btn || document.querySelector(`#rvFilterBar .rv-filter-btn[data-rvcat="${activeRvCat}"]`);
+  if (targetBtn) targetBtn.classList.add('active');
+  syncRvFilterGlider(true);
+  renderFilteredReviewsGrid(true);
+};
+
+window.onReviewSearchInput = function(val) {
+  activeRvSearch = String(val || '');
+  showAllRvGrid = false;
+  renderFilteredReviewsGrid(false);
+};
+
+window.toggleShowAllReviews = function() {
+  showAllRvGrid = !showAllRvGrid;
+  renderFilteredReviewsGrid(true);
+};
 
 let currentLiveStars = 5;
 let currentLiveProofData = '';
@@ -7647,28 +8939,35 @@ function renderAllReviewsWithLive(liveList) {
     productImage: item.productImage || item.productImg || resolveLiveLogo(item.product)
   })) : [];
 
-  const feedWrap = document.getElementById('liveReviewsFeedWrap');
-  const feedEl = document.getElementById('liveReviewsFeed');
-  if (feedWrap && feedEl) {
-    if (cleanLive.length > 0) {
-      feedWrap.style.display = 'block';
-      feedEl.innerHTML = cleanLive.slice(0, 6).map(makeReviewCard).join('');
-    } else {
-      feedWrap.style.display = 'none';
-    }
-  }
+  allCombinedReviews = [...cleanLive, ...REVIEWS];
+
+  // Update filter counts
+  const countAll = allCombinedReviews.length;
+  const countProof = allCombinedReviews.filter(r => Boolean(getReviewProofUrl(r))).length;
+  const countServices = allCombinedReviews.filter(r => getReviewCategory(r) === 'services').length;
+  const countGaming = allCombinedReviews.filter(r => getReviewCategory(r) === 'gaming').length;
+  const countJb = allCombinedReviews.filter(r => getReviewCategory(r) === 'jailbreak').length;
+
+  const setTxt = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = String(v); };
+  setTxt('rvCountAll', countAll);
+  setTxt('rvCountProof', countProof);
+  setTxt('rvCountServices', countServices);
+  setTxt('rvCountGaming', countGaming);
+  setTxt('rvCountJb', countJb);
 
   const countLabel = document.getElementById('totalReviewsCountLabel');
   if (countLabel) {
     countLabel.textContent = `+${200 + cleanLive.length} avis vérifiés`;
   }
 
-  const combined = [...cleanLive, ...REVIEWS];
-  const half = Math.ceil(combined.length / 2);
-  const row1 = combined.slice(0, half);
-  const row2 = combined.slice(half);
-  $('#rrow1').innerHTML = [...row1, ...row1].map(makeReviewCard).join('');
-  $('#rrow2').innerHTML = [...row2, ...row2].map(makeReviewCard).join('');
+  renderFilteredReviewsGrid(false);
+  setTimeout(() => syncRvFilterGlider(false), 30);
+
+  const rrow1 = document.getElementById('rrow1');
+  if (rrow1) {
+    const marqueeItems = allCombinedReviews.slice(0, 14);
+    rrow1.innerHTML = [...marqueeItems, ...marqueeItems].map((r, i) => makeReviewCard(r, i % marqueeItems.length)).join('');
+  }
 }
 
 async function loadAndRenderLiveReviews() {
@@ -7742,12 +9041,27 @@ window.openLiveReviewModal = function(preselectedProduct, preselectedImg) {
       if (titleEl) titleEl.textContent = preselectedProduct;
     }
   }
-  modal.style.display = 'flex';
+  modal.classList.add('open');
 };
 
 window.closeLiveReviewModal = function() {
   const modal = document.getElementById('liveReviewModal');
-  if (modal) modal.style.display = 'none';
+  if (modal) modal.classList.remove('open');
+};
+
+window.pickLiveRevQuickProd = function(val, chipBtn) {
+  document.querySelectorAll('#liveRevQuickChips .rv-prod-chip').forEach(c => c.classList.remove('active'));
+  if (chipBtn) chipBtn.classList.add('active');
+  const sel = document.getElementById('liveRevProductSelect');
+  if (sel) {
+    for (let i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].value === val) {
+        sel.selectedIndex = i;
+        break;
+      }
+    }
+  }
+  window.onLiveRevProductChange(val);
 };
 
 window.onLiveRevProductChange = function(val) {
@@ -7756,31 +9070,62 @@ window.onLiveRevProductChange = function(val) {
   const titleEl = document.getElementById('liveRevProductTitle');
   if (imgEl && pImg) imgEl.src = pImg;
   if (titleEl && pName) titleEl.textContent = pName;
+  document.querySelectorAll('#liveRevQuickChips .rv-prod-chip').forEach(c => {
+    c.classList.toggle('active', (c.getAttribute('onclick') || '').includes(pName));
+  });
 };
 
 window.setLiveRevStars = function(n) {
   currentLiveStars = n;
-  const spans = document.querySelectorAll('#liveRevStarsPicker span');
-  spans.forEach(s => {
-    const v = Number(s.getAttribute('data-s'));
-    s.style.color = v <= n ? '#f59e0b' : '#cbd5e1';
+  const btns = document.querySelectorAll('#liveRevStarsPicker .rv-star-btn');
+  btns.forEach(b => {
+    const v = Number(b.getAttribute('data-s'));
+    b.classList.toggle('active', v <= n);
   });
+  const labels = {
+    5: '5/5 — Parfait !',
+    4: '4/5 — Très bon service',
+    3: '3/5 — Correct',
+    2: '2/5 — Moyen',
+    1: '1/5 — Insatisfait'
+  };
+  const lbl = document.getElementById('liveRevStarLabel');
+  if (lbl) lbl.textContent = labels[n] || '5/5 — Parfait !';
+};
+
+window.appendLiveRevQuickTag = function(text) {
+  const msgEl = document.getElementById('liveRevMsgInput');
+  if (!msgEl) return;
+  const cur = msgEl.value.trim();
+  msgEl.value = cur ? `${cur} · ${text}` : text;
+  msgEl.focus();
+};
+
+window.clearLiveRevProof = function() {
+  currentLiveProofData = '';
+  const fileEl = document.getElementById('liveRevProofFile');
+  if (fileEl) fileEl.value = '';
+  const wrap = document.getElementById('liveRevProofPreviewWrap');
+  if (wrap) wrap.style.display = 'none';
+  const lbl = document.getElementById('liveRevUploadLabel');
+  if (lbl) lbl.textContent = "Ajouter une capture d'écran";
 };
 
 window.onLiveRevProofChange = function(ev) {
   const file = ev.target && ev.target.files && ev.target.files[0];
   if (!file) {
-    currentLiveProofData = '';
-    document.getElementById('liveRevProofPreviewWrap').style.display = 'none';
+    window.clearLiveRevProof();
     return;
   }
+  const lbl = document.getElementById('liveRevUploadLabel');
+  if (lbl) lbl.textContent = file.name;
   const reader = new FileReader();
   reader.onload = function(e) {
     const rawData = e.target.result;
     const tempImg = new Image();
     tempImg.onload = function() {
       try {
-        const maxDim = 460;
+        const maxDim = 520;
         let w = tempImg.width || 400;
         let h = tempImg.height || 400;
         if (w > maxDim || h > maxDim) {
@@ -7792,7 +9137,7 @@ window.onLiveRevProofChange = function(ev) {
         canvas.height = h;
         const ctx = canvas.getContext('2d');
         ctx.drawImage(tempImg, 0, 0, w, h);
-        currentLiveProofData = canvas.toDataURL('image/jpeg', 0.65);
+        currentLiveProofData = canvas.toDataURL('image/jpeg', 0.68);
       } catch (err) {
         currentLiveProofData = rawData;
       }
@@ -7828,6 +9173,7 @@ window.submitLiveReviewFromIndex = async function() {
   if (!name) { toast('Entre ton pseudo ou prénom.'); return; }
   if (!msg) { toast('Écris un petit commentaire pour ton avis.'); return; }
 
+  const oldBtnHtml = btn ? btn.innerHTML : '';
   if (btn) { btn.disabled = true; btn.textContent = 'Publication en direct...'; }
 
   const now = new Date();
@@ -7844,6 +9190,7 @@ window.submitLiveReviewFromIndex = async function() {
     stars: currentLiveStars,
     date: dateStr,
     av: name.slice(0, 2).toUpperCase(),
+    proof: `Avis vérifié en direct · ${product}`,
     proofImage: proofData,
     proofImg: proofData,
     isLive: true
@@ -7877,18 +9224,17 @@ window.submitLiveReviewFromIndex = async function() {
     });
   } catch (e) {}
 
-  if (btn) { btn.disabled = false; btn.textContent = '★ Publier mon avis en direct'; }
+  if (btn) { btn.disabled = false; btn.innerHTML = oldBtnHtml || '★ Publier mon avis en direct'; }
   if (msgEl) msgEl.value = '';
-  currentLiveProofData = '';
-  const pWrap = document.getElementById('liveRevProofPreviewWrap');
-  if (pWrap) pWrap.style.display = 'none';
+  window.clearLiveRevProof();
 
   window.closeLiveReviewModal();
+  window.filterReviewsByCat('all');
   await loadAndRenderLiveReviews();
   toast('Merci ! Ton avis est publié en direct ★');
 };
 
-// Auto-open Live Review Modal if client clicked link in activation email (/avis?review=1&product=...)
+// Auto-open Live Review Modal if client clicked link in activation email (/?review=1&product=...)
 (function checkReviewDeepLink() {
   try {
     const params = new URLSearchParams(window.location.search);

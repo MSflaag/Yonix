@@ -2606,14 +2606,17 @@ main {
   </div>
 </div>
 
-<!-- INLINE LIVE REVIEW MODAL FOR CLIENT -->
+<!-- INLINE LIVE REVIEW MODAL FOR CLIENT V2 -->
 <div class="modal-backdrop-custom" id="profileReviewModal" hidden onclick="if(event.target===this)this.hidden=true">
-  <div class="modal-card-custom" style="max-width:500px">
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px">
+  <div class="modal-card-custom" style="max-width:520px">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px">
       <div style="display:flex;align-items:center;gap:12px">
         <img id="prvProductImg" src="/logos/basicfit.png" alt="Produit" style="width:46px;height:46px;border-radius:12px;object-fit:contain;background:#0A0E17;padding:5px;border:1px solid var(--border)">
         <div>
-          <div style="font-size:17px;font-weight:800;color:var(--night)">Laisser un avis en direct</div>
+          <div style="display:flex;align-items:center;gap:7px">
+            <span style="width:8px;height:8px;border-radius:50%;background:#10b981;display:inline-block"></span>
+            <span style="font-size:17px;font-weight:800;color:var(--night)">Publier un avis vérifié</span>
+          </div>
           <div style="font-size:12.5px;color:var(--blue);font-weight:700" id="prvProductName">Basic Fit Ultimate</div>
         </div>
       </div>
@@ -2621,13 +2624,16 @@ main {
     </div>
 
     <div class="form-group">
-      <label>Ta note sur 5 étoiles</label>
-      <div class="star-pick-row" id="prvStarsRow">
-        <button type="button" class="star-pick-btn active" onclick="setProfileReviewStars(1)">★</button>
-        <button type="button" class="star-pick-btn active" onclick="setProfileReviewStars(2)">★</button>
-        <button type="button" class="star-pick-btn active" onclick="setProfileReviewStars(3)">★</button>
-        <button type="button" class="star-pick-btn active" onclick="setProfileReviewStars(4)">★</button>
-        <button type="button" class="star-pick-btn active" onclick="setProfileReviewStars(5)">★</button>
+      <label>Ta note globale</label>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-radius:12px;background:var(--bg);border:1px solid var(--border)">
+        <div class="star-pick-row" id="prvStarsRow" style="margin:0">
+          <button type="button" class="star-pick-btn active" onclick="setProfileReviewStars(1)">★</button>
+          <button type="button" class="star-pick-btn active" onclick="setProfileReviewStars(2)">★</button>
+          <button type="button" class="star-pick-btn active" onclick="setProfileReviewStars(3)">★</button>
+          <button type="button" class="star-pick-btn active" onclick="setProfileReviewStars(4)">★</button>
+          <button type="button" class="star-pick-btn active" onclick="setProfileReviewStars(5)">★</button>
+        </div>
+        <span id="prvStarLabel" style="font-size:12.5px;font-weight:800;color:#F59E0B">5/5 — Parfait !</span>
       </div>
     </div>
 
@@ -2638,7 +2644,24 @@ main {
 
     <div class="form-group">
       <label for="prvMsgInput">Ton avis sur le produit reçu</label>
-      <textarea class="form-input" id="prvMsgInput" rows="3" maxlength="400" placeholder="Ex: Compte Basic Fit activé super rapidement, 100% réel je recommande !"></textarea>
+      <textarea class="form-input" id="prvMsgInput" rows="3" maxlength="450" placeholder="Ex: Compte Basic Fit activé super rapidement, 100% réel je recommande !"></textarea>
+      <div class="preset-msg-chips" style="margin-top:8px;margin-bottom:0">
+        <button type="button" class="preset-msg-chip" onclick="appendProfileReviewTag('Livraison ultra rapide ⚡')">⚡ Livraison rapide</button>
+        <button type="button" class="preset-msg-chip" onclick="appendProfileReviewTag('100% fonctionnel ✅')">✅ 100% fonctionnel</button>
+        <button type="button" class="preset-msg-chip" onclick="appendProfileReviewTag('Support au top 🔥')">🔥 Support au top</button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Capture d'écran / Preuve (optionnel)</label>
+      <label for="prvProofFile" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 14px;border-radius:12px;border:1.5px dashed var(--border-hover);background:var(--bg);cursor:pointer">
+        <span id="prvProofFileName" style="font-size:12.5px;font-weight:700;color:var(--ink-secondary)">📸 Ajouter une capture d'écran</span>
+        <span style="font-size:12px;font-weight:800;color:var(--blue)">Parcourir</span>
+      </label>
+      <input type="file" id="prvProofFile" accept="image/*" onchange="onProfileReviewProofChange(event)" style="display:none">
+      <div id="prvProofPreviewWrap" hidden style="margin-top:8px;position:relative;width:fit-content">
+        <img id="prvProofPreviewImg" src="" alt="Preuve" style="max-height:110px;border-radius:10px;border:1px solid var(--border);display:block">
+      </div>
     </div>
 
     <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:14px">
@@ -3690,19 +3713,26 @@ main {
   setTimeout(renderMasterCarousel, 30);
 
   // ─── CLIENT ORDERS RENDERING (WITH PRODUCT IMAGE & INLINE LIVE REVIEW) ───
-  let activeReviewOrder = { name: 'Basic Fit Ultimate', id: 'basic-fit', img: '/logos/basicfit.png', stars: 5 };
+  let activeReviewOrder = { name: 'Basic Fit Ultimate', id: 'basic-fit', img: '/logos/basicfit.png', stars: 5, proofImage: '' };
 
   window.openProfileReviewModal = function(prodName, svcId, imgPath) {
     activeReviewOrder = {
       name: prodName || 'Basic Fit Ultimate',
       id: svcId || 'basic-fit',
       img: imgPath || '/logos/basicfit.png',
-      stars: 5
+      stars: 5,
+      proofImage: ''
     };
     document.getElementById('prvProductImg').src = activeReviewOrder.img;
     document.getElementById('prvProductName').textContent = activeReviewOrder.name;
     document.getElementById('prvPseudoInput').value = currentProfile.displayName || (currentEmail.split('@')[0] || '');
     document.getElementById('prvMsgInput').value = '';
+    const fInput = document.getElementById('prvProofFile');
+    if (fInput) fInput.value = '';
+    const fName = document.getElementById('prvProofFileName');
+    if (fName) fName.textContent = "📸 Ajouter une capture d'écran";
+    const pWrap = document.getElementById('prvProofPreviewWrap');
+    if (pWrap) pWrap.hidden = true;
     setProfileReviewStars(5);
     document.getElementById('profileReviewModal').hidden = false;
   };
@@ -3711,6 +3741,65 @@ main {
     activeReviewOrder.stars = n;
     const btns = document.querySelectorAll('#prvStarsRow .star-pick-btn');
     btns.forEach((b, i) => b.classList.toggle('active', i < n));
+    const labels = {
+      5: '5/5 — Parfait !',
+      4: '4/5 — Très bon service',
+      3: '3/5 — Correct',
+      2: '2/5 — Moyen',
+      1: '1/5 — Insatisfait'
+    };
+    const lbl = document.getElementById('prvStarLabel');
+    if (lbl) lbl.textContent = labels[n] || '5/5 — Parfait !';
+  };
+
+  window.appendProfileReviewTag = function(tagText) {
+    const msgEl = document.getElementById('prvMsgInput');
+    if (!msgEl) return;
+    const cur = msgEl.value.trim();
+    msgEl.value = cur ? `${cur} · ${tagText}` : tagText;
+    msgEl.focus();
+  };
+
+  window.onProfileReviewProofChange = function(ev) {
+    const file = ev.target && ev.target.files && ev.target.files[0];
+    if (!file) {
+      activeReviewOrder.proofImage = '';
+      const pWrap = document.getElementById('prvProofPreviewWrap');
+      if (pWrap) pWrap.hidden = true;
+      return;
+    }
+    const fName = document.getElementById('prvProofFileName');
+    if (fName) fName.textContent = '📸 ' + file.name;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const rawData = e.target.result;
+      const tempImg = new Image();
+      tempImg.onload = function() {
+        try {
+          const maxDim = 520;
+          let w = tempImg.width || 400;
+          let h = tempImg.height || 400;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
+            else { w = Math.round((w * maxDim) / h); h = maxDim; }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(tempImg, 0, 0, w, h);
+          activeReviewOrder.proofImage = canvas.toDataURL('image/jpeg', 0.68);
+        } catch (err) {
+          activeReviewOrder.proofImage = rawData;
+        }
+        const pImg = document.getElementById('prvProofPreviewImg');
+        const pWrap = document.getElementById('prvProofPreviewWrap');
+        if (pImg) pImg.src = activeReviewOrder.proofImage;
+        if (pWrap) pWrap.hidden = false;
+      };
+      tempImg.src = rawData;
+    };
+    reader.readAsDataURL(file);
   };
 
   window.submitProfileLiveReview = async function(btn) {
@@ -3733,7 +3822,9 @@ main {
           stars: activeReviewOrder.stars,
           product: activeReviewOrder.name,
           serviceId: activeReviewOrder.id,
-          productImg: activeReviewOrder.img
+          productImg: activeReviewOrder.img,
+          proofImage: activeReviewOrder.proofImage || '',
+          proofImg: activeReviewOrder.proofImage || ''
         })
       });
       const data = await r.json();

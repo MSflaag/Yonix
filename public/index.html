@@ -2518,10 +2518,33 @@ dialog[open] .dlg-vis svg {
 }
 
 .tier-grid {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
   margin-bottom: 10px;
+  isolation: isolate;
+}
+
+.tier-glider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-radius: 11px;
+  border: 2px solid var(--blue);
+  background: var(--blue-soft);
+  box-shadow: 0 6px 18px rgba(78, 124, 255, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  will-change: left, top, width, height, transform;
+  transition: opacity 0.18s ease;
+}
+
+.tier-glider.is-ready {
+  opacity: 1;
 }
 
 .tier-grid.one {
@@ -2538,6 +2561,7 @@ dialog[open] .dlg-vis svg {
 
 .tier-btn {
   position: relative;
+  z-index: 2;
   padding: 11px 10px 9px;
   border-radius: 11px;
   border: 1px solid var(--border);
@@ -2546,15 +2570,20 @@ dialog[open] .dlg-vis svg {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  transition: all 0.2s;
+  transition: border-color 0.22s ease, background-color 0.22s ease, transform 0.2s ease;
 }
 
-.tier-btn:hover {
+.tier-btn:hover:not(.sel) {
   border-color: var(--border-hover);
   background: var(--white);
 }
 
 .tier-btn.sel {
+  border-color: transparent;
+  background: transparent;
+}
+
+.tier-grid:not(.has-tier-glider) .tier-btn.sel {
   border: 2px solid var(--blue);
   background: var(--blue-soft);
 }
@@ -3777,28 +3806,52 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
 }
 
 .auth-tabs {
+  position: relative;
   display: flex;
   gap: 4px;
   margin-bottom: 24px;
   background: var(--bg-alt);
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 4px;
+  isolation: isolate;
+}
+
+.auth-glider {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  border-radius: 9px;
+  background: var(--white);
+  box-shadow: var(--shadow-xs), 0 4px 12px rgba(10, 14, 23, 0.08);
+  pointer-events: none;
+  z-index: 1;
+  will-change: left, width, transform;
 }
 
 .auth-tab {
+  position: relative;
+  z-index: 2;
   flex: 1;
   padding: 9px;
-  border-radius: 8px;
+  border-radius: 9px;
   text-align: center;
   font-size: 13.5px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--gray);
+  background: transparent;
   cursor: pointer;
+  transition: color 0.24s ease;
 }
 
 .auth-tab.active {
-  background: var(--white);
+  background: transparent;
   color: var(--night);
+}
+
+.auth-tabs:not(.has-auth-glider) .auth-tab.active {
+  background: var(--white);
   box-shadow: var(--shadow-xs);
 }
 
@@ -3808,6 +3861,55 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
 
 .auth-panel.active {
   display: block;
+  animation: authPanelFluidIn 0.44s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes authPanelFluidIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+  }
+  65% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.003);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Universal Liquid Click Wave */
+.yonix-liquid-wave {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 999px;
+  transform: translate(-50%, -50%) scale(0.15);
+  background: radial-gradient(
+    circle,
+    rgba(78, 124, 255, 0.32) 0%,
+    rgba(96, 165, 250, 0.22) 48%,
+    rgba(78, 124, 255, 0.0) 74%
+  );
+  border: 1.5px solid rgba(78, 124, 255, 0.42);
+  box-shadow: 0 0 18px rgba(78, 124, 255, 0.28);
+  animation: yonixLiquidDropWave 0.62s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes yonixLiquidDropWave {
+  0% {
+    opacity: 0.92;
+    transform: translate(-50%, -50%) scale(0.18);
+  }
+  55% {
+    opacity: 0.55;
+    transform: translate(-50%, -50%) scale(1) skewX(1.5deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.38);
+  }
 }
 
 .auth-label {
@@ -5305,7 +5407,8 @@ html[data-theme="dark"] #mobileMenu {
       Connexion obligatoire : connecte-toi ou crée un compte avec un email vérifié pour commander et recevoir tes produits directement sur le site.
     </div>
 
-    <div class="auth-tabs" role="tablist">
+    <div class="auth-tabs has-auth-glider" id="authTabsBar" role="tablist">
+      <div class="auth-glider" id="authTabsGlider" aria-hidden="true"></div>
       <button class="auth-tab active" role="tab" aria-selected="true" data-tab="login">Se connecter</button>
       <button class="auth-tab" role="tab" aria-selected="false" data-tab="register">Créer un compte</button>
     </div>
@@ -6867,7 +6970,9 @@ JAILBREAKS.forEach(p => {
   reveal(c);
 });
 
-/* ===== FILTERS & SEARCH (WITH LIQUID MORPHING GLIDER) ===== */
+/* ===== FILTERS & SEARCH (VISCOUS DROPLET LIQUID GLIDER) ===== */
+let prevFilterRect = null;
+
 function syncFilterGlider(animate = true) {
   const bar = document.getElementById('filterBar') || document.querySelector('.filter-bar');
   const glider = document.getElementById('filterBarGlider');
@@ -6875,25 +6980,63 @@ function syncFilterGlider(animate = true) {
   const activeBtn = bar.querySelector('.flt.active');
   if (!activeBtn || activeBtn.offsetWidth === 0) return;
 
-  const left = activeBtn.offsetLeft;
-  const width = activeBtn.offsetWidth;
+  const newLeft = activeBtn.offsetLeft;
+  const newWidth = activeBtn.offsetWidth;
+  const oldRect = prevFilterRect || { left: newLeft, width: newWidth };
+  prevFilterRect = { left: newLeft, width: newWidth };
 
-  if (!animate) {
+  glider.style.width = `${newWidth}px`;
+  glider.style.transform = `translate3d(${newLeft}px, 0, 0)`;
+  glider.classList.add('is-ready');
+  bar.classList.add('has-glider');
+
+  if (!animate || (oldRect.left === newLeft && oldRect.width === newWidth)) {
     glider.style.transition = 'none';
+    requestAnimationFrame(() => { glider.style.transition = ''; });
+  } else if (typeof glider.animate === 'function') {
+    const dist = newLeft - oldRect.left;
+    const dir = dist >= 0 ? 1 : -1;
+    const stretchLeft = dist >= 0
+      ? oldRect.left + dist * 0.22
+      : newLeft;
+    const stretchRight = dist >= 0
+      ? newLeft + newWidth
+      : oldRect.left + oldRect.width - Math.abs(dist) * 0.22;
+    const stretchWidth = Math.max(newWidth, stretchRight - stretchLeft);
+
+    glider.style.transition = 'none';
+    glider.animate([
+      {
+        transform: `translate3d(${oldRect.left}px, 0, 0) scaleY(1)`,
+        width: `${oldRect.width}px`,
+        borderRadius: '13px'
+      },
+      {
+        transform: `translate3d(${stretchLeft}px, 0, 0) scaleY(0.83)`,
+        width: `${stretchWidth}px`,
+        borderRadius: '20px',
+        offset: 0.36
+      },
+      {
+        transform: `translate3d(${newLeft + dir * 3.5}px, 0, 0) scaleY(1.06)`,
+        width: `${Math.max(38, newWidth * 0.95)}px`,
+        borderRadius: '11px',
+        offset: 0.74
+      },
+      {
+        transform: `translate3d(${newLeft}px, 0, 0) scaleY(1)`,
+        width: `${newWidth}px`,
+        borderRadius: '13px'
+      }
+    ], {
+      duration: 540,
+      easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
+    });
   } else {
     glider.style.transition = '';
     glider.classList.remove('liquid-moving');
     void glider.offsetWidth;
     glider.classList.add('liquid-moving');
-  }
-
-  glider.style.width = `${width}px`;
-  glider.style.transform = `translate3d(${left}px, 0, 0)`;
-  glider.classList.add('is-ready');
-  bar.classList.add('has-glider');
-
-  if (!animate) {
-    requestAnimationFrame(() => { glider.style.transition = ''; });
   }
 }
 
@@ -6910,13 +7053,24 @@ function filterCat(cat) {
     try { activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' }); } catch (e) {}
   }
   syncFilterGlider(true);
-  if (grid) {
-    grid.classList.remove('cat-liquid-shift');
-    void grid.offsetWidth;
-    grid.classList.add('cat-liquid-shift');
-  }
+  let visIdx = 0;
   $$('.pcard').forEach(c => {
-    c.hidden = cat !== 'all' && c.dataset.cat !== cat;
+    const show = cat === 'all' || c.dataset.cat === cat;
+    c.hidden = !show;
+    if (show && typeof c.animate === 'function') {
+      const delay = Math.min(visIdx * 22, 220);
+      visIdx++;
+      c.animate([
+        { opacity: 0.25, transform: 'translate3d(0, 14px, 0) scale(0.965)' },
+        { opacity: 1, transform: 'translate3d(0, -2px, 0) scale(1.008)', offset: 0.68 },
+        { opacity: 1, transform: 'translate3d(0, 0, 0) scale(1)' }
+      ], {
+        duration: 420,
+        delay,
+        easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+        fill: 'backwards'
+      });
+    }
   });
 }
 window.filterCat = filterCat;
@@ -7041,14 +7195,92 @@ function openProduct(id, initialTierIdx = null) {
   }
   modal.classList.remove('is-closing');
   if (!modal.open) modal.showModal();
+  requestAnimationFrame(() => syncTierGlider(false));
 }
 window.openProduct = openProduct;
+
+let prevTierRect = null;
+function syncTierGlider(animate = true) {
+  const tg = $('#tierGrid');
+  const glider = $('#tierGridGlider');
+  if (!tg || !glider) return;
+  const activeBtn = tg.querySelector('.tier-btn.sel');
+  if (!activeBtn || activeBtn.offsetWidth === 0) return;
+
+  const newLeft = activeBtn.offsetLeft;
+  const newTop = activeBtn.offsetTop;
+  const newWidth = activeBtn.offsetWidth;
+  const newHeight = activeBtn.offsetHeight;
+  const oldRect = prevTierRect || { left: newLeft, top: newTop, width: newWidth, height: newHeight };
+  prevTierRect = { left: newLeft, top: newTop, width: newWidth, height: newHeight };
+
+  glider.style.left = `${newLeft}px`;
+  glider.style.top = `${newTop}px`;
+  glider.style.width = `${newWidth}px`;
+  glider.style.height = `${newHeight}px`;
+  glider.classList.add('is-ready');
+  tg.classList.add('has-tier-glider');
+
+  if (animate && typeof glider.animate === 'function' && (oldRect.left !== newLeft || oldRect.top !== newTop)) {
+    const dx = newLeft - oldRect.left;
+    const dy = newTop - oldRect.top;
+    const sameRow = Math.abs(dy) < 10;
+    const stretchLeft = sameRow
+      ? (dx >= 0 ? oldRect.left + dx * 0.25 : newLeft)
+      : oldRect.left + dx * 0.45;
+    const stretchWidth = sameRow
+      ? Math.max(newWidth, (dx >= 0 ? (newLeft + newWidth - stretchLeft) : (oldRect.left + oldRect.width - Math.abs(dx) * 0.25 - newLeft)))
+      : newWidth * 1.06;
+
+    glider.animate([
+      {
+        left: `${oldRect.left}px`,
+        top: `${oldRect.top}px`,
+        width: `${oldRect.width}px`,
+        height: `${oldRect.height}px`,
+        transform: 'scale(1, 1)',
+        borderRadius: '11px'
+      },
+      {
+        left: `${stretchLeft}px`,
+        top: `${oldRect.top + dy * 0.48}px`,
+        width: `${stretchWidth}px`,
+        height: `${newHeight}px`,
+        transform: sameRow ? 'scaleY(0.86)' : 'scale(0.92, 1.08)',
+        borderRadius: '17px',
+        offset: 0.38
+      },
+      {
+        left: `${newLeft + (dx >= 0 ? 2.5 : -2.5)}px`,
+        top: `${newTop}px`,
+        width: `${newWidth}px`,
+        height: `${newHeight}px`,
+        transform: 'scale(0.97, 1.03)',
+        borderRadius: '10px',
+        offset: 0.76
+      },
+      {
+        left: `${newLeft}px`,
+        top: `${newTop}px`,
+        width: `${newWidth}px`,
+        height: `${newHeight}px`,
+        transform: 'scale(1, 1)',
+        borderRadius: '11px'
+      }
+    ], {
+      duration: 500,
+      easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
+    });
+  }
+}
+window.addEventListener('resize', () => syncTierGlider(false));
 
 function renderTiers() {
   const tg = $('#tierGrid');
   const cols = curProd.tiers.length === 3 ? 'three' : (curProd.tiers.length === 2 ? 'two' : (curProd.tiers.length === 1 ? 'one' : ''));
   tg.className = `tier-grid${cols ? ' ' + cols : ''}`;
-  tg.innerHTML = curProd.tiers.map((t, i) => `
+  prevTierRect = null;
+  tg.innerHTML = `<div class="tier-glider" id="tierGridGlider" aria-hidden="true"></div>` + curProd.tiers.map((t, i) => `
     <button type="button" class="tier-btn${i === selTier ? ' sel' : ''}" data-i="${i}">
       ${t.best && curProd.tiers.length > 1 ? `<span class="tier-pop">Most Popular</span>` : ''}
       <span class="tier-dur">${t.dur}</span>
@@ -7062,10 +7294,20 @@ function renderTiers() {
     b.addEventListener('click', () => {
       selTier = parseInt(b.dataset.i, 10);
       $$('.tier-btn', tg).forEach(x => x.classList.toggle('sel', x === b));
+      syncTierGlider(true);
       updateModalPriceComparison();
+      const cmpBox = $('#pdPriceCompare');
+      if (cmpBox && typeof cmpBox.animate === 'function') {
+        cmpBox.animate([
+          { transform: 'scale(0.96)', opacity: 0.7 },
+          { transform: 'scale(1.02)', opacity: 1, offset: 0.6 },
+          { transform: 'scale(1)', opacity: 1 }
+        ], { duration: 360, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
+      }
       setBuyBtnLabel('Carte Bancaire');
     });
   });
+  requestAnimationFrame(() => syncTierGlider(false));
 }
 
 /* "Mettre au panier" button in Product Modal */
@@ -7778,6 +8020,42 @@ window.toast = toast;
     }
   };
 
+  let prevAuthRect = null;
+  function syncAuthGlider(animate = true) {
+    const bar = document.getElementById('authTabsBar');
+    const glider = document.getElementById('authTabsGlider');
+    if (!bar || !glider) return;
+    const activeTabEl = bar.querySelector('.auth-tab.active');
+    if (!activeTabEl || activeTabEl.offsetWidth === 0) return;
+
+    const newLeft = activeTabEl.offsetLeft;
+    const newWidth = activeTabEl.offsetWidth;
+    const oldRect = prevAuthRect || { left: newLeft, width: newWidth };
+    prevAuthRect = { left: newLeft, width: newWidth };
+
+    glider.style.left = `${newLeft}px`;
+    glider.style.width = `${newWidth}px`;
+
+    if (animate && typeof glider.animate === 'function' && oldRect.left !== newLeft) {
+      const dist = newLeft - oldRect.left;
+      const dir = dist >= 0 ? 1 : -1;
+      const stretchLeft = dist >= 0 ? oldRect.left + dist * 0.22 : newLeft;
+      const stretchRight = dist >= 0 ? newLeft + newWidth : oldRect.left + oldRect.width - Math.abs(dist) * 0.22;
+      const stretchWidth = Math.max(newWidth, stretchRight - stretchLeft);
+
+      glider.animate([
+        { left: `${oldRect.left}px`, width: `${oldRect.width}px`, transform: 'scaleY(1)', borderRadius: '9px' },
+        { left: `${stretchLeft}px`, width: `${stretchWidth}px`, transform: 'scaleY(0.84)', borderRadius: '15px', offset: 0.36 },
+        { left: `${newLeft + dir * 2.5}px`, width: `${newWidth * 0.96}px`, transform: 'scaleY(1.05)', borderRadius: '8px', offset: 0.74 },
+        { left: `${newLeft}px`, width: `${newWidth}px`, transform: 'scaleY(1)', borderRadius: '9px' }
+      ], {
+        duration: 500,
+        easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
+      });
+    }
+  }
+  window.addEventListener('resize', () => syncAuthGlider(false));
+
   window.openAuth = function(tab, skipPush = false) {
     if (window.CURRENT_USER_EMAIL && !pendingOrderCallback) {
       window.location.href = '/profile';
@@ -7789,6 +8067,7 @@ window.toast = toast;
     if (tab) switchTab(tab, true);
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
+    requestAnimationFrame(() => syncAuthGlider(false));
     const activeTab = overlay.querySelector('.auth-panel.active')?.id === 'panel-register' ? 'register' : 'login';
     if (!skipPush && window.setCleanUrl) {
       window.setCleanUrl(activeTab === 'register' ? '/inscription' : '/connexion');
@@ -7814,6 +8093,7 @@ window.toast = toast;
       t.classList.toggle('active', isActive);
       t.setAttribute('aria-selected', isActive);
     });
+    syncAuthGlider(overlay.classList.contains('open'));
     document.querySelectorAll('.auth-panel').forEach(p => {
       p.classList.toggle('active', p.id === 'panel-' + name);
     });
@@ -7826,6 +8106,43 @@ window.toast = toast;
   closeBtn.addEventListener('click', closeAuth);
   backdrop.addEventListener('click', closeAuth);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAuth(); });
+
+  // Universal Liquid Click Wave + Elastic Jelly Rebound on every click
+  document.addEventListener('pointerdown', function(e) {
+    if (e.button && e.button !== 0) return;
+    const el = e.target.closest('button, a.btn-blue, a.btn-secondary, .nav-links a, .mob-link, .flt, .tier-btn, .pcard, .faq-q, .cb-method-tab, .auth-tab, .lang-btn, .lang-option, .theme-toggle, #cartBubble, .nav-login, .qty-btn');
+    if (!el || el.disabled) return;
+
+    const wave = document.createElement('span');
+    wave.className = 'yonix-liquid-wave';
+    const rect = el.getBoundingClientRect();
+    const size = Math.min(135, Math.max(48, Math.max(rect.width, rect.height) * 0.95));
+    wave.style.width = size + 'px';
+    wave.style.height = size + 'px';
+    wave.style.left = e.clientX + 'px';
+    wave.style.top = e.clientY + 'px';
+    document.body.appendChild(wave);
+    setTimeout(() => wave.remove(), 640);
+
+    if (typeof el.animate === 'function') {
+      const isCard = el.classList.contains('pcard');
+      el.animate(isCard ? [
+        { transform: 'scale(1, 1)' },
+        { transform: 'scale(0.97, 1.015)', offset: 0.28 },
+        { transform: 'scale(1.015, 0.99)', offset: 0.65 },
+        { transform: 'scale(1, 1)' }
+      ] : [
+        { transform: 'scale(1, 1)' },
+        { transform: 'scale(0.94, 1.035)', offset: 0.25 },
+        { transform: 'scale(1.032, 0.978)', offset: 0.62 },
+        { transform: 'scale(0.994, 1.004)', offset: 0.84 },
+        { transform: 'scale(1, 1)' }
+      ], {
+        duration: 460,
+        easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
+      });
+    }
+  }, { passive: true });
 
   async function submitAuth(mode) {
     const isReg = mode === 'register';

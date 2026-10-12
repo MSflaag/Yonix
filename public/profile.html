@@ -982,17 +982,97 @@ main {
 
 .tab-panel.active {
   display: block;
-  animation: tabPanelFluidIn 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: tabPanelFluidIn 0.46s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.tab-panel.active.fluid-from-right {
+  animation: tabPanelFluidFromRight 0.48s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.tab-panel.active.fluid-from-left {
+  animation: tabPanelFluidFromLeft 0.48s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @keyframes tabPanelFluidIn {
   0% {
     opacity: 0;
-    transform: translateY(8px) scale(0.992);
+    transform: translateY(10px) scale(0.986);
+  }
+  65% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.003);
   }
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes tabPanelFluidFromRight {
+  0% {
+    opacity: 0;
+    transform: translate3d(24px, 4px, 0) scale(0.984);
+  }
+  65% {
+    opacity: 1;
+    transform: translate3d(-3px, 0, 0) scale(1.003);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes tabPanelFluidFromLeft {
+  0% {
+    opacity: 0;
+    transform: translate3d(-24px, 4px, 0) scale(0.984);
+  }
+  65% {
+    opacity: 1;
+    transform: translate3d(3px, 0, 0) scale(1.003);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+/* ===== UNIVERSAL LIQUID CLICK WAVE & FLUID MOTION ===== */
+.yonix-liquid-host {
+  position: relative;
+  overflow: hidden;
+}
+
+.yonix-liquid-wave {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 999px;
+  transform: translate(-50%, -50%) scale(0.15);
+  background: radial-gradient(
+    circle,
+    rgba(78, 124, 255, 0.32) 0%,
+    rgba(96, 165, 250, 0.22) 48%,
+    rgba(78, 124, 255, 0.0) 74%
+  );
+  border: 1.5px solid rgba(78, 124, 255, 0.42);
+  box-shadow: 0 0 18px rgba(78, 124, 255, 0.28);
+  animation: yonixLiquidDropWave 0.62s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes yonixLiquidDropWave {
+  0% {
+    opacity: 0.92;
+    transform: translate(-50%, -50%) scale(0.18);
+  }
+  55% {
+    opacity: 0.55;
+    transform: translate(-50%, -50%) scale(1) skewX(1.5deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.38);
   }
 }
 
@@ -2640,34 +2720,83 @@ main {
     'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#EA580C"/><stop offset="1" stop-color="#991B1B"/></linearGradient></defs><rect width="120" height="120" fill="url(#g)"/><path d="M64 22L34 66h24l-6 32 34-46H62z" fill="#fff"/></svg>')
   ];
 
-  // ─── TABS (LIQUID MORPHING GLIDER) ───
+  // ─── TABS (VISCOUS DROPLET LIQUID GLIDER & UNIVERSAL CLICK FLUID MOTION) ───
   let lastActiveTabName = 'orders';
+  let prevTabRect = null;
 
   function syncTabsGlider(animate = true) {
     const bar = document.getElementById('profileTabsBar');
     const glider = document.getElementById('profileTabsGlider');
     const activeBtn = bar ? bar.querySelector('.tab-btn.active') : null;
-    if (!bar || !glider || !activeBtn) return;
+    if (!bar || !glider || !activeBtn || activeBtn.offsetWidth === 0) return;
 
-    if (!animate) {
+    const newLeft = activeBtn.offsetLeft;
+    const newWidth = activeBtn.offsetWidth;
+    const oldRect = prevTabRect || { left: newLeft, width: newWidth };
+    prevTabRect = { left: newLeft, width: newWidth };
+
+    if (!animate || (oldRect.left === newLeft && oldRect.width === newWidth)) {
       glider.style.transition = 'none';
-    } else {
-      glider.style.transition = '';
-    }
-    glider.style.left = activeBtn.offsetLeft + 'px';
-    glider.style.width = activeBtn.offsetWidth + 'px';
-
-    if (!animate) {
+      glider.style.left = newLeft + 'px';
+      glider.style.width = newWidth + 'px';
       void glider.offsetWidth;
       glider.style.transition = '';
+    } else if (typeof glider.animate === 'function') {
+      const dist = newLeft - oldRect.left;
+      const dir = dist >= 0 ? 1 : -1;
+      const stretchLeft = dist >= 0
+        ? oldRect.left + dist * 0.24
+        : newLeft;
+      const stretchRight = dist >= 0
+        ? newLeft + newWidth
+        : oldRect.left + oldRect.width - Math.abs(dist) * 0.24;
+      const stretchWidth = Math.max(newWidth, stretchRight - stretchLeft);
+
+      glider.style.transition = 'none';
+      glider.style.left = newLeft + 'px';
+      glider.style.width = newWidth + 'px';
+      glider.animate([
+        {
+          left: oldRect.left + 'px',
+          width: oldRect.width + 'px',
+          transform: 'scaleY(1)',
+          borderRadius: '11px'
+        },
+        {
+          left: stretchLeft + 'px',
+          width: stretchWidth + 'px',
+          transform: 'scaleY(0.84)',
+          borderRadius: '18px',
+          offset: 0.36
+        },
+        {
+          left: (newLeft + dir * 3.5) + 'px',
+          width: Math.max(40, newWidth * 0.96) + 'px',
+          transform: 'scaleY(1.05)',
+          borderRadius: '10px',
+          offset: 0.74
+        },
+        {
+          left: newLeft + 'px',
+          width: newWidth + 'px',
+          transform: 'scaleY(1)',
+          borderRadius: '11px'
+        }
+      ], {
+        duration: 540,
+        easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
+      });
     } else {
+      glider.style.transition = '';
+      glider.style.left = newLeft + 'px';
+      glider.style.width = newWidth + 'px';
       glider.classList.remove('liquid-morph');
       void glider.offsetWidth;
       glider.classList.add('liquid-morph');
     }
 
     try {
-      const targetScroll = activeBtn.offsetLeft - (bar.clientWidth - activeBtn.offsetWidth) / 2;
+      const targetScroll = newLeft - (bar.clientWidth - newWidth) / 2;
       bar.scrollTo({ left: Math.max(0, targetScroll), behavior: animate ? 'smooth' : 'auto' });
     } catch (e) {}
   }
@@ -2678,15 +2807,26 @@ main {
 
   window.switchTab = function(name, btn){
     const resolvedName = (name === 'customize' || name === 'profile') ? 'edit-profile' : name;
+    const allBtns = [...document.querySelectorAll('#profileTabsBar .tab-btn')];
+    const oldBtn = document.querySelector('#profileTabsBar .tab-btn.active');
     const targetBtn = btn || document.querySelector(`.tab-btn[data-tab="${resolvedName}"]`);
+    const oldIdx = oldBtn ? allBtns.indexOf(oldBtn) : -1;
+    const newIdx = targetBtn ? allBtns.indexOf(targetBtn) : -1;
     const changed = lastActiveTabName !== resolvedName;
     lastActiveTabName = resolvedName;
 
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    allBtns.forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => {
+      p.classList.remove('active', 'fluid-from-right', 'fluid-from-left');
+    });
     if (targetBtn) targetBtn.classList.add('active');
     const panel = document.getElementById('tab-' + resolvedName);
-    if (panel) panel.classList.add('active');
+    if (panel) {
+      if (changed && oldIdx !== -1 && newIdx !== -1 && oldIdx !== newIdx) {
+        panel.classList.add(newIdx > oldIdx ? 'fluid-from-right' : 'fluid-from-left');
+      }
+      panel.classList.add('active');
+    }
 
     syncTabsGlider(changed);
   };
@@ -2697,6 +2837,37 @@ main {
     switchTab(resolvedName, btn);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  // Universal Liquid Click Wave + Elastic Jelly Rebound on every click
+  document.addEventListener('pointerdown', function(e) {
+    if (e.button && e.button !== 0) return;
+    const el = e.target.closest('button, a.btn-blue, a.btn-outline, a.nav-login, #cartBubble, .nav-links a, .tab-btn, .svc-carousel-item, .star-pick-btn, .preset-msg-chip, .lang-btn, .lang-option, .theme-toggle, .avatar-wrap, .badge-phone-ok');
+    if (!el || el.disabled) return;
+
+    const wave = document.createElement('span');
+    wave.className = 'yonix-liquid-wave';
+    const rect = el.getBoundingClientRect();
+    const size = Math.min(130, Math.max(48, Math.max(rect.width, rect.height) * 0.95));
+    wave.style.width = size + 'px';
+    wave.style.height = size + 'px';
+    wave.style.left = e.clientX + 'px';
+    wave.style.top = e.clientY + 'px';
+    document.body.appendChild(wave);
+    setTimeout(() => wave.remove(), 640);
+
+    if (typeof el.animate === 'function') {
+      el.animate([
+        { transform: 'scale(1, 1)' },
+        { transform: 'scale(0.94, 1.035)', offset: 0.25 },
+        { transform: 'scale(1.032, 0.978)', offset: 0.62 },
+        { transform: 'scale(0.994, 1.004)', offset: 0.84 },
+        { transform: 'scale(1, 1)' }
+      ], {
+        duration: 460,
+        easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
+      });
+    }
+  }, { passive: true });
 
   // ─── TOAST ───
   let toastTimer;

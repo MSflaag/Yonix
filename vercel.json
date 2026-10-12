@@ -2,7 +2,6 @@
   "version": 2,
   "buildCommand": "echo 'No build needed'",
   "outputDirectory": "public",
-  "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
@@ -13,6 +12,8 @@
     { "source": "/admin", "destination": "/profile.html" },
     { "source": "/login", "destination": "/login.html" },
     { "source": "/success", "destination": "/success.html" },
+    { "source": "/cgv", "destination": "/cgv.html" },
+    { "source": "/legal", "destination": "/legal.html" },
     { "source": "/boutique", "destination": "/index.html" },
     { "source": "/boutique/(.*)", "destination": "/index.html" },
     { "source": "/produit/(.*)", "destination": "/index.html" },

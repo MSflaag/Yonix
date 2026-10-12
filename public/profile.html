@@ -225,7 +225,7 @@ img, svg {
 }
 
 .wrap {
-  width: min(1440px, calc(100% - 40px));
+  width: min(1140px, calc(100% - 40px));
   margin-inline: auto;
 }
 
@@ -574,7 +574,7 @@ img, svg {
 
 /* ===== MAIN LAYOUT ===== */
 main {
-  padding: 20px 0 48px;
+  padding: 36px 0 80px;
 }
 
 /* ===== PROFILE HERO CARD ===== */
@@ -582,13 +582,13 @@ main {
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
-  padding: 20px 26px;
+  padding: 28px 32px;
   box-shadow: var(--shadow-md);
-  margin-bottom: 16px;
+  margin-bottom: 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
+  gap: 24px;
   flex-wrap: wrap;
   position: relative;
   overflow: hidden;
@@ -1181,13 +1181,13 @@ main {
 
 /* ===== ORDERS LIST ===== */
 .orders-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(520px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 14px;
 }
 
 .order-card {
-  padding: 16px 18px;
+  padding: 20px 22px;
   border-radius: 16px;
   border: 1px solid var(--border);
   background: var(--bg);
@@ -1704,9 +1704,9 @@ main {
     </a>
 
     <nav class="nav-links" aria-label="Navigation principale">
-      <a href="/boutique">Boutique</a>
-      <a href="/avis">Avis</a>
-      <a href="/faq">FAQ</a>
+      <a href="/#boutique">Boutique</a>
+      <a href="/#avis">Avis</a>
+      <a href="/#faq">FAQ</a>
     </nav>
 
     <div class="nav-right">
@@ -1748,12 +1748,12 @@ main {
         </div>
       </div>
 
-      <a href="/profile" class="nav-login" id="navLoginBtn" aria-label="Mon Profil" style="border-color:var(--blue-border);background:var(--blue-soft);color:var(--blue)">
+      <a href="/profile.html" class="nav-login" id="navLoginBtn" aria-label="Mon Profil" style="border-color:var(--blue-border);background:var(--blue-soft);color:var(--blue)">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         <span id="navLoginLabel">Mon Profil</span>
       </a>
 
-      <a href="/panier" id="cartBubble" aria-label="Ouvrir le panier" title="Mon panier">
+      <a href="/#panier" id="cartBubble" aria-label="Ouvrir le panier" title="Mon panier">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <circle cx="9" cy="21" r="1.5"/>
           <circle cx="19" cy="21" r="1.5"/>
@@ -2002,7 +2002,7 @@ main {
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                     <span>Enregistrer ma carte bancaire</span>
                   </button>
-                  <a href="/boutique" class="btn-outline">Commander avec ma carte →</a>
+                  <a href="/#boutique" class="btn-outline">Commander avec ma carte →</a>
                 </div>
               </div>
             </div>
@@ -3049,8 +3049,8 @@ main {
   function buildClientEmailPreviewHtml({ service, customerEmail, customMessage, deliveredProduct }) {
     const site = location.origin;
     const imgUrl = service.img.startsWith('http') ? service.img : (site + service.img);
-    const reviewUrl = `${site}/avis?review=1&product=${encodeURIComponent(service.name)}&serviceId=${encodeURIComponent(service.id)}&email=${encodeURIComponent(customerEmail || '')}`;
-    const storeUrl = `${site}/boutique`;
+    const reviewUrl = `${site}/?review=1&product=${encodeURIComponent(service.name)}&serviceId=${encodeURIComponent(service.id)}&email=${encodeURIComponent(customerEmail || '')}`;
+    const storeUrl = `${site}/#boutique`;
     return `
       <div style="background:#0A0E17;padding:22px;color:#F8FAFC;font-family:Inter,sans-serif">
         <div style="background:#111623;border:1px solid #1E2738;border-radius:18px;overflow:hidden">
@@ -3116,8 +3116,8 @@ main {
     lastGeneratedEmailHtml = previewHtml;
     document.getElementById('epModalBody').innerHTML = previewHtml;
 
-    const reviewUrl = `${location.origin}/avis?review=1&product=${encodeURIComponent(svc.name)}&serviceId=${encodeURIComponent(svc.id)}`;
-    const bodyText = `${msg}\n\n${prod ? 'Tes accès / Ton produit :\n' + prod + '\n\n' : ''}⭐ Laisser un petit avis en direct juste ici : ${reviewUrl}\n🛒 Repasser commande : ${location.origin}/boutique`;
+    const reviewUrl = `${location.origin}/?review=1&product=${encodeURIComponent(svc.name)}&serviceId=${encodeURIComponent(svc.id)}`;
+    const bodyText = `${msg}\n\n${prod ? 'Tes accès / Ton produit :\n' + prod + '\n\n' : ''}⭐ Laisser un petit avis en direct juste ici : ${reviewUrl}\n🛒 Repasser commande : ${location.origin}/#boutique`;
     document.getElementById('epMailtoLink').href = `mailto:${encodeURIComponent(toEmail)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
     document.getElementById('emailPreviewModal').hidden = false;
   };
@@ -3240,8 +3240,10 @@ main {
         try {
           const existing = JSON.parse(localStorage.getItem('yonix_live_reviews') || '[]');
           const list = Array.isArray(existing) ? existing : [];
-          list.unshift(data.review);
-          localStorage.setItem('yonix_live_reviews', JSON.stringify(list.slice(0, 50)));
+          const sig = `${name.toLowerCase()}|${msg.toLowerCase()}`;
+          const filtered = list.filter(item => `${String(item.name || '').trim().toLowerCase()}|${String(item.msg || '').trim().toLowerCase()}` !== sig);
+          filtered.unshift(data.review);
+          localStorage.setItem('yonix_live_reviews', JSON.stringify(filtered.slice(0, 50)));
         } catch (e) {}
         document.getElementById('profileReviewModal').hidden = true;
         toast('Merci ! Ton avis est publié en direct sur la boutique ✓');
@@ -3262,7 +3264,7 @@ main {
         <div class="empty-state">
           <h3>Aucune commande pour le moment</h3>
           <p>Tes achats et tes produits livrés apparaîtront ici immédiatement après paiement par carte bancaire.</p>
-          <a href="/boutique" class="btn-blue">Découvrir la boutique</a>
+          <a href="/#boutique" class="btn-blue">Découvrir la boutique</a>
         </div>`;
     }
 
@@ -3311,7 +3313,7 @@ main {
           </div>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
             <button type="button" class="btn-blue" style="padding:8px 14px;font-size:12.5px" onclick="openProfileReviewModal('${escHtml(displayProdName)}','${escHtml(matchedSvc.id)}','${escHtml(prodImg)}')">★ Laisser un petit avis juste ici</button>
-            <a href="/boutique" class="btn-outline" style="padding:8px 14px;font-size:12.5px">Repasser commande</a>
+            <a href="/#boutique" class="btn-outline" style="padding:8px 14px;font-size:12.5px">Repasser commande</a>
           </div>
         </div>` : ''}
 
@@ -3703,7 +3705,7 @@ main {
     try {
       const r = await apiFetch('/api/account/orders');
       if (r.status === 401) {
-        location.href = '/connexion';
+        location.href = '/#connexion';
         return;
       }
       const data = await r.json();
@@ -3756,7 +3758,7 @@ main {
       if (params.get('card_saved') === '1') {
         openTabByName('payment');
         toast('Carte bancaire liée avec succès via Stripe ✓');
-        history.replaceState({}, '', '/profile');
+        history.replaceState({}, '', '/profile.html');
       } else if (isPathAdmin || params.get('admin') === '1' || params.get('tab') === 'admin') {
         openAdminAccessGate();
       } else if (params.get('tab')) {
@@ -3767,7 +3769,7 @@ main {
       const wrap = document.querySelector('main .wrap');
       const box = document.createElement('div');
       box.className = 'empty-state';
-      box.innerHTML = `<h3>Impossible de charger le profil</h3><p>${escHtml(err.message)}</p><a href="/connexion" class="btn-blue">Se reconnecter</a>`;
+      box.innerHTML = `<h3>Impossible de charger le profil</h3><p>${escHtml(err.message)}</p><a href="/#connexion" class="btn-blue">Se reconnecter</a>`;
       wrap.appendChild(box);
     }
   })();

@@ -193,7 +193,7 @@ img, svg {
 }
 
 .wrap {
-  width: min(1440px, calc(100% - 40px));
+  width: min(1160px, calc(100% - 40px));
   margin-inline: auto;
 }
 
@@ -425,11 +425,11 @@ img, svg {
 
 /* ===== CONFIRMATION MAIN LAYOUT (Wide & Compact Single-Screen) ===== */
 main {
-  padding: 20px 0 40px;
+  padding: 36px 0 80px;
 }
 
 .confirm-shell {
-  max-width: 1120px;
+  max-width: 780px;
   margin: 0 auto;
 }
 
@@ -437,15 +437,14 @@ main {
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
-  padding: 22px 26px;
+  padding: 28px 32px;
   box-shadow: var(--shadow-md);
 }
 
 .confirm-grid {
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 20px;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
 .status-pill {
@@ -825,9 +824,9 @@ main {
     </a>
 
     <nav class="nav-links" aria-label="Navigation principale">
-      <a href="/boutique">Boutique</a>
-      <a href="/avis">Avis</a>
-      <a href="/faq">FAQ</a>
+      <a href="/#boutique">Boutique</a>
+      <a href="/#avis">Avis</a>
+      <a href="/#faq">FAQ</a>
     </nav>
 
     <div class="nav-right">
@@ -848,12 +847,12 @@ main {
         </svg>
       </button>
 
-      <a href="/profile" class="nav-login" aria-label="Mon Profil">
+      <a href="/profile.html" class="nav-login" aria-label="Mon Profil">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         <span>Mon Profil</span>
       </a>
 
-      <a href="/panier" id="cartBubble" aria-label="Ouvrir le panier" title="Mon panier">
+      <a href="/#panier" id="cartBubble" aria-label="Ouvrir le panier" title="Mon panier">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="9" cy="21" r="1.5"/>
           <circle cx="19" cy="21" r="1.5"/>
@@ -984,7 +983,7 @@ main {
           <p class="confirm-sub">Nous n'avons pas trouvé de référence de commande dans cette URL.</p>
         </div>
         <div class="actions-stack">
-          <a href="/boutique" class="btn-blue">← Retourner à la boutique</a>
+          <a href="/#boutique" class="btn-blue">← Retourner à la boutique</a>
         </div>`;
       return;
     }
@@ -1009,8 +1008,8 @@ main {
           <p class="confirm-sub">Ta banque n'a pas encore confirmé le débit pour cette session (${esc((data && data.status) || 'non validé')}). Aucun montant n'a été débité.</p>
         </div>
         <div class="actions-stack">
-          <a href="/boutique" class="btn-blue">Réessayer le paiement sur la boutique</a>
-          <a href="/profile" class="btn-outline">Voir mon profil</a>
+          <a href="/#boutique" class="btn-blue">Réessayer le paiement sur la boutique</a>
+          <a href="/profile.html" class="btn-outline">Voir mon profil</a>
         </div>`;
       return;
     }
@@ -1058,7 +1057,7 @@ main {
     const basePriceRaw = m.basePriceRaw || m.priceRaw || '';
     const totalPriceDisplay = m.priceRaw || (data.amount ? formatEur(data.amount) : basePriceRaw);
     const isBundle = prodName.toLowerCase().includes('bundle');
-    const reviewUrl = `/avis?review=1&product=${encodeURIComponent(prodName)}`;
+    const reviewUrl = `/?review=1&product=${encodeURIComponent(prodName)}`;
 
     let deliveryHtml = '';
     if (m.deliveredProduct) {
@@ -1174,7 +1173,7 @@ main {
           ${deliveryHtml}
 
           <div class="actions-stack">
-            <a href="/profile" class="btn-blue">
+            <a href="/profile.html" class="btn-blue">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
               <span>Accéder à mes commandes &amp; produits reçus</span>
             </a>
@@ -1182,7 +1181,7 @@ main {
               <a href="${esc(reviewUrl)}" class="btn-outline">
                 <span>★ Laisser un avis en direct</span>
               </a>
-              <a href="/boutique" class="btn-outline">
+              <a href="/#boutique" class="btn-outline">
                 <span>← Retourner à la boutique</span>
               </a>
             </div>

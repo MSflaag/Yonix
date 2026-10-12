@@ -93,9 +93,9 @@ export function buildProductDeliveryEmail({
   const logoRel = resolveProductLogoPath(serviceId || serviceName, serviceImage);
   const absProductImg = logoRel.startsWith('http') ? logoRel : `${site}${logoRel}`;
   const absYonixLogo = `${site}/logos/Yonix.png?v=2`;
-  const reviewUrl = `${site}/avis?review=1&product=${encodeURIComponent(serviceName || 'Produit YONIX')}&serviceId=${encodeURIComponent(serviceId || '')}&email=${encodeURIComponent(customerEmail || '')}`;
-  const storeUrl = `${site}/boutique`;
-  const profileUrl = `${site}/profile`;
+  const reviewUrl = `${site}/?review=1&product=${encodeURIComponent(serviceName || 'Produit YONIX')}&serviceId=${encodeURIComponent(serviceId || '')}&email=${encodeURIComponent(customerEmail || '')}`;
+  const storeUrl = `${site}/#boutique`;
+  const profileUrl = `${site}/profile.html`;
   const defaultMsg = `Ton compte / service ${serviceName || 'YONIX'} est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici.`;
   const msgText = (customMessage || defaultMsg).trim();
 
@@ -474,14 +474,96 @@ function formatSessionOrder(s) {
   };
 }
 
+async function loadGlobalReviews() {
+  const bySig = new Map();
+  const addUnique = (r) => {
+    if (!r || !r.msg) return;
+    const normImg = r.proofImage || r.proofImg || '';
+    const normProdImg = r.productImage || r.productImg || resolveProductLogoPath(r.serviceId || r.product, '');
+    const sig = `${String(r.name || '').trim().toLowerCase()}|${String(r.msg || '').trim().toLowerCase()}`;
+    const existing = bySig.get(sig);
+    const unified = {
+      ...r,
+      proofImage: normImg || existing?.proofImage || '',
+      proofImg: normImg || existing?.proofImg || '',
+      productImage: normProdImg,
+      productImg: normProdImg,
+      isLive: true,
+    };
+    if (!existing || (normImg && !existing.proofImage)) {
+      bySig.set(sig, unified);
+    }
+  };
+
+  for (const r of liveReviews) addUnique(r);
+
+  if (stripe) {
+    try {
+      const custs = await stripe.customers.list({ email: 'review@yonix.store', limit: 40 });
+      for (const c of custs.data) {
+        if (c.description !== 'YONIX_LIVE_REVIEW' || !c.metadata?.meta) continue;
+        try {
+          const parsed = JSON.parse(c.metadata.meta);
+          let img = '';
+          for (let i = 0; i < 45; i++) {
+            const chunk = c.metadata[`img_${i}`];
+            if (!chunk) break;
+            img += chunk;
+          }
+          addUnique({
+            ...parsed,
+            stripeCustomerId: c.id,
+            proofImage: img || parsed.proofImage || parsed.proofImg || '',
+            proofImg: img || parsed.proofImg || parsed.proofImage || '',
+          });
+        } catch {}
+      }
+    } catch (err) {
+      console.warn('[orders:reviews] Stripe load warning:', err.message);
+    }
+  }
+
+  const merged = Array.from(bySig.values()).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+  liveReviews.length = 0;
+  merged.slice(0, 100).forEach((r) => liveReviews.push(r));
+  return liveReviews;
+}
+
+async function persistReviewToStripe(review) {
+  if (!stripe) return;
+  try {
+    const { proofImage, proofImg, ...rest } = review;
+    const metadata = {
+      meta: JSON.stringify(rest).slice(0, 500),
+    };
+    const imgStr = String(proofImage || proofImg || '');
+    if (imgStr.startsWith('data:image/') && imgStr.length <= 22500) {
+      const chunks = Math.ceil(imgStr.length / 500);
+      for (let i = 0; i < chunks && i < 45; i++) {
+        metadata[`img_${i}`] = imgStr.slice(i * 500, (i + 1) * 500);
+      }
+    }
+    await stripe.customers.create({
+      email: 'review@yonix.store',
+      name: String(review.id || 'rv_' + Date.now()).slice(0, 80),
+      description: 'YONIX_LIVE_REVIEW',
+      metadata,
+    });
+  } catch (err) {
+    console.warn('[orders:reviews] Stripe persist warning:', err.message);
+  }
+}
+
 export default async function handler(req, res) {
   const email = getAuthenticatedEmail(req);
 
   // ── GET public : Liste des avis clients en direct (?action=reviews) ──
   if (req.method === 'GET' && req.query?.action === 'reviews') {
+    const allReviews = await loadGlobalReviews();
+    res.setHeader('Cache-Control', 'no-store, max-age=0');
     return res.status(200).json({
       ok: true,
-      reviews: liveReviews.slice(0, 100),
+      reviews: allReviews.slice(0, 100),
     });
   }
 
@@ -498,41 +580,70 @@ export default async function handler(req, res) {
       const rawServiceId = String(body.serviceId || '').trim().slice(0, 50);
       const rawTag = String(body.tag || '').trim();
       const rawStars = Math.max(1, Math.min(5, parseInt(body.stars, 10) || 5));
-      const rawProofImg = body.proofImg && String(body.proofImg).startsWith('data:image/')
-        ? String(body.proofImg).slice(0, 350000)
+      const incomingImg = body.proofImage || body.proofImg || '';
+      const rawProofImg = incomingImg && String(incomingImg).startsWith('data:image/')
+        ? String(incomingImg).slice(0, 350000)
         : '';
-      const productImg = resolveProductLogoPath(rawServiceId || rawProduct, body.productImg);
+      const productImg = resolveProductLogoPath(rawServiceId || rawProduct, body.productImage || body.productImg);
 
       if (!rawMsg || rawMsg.length < 2) {
         return res.status(400).json({ error: 'Écris un court message pour publier ton avis.' });
       }
 
       const now = new Date();
-      const pad = (n) => String(n).padStart(2, '0');
-      const dateStr = `${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+      let dateStr = body.date ? String(body.date).trim().slice(0, 32) : '';
+      if (!dateStr) {
+        try {
+          dateStr = now.toLocaleDateString('fr-FR', { timeZone: 'Europe/Paris' }) + ' ' +
+            now.toLocaleTimeString('fr-FR', { timeZone: 'Europe/Paris', hour: '2-digit', minute: '2-digit' });
+        } catch {
+          const pad = (n) => String(n).padStart(2, '0');
+          dateStr = `${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+        }
+      }
       const initials = rawName
         .replace(/[^a-zA-Z0-9]/g, '')
         .slice(0, 2)
         .toUpperCase() || 'YX';
 
+      const clientProvidedId = body.id && String(body.id).startsWith('rev_')
+        ? String(body.id).slice(0, 60)
+        : 'rev_' + Date.now() + '_' + crypto.randomBytes(3).toString('hex');
+
       const newReview = {
-        id: 'rv_' + Date.now() + '_' + crypto.randomBytes(3).toString('hex'),
+        id: clientProvidedId,
         name: rawName,
         date: dateStr,
         msg: rawMsg,
         product: rawProduct,
         serviceId: rawServiceId,
         productImg,
+        productImage: productImg,
         tag: rawTag || (rawProduct.toLowerCase().includes('basic') ? 'green' : rawProduct.toLowerCase().includes('jailbreak') ? 'jb' : 'purple'),
         stars: rawStars,
         av: initials,
         proof: `Avis vérifié en direct · ${rawProduct}`,
         proofImg: rawProofImg,
+        proofImage: rawProofImg,
+        isLive: true,
         createdAt: Date.now(),
       };
 
+      // Deduplicate in-memory list by id OR (name + msg)
+      const sig = `${rawName.toLowerCase()}|${rawMsg.toLowerCase()}`;
+      for (let i = liveReviews.length - 1; i >= 0; i--) {
+        const r = liveReviews[i];
+        const rSig = `${String(r.name || '').trim().toLowerCase()}|${String(r.msg || '').trim().toLowerCase()}`;
+        if (r.id === newReview.id || rSig === sig) {
+          liveReviews.splice(i, 1);
+        }
+      }
+
       liveReviews.unshift(newReview);
       if (liveReviews.length > 100) liveReviews.length = 100;
+
+      await persistReviewToStripe(newReview);
+      const allReviews = await loadGlobalReviews();
 
       sendOwnerDM(
         `⭐ **NOUVEL AVIS CLIENT EN DIRECT — YONIX**\n` +
@@ -545,7 +656,7 @@ export default async function handler(req, res) {
       return res.status(200).json({
         ok: true,
         review: newReview,
-        reviews: liveReviews.slice(0, 100),
+        reviews: allReviews.slice(0, 100),
       });
     }
 
@@ -564,7 +675,18 @@ export default async function handler(req, res) {
         const { reviewId } = body;
         const idx = liveReviews.findIndex((r) => r.id === reviewId);
         if (idx !== -1) liveReviews.splice(idx, 1);
-        return res.status(200).json({ ok: true, reviews: liveReviews.slice(0, 100) });
+        if (stripe && reviewId) {
+          try {
+            const custs = await stripe.customers.list({ email: 'review@yonix.store', limit: 40 });
+            for (const c of custs.data) {
+              if (c.name === reviewId || (c.metadata?.meta && c.metadata.meta.includes(reviewId))) {
+                await stripe.customers.del(c.id);
+              }
+            }
+          } catch {}
+        }
+        const allReviews = await loadGlobalReviews();
+        return res.status(200).json({ ok: true, reviews: allReviews.slice(0, 100) });
       }
 
       if (action === 'list_all') {

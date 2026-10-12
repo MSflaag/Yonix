@@ -495,6 +495,8 @@ img, svg {
   color: var(--ink-secondary);
   font-size: 13.5px;
   font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
   transition: all 0.2s ease;
 }
 
@@ -574,21 +576,21 @@ img, svg {
 
 /* ===== MAIN LAYOUT ===== */
 main {
-  padding: 36px 0 80px;
+  padding: 28px 0 80px;
 }
 
-/* ===== PROFILE HERO CARD ===== */
+/* ===== PROFILE HERO CARD (Modern Sleek Identity Card) ===== */
 .profile-hero {
   background: var(--white);
   border: 1px solid var(--border);
-  border-radius: var(--radius-xl);
-  padding: 28px 32px;
-  box-shadow: var(--shadow-md);
-  margin-bottom: 24px;
+  border-radius: 22px;
+  padding: 22px 26px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 20px;
   flex-wrap: wrap;
   position: relative;
   overflow: hidden;
@@ -597,44 +599,53 @@ main {
 .profile-hero::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--blue), #7C3AED, var(--blue));
+  top: -80px;
+  right: -40px;
+  width: 260px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(78, 124, 255, 0.14) 0%, rgba(124, 58, 237, 0.06) 45%, transparent 72%);
+  pointer-events: none;
 }
 
 .profile-hero-left {
   display: flex;
   align-items: center;
-  gap: 22px;
+  gap: 18px;
   flex: 1;
-  min-width: 260px;
+  min-width: 240px;
+  position: relative;
+  z-index: 1;
 }
 
 .avatar-wrap {
   position: relative;
-  width: 92px;
-  height: 92px;
+  width: 72px;
+  height: 72px;
   flex-shrink: 0;
   cursor: pointer;
 }
 
 .profile-avatar {
-  width: 92px;
-  height: 92px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--blue), #2F56CC);
-  color: var(--white);
+  width: 72px;
+  height: 72px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #4E7CFF 0%, #2563EB 55%, #1D4ED8 100%);
+  color: #FFFFFF;
   display: grid;
   place-items: center;
-  font-size: 32px;
+  font-size: 26px;
   font-weight: 800;
   letter-spacing: -0.02em;
-  border: 3px solid var(--white);
-  box-shadow: 0 8px 24px -4px rgba(78, 124, 255, 0.4), 0 0 0 1px var(--border);
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 10px 24px -6px rgba(78, 124, 255, 0.45), 0 0 0 4px var(--blue-soft);
   overflow: hidden;
   user-select: none;
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.22s ease;
+}
+
+.avatar-wrap:hover .profile-avatar {
+  transform: scale(1.03);
+  box-shadow: 0 12px 28px -4px rgba(78, 124, 255, 0.55), 0 0 0 4px var(--blue-mid);
 }
 
 .profile-avatar img {
@@ -645,17 +656,17 @@ main {
 
 .avatar-edit-badge {
   position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
+  bottom: -3px;
+  right: -3px;
+  width: 26px;
+  height: 26px;
+  border-radius: 9px;
   background: var(--night);
   color: var(--white);
   border: 2px solid var(--white);
   display: grid;
   place-items: center;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-xs);
   transition: transform 0.2s ease, background 0.2s ease;
 }
 
@@ -667,45 +678,79 @@ main {
 .profile-meta {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
+  min-width: 0;
 }
 
 .profile-name-row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
 .profile-name-row h1 {
-  font-size: clamp(22px, 2.6vw, 28px);
+  font-size: clamp(19px, 2.2vw, 23px);
   font-weight: 800;
   letter-spacing: -0.025em;
   color: var(--night);
-  line-height: 1.15;
+  line-height: 1.2;
+}
+
+.profile-verified-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  background: var(--blue-soft);
+  border: 1px solid var(--blue-border);
+  color: var(--blue);
+}
+
+.profile-subline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 13.5px;
+  color: var(--ink-secondary);
+  font-weight: 500;
+}
+
+.profile-sub-email {
+  color: var(--ink-secondary);
+  font-weight: 600;
+  word-break: break-all;
+}
+
+.profile-sub-dot {
+  opacity: 0.45;
 }
 
 .profile-bio {
-  font-size: 14px;
-  color: var(--ink-secondary);
+  font-size: 13px;
+  color: var(--gray);
   font-weight: 500;
 }
 
 .profile-badges {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .badge-pill {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 5px 12px;
+  gap: 5px;
+  padding: 4px 10px;
   border-radius: 999px;
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 600;
 }
 
@@ -722,8 +767,8 @@ main {
 }
 
 .badge-active i {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: var(--green);
 }
@@ -750,8 +795,10 @@ main {
 .profile-hero-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
 }
 
 /* ===== BUTTONS ===== */
@@ -760,12 +807,12 @@ main {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 11px 20px;
+  padding: 10px 18px;
   border-radius: 12px;
   background: var(--blue);
   color: var(--white);
   font-weight: 700;
-  font-size: 14px;
+  font-size: 13.5px;
   box-shadow: var(--shadow-blue);
   transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
 }
@@ -785,14 +832,14 @@ main {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 10px 18px;
+  gap: 7px;
+  padding: 9px 16px;
   border-radius: 12px;
   background: var(--white);
   border: 1px solid var(--border);
   color: var(--ink);
   font-weight: 600;
-  font-size: 13.5px;
+  font-size: 13px;
   transition: all 0.2s ease;
 }
 
@@ -821,41 +868,111 @@ main {
   background: rgba(220, 38, 38, 0.15);
 }
 
-/* ===== TABS NAVIGATION ===== */
+/* ===== LIQUID TABS NAVIGATION ===== */
 .tabs-bar {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   background: var(--white);
   padding: 6px;
   border-radius: 16px;
   border: 1px solid var(--border);
   box-shadow: var(--shadow-xs);
-  margin-bottom: 16px;
+  margin-bottom: 18px;
   overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tabs-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.tabs-glider {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 6px;
+  width: 0;
+  border-radius: 11px;
+  background: linear-gradient(135deg, #4E7CFF 0%, #3B66E6 55%, #2563EB 100%);
+  box-shadow:
+    0 6px 18px -3px rgba(78, 124, 255, 0.45),
+    0 2px 6px -1px rgba(78, 124, 255, 0.28),
+    inset 0 1px 1px rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+  z-index: 0;
+  transition:
+    left 0.52s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.52s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.52s cubic-bezier(0.22, 1, 0.36, 1),
+    border-radius 0.52s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: left, width, transform;
+}
+
+.tabs-glider::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.32), transparent 68%);
+  opacity: 0.85;
+}
+
+.tabs-glider.liquid-morph {
+  animation: tabGliderLiquid 0.54s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes tabGliderLiquid {
+  0% {
+    transform: scaleX(1) scaleY(1);
+    border-radius: 11px;
+  }
+  38% {
+    transform: scaleX(1.13) scaleY(0.89);
+    border-radius: 16px;
+  }
+  72% {
+    transform: scaleX(0.97) scaleY(1.03);
+    border-radius: 12px;
+  }
+  100% {
+    transform: scaleX(1) scaleY(1);
+    border-radius: 11px;
+  }
 }
 
 .tab-btn {
+  position: relative;
+  z-index: 1;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 9px 16px;
+  padding: 10px 18px;
   border-radius: 11px;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 13.5px;
   color: var(--ink-secondary);
   white-space: nowrap;
-  transition: all 0.2s ease;
+  background: transparent;
+  transition: color 0.28s ease, transform 0.2s ease;
+  flex: 1;
 }
 
-.tab-btn:hover {
+.tab-btn:hover:not(.active) {
   color: var(--ink);
-  background: var(--bg-alt);
 }
 
 .tab-btn.active {
+  color: #FFFFFF !important;
+  background: transparent;
+  box-shadow: none;
+}
+
+.tab-btn.no-glider-fallback.active {
   background: var(--blue);
-  color: var(--white);
   box-shadow: 0 4px 14px -2px rgba(78, 124, 255, 0.35);
 }
 
@@ -865,6 +982,18 @@ main {
 
 .tab-panel.active {
   display: block;
+  animation: tabPanelFluidIn 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes tabPanelFluidIn {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.992);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* ===== SECTION CARDS ===== */
@@ -872,7 +1001,7 @@ main {
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
-  padding: 20px 24px;
+  padding: 22px 24px;
   box-shadow: var(--shadow-sm);
   margin-bottom: 16px;
 }
@@ -881,9 +1010,9 @@ main {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 14px;
   margin-bottom: 16px;
-  padding-bottom: 12px;
+  padding-bottom: 14px;
   border-bottom: 1px solid var(--border);
   flex-wrap: wrap;
 }
@@ -891,12 +1020,12 @@ main {
 .s-card-title-wrap {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
 .s-ico {
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   border-radius: 12px;
   background: var(--blue-soft);
   border: 1px solid var(--blue-border);
@@ -907,14 +1036,14 @@ main {
 }
 
 .s-card-head h2 {
-  font-size: 18px;
+  font-size: 17.5px;
   font-weight: 800;
   color: var(--night);
   letter-spacing: -0.015em;
 }
 
 .s-card-head p {
-  font-size: 13.5px;
+  font-size: 13px;
   color: var(--gray);
   margin-top: 2px;
 }
@@ -1415,25 +1544,30 @@ main {
   .nav-in {
     display: flex;
     justify-content: space-between;
+    gap: 10px;
   }
   .nav-links {
     display: none;
   }
   .profile-hero {
-    padding: 22px 20px;
+    padding: 20px 18px;
   }
   .s-card {
-    padding: 20px 18px;
+    padding: 18px 16px;
   }
 }
 
 @media (max-width: 640px) {
   .wrap {
-    width: calc(100% - 20px);
+    width: calc(100% - 24px);
+  }
+  main {
+    padding: 16px 0 64px;
   }
   #promoBanner {
     font-size: 11px;
     padding: 6px 10px;
+    gap: 6px;
   }
   .countdown-wrap {
     display: none;
@@ -1442,7 +1576,7 @@ main {
     height: 58px;
   }
   .brand {
-    font-size: 18px;
+    font-size: 17px;
     gap: 8px;
   }
   .brand-mark {
@@ -1452,45 +1586,154 @@ main {
   .nav-right {
     gap: 6px;
   }
+  .theme-toggle,
+  #cartBubble {
+    width: 36px;
+    height: 36px;
+  }
+  .lang-btn {
+    padding: 6px 9px;
+    font-size: 12px;
+    gap: 4px;
+  }
+  .nav-login {
+    padding: 6px 11px;
+    font-size: 12px;
+    gap: 5px;
+  }
   .profile-hero {
-    padding: 18px 16px;
+    padding: 16px;
     border-radius: 18px;
     gap: 14px;
+    flex-direction: column;
+    align-items: stretch;
   }
-  .profile-avatar-xl {
-    width: 64px;
-    height: 64px;
+  .profile-hero-left {
+    gap: 14px;
+    min-width: 0;
+  }
+  .avatar-wrap,
+  .profile-avatar {
+    width: 58px;
+    height: 58px;
+    border-radius: 18px;
     font-size: 22px;
   }
-  .profile-name {
-    font-size: 19px;
+  .avatar-edit-badge {
+    width: 22px;
+    height: 22px;
+    border-radius: 7px;
+  }
+  .profile-name-row h1 {
+    font-size: 18px;
+  }
+  .profile-subline {
+    font-size: 12.5px;
+    gap: 6px;
+  }
+  .profile-hero-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .profile-hero-actions .btn-outline,
+  .profile-hero-actions .btn-blue {
+    width: 100%;
+    padding: 9px 12px;
+    font-size: 12.5px;
   }
   .tabs-bar {
     padding: 5px;
-    gap: 5px;
+    gap: 4px;
     border-radius: 14px;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
+    margin-bottom: 14px;
   }
-  .tabs-bar::-webkit-scrollbar {
-    display: none;
+  .tabs-glider {
+    top: 5px;
+    bottom: 5px;
+    border-radius: 10px;
   }
   .tab-btn {
-    padding: 8px 13px;
+    padding: 9px 12px;
     font-size: 12.5px;
+    gap: 6px;
+    flex: 0 0 auto;
+  }
+  .tab-btn svg {
+    width: 14px;
+    height: 14px;
   }
   .s-card {
     padding: 16px 14px;
     border-radius: 18px;
   }
+  .s-card-head {
+    gap: 10px;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+  }
+  .s-ico {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+  }
+  .s-card-head h2 {
+    font-size: 16px;
+  }
+  .s-card-head p {
+    font-size: 12px;
+  }
   .order-card {
-    padding: 14px 12px;
+    padding: 14px;
     border-radius: 16px;
   }
   .order-top {
     flex-direction: column;
     align-items: stretch;
     gap: 12px;
+  }
+  .order-left {
+    min-width: 0;
+    align-items: flex-start;
+  }
+  .order-actions-row {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .order-actions-row.single-action {
+    grid-template-columns: 1fr;
+  }
+  .order-actions-row > * {
+    width: 100%;
+    font-size: 12.5px;
+    padding: 9px 10px;
+  }
+  .credit-card-visual {
+    padding: 18px;
+    min-height: 175px;
+    border-radius: 16px;
+  }
+  .cc-number-display {
+    font-size: 16px;
+    margin: 16px 0 14px;
+  }
+  .avatar-editor-box {
+    padding: 14px;
+    gap: 14px;
+  }
+  .avatar-preview-lg {
+    width: 66px;
+    height: 66px;
+    font-size: 24px;
+  }
+  .phone-security-card {
+    padding: 16px 14px;
+    border-radius: 15px;
   }
   .toast {
     max-width: calc(100vw - 24px);
@@ -1756,9 +1999,9 @@ main {
   <span class="promo-bolt" aria-hidden="true">
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
   </span>
-  <span>Offre flash — </span>
+  <span>Offre flash</span>
   <span class="countdown-wrap">
-    Expire dans :&nbsp;
+    <span>— Expire dans :&nbsp;</span>
     <span class="cd-unit"><span class="cd-num" id="cdH">02</span><span class="cd-label">h</span></span>
     <span class="cd-sep">:</span>
     <span class="cd-unit"><span class="cd-num" id="cdM">00</span><span class="cd-label">min</span></span>
@@ -1823,7 +2066,7 @@ main {
         </div>
       </div>
 
-      <a href="/profile.html" class="nav-login" id="navLoginBtn" aria-label="Mon Profil" style="border-color:var(--blue-border);background:var(--blue-soft);color:var(--blue)">
+      <a href="/profile.html" class="nav-login" id="navLoginBtn" aria-label="Mon Profil">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         <span id="navLoginLabel">Mon Profil</span>
       </a>
@@ -1836,11 +2079,6 @@ main {
         </svg>
         <span class="cart-badge" id="cartBadge"></span>
       </a>
-
-      <button class="btn-nav-logout" onclick="doLogout()" title="Se déconnecter">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-        <span>Déconnexion</span>
-      </button>
     </div>
   </div>
 </header>
@@ -1854,73 +2092,74 @@ main {
     <!-- LOADER -->
     <div class="loader" id="globalLoader">
       <div class="loader-ring"></div>
-      <span>Chargement de ton espace YONIX…</span>
+      <span>Chargement de ton profil…</span>
     </div>
 
-    <!-- PROFILE HERO HEADER -->
+    <!-- PROFILE HERO HEADER (Sleek Identity Card) -->
     <div class="profile-hero" id="profileHeader" hidden>
       <div class="profile-hero-left">
-        <div class="avatar-wrap" onclick="triggerAvatarUpload()" title="Cliquer pour changer la photo de profil">
+        <div class="avatar-wrap" onclick="triggerAvatarUpload()" title="Modifier la photo de profil">
           <div class="profile-avatar" id="profileAvatar">Y</div>
           <div class="avatar-edit-badge" aria-label="Modifier la photo">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
           </div>
         </div>
 
         <div class="profile-meta">
           <div class="profile-name-row">
-            <h1 id="profileTitle">Mon Profil</h1>
-          </div>
-          <div class="profile-bio" id="profileBioText">Membre vérifié YONIX</div>
-          <div class="profile-badges">
-            <span class="badge-pill badge-email">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
-              <span id="emailText">chargement…</span>
-            </span>
-            <span class="badge-pill badge-active"><i></i>Compte vérifié</span>
-            <span class="badge-pill badge-phone-warn" id="heroPhoneBadge" onclick="openTabByName('security')">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-              <span id="heroPhoneBadgeText">Ajouter sécurité 06</span>
+            <h1 id="profileTitle">Mon profil</h1>
+            <span class="profile-verified-tag">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Vérifié</span>
             </span>
             <span class="badge-pill badge-discord" id="heroDiscordBadge" hidden></span>
+            <span class="badge-pill badge-phone-ok" id="heroPhoneBadge" onclick="openTabByName('security')" hidden>
+              <span id="heroPhoneBadgeText"></span>
+            </span>
+          </div>
+          <div class="profile-subline">
+            <span class="profile-sub-email" id="emailText">chargement…</span>
+            <span class="profile-sub-dot" aria-hidden="true">·</span>
+            <span class="profile-bio" id="profileBioText">Membre YONIX</span>
           </div>
         </div>
       </div>
 
       <div class="profile-hero-actions">
         <button class="btn-outline" onclick="openTabByName('edit-profile')">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-          <span>Personnaliser le profil</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          <span>Mon profil</span>
         </button>
-        <button class="btn-blue" onclick="openTabByName('payment')">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-          <span>Carte bancaire</span>
-        </button>
+        <a href="/#boutique" class="btn-blue">
+          <span>Boutique</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
       </div>
     </div>
 
     <!-- MAIN TABS & PANELS -->
     <div id="mainContent" hidden>
-      <div class="tabs-bar" role="tablist">
+      <div class="tabs-bar" id="profileTabsBar" role="tablist">
+        <div class="tabs-glider" id="profileTabsGlider" aria-hidden="true"></div>
         <button class="tab-btn active" data-tab="orders" role="tab" onclick="switchTab('orders', this)">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-          <span>Mes commandes &amp; Produits</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          <span>Mes commandes</span>
         </button>
         <button class="tab-btn" data-tab="edit-profile" role="tab" onclick="switchTab('edit-profile', this)">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          <span>Mon Profil &amp; Photo</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Mon profil</span>
         </button>
         <button class="tab-btn" data-tab="payment" role="tab" onclick="switchTab('payment', this)">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-          <span>Paiement &amp; Carte Bancaire</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          <span>Moyen de paiement</span>
         </button>
         <button class="tab-btn" data-tab="security" role="tab" onclick="switchTab('security', this)">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          <span>Sécurité &amp; 06</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Sécurité</span>
         </button>
         <button class="tab-btn" id="adminTabBtn" data-tab="admin" role="tab" onclick="switchTab('admin', this)" hidden>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
-          <span>Livraison Admin</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
+          <span>Admin</span>
         </button>
       </div>
 
@@ -1933,8 +2172,8 @@ main {
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
               </div>
               <div>
-                <h2>Mes commandes &amp; Produits livrés</h2>
-                <p>Tes produits achetés (clés, identifiants, liens ou fichiers) sont livrés directement ici sur chaque commande.</p>
+                <h2>Mes commandes</h2>
+                <p>Retrouve ici l'ensemble de tes achats et accès livrés.</p>
               </div>
             </div>
             <button class="btn-outline" onclick="reloadUserOrders()">
@@ -1946,7 +2185,7 @@ main {
         </div>
       </div>
 
-      <!-- 2. EDIT PROFILE & PHOTO TAB -->
+      <!-- 2. EDIT PROFILE TAB -->
       <div class="tab-panel" id="tab-edit-profile">
         <div class="s-card">
           <div class="s-card-head">
@@ -1955,21 +2194,21 @@ main {
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
               </div>
               <div>
-                <h2>Personnaliser mon profil &amp; ma photo</h2>
-                <p>Modifie ta photo de profil, ton pseudo d'affichage, ton Discord et ta bio.</p>
+                <h2>Mon profil</h2>
+                <p>Modifie ta photo, ton pseudo, ton Discord et ta bio.</p>
               </div>
             </div>
           </div>
 
           <div class="avatar-editor-box">
             <div class="avatar-preview-lg" id="editAvatarPreview">Y</div>
-            <div style="flex:1;min-width:240px">
+            <div style="flex:1;min-width:220px">
               <div style="font-weight:700;font-size:15px;color:var(--night);margin-bottom:4px">Photo de profil</div>
-              <div style="font-size:13px;color:var(--gray);margin-bottom:12px">Importe une image depuis ton appareil (JPG, PNG, WebP) ou choisis un avatar YONIX ci-dessous.</div>
+              <div style="font-size:13px;color:var(--gray);margin-bottom:12px">Importe une image ou choisis un avatar ci-dessous.</div>
               <div style="display:flex;gap:10px;flex-wrap:wrap">
                 <button type="button" class="btn-blue" onclick="triggerAvatarUpload()">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                  <span>Importer une photo</span>
+                  <span>Importer</span>
                 </button>
                 <button type="button" class="btn-outline" onclick="clearAvatarPhoto()">Réinitialiser</button>
               </div>
@@ -1979,30 +2218,30 @@ main {
 
           <div class="form-grid">
             <div class="form-group">
-              <label for="profDisplayName">Nom / Pseudo affiché</label>
+              <label for="profDisplayName">Pseudo</label>
               <input class="form-input" id="profDisplayName" type="text" maxlength="60" placeholder="Ex: YonixPlayer">
             </div>
             <div class="form-group">
-              <label for="profDiscord">Pseudo Discord (pour le support)</label>
-              <input class="form-input" id="profDiscord" type="text" maxlength="60" placeholder="Ex: monpseudo_discord">
+              <label for="profDiscord">Discord</label>
+              <input class="form-input" id="profDiscord" type="text" maxlength="60" placeholder="Ex: monpseudo">
             </div>
           </div>
 
           <div class="form-group">
-            <label for="profBio">Statut / Bio du profil</label>
-            <input class="form-input" id="profBio" type="text" maxlength="140" placeholder="Ex: Membre vérifié YONIX · Client Premium">
+            <label for="profBio">Bio</label>
+            <input class="form-input" id="profBio" type="text" maxlength="140" placeholder="Ex: Membre YONIX">
           </div>
 
           <div style="display:flex;justify-content:flex-end;gap:12px;margin-top:10px">
             <button type="button" class="btn-blue" id="saveProfileBtn" onclick="saveProfileChanges()">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Enregistrer les modifications</span>
+              <span>Enregistrer</span>
             </button>
           </div>
         </div>
       </div>
 
-      <!-- 3. PAYMENT & BANK CARD TAB -->
+      <!-- 3. PAYMENT TAB -->
       <div class="tab-panel" id="tab-payment">
         <div class="s-card">
           <div class="s-card-head">
@@ -2011,13 +2250,13 @@ main {
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
               </div>
               <div>
-                <h2>Moyen de paiement par Carte Bancaire</h2>
-                <p>Ajoute ou gère ta carte bancaire (Visa, Mastercard, CB, Amex) pour régler tes commandes instantanément.</p>
+                <h2>Moyen de paiement</h2>
+                <p>Ajoute ou gère ta carte bancaire pour régler tes commandes en un clic.</p>
               </div>
             </div>
             <button type="button" class="btn-outline" onclick="startStripeCardSetup(this)">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-              <span>Vérifier / Lier via Stripe 3DS</span>
+              <span>Lier via Stripe</span>
             </button>
           </div>
 
@@ -2032,7 +2271,7 @@ main {
                 <div class="cc-number-display" id="ccVisualNumber">•••• •••• •••• ••••</div>
                 <div class="cc-bottom">
                   <div>
-                    <div class="cc-label">Titulaire de la carte</div>
+                    <div class="cc-label">Titulaire</div>
                     <div class="cc-val" id="ccVisualName">VOTRE NOM</div>
                   </div>
                   <div style="text-align:right">
@@ -2043,41 +2282,41 @@ main {
               </div>
               <div style="margin-top:14px;padding:12px 14px;border-radius:12px;background:var(--bg);border:1px solid var(--border);font-size:12.5px;color:var(--ink-secondary);display:flex;align-items:center;gap:10px">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                <span>Paiements chiffrés SSL 256-bit via Stripe (Visa, Mastercard, Carte Bancaire, Apple Pay).</span>
+                <span>Paiements sécurisés SSL 256-bit via Stripe.</span>
               </div>
             </div>
 
             <!-- SAVED CARDS + ADD CARD FORM -->
             <div>
-              <div style="font-weight:700;font-size:14px;color:var(--night);margin-bottom:10px">Mes cartes bancaires enregistrées</div>
+              <div style="font-weight:700;font-size:14px;color:var(--night);margin-bottom:10px">Cartes enregistrées</div>
               <div id="pmList" class="pm-list"></div>
 
-              <div style="background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:20px;margin-top:14px">
-                <div style="font-weight:800;font-size:15px;color:var(--night);margin-bottom:14px">Ajouter une carte bancaire</div>
+              <div style="background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:18px;margin-top:14px">
+                <div style="font-weight:800;font-size:15px;color:var(--night);margin-bottom:14px">Ajouter une carte</div>
                 <div class="form-group">
-                  <label for="cardNum">Numéro de carte bancaire</label>
+                  <label for="cardNum">Numéro de carte</label>
                   <input class="form-input" id="cardNum" type="text" inputmode="numeric" maxlength="19" placeholder="4970 1234 5678 9012" autocomplete="cc-number">
                 </div>
                 <div class="form-grid">
                   <div class="form-group">
-                    <label for="cardExp">Date d'expiration (MM/AA)</label>
+                    <label for="cardExp">Expiration (MM/AA)</label>
                     <input class="form-input" id="cardExp" type="text" inputmode="numeric" maxlength="5" placeholder="08/28" autocomplete="cc-exp">
                   </div>
                   <div class="form-group">
-                    <label for="cardCvv">Cryptogramme (CVV)</label>
+                    <label for="cardCvv">CVV</label>
                     <input class="form-input" id="cardCvv" type="password" inputmode="numeric" maxlength="4" placeholder="123" autocomplete="cc-csc">
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="cardName">Nom complet sur la carte</label>
+                  <label for="cardName">Titulaire</label>
                   <input class="form-input" id="cardName" type="text" maxlength="60" placeholder="JEAN DUPONT" autocomplete="cc-name">
                 </div>
                 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px">
                   <button type="button" class="btn-blue" id="saveCardBtn" onclick="saveCard()">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    <span>Enregistrer ma carte bancaire</span>
+                    <span>Enregistrer</span>
                   </button>
-                  <a href="/#boutique" class="btn-outline">Commander avec ma carte →</a>
+                  <a href="/#boutique" class="btn-outline">Boutique →</a>
                 </div>
               </div>
             </div>
@@ -2085,7 +2324,7 @@ main {
         </div>
       </div>
 
-      <!-- 4. SECURITY & 06 TAB -->
+      <!-- 4. SECURITY TAB -->
       <div class="tab-panel" id="tab-security">
         <div class="s-card">
           <div class="s-card-head">
@@ -2094,38 +2333,38 @@ main {
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
               </div>
               <div>
-                <h2>Sécurité renforcée &amp; Protection par 06</h2>
-                <p>Ajoute ton numéro 06 / 07 pour sécuriser ton compte et tes commandes, ou modifie ton mot de passe.</p>
+                <h2>Sécurité</h2>
+                <p>Protège ton compte et modifie ton mot de passe.</p>
               </div>
             </div>
           </div>
 
-          <!-- 06 / 07 SECURITY CARD -->
+          <!-- PHONE SECURITY CARD -->
           <div class="phone-security-card">
             <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:14px">
               <div>
                 <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-                  <h3 style="font-size:16.5px;font-weight:800;color:var(--night)">Double Sécurité Mobile (06 / 07)</h3>
+                  <h3 style="font-size:16px;font-weight:800;color:var(--night)">Protection par téléphone</h3>
                   <span id="secPhoneStatusBadge" class="badge-pill badge-phone-warn">Non activé</span>
                 </div>
-                <p style="font-size:13.5px;color:var(--ink-secondary);margin-top:4px">
-                  Associe ton numéro de téléphone mobile français (06 ou 07) pour protéger l'accès à tes produits livrés et tes paiements.
+                <p style="font-size:13px;color:var(--ink-secondary);margin-top:4px">
+                  Associe ton numéro de téléphone pour sécuriser l'accès à ton compte.
                 </p>
               </div>
               <div id="secPhoneRemoveWrap" hidden>
-                <button type="button" class="btn-danger-outline" onclick="removePhoneSecurity()">Retirer le 06</button>
+                <button type="button" class="btn-danger-outline" onclick="removePhoneSecurity()">Retirer</button>
               </div>
             </div>
 
             <div class="form-grid" style="align-items:end">
               <div class="form-group" style="margin-bottom:0">
-                <label for="secPhoneInput">Ton numéro mobile (06 ou 07)</label>
+                <label for="secPhoneInput">Numéro de téléphone</label>
                 <input class="form-input" id="secPhoneInput" type="tel" maxlength="16" placeholder="06 12 34 56 78">
               </div>
               <div>
                 <button type="button" class="btn-blue" id="sendPhoneCodeBtn" onclick="sendPhoneSecurityCode()" style="width:100%">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                  <span>Envoyer le code de validation 06</span>
+                  <span>Envoyer le code</span>
                 </button>
               </div>
             </div>
@@ -2134,15 +2373,15 @@ main {
             <div id="phoneCodeVerifyBox" hidden style="margin-top:16px;padding:16px;border-radius:14px;background:var(--white);border:1.5px solid var(--blue)">
               <div id="phoneCodeBanner" style="font-size:13px;font-weight:600;color:var(--blue-active);margin-bottom:10px"></div>
               <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-                <input class="form-input" id="secPhoneCodeInput" type="text" inputmode="numeric" maxlength="6" placeholder="Code à 6 chiffres (ex: 482910)" style="max-width:240px;font-weight:800;letter-spacing:0.12em">
-                <button type="button" class="btn-blue" onclick="verifyPhoneSecurityCode()">Valider &amp; Activer la sécurité 06</button>
+                <input class="form-input" id="secPhoneCodeInput" type="text" inputmode="numeric" maxlength="6" placeholder="Code à 6 chiffres" style="max-width:220px;font-weight:800;letter-spacing:0.12em">
+                <button type="button" class="btn-blue" onclick="verifyPhoneSecurityCode()">Valider</button>
               </div>
             </div>
 
             <!-- 2FA TOGGLE WHEN VERIFIED -->
             <div id="phone2faToggleRow" hidden style="margin-top:16px;padding-top:14px;border-top:1px solid var(--blue-border);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
               <div>
-                <div style="font-weight:700;font-size:14px;color:var(--night)">Protection 2FA par 06 active sur les commandes</div>
+                <div style="font-weight:700;font-size:14px;color:var(--night)">Double validation active</div>
                 <div style="font-size:12.5px;color:var(--ink-secondary)">Numéro vérifié : <strong id="verifiedPhoneDisplay"></strong></div>
               </div>
               <button type="button" class="btn-outline" id="toggle2faBtn" onclick="togglePhone2fa()"></button>
@@ -2150,36 +2389,36 @@ main {
           </div>
 
           <!-- PASSWORD CHANGE -->
-          <div style="padding:20px;border-radius:16px;background:var(--bg);border:1px solid var(--border);margin-bottom:18px">
-            <div style="font-weight:800;font-size:15.5px;color:var(--night);margin-bottom:12px">Modifier mon mot de passe</div>
+          <div style="padding:18px;border-radius:16px;background:var(--bg);border:1px solid var(--border);margin-bottom:18px">
+            <div style="font-weight:800;font-size:15.5px;color:var(--night);margin-bottom:12px">Mot de passe</div>
             <div class="form-grid">
               <div class="form-group">
                 <label for="secCurrentPwd">Mot de passe actuel</label>
                 <input class="form-input" id="secCurrentPwd" type="password" placeholder="••••••••">
               </div>
               <div class="form-group">
-                <label for="secNewPwd">Nouveau mot de passe (min. 6 caractères)</label>
-                <input class="form-input" id="secNewPwd" type="password" placeholder="Nouveau mot de passe">
+                <label for="secNewPwd">Nouveau mot de passe</label>
+                <input class="form-input" id="secNewPwd" type="password" placeholder="Minimum 6 caractères">
               </div>
             </div>
-            <button type="button" class="btn-blue" onclick="changeUserPassword()">Mettre à jour le mot de passe</button>
+            <button type="button" class="btn-blue" onclick="changeUserPassword()">Mettre à jour</button>
           </div>
 
           <div class="security-row">
             <div>
-              <div class="sec-title">Adresse email vérifiée (Anti Temp-Mail)</div>
+              <div class="sec-title">Adresse email</div>
               <div class="sec-desc" id="secEmail">chargement…</div>
             </div>
-            <span class="badge-pill badge-active">Fournisseur vérifié</span>
+            <span class="badge-pill badge-active">Vérifiée</span>
           </div>
 
           <div class="security-row">
             <div>
-              <div class="sec-title">Session active sur cet appareil</div>
-              <div class="sec-desc">Fermer ta session YONIX en toute sécurité</div>
+              <div class="sec-title">Session active</div>
+              <div class="sec-desc">Fermer ta session sur cet appareil</div>
             </div>
             <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-              <button type="button" class="btn-outline" style="font-size:12px;padding:7px 12px;opacity:0.75" onclick="openAdminAccessGate()" title="Réservé à l'administrateur YONIX">🔒 Accès Admin</button>
+              <button type="button" class="btn-outline" style="font-size:12px;padding:7px 12px;opacity:0.75" onclick="openAdminAccessGate()" title="Réservé à l'administrateur YONIX">🔒 Admin</button>
               <button type="button" class="btn-danger-outline" onclick="doLogout()">Se déconnecter</button>
             </div>
           </div>
@@ -2401,18 +2640,61 @@ main {
     'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#EA580C"/><stop offset="1" stop-color="#991B1B"/></linearGradient></defs><rect width="120" height="120" fill="url(#g)"/><path d="M64 22L34 66h24l-6 32 34-46H62z" fill="#fff"/></svg>')
   ];
 
-  // ─── TABS ───
+  // ─── TABS (LIQUID MORPHING GLIDER) ───
+  let lastActiveTabName = 'orders';
+
+  function syncTabsGlider(animate = true) {
+    const bar = document.getElementById('profileTabsBar');
+    const glider = document.getElementById('profileTabsGlider');
+    const activeBtn = bar ? bar.querySelector('.tab-btn.active') : null;
+    if (!bar || !glider || !activeBtn) return;
+
+    if (!animate) {
+      glider.style.transition = 'none';
+    } else {
+      glider.style.transition = '';
+    }
+    glider.style.left = activeBtn.offsetLeft + 'px';
+    glider.style.width = activeBtn.offsetWidth + 'px';
+
+    if (!animate) {
+      void glider.offsetWidth;
+      glider.style.transition = '';
+    } else {
+      glider.classList.remove('liquid-morph');
+      void glider.offsetWidth;
+      glider.classList.add('liquid-morph');
+    }
+
+    try {
+      const targetScroll = activeBtn.offsetLeft - (bar.clientWidth - activeBtn.offsetWidth) / 2;
+      bar.scrollTo({ left: Math.max(0, targetScroll), behavior: animate ? 'smooth' : 'auto' });
+    } catch (e) {}
+  }
+
+  window.addEventListener('resize', function() {
+    syncTabsGlider(false);
+  }, { passive: true });
+
   window.switchTab = function(name, btn){
+    const resolvedName = (name === 'customize' || name === 'profile') ? 'edit-profile' : name;
+    const targetBtn = btn || document.querySelector(`.tab-btn[data-tab="${resolvedName}"]`);
+    const changed = lastActiveTabName !== resolvedName;
+    lastActiveTabName = resolvedName;
+
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    if (btn) btn.classList.add('active');
-    const panel = document.getElementById('tab-' + name);
+    if (targetBtn) targetBtn.classList.add('active');
+    const panel = document.getElementById('tab-' + resolvedName);
     if (panel) panel.classList.add('active');
+
+    syncTabsGlider(changed);
   };
 
   window.openTabByName = function(name){
-    const btn = document.querySelector(`.tab-btn[data-tab="${name}"]`);
-    switchTab(name, btn);
+    const resolvedName = (name === 'customize' || name === 'profile') ? 'edit-profile' : name;
+    const btn = document.querySelector(`.tab-btn[data-tab="${resolvedName}"]`);
+    switchTab(resolvedName, btn);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -2439,8 +2721,8 @@ main {
 
   // ─── RENDER PROFILE UI ───
   function renderProfileUI(){
-    const name = currentProfile.displayName || (currentEmail.split('@')[0] || 'Mon Profil');
-    const bio = currentProfile.bio || 'Membre vérifié YONIX';
+    const name = currentProfile.displayName || (currentEmail.split('@')[0] || 'Mon profil');
+    const bio = currentProfile.bio || 'Membre YONIX';
     const discord = currentProfile.discordTag || '';
     const localAvatar = localStorage.getItem('yonix_avatar_' + currentEmail) || '';
     const avatarUrl = currentProfile.avatarUrl || localAvatar || '';
@@ -2466,12 +2748,12 @@ main {
     const discBadge = document.getElementById('heroDiscordBadge');
     if (discord) {
       discBadge.hidden = false;
-      discBadge.textContent = 'Discord : ' + discord;
+      discBadge.textContent = discord;
     } else {
       discBadge.hidden = true;
     }
 
-    // Phone 06 security status
+    // Phone security status
     const heroPhoneBadge = document.getElementById('heroPhoneBadge');
     const heroPhoneText = document.getElementById('heroPhoneBadgeText');
     const secPhoneBadge = document.getElementById('secPhoneStatusBadge');
@@ -2481,18 +2763,20 @@ main {
     const toggle2faBtn = document.getElementById('toggle2faBtn');
 
     if (currentProfile.phone && currentProfile.phoneVerified) {
-      heroPhoneBadge.className = 'badge-pill badge-phone-ok';
-      heroPhoneText.textContent = 'Sécurité 06 : ' + currentProfile.phone;
+      if (heroPhoneBadge) {
+        heroPhoneBadge.hidden = false;
+        heroPhoneBadge.className = 'badge-pill badge-phone-ok';
+      }
+      if (heroPhoneText) heroPhoneText.textContent = '✓ ' + currentProfile.phone;
       secPhoneBadge.className = 'badge-pill badge-phone-ok';
-      secPhoneBadge.textContent = currentProfile.twoFactorPhone ? '✓ 06 Vérifié & 2FA Actif' : '✓ 06 Vérifié';
+      secPhoneBadge.textContent = currentProfile.twoFactorPhone ? '✓ Vérifié & 2FA' : '✓ Vérifié';
       removeWrap.hidden = false;
       toggleRow.hidden = false;
       verifiedPhoneDisplay.textContent = currentProfile.phone;
-      toggle2faBtn.textContent = currentProfile.twoFactorPhone ? 'Désactiver la double sécurité' : 'Activer la double sécurité';
+      toggle2faBtn.textContent = currentProfile.twoFactorPhone ? 'Désactiver' : 'Activer';
       document.getElementById('secPhoneInput').value = currentProfile.phone;
     } else {
-      heroPhoneBadge.className = 'badge-pill badge-phone-warn';
-      heroPhoneText.textContent = 'Ajouter sécurité 06';
+      if (heroPhoneBadge) heroPhoneBadge.hidden = true;
       secPhoneBadge.className = 'badge-pill badge-phone-warn';
       secPhoneBadge.textContent = 'Non activé';
       removeWrap.hidden = true;
@@ -3358,7 +3642,7 @@ main {
       return `
         <div class="empty-state">
           <h3>Aucune commande pour le moment</h3>
-          <p>Tes achats et tes produits livrés apparaîtront ici immédiatement après paiement par carte bancaire.</p>
+          <p>Tes achats et tes produits livrés apparaîtront ici immédiatement après ta commande.</p>
           <a href="/#boutique" class="btn-blue">Découvrir la boutique</a>
         </div>`;
     }
@@ -3367,11 +3651,12 @@ main {
       const matchedSvc = findServiceForOrder(o.serviceId || o.serviceName || o.productName);
       const prodImg = o.serviceImage || matchedSvc.img || '/logos/Yonix.png';
       const displayProdName = o.serviceName || o.productName || matchedSvc.name;
+      const cleanTierName = String(o.tierName || '').replace(/\s*\(1\s*Clé\s*\/\s*IP[^)]*\)/gi, '').trim();
       const isExplicitPending = o.deliveryStatus === 'pending' && !o.deliveredProduct && !o.customMessage;
       const isDelivered = !isExplicitPending && Boolean(o.deliveredProduct || o.downloadFile || o.customMessage || o.deliveryStatus === 'delivered');
       const statusBadge = isDelivered
-        ? `<span class="badge-pill badge-active">✓ Service activé &amp; livré</span>`
-        : `<span class="badge-pill badge-email">En cours de préparation (livré ici)</span>`;
+        ? `<span class="badge-pill badge-active">✓ Livré</span>`
+        : `<span class="badge-pill badge-email">En cours de préparation</span>`;
       const isCs2Order = matchedSvc.id === 'cs2' || o.downloadFile === 'cs2-loader.zip' || String(o.downloadFile || '').includes('drive.proton.me');
 
       return `
@@ -3383,7 +3668,7 @@ main {
             </div>
             <div>
               <div class="order-name">${escHtml(displayProdName)}</div>
-              ${o.tierName ? `<div class="order-tier">${escHtml(o.tierName)}</div>` : ''}
+              ${cleanTierName ? `<div class="order-tier">${escHtml(cleanTierName)}</div>` : ''}
               <div class="order-meta">
                 <span class="order-date">${formatDate(o.date)}</span>
                 <span class="order-price">${formatAmount(o.amount, o.currency)}</span>
@@ -3391,12 +3676,12 @@ main {
               </div>
             </div>
           </div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <div class="order-actions-row${(o.downloadFile || isCs2Order) ? '' : ' single-action'}" style="display:flex;gap:8px;flex-wrap:wrap">
             ${(o.downloadFile || isCs2Order)
               ? `<button type="button" class="btn-blue" onclick="handleDl(this,'${escHtml(o.downloadFile || 'cs2-loader.zip')}')">${dlBtnInner()}</button>`
               : ''}
             <button type="button" class="btn-outline" style="border-color:var(--blue-border);color:var(--blue)" onclick="openProfileReviewModal('${escHtml(displayProdName)}','${escHtml(matchedSvc.id)}','${escHtml(prodImg)}')">
-              ★ Laisser un avis en direct
+              ★ Laisser un avis
             </button>
           </div>
         </div>
@@ -3405,7 +3690,7 @@ main {
         <div style="margin-top:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 15px;border-radius:12px;background:#0D1322;border:1px solid var(--blue-border);color:#F8FAFC">
           <div style="display:flex;flex-direction:column;gap:3px">
             <div style="font-size:12px;font-weight:800;color:#60A5FA">📥 Téléchargement Cheat CS:GO / CS2 (Proton Drive)</div>
-            <div style="font-size:12.5px;color:#E2E8F0">Clé pour accéder au fichier : <code style="font-weight:800;color:#fff;background:#070A12;padding:3px 8px;border-radius:6px;border:1px solid rgba(78,124,255,0.4);margin-left:4px">${CS2_PROTON_KEY}</code></div>
+            <div style="font-size:12.5px;color:#E2E8F0">Clé d'accès : <code style="font-weight:800;color:#fff;background:#070A12;padding:3px 8px;border-radius:6px;border:1px solid rgba(78,124,255,0.4);margin-left:4px">${CS2_PROTON_KEY}</code></div>
           </div>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
             <button type="button" class="btn-outline" style="padding:7px 12px;font-size:12px;background:rgba(255,255,255,0.08);color:#fff;border-color:rgba(255,255,255,0.22)" onclick="copyDeliveredText(this,'${encodeURIComponent(CS2_PROTON_KEY)}')">Copier ${CS2_PROTON_KEY}</button>
@@ -3421,7 +3706,7 @@ main {
             <div style="font-size:14px;font-weight:600;color:var(--night)">${escHtml(o.customMessage)}</div>
           </div>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <button type="button" class="btn-blue" style="padding:8px 14px;font-size:12.5px" onclick="openProfileReviewModal('${escHtml(displayProdName)}','${escHtml(matchedSvc.id)}','${escHtml(prodImg)}')">★ Laisser un petit avis juste ici</button>
+            <button type="button" class="btn-blue" style="padding:8px 14px;font-size:12.5px" onclick="openProfileReviewModal('${escHtml(displayProdName)}','${escHtml(matchedSvc.id)}','${escHtml(prodImg)}')">★ Laisser un avis</button>
             <a href="/#boutique" class="btn-outline" style="padding:8px 14px;font-size:12.5px">Repasser commande</a>
           </div>
         </div>` : ''}
@@ -3429,13 +3714,13 @@ main {
         ${o.deliveredProduct ? `
         <div class="delivered-box">
           <div class="delivered-box-head">
-            <span class="delivered-box-title">Ton produit / Tes accès reçus :</span>
-            <button type="button" class="btn-outline" style="padding:5px 12px;font-size:12px" onclick="copyDeliveredText(this,'${encodeURIComponent(o.deliveredProduct)}')">Copier le produit</button>
+            <span class="delivered-box-title">Ton produit :</span>
+            <button type="button" class="btn-outline" style="padding:5px 12px;font-size:12px" onclick="copyDeliveredText(this,'${encodeURIComponent(o.deliveredProduct)}')">Copier</button>
           </div>
           <pre class="delivered-pre">${escHtml(o.deliveredProduct)}</pre>
         </div>` : (!o.downloadFile && !o.customMessage ? `
         <div style="margin-top:12px;padding:11px 14px;border-radius:10px;background:var(--white);border:1px dashed var(--border-hover);font-size:13px;color:var(--ink-secondary)">
-          Ton produit te sera envoyé directement dans cet encadré et par email dès validation. Clique sur « Actualiser » pour vérifier.
+          Ton produit sera affiché ici et envoyé par email dès validation.
         </div>` : '')}
       </div>`;
     }).join('')}</div>`;
@@ -3471,6 +3756,7 @@ main {
       if (gate) gate.hidden = true;
       if (lockBtn) lockBtn.hidden = false;
       renderMasterCarousel();
+      requestAnimationFrame(() => syncTabsGlider(false));
     } else {
       if (zone) zone.hidden = true;
       if (gate) gate.hidden = false;
@@ -3857,6 +4143,7 @@ main {
       document.getElementById('globalLoader').hidden = true;
       document.getElementById('profileHeader').hidden = false;
       document.getElementById('mainContent').hidden = false;
+      requestAnimationFrame(() => syncTabsGlider(false));
 
       // Auto-verify admin status if server marked isAdmin or if adminKey is stored
       const storedKey = sessionStorage.getItem('yonix_admin_key') || localStorage.getItem('yonix_admin_key') || '';

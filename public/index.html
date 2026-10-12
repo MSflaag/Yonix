@@ -616,6 +616,8 @@ html[data-theme="dark"] .nav.scrolled .nav-in {
   color: var(--ink-secondary);
   font-size: 13.5px;
   font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
   transition: all 0.2s ease;
 }
 
@@ -1420,34 +1422,103 @@ html[data-theme="dark"] .nav.scrolled .nav-in {
 
 /* ===== CATALOGUE / BOUTIQUE SECTION (#boutique) ===== */
 .filter-bar {
+  position: relative;
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
   margin: 0 auto 28px;
-  justify-content: center;
+  width: fit-content;
+  max-width: 100%;
+  border-radius: 18px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  box-shadow: inset 0 1px 2px rgba(10, 14, 23, 0.04);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  isolation: isolate;
+}
+.filter-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.flt-glider {
+  position: absolute;
+  top: 6px;
+  left: 0;
+  height: calc(100% - 12px);
+  width: 0;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #4E7CFF 0%, #335EEA 100%);
+  box-shadow: 0 6px 18px rgba(78, 124, 255, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, width;
+  transition:
+    transform 0.52s cubic-bezier(0.22, 1.28, 0.36, 1),
+    width 0.46s cubic-bezier(0.22, 1.2, 0.36, 1),
+    opacity 0.2s ease;
+}
+
+.flt-glider.is-ready {
+  opacity: 1;
+}
+
+.flt-glider.liquid-moving {
+  animation: fltGliderLiquid 0.52s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes fltGliderLiquid {
+  0%   { filter: brightness(1); border-radius: 13px; }
+  38%  { filter: brightness(1.1); border-radius: 20px; }
+  72%  { filter: brightness(1.03); border-radius: 11px; }
+  100% { filter: brightness(1); border-radius: 13px; }
 }
 
 .flt {
-  padding: 8px 18px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: var(--white);
+  position: relative;
+  z-index: 2;
+  padding: 9px 18px;
+  border-radius: 13px;
+  border: 1px solid transparent;
+  background: transparent;
   color: var(--ink-secondary);
-  font-weight: 600;
+  font-weight: 700;
   font-size: 13.5px;
-  transition: all 0.2s ease;
+  flex-shrink: 0;
+  white-space: nowrap;
+  transition: color 0.25s ease, transform 0.2s ease;
 }
 
-.flt:hover {
-  border-color: var(--border-hover);
+.flt:hover:not(.active) {
   color: var(--ink);
 }
 
+.flt:active {
+  transform: scale(0.96);
+}
+
 .flt.active {
+  color: #FFFFFF;
+}
+
+.filter-bar:not(.has-glider) .flt.active {
   border-color: var(--blue);
   background: var(--blue);
-  color: var(--white);
+  color: #FFFFFF;
   box-shadow: 0 4px 12px rgba(78, 124, 255, 0.28);
+}
+
+#pgrid.cat-liquid-shift {
+  animation: pgridFluidSwitch 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes pgridFluidSwitch {
+  0% { opacity: 0.45; transform: translateY(7px) scale(0.992); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 /* Bundle Card (Logopoint Featured Package Style) */
@@ -4209,17 +4280,24 @@ html[data-theme="dark"] #mobileMenu {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    padding: 2px 2px 8px;
-    margin: 0 -4px 22px;
-    gap: 7px;
+    padding: 5px;
+    margin: 0 auto 22px;
+    gap: 4px;
+    border-radius: 16px;
   }
   .filter-bar::-webkit-scrollbar {
     display: none;
   }
+  .flt-glider {
+    top: 5px;
+    height: calc(100% - 10px);
+    border-radius: 12px;
+  }
   .flt {
     flex-shrink: 0;
-    padding: 8px 15px;
+    padding: 8px 14px;
     font-size: 13px;
+    border-radius: 12px;
   }
   .bundle-card {
     border-radius: 20px;
@@ -4413,9 +4491,9 @@ html[data-theme="dark"] #mobileMenu {
   <span class="promo-bolt" aria-hidden="true">
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
   </span>
-  <span>Offre flash — </span>
+  <span>Offre flash</span>
   <span class="countdown-wrap">
-    Expire dans :&nbsp;
+    — Expire dans :&nbsp;
     <span class="cd-unit"><span class="cd-num" id="cdH">02</span><span class="cd-label">h</span></span>
     <span class="cd-sep">:</span>
     <span class="cd-unit"><span class="cd-num" id="cdM">00</span><span class="cd-label">min</span></span>
@@ -4439,11 +4517,11 @@ html[data-theme="dark"] #mobileMenu {
     <!-- Code Promo Box inside Cart (Manual Entry Only) -->
     <div style="margin-bottom:10px;padding:10px 12px;border-radius:12px;background:var(--bg);border:1px solid var(--border)">
       <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px">
-        <span style="font-size:11.5px;font-weight:700;color:var(--ink-secondary)">Code de réduction (saisir à la main)</span>
+        <span style="font-size:11.5px;font-weight:700;color:var(--ink-secondary)">Code promo</span>
         <button type="button" class="promo-clear-pill js-promo-clear-btn" onclick="window.clearManualPromo()" style="display:none">✕ Retirer</button>
       </div>
       <div class="promo-manual-form">
-        <input type="text" id="cartPromoInput" class="promo-manual-input js-promo-manual-input" placeholder="Écrire le code promo..." autocomplete="off">
+        <input type="text" id="cartPromoInput" class="promo-manual-input js-promo-manual-input" placeholder="Code promo..." autocomplete="off">
         <button type="button" class="promo-manual-apply" onclick="window.applyPromoFromField('cartPromoInput')">Appliquer</button>
       </div>
       <div class="js-promo-status-msg" style="display:none;margin-top:5px;font-size:11.5px;font-weight:700;color:var(--green)">✓ Code YONIX10 (-10%) appliqué</div>
@@ -4652,7 +4730,8 @@ html[data-theme="dark"] #mobileMenu {
       <p>L'intégralité des 25 produits disponibles sur yonix.store : CS2, Valorant, HWID Spoofer, Services Premium et Jailbreaks IA.</p>
     </div>
 
-    <div class="filter-bar rv" role="group" aria-label="Filtres catégorie">
+    <div class="filter-bar rv" id="filterBar" role="group" aria-label="Filtres catégorie">
+      <div class="flt-glider" id="filterBarGlider" aria-hidden="true"></div>
       <button class="flt active" data-cat="all">Tous</button>
       <button class="flt" data-cat="cs2">CS2</button>
       <button class="flt" data-cat="valorant">Valorant</button>
@@ -4710,11 +4789,11 @@ html[data-theme="dark"] #mobileMenu {
       </div>
     </div>
 
-    <!-- OFFRE GRATUITE 7 JOURS : CLÉ 24H CS:GO / CS2 (1 CLÉ PAR PERSONNE / IP) — EN DESSOUS DES BUNDLES IA -->
+    <!-- OFFRE GRATUITE 7 JOURS : CLÉ 24H CS:GO / CS2 — EN DESSOUS DES BUNDLES IA -->
     <div class="bundle-card free-cs2-offer-card rv" id="freeCs2OfferCard">
       <div class="bundle-badge">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        <span>OFFRE GRATUITE 7 JOURS · 1 CLÉ 24H / IP</span>
+        <span>OFFRE GRATUITE 7 JOURS</span>
       </div>
       <div class="bundle-left">
         <div class="bundle-emblem">
@@ -4723,21 +4802,21 @@ html[data-theme="dark"] #mobileMenu {
       </div>
       <div class="bundle-right">
         <h3 class="bundle-name">Cheat CS:GO — Clé 24H Gratuite</h3>
-        <p class="bundle-sub">1 Clé 24H offerte à chaque client qui passe commande — Disponible 7 jours (1 seule clé par personne et par IP).</p>
+        <p class="bundle-sub">Clé 24H offerte — Disponible pendant 7 jours.</p>
         <ul class="bundle-feats">
-          <li>1 Clé de licence 24H offerte pour le Cheat CS:GO / CS2 Loader</li>
-          <li>Offre disponible pendant 7 jours uniquement</li>
-          <li>Strictement limitée à 1 seule clé 24H par personne (vérification par adresse IP)</li>
-          <li>Livrée directement sur ton compte dans l'espace Mon Profil</li>
+          <li>Clé de licence 24H offerte pour le Cheat CS:GO / CS2 Loader</li>
+          <li>Offre disponible pendant 7 jours</li>
+          <li>Accès complet aux fonctionnalités du Loader</li>
+          <li>Livraison instantanée dans ton espace Mon Profil</li>
         </ul>
         <div class="bundle-pricing">
           <div class="bundle-old"><span>À l'unité :</span><b>7,99€</b></div>
-          <div class="bundle-new"><span>Offre Gratuite (1/IP) :</span><b>0,00€</b></div>
+          <div class="bundle-new"><span>Offre Gratuite :</span><b>0,00€</b></div>
         </div>
         <div class="dlg-actions" style="max-width:420px;grid-template-columns:1fr">
           <button class="dlg-buy" id="freeCs2OrderBtn" type="button" onclick="orderFreeCs2Key24h(this)">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            <span id="freeCs2OrderBtnLabel">Obtenir ma Clé 24H Gratuite (0,00€)</span>
+            <span id="freeCs2OrderBtnLabel">GRATUIT</span>
           </button>
         </div>
         <div id="freeCs2ResultBox" class="free-cs2-result-box" hidden></div>
@@ -5016,11 +5095,11 @@ html[data-theme="dark"] #mobileMenu {
       <!-- Manual Code Promo & TVA Stripe Box inside Product Modal -->
       <div class="promo-manual-box">
         <div class="promo-manual-info">
-          <b>Code de réduction (saisir à la main)</b>
+          <b>Code promo</b>
           <span id="pdLivePriceBreakdown" class="js-promo-breakdown-text">+ TVA &amp; Frais Stripe CB inclus au paiement</span>
         </div>
         <div class="promo-manual-form">
-          <input type="text" id="pdPromoInput" class="promo-manual-input js-promo-manual-input" placeholder="Écrire le code..." autocomplete="off">
+          <input type="text" id="pdPromoInput" class="promo-manual-input js-promo-manual-input" placeholder="Code promo..." autocomplete="off">
           <button type="button" class="promo-manual-apply" onclick="window.applyPromoFromField('pdPromoInput')">Appliquer</button>
           <button type="button" class="promo-clear-pill js-promo-clear-btn" onclick="window.clearManualPromo()" style="display:none">✕</button>
         </div>
@@ -5083,11 +5162,11 @@ html[data-theme="dark"] #mobileMenu {
         <!-- Manual Code Promo + Détail TVA & Frais Stripe -->
         <div style="border-top:1px solid var(--border);padding-top:12px;display:flex;flex-direction:column;gap:10px">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
-            <span style="font-size:11.5px;font-weight:700;color:var(--ink-secondary)">Code de réduction (saisir à la main)</span>
+            <span style="font-size:11.5px;font-weight:700;color:var(--ink-secondary)">Code promo</span>
             <button type="button" class="promo-clear-pill js-promo-clear-btn" onclick="window.clearManualPromo()" style="display:none">✕ Retirer</button>
           </div>
           <div class="promo-manual-form">
-            <input type="text" id="cbPromoInput" class="promo-manual-input js-promo-manual-input" placeholder="Écrire le code promo..." autocomplete="off">
+            <input type="text" id="cbPromoInput" class="promo-manual-input js-promo-manual-input" placeholder="Code promo..." autocomplete="off">
             <button type="button" class="promo-manual-apply" onclick="window.applyPromoFromField('cbPromoInput')">Appliquer</button>
           </div>
           <div style="display:flex;flex-direction:column;gap:5px;font-size:12.5px;color:var(--ink-secondary);padding-top:2px">
@@ -6448,7 +6527,7 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
       btn.style.cursor = 'not-allowed';
     }
     if (lbl) {
-      lbl.textContent = '✓ Clé 24H Gratuite déjà réclamée (1 max / IP)';
+      lbl.textContent = '✓ Déjà récupéré';
     }
     if (box) {
       box.hidden = false;
@@ -6456,7 +6535,7 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
         <div style="display:flex;flex-direction:column;gap:10px">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
             <div>
-              <div style="font-size:12px;font-weight:800;color:#60A5FA">✓ Commande Clé 24H Gratuite CS:GO enregistrée (1 seule clé par IP)</div>
+              <div style="font-size:12px;font-weight:800;color:#60A5FA">✓ Clé 24H Gratuite CS:GO activée</div>
               <div style="font-size:12.5px;color:#CBD5E1;margin-top:2px">Télécharge le Loader ci-dessous et retrouve ta clé 24H dans ton espace <b>Mon Profil</b>.</div>
             </div>
             <div style="display:flex;gap:8px;flex-wrap:wrap">
@@ -6465,8 +6544,8 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
             </div>
           </div>
           <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12)">
-            <span style="font-size:12.5px;color:#E2E8F0">🔑 Clé pour accéder au fichier Proton Drive : <code style="font-weight:800;color:#60A5FA;background:#070A12;padding:3px 8px;border-radius:6px;margin-left:4px">YONIX-123</code></span>
-            <button type="button" onclick="navigator.clipboard.writeText('YONIX-123');if(window.toast)window.toast('Clé fichier YONIX-123 copiée ✓');" style="padding:5px 10px;border-radius:8px;background:rgba(78,124,255,0.18);border:1px solid rgba(78,124,255,0.4);color:#93C5FD;font-size:11.5px;font-weight:700;cursor:pointer">Copier YONIX-123</button>
+            <span style="font-size:12.5px;color:#E2E8F0">🔑 Clé d'accès Proton Drive : <code style="font-weight:800;color:#60A5FA;background:#070A12;padding:3px 8px;border-radius:6px;margin-left:4px">YONIX-123</code></span>
+            <button type="button" onclick="navigator.clipboard.writeText('YONIX-123');if(window.toast)window.toast('Clé YONIX-123 copiée ✓');" style="padding:5px 10px;border-radius:8px;background:rgba(78,124,255,0.18);border:1px solid rgba(78,124,255,0.4);color:#93C5FD;font-size:11.5px;font-weight:700;cursor:pointer">Copier YONIX-123</button>
           </div>
         </div>`;
     }
@@ -6501,7 +6580,7 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
     try {
       const localClaim = JSON.parse(localStorage.getItem('yonix_free_cs2_24h_claim') || 'null');
       if (localClaim && localClaim.claimed) {
-        toast('Limite atteinte : 1 seule clé 24H gratuite par personne et par IP.', false);
+        toast('Offre gratuite déjà récupérée.', false);
         markFreeCs2ClaimedUI(localClaim.deliveredKey || null, localClaim.sessionId || '');
         return;
       }
@@ -6509,7 +6588,7 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
 
     const lbl = document.getElementById('freeCs2OrderBtnLabel');
     if (btn) btn.disabled = true;
-    if (lbl) lbl.textContent = 'Vérification IP & Création de ta clé 24H…';
+    if (lbl) lbl.textContent = 'Activation…';
 
     try {
       const tok = localStorage.getItem('yonix_token') || '';
@@ -6529,7 +6608,7 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
 
       if (r.status === 401 || data.requireAuth) {
         if (btn) btn.disabled = false;
-        if (lbl) lbl.textContent = 'Commander ma Clé 24H Gratuite (0,00€)';
+        if (lbl) lbl.textContent = 'GRATUIT';
         if (typeof window.requireAuthForOrder === 'function') {
           window.requireAuthForOrder(() => window.orderFreeCs2Key24h(document.getElementById('freeCs2OrderBtn') || btn));
         }
@@ -6544,9 +6623,9 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
           markFreeCs2ClaimedUI(null, data.sessionId || '');
         } else {
           if (btn) btn.disabled = false;
-          if (lbl) lbl.textContent = 'Commander ma Clé 24H Gratuite (0,00€)';
+          if (lbl) lbl.textContent = 'GRATUIT';
         }
-        toast(data.error || 'Impossible de commander cette offre gratuite.', false);
+        toast(data.error || 'Impossible de récupérer cette offre.', false);
         return;
       }
 
@@ -6566,10 +6645,10 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
       } catch (e) {}
 
       markFreeCs2ClaimedUI(data.deliveredKey || null, data.sessionId || '');
-      toast(data.message || 'Clé 24H Gratuite CS:GO commandée avec succès ✓');
+      toast('Clé 24H Gratuite CS:GO activée ✓');
     } catch (e) {
       if (btn) btn.disabled = false;
-      if (lbl) lbl.textContent = 'Commander ma Clé 24H Gratuite (0,00€)';
+      if (lbl) lbl.textContent = 'GRATUIT';
       toast('Erreur réseau. Réessaie dans un instant.', false);
     }
   };
@@ -6788,7 +6867,36 @@ JAILBREAKS.forEach(p => {
   reveal(c);
 });
 
-/* ===== FILTERS & SEARCH ===== */
+/* ===== FILTERS & SEARCH (WITH LIQUID MORPHING GLIDER) ===== */
+function syncFilterGlider(animate = true) {
+  const bar = document.getElementById('filterBar') || document.querySelector('.filter-bar');
+  const glider = document.getElementById('filterBarGlider');
+  if (!bar || !glider) return;
+  const activeBtn = bar.querySelector('.flt.active');
+  if (!activeBtn || activeBtn.offsetWidth === 0) return;
+
+  const left = activeBtn.offsetLeft;
+  const width = activeBtn.offsetWidth;
+
+  if (!animate) {
+    glider.style.transition = 'none';
+  } else {
+    glider.style.transition = '';
+    glider.classList.remove('liquid-moving');
+    void glider.offsetWidth;
+    glider.classList.add('liquid-moving');
+  }
+
+  glider.style.width = `${width}px`;
+  glider.style.transform = `translate3d(${left}px, 0, 0)`;
+  glider.classList.add('is-ready');
+  bar.classList.add('has-glider');
+
+  if (!animate) {
+    requestAnimationFrame(() => { glider.style.transition = ''; });
+  }
+}
+
 $('.filter-bar').addEventListener('click', e => {
   const btn = e.target.closest('.flt');
   if (!btn) return;
@@ -6797,6 +6905,16 @@ $('.filter-bar').addEventListener('click', e => {
 
 function filterCat(cat) {
   $$('.flt').forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
+  const activeBtn = document.querySelector(`.flt[data-cat="${cat}"]`);
+  if (activeBtn && typeof activeBtn.scrollIntoView === 'function') {
+    try { activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' }); } catch (e) {}
+  }
+  syncFilterGlider(true);
+  if (grid) {
+    grid.classList.remove('cat-liquid-shift');
+    void grid.offsetWidth;
+    grid.classList.add('cat-liquid-shift');
+  }
   $$('.pcard').forEach(c => {
     c.hidden = cat !== 'all' && c.dataset.cat !== cat;
   });
@@ -6805,9 +6923,14 @@ window.filterCat = filterCat;
 window.PRODUCTS = PRODUCTS;
 window.JAILBREAKS = JAILBREAKS;
 
+window.addEventListener('resize', () => syncFilterGlider(false));
+requestAnimationFrame(() => syncFilterGlider(false));
+window.addEventListener('load', () => syncFilterGlider(false));
+
 window.applySearch = function applySearch(scroll = true) {
   const q = $('#searchInput').value.toLowerCase().trim();
   $$('.flt').forEach(b => b.classList.toggle('active', b.dataset.cat === 'all'));
+  syncFilterGlider(true);
   const ALL = [...PRODUCTS, ...JAILBREAKS];
   $$('.pcard').forEach(c => {
     if (!q) { c.hidden = false; return; }

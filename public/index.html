@@ -1617,7 +1617,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 8px;
   padding-top: 12px;
   border-top: 1px solid var(--border);
 }
@@ -1625,7 +1625,7 @@ a {
 .pcard-price {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1px;
   line-height: 1.2;
   min-width: 0;
 }
@@ -1634,38 +1634,22 @@ a {
   font-size: 11px;
   color: var(--gray);
   font-weight: 500;
+  white-space: nowrap;
 }
 
 .pcard-price-compare {
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 5px;
+  align-items: baseline;
+  gap: 6px;
   margin-top: 1px;
 }
 
 .pcard-old-price {
   font-size: 12px;
   font-weight: 600;
-  color: #EF4444;
+  color: var(--gray-light);
   text-decoration: line-through;
   text-decoration-thickness: 1.5px;
-  opacity: 0.9;
-}
-
-.pcard-vs-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1px 6px;
-  border-radius: 999px;
-  font-size: 9.5px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  background: var(--blue-soft);
-  color: var(--blue);
-  border: 1px solid var(--blue-border);
-  line-height: 1.3;
 }
 
 .pcard-price b {
@@ -1673,15 +1657,17 @@ a {
   font-weight: 800;
   color: var(--night);
   letter-spacing: -0.02em;
+  white-space: nowrap;
 }
 
 .buy-btn {
-  padding: 8px 16px;
+  padding: 8px 13px;
   border-radius: 999px;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 12.5px;
   color: var(--white);
   background: var(--blue);
+  white-space: nowrap;
   transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
 }
 
@@ -2303,30 +2289,16 @@ dialog[open] .dlg-vis svg {
 .tier-old-wrap {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
   gap: 4px;
   margin-top: 1px;
 }
 
 .tier-old-price {
-  font-size: 11px;
+  font-size: 11.5px;
   font-weight: 600;
-  color: #EF4444;
+  color: var(--gray-light);
   text-decoration: line-through;
   text-decoration-thickness: 1.5px;
-}
-
-.tier-vs {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1px 5px;
-  border-radius: 999px;
-  font-size: 8.5px;
-  font-weight: 800;
-  background: var(--blue-soft);
-  color: var(--blue);
-  border: 1px solid var(--blue-border);
 }
 
 .tier-price {
@@ -4311,9 +4283,8 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
 
       <!-- Side-by-side Price Comparison + Quantity Selector -->
       <div class="dlg-price-qty-row" id="pdPriceQtyRow">
-        <div class="bundle-pricing" id="pdPriceCompare" style="display:none;gap:10px;justify-content:space-between">
-          <div class="bundle-old"><span>Prix de base :</span><b id="pdOldPriceVal" style="color:#EF4444;font-size:15px"></b></div>
-          <span class="pcard-vs-badge" style="font-size:10.5px;padding:2px 7px">VS</span>
+        <div class="bundle-pricing" id="pdPriceCompare" style="display:none;gap:14px;justify-content:space-between">
+          <div class="bundle-old"><span>Prix de base :</span><b id="pdOldPriceVal" style="color:var(--gray-light);font-size:15px"></b></div>
           <div class="bundle-new"><span>Prix Yonix :</span><b id="pdNewPriceVal" style="font-size:21px"></b></div>
         </div>
 
@@ -5723,9 +5694,9 @@ PRODUCTS.forEach(p => {
     : p.svg;
   const firstTier = p.tiers[0] || {};
   const oldPriceHtml = firstTier.oldPrice
-    ? `<div class="pcard-price-compare"><del class="pcard-old-price">${firstTier.oldPrice}</del><span class="pcard-vs-badge">VS</span></div>`
+    ? `<div class="pcard-price-compare"><del class="pcard-old-price">${firstTier.oldPrice}</del></div>`
     : '';
-  const priceLabel = p.tiers.length > 1 ? 'À partir de' : 'Prix officiel vs Yonix';
+  const priceLabel = p.tiers.length > 1 ? 'À partir de' : 'Prix unique';
   c.innerHTML = `<div class="pcard-in">
     <div class="pcard-img">${visual}<span class="pcard-badge">${p.badge}</span></div>
     <div class="pcard-body">
@@ -5785,7 +5756,7 @@ JAILBREAKS.forEach(p => {
   c.dataset.cat = 'jailbreak';
   c.dataset.id = p.id;
   const oldPriceHtml = p.oldPrice
-    ? `<div class="pcard-price-compare"><del class="pcard-old-price">${p.oldPrice}</del><span class="pcard-vs-badge">VS</span></div>`
+    ? `<div class="pcard-price-compare"><del class="pcard-old-price">${p.oldPrice}</del></div>`
     : '';
   c.innerHTML = `<div class="pcard-in">
     <div class="pcard-img"><img class="pcard-logo-img" src="${p.img}" alt="${p.name}"><span class="pcard-badge">${p.badge}</span></div>
@@ -5979,7 +5950,7 @@ function renderTiers() {
     <button type="button" class="tier-btn${i === selTier ? ' sel' : ''}" data-i="${i}">
       ${t.best && curProd.tiers.length > 1 ? `<span class="tier-pop">Most Popular</span>` : ''}
       <span class="tier-dur">${t.dur}</span>
-      ${t.oldPrice ? `<div class="tier-old-wrap"><del class="tier-old-price">${t.oldPrice}</del><span class="tier-vs">VS</span></div>` : ''}
+      ${t.oldPrice ? `<div class="tier-old-wrap"><del class="tier-old-price">${t.oldPrice}</del></div>` : ''}
       <span class="tier-price">${t.price}</span>
       ${t.note ? `<span class="tier-note">${t.note}</span>` : ''}
     </button>
@@ -6072,8 +6043,7 @@ jbModal.innerHTML = `
       <ul class="dlg-feats" id="jbFeats"></ul>
       <div class="dlg-price-qty-row">
         <div class="bundle-pricing" style="gap:10px;justify-content:space-between">
-          <div class="bundle-old"><span>Prix de base :</span><b id="jbOldPrice" style="color:#EF4444;font-size:15px">49,99€</b></div>
-          <span class="pcard-vs-badge" style="font-size:10.5px;padding:2px 7px">VS</span>
+          <div class="bundle-old"><span>Prix de base :</span><b id="jbOldPrice" style="color:var(--gray-light);font-size:15px">49,99€</b></div>
           <div class="bundle-new"><span>Prix Yonix :</span><b id="jbPrice" style="font-size:21px"></b></div>
         </div>
         <div class="qty-row" id="jbQtyRow">

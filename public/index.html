@@ -2078,15 +2078,53 @@ dialog {
   color: var(--ink);
   background: var(--white);
   box-shadow: var(--shadow-lg);
-  width: min(1220px, calc(100vw - 28px));
-  max-height: calc(100dvh - 20px);
+  width: min(940px, calc(100vw - 32px));
+  max-height: calc(100dvh - 24px);
   overflow: auto;
+  transform-origin: center center;
+}
+
+@keyframes dlgPopIn {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.94);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes dlgPopOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+  }
+}
+
+@keyframes dlgBackdropIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+dialog[open] {
+  animation: dlgPopIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+dialog.is-closing {
+  animation: dlgPopOut 0.17s ease-in forwards;
+  pointer-events: none;
 }
 
 dialog::backdrop {
-  background: rgba(19, 24, 38, 0.55);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background: rgba(10, 14, 23, 0.62);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: dlgBackdropIn 0.24s ease forwards;
 }
 
 .dlg-close {
@@ -2110,11 +2148,12 @@ dialog::backdrop {
 .dlg-close:hover {
   border-color: var(--blue);
   color: var(--blue);
+  transform: rotate(90deg);
 }
 
 .dlg-grid {
   display: grid;
-  grid-template-columns: 0.65fr 1.35fr;
+  grid-template-columns: 265px 1fr;
 }
 
 .dlg-vis {
@@ -2123,18 +2162,24 @@ dialog::backdrop {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 240px;
-  padding: 22px;
-  background: radial-gradient(circle at 50% 50%, rgba(78, 124, 255, 0.2), transparent 70%), var(--night);
+  min-height: 220px;
+  padding: 20px;
+  background: radial-gradient(circle at 50% 50%, rgba(78, 124, 255, 0.22), transparent 70%), var(--night);
   color: var(--white);
 }
 
 .dlg-vis img, .dlg-vis svg {
-  max-width: 130px;
-  max-height: 130px;
+  max-width: 118px;
+  max-height: 118px;
   width: auto;
   height: auto;
   object-fit: contain;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+dialog[open] .dlg-vis img,
+dialog[open] .dlg-vis svg {
+  animation: dlgPopIn 0.36s cubic-bezier(0.16, 1, 0.3, 1) 0.04s both;
 }
 
 .dlg-vis img.dlg-screenshot {
@@ -2608,8 +2653,8 @@ dialog::backdrop {
 
 .dlg-actions {
   display: grid;
-  grid-template-columns: 1fr 1.15fr;
-  gap: 10px;
+  grid-template-columns: 0.9fr 1.15fr 1fr;
+  gap: 8px;
   align-items: stretch;
 }
 
@@ -2617,16 +2662,17 @@ dialog::backdrop {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 7px;
   width: 100%;
-  padding: 11px 16px;
+  padding: 11px 14px;
   border-radius: 999px;
   font-weight: 700;
-  font-size: 13.5px;
+  font-size: 13px;
   color: var(--blue);
   background: var(--blue-soft);
   border: 1.5px solid var(--blue-border);
   transition: transform 0.2s, box-shadow 0.2s, background 0.2s, border-color 0.2s;
+  white-space: nowrap;
 }
 
 .dlg-cart-btn:hover {
@@ -2639,16 +2685,17 @@ dialog::backdrop {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 7px;
   width: 100%;
-  padding: 11px 18px;
+  padding: 11px 15px;
   border-radius: 999px;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 13.5px;
   color: var(--white);
   background: var(--blue);
   box-shadow: 0 4px 14px rgba(78, 124, 255, 0.3);
   transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+  white-space: nowrap;
 }
 
 .dlg-buy:hover {
@@ -2657,17 +2704,60 @@ dialog::backdrop {
   box-shadow: var(--shadow-blue);
 }
 
+.dlg-apple-pay {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 100%;
+  padding: 11px 15px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 13.5px;
+  color: #FFFFFF;
+  background: linear-gradient(135deg, #000000 0%, #1E293B 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s, background 0.2s;
+  white-space: nowrap;
+}
+
+html:not([data-theme="dark"]) .dlg-apple-pay {
+  background: #0F172A;
+  color: #FFFFFF;
+  border-color: #1E293B;
+}
+
+.dlg-apple-pay:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+}
+
+.dlg-apple-pay .apay-stripe-tag {
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgba(99, 91, 255, 0.28);
+  border: 1px solid rgba(99, 91, 255, 0.55);
+  color: #C7D2FE;
+}
+
 .dlg-buy:disabled,
-.dlg-cart-btn:disabled {
+.dlg-cart-btn:disabled,
+.dlg-apple-pay:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
 }
 
-/* ===== DIRECT BANK CARD CHECKOUT MODAL (#cbPayModal — Wide 2-Column Layout) ===== */
+/* ===== DIRECT BANK CARD & APPLE PAY CHECKOUT MODAL (#cbPayModal) ===== */
 #cbPayModal {
-  width: min(920px, calc(100vw - 28px));
-  max-height: calc(100dvh - 20px);
+  width: min(810px, calc(100vw - 32px));
+  max-height: calc(100dvh - 24px);
   overflow-y: auto;
   border: 1px solid var(--border);
   border-radius: 22px;
@@ -2685,9 +2775,70 @@ dialog::backdrop {
 
 .cb-modal-grid {
   display: grid;
-  grid-template-columns: 0.95fr 1.05fr;
+  grid-template-columns: 0.96fr 1.04fr;
   gap: 18px;
   align-items: start;
+}
+
+.cb-method-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.cb-method-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  background: var(--bg-alt);
+  color: var(--ink-secondary);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.cb-method-tab:hover {
+  border-color: var(--border-hover);
+  color: var(--ink);
+}
+
+.cb-method-tab.active {
+  border-color: var(--blue);
+  background: var(--blue-soft);
+  color: var(--blue);
+  box-shadow: 0 2px 10px rgba(78, 124, 255, 0.18);
+}
+
+.cb-method-tab.apay.active {
+  border-color: #635BFF;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(99, 91, 255, 0.25));
+  color: #FFFFFF;
+}
+
+.cb-apay-box {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #0B0F1A 0%, #161E31 60%, #1E1B4B 100%);
+  border: 1.5px solid rgba(99, 91, 255, 0.45);
+  color: #F8FAFC;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.cb-pay-btns-row {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 8px;
+  align-items: stretch;
 }
 
 .cb-pay-head {
@@ -3497,7 +3648,9 @@ dialog::backdrop {
   }
   .tier-grid,
   .tier-grid.three,
-  .bf-row {
+  .bf-row,
+  .dlg-actions,
+  .cb-pay-btns-row {
     grid-template-columns: 1fr;
   }
   .bundle-right {
@@ -4125,25 +4278,30 @@ dialog::backdrop {
           <span>Mettre au panier</span>
         </button>
         <button class="dlg-buy" id="dlgBuy" type="button">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          <span id="dlgBuyLabel">Acheter maintenant</span>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          <span id="dlgBuyLabel">Carte Bancaire</span>
+        </button>
+        <button class="dlg-apple-pay" id="dlgApplePay" type="button" title="Payer avec Apple Pay via Stripe">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+          <span>Apple Pay</span>
+          <span class="apay-stripe-tag">Stripe</span>
         </button>
       </div>
     </div>
   </div>
 </dialog>
 
-<!-- DIRECT BANK CARD PAYMENT MODAL (Wide 2-Column Layout) -->
+<!-- DIRECT BANK CARD & APPLE PAY PAYMENT MODAL (2-Column Layout) -->
 <dialog id="cbPayModal" aria-labelledby="cbPayTitle">
   <div class="cb-pay-head">
     <div class="cb-pay-title" id="cbPayTitle">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-      <span>Paiement Carte Bancaire</span>
+      <span>Paiement Carte Bancaire &amp; Apple Pay</span>
     </div>
     <div style="display:flex;align-items:center;gap:8px">
       <span class="cb-pay-badge">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        SSL 256-bit
+        SSL 256-bit · Stripe
       </span>
       <button class="dlg-close" data-close aria-label="Fermer" style="position:static;width:32px;height:32px">×</button>
     </div>
@@ -4191,10 +4349,22 @@ dialog::backdrop {
       <div class="cb-saved-box" id="cbSavedCardsBox" style="display:none"></div>
     </div>
 
-    <!-- Right Column: Visual Card + Card Form + Pay CTA -->
+    <!-- Right Column: Payment Method Selector + Visual Card / Apple Pay + Pay CTAs -->
     <div>
-      <div id="cbNewCardSection">
-        <div class="cb-visual-card">
+      <!-- Payment Method Switcher: Carte Bancaire vs Apple Pay (Stripe) -->
+      <div class="cb-method-tabs" role="tablist" aria-label="Choisir le moyen de paiement">
+        <button type="button" class="cb-method-tab active" id="cbTabCard" data-method="card">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          <span>Carte Bancaire</span>
+        </button>
+        <button type="button" class="cb-method-tab apay" id="cbTabApay" data-method="apple_pay">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+          <span>Apple Pay · Stripe</span>
+        </button>
+      </div>
+
+      <div id="cbCardPanel">
+        <div class="cb-visual-card" id="cbVisualCardBox">
           <div class="cb-visual-top">
             <div class="cb-chip"></div>
             <span class="cb-brand-tag" id="cbVisBrand">CARTE BANCAIRE</span>
@@ -4212,39 +4382,60 @@ dialog::backdrop {
           </div>
         </div>
 
-        <div class="cb-form-grid">
-          <div class="cb-field">
-            <label for="cbInputName">Nom du titulaire sur la carte</label>
-            <input type="text" class="cb-input" id="cbInputName" placeholder="JEAN DUPONT" autocomplete="cc-name">
-          </div>
-          <div class="cb-field">
-            <label for="cbInputNum">Numéro de carte bancaire (16 chiffres)</label>
-            <input type="text" class="cb-input" id="cbInputNum" inputmode="numeric" maxlength="19" placeholder="4970 •••• •••• ••••" autocomplete="cc-number">
-          </div>
-          <div class="cb-form-row2">
+        <div id="cbNewCardSection">
+          <div class="cb-form-grid">
             <div class="cb-field">
-              <label for="cbInputExp">Date d'expiration</label>
-              <input type="text" class="cb-input" id="cbInputExp" inputmode="numeric" maxlength="5" placeholder="MM/AA" autocomplete="cc-exp">
+              <label for="cbInputName">Nom du titulaire sur la carte</label>
+              <input type="text" class="cb-input" id="cbInputName" placeholder="JEAN DUPONT" autocomplete="cc-name">
             </div>
             <div class="cb-field">
-              <label for="cbInputCvv">Code CVV / CVC</label>
-              <input type="password" class="cb-input" id="cbInputCvv" inputmode="numeric" maxlength="4" placeholder="123" autocomplete="cc-csc">
+              <label for="cbInputNum">Numéro de carte bancaire (16 chiffres)</label>
+              <input type="text" class="cb-input" id="cbInputNum" inputmode="numeric" maxlength="19" placeholder="4970 •••• •••• ••••" autocomplete="cc-number">
+            </div>
+            <div class="cb-form-row2">
+              <div class="cb-field">
+                <label for="cbInputExp">Date d'expiration</label>
+                <input type="text" class="cb-input" id="cbInputExp" inputmode="numeric" maxlength="5" placeholder="MM/AA" autocomplete="cc-exp">
+              </div>
+              <div class="cb-field">
+                <label for="cbInputCvv">Code CVV / CVC</label>
+                <input type="password" class="cb-input" id="cbInputCvv" inputmode="numeric" maxlength="4" placeholder="123" autocomplete="cc-csc">
+              </div>
             </div>
           </div>
-        </div>
 
-        <label class="cb-save-check">
-          <input type="checkbox" id="cbInputSave" checked>
-          <span>Enregistrer cette carte sur mon profil pour mes prochains achats</span>
-        </label>
+          <label class="cb-save-check">
+            <input type="checkbox" id="cbInputSave" checked>
+            <span>Enregistrer cette carte sur mon profil pour mes prochains achats</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Apple Pay via Stripe Panel -->
+      <div class="cb-apay-box" id="cbApayPanel">
+        <div style="display:inline-flex;align-items:center;justify-content:center;gap:8px;margin:0 auto;padding:6px 14px;border-radius:999px;background:rgba(99,91,255,0.22);border:1px solid rgba(99,91,255,0.5);font-size:12px;font-weight:800;color:#C7D2FE">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+          <span>Apple Pay · Stripe Checkout officiel</span>
+        </div>
+        <div style="font-size:15px;font-weight:800;color:#FFFFFF">Validation biométrique Face ID / Touch ID</div>
+        <p style="font-size:12.5px;color:#94A3B8;line-height:1.5;margin:0">
+          Tu vas être redirigé vers la page officielle <b style="color:#E2E8F0">Stripe Checkout</b> pour régler instantanément en 1 clic avec <b style="color:#E2E8F0">Apple Pay</b>, Link ou ta carte enregistrée sur ton appareil.
+        </p>
       </div>
 
       <div class="cb-err-msg" id="cbErrMsg"></div>
 
-      <button type="button" class="dlg-buy" id="cbSubmitPayBtn" style="width:100%;padding:13px 20px;font-size:14.5px">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        <span id="cbSubmitPayLabel">Payer maintenant</span>
-      </button>
+      <div class="cb-pay-btns-row">
+        <button type="button" class="dlg-buy" id="cbSubmitPayBtn" style="padding:12px 14px;font-size:13.5px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span id="cbSubmitPayLabel">Payer par CB</span>
+        </button>
+        <button type="button" class="dlg-apple-pay" id="cbApplePayBtn" style="padding:12px 14px;font-size:13.5px" title="Payer avec Apple Pay via Stripe">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+          <span id="cbApplePayLabel">Apple Pay</span>
+          <span class="apay-stripe-tag">Stripe</span>
+        </button>
+      </div>
     </div>
   </div>
 </dialog>
@@ -4787,7 +4978,18 @@ window.clampQtyVal = clampQtyVal;
 window.multiplyPriceStr = multiplyPriceStr;
 window.parsePriceNum = parsePriceNum;
 
-/* ===== DIRECT BANK CARD CHECKOUT ENGINE (#cbPayModal) ===== */
+/* ===== SMOOTH DIALOG OPEN / CLOSE ANIMATION HELPER ===== */
+window.closeDialogSmooth = function closeDialogSmooth(dlg) {
+  if (!dlg || !dlg.open) return;
+  if (dlg.classList.contains('is-closing')) return;
+  dlg.classList.add('is-closing');
+  setTimeout(() => {
+    dlg.classList.remove('is-closing');
+    if (dlg.open) dlg.close();
+  }, 175);
+};
+
+/* ===== DIRECT BANK CARD & APPLE PAY CHECKOUT ENGINE (#cbPayModal) ===== */
 (function initDirectCardPayment() {
   const cbModal = $('#cbPayModal');
   if (!cbModal) return;
@@ -4796,6 +4998,7 @@ window.parsePriceNum = parsePriceNum;
   let pendingCleanup = null;
   let savedCards = [];
   let selectedCardIdx = -1; // -1 = new card
+  let activePayMethod = 'card'; // 'card' | 'apple_pay'
 
   function detectCardBrand(num) {
     const clean = String(num || '').replace(/\D/g, '');
@@ -4823,6 +5026,15 @@ window.parsePriceNum = parsePriceNum;
     const brandEl = $('#cbVisBrand');
     if (!numEl) return;
 
+    if (selectedCardIdx >= 0 && savedCards[selectedCardIdx]) {
+      const sc = savedCards[selectedCardIdx];
+      numEl.textContent = `•••• •••• •••• ${sc.last4 || '••••'}`;
+      nameEl.textContent = (sc.name || 'CARTE ENREGISTRÉE').toUpperCase();
+      expEl.textContent = sc.exp || 'MM/AA';
+      brandEl.textContent = (sc.brand || 'CARTE BANCAIRE').toUpperCase();
+      return;
+    }
+
     const typedNum = ($('#cbInputNum')?.value || '').trim();
     const typedName = ($('#cbInputName')?.value || '').trim().toUpperCase();
     const typedExp = ($('#cbInputExp')?.value || '').trim();
@@ -4849,6 +5061,28 @@ window.parsePriceNum = parsePriceNum;
   });
   $('#cbInputName')?.addEventListener('input', updateVisualPreview);
 
+  function switchCbPayMethod(method) {
+    activePayMethod = method === 'apple_pay' ? 'apple_pay' : 'card';
+    const tabCard = $('#cbTabCard');
+    const tabApay = $('#cbTabApay');
+    const cardPanel = $('#cbCardPanel');
+    const apayPanel = $('#cbApayPanel');
+    const savedBox = $('#cbSavedCardsBox');
+
+    if (tabCard) tabCard.classList.toggle('active', activePayMethod === 'card');
+    if (tabApay) tabApay.classList.toggle('active', activePayMethod === 'apple_pay');
+    if (cardPanel) cardPanel.style.display = activePayMethod === 'card' ? 'block' : 'none';
+    if (apayPanel) apayPanel.style.display = activePayMethod === 'apple_pay' ? 'flex' : 'none';
+    if (savedBox) {
+      savedBox.style.display = (activePayMethod === 'card' && savedCards.length > 0) ? 'flex' : 'none';
+    }
+    showCbError('');
+  }
+  window.switchCbPayMethod = switchCbPayMethod;
+
+  $('#cbTabCard')?.addEventListener('click', () => switchCbPayMethod('card'));
+  $('#cbTabApay')?.addEventListener('click', () => switchCbPayMethod('apple_pay'));
+
   function renderSavedCardsSelector() {
     const box = $('#cbSavedCardsBox');
     const newSec = $('#cbNewCardSection');
@@ -4862,7 +5096,7 @@ window.parsePriceNum = parsePriceNum;
       return;
     }
 
-    box.style.display = 'flex';
+    box.style.display = activePayMethod === 'card' ? 'flex' : 'none';
     const esc = s => String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     box.innerHTML = savedCards.map((c, idx) => `
       <div class="cb-saved-opt${selectedCardIdx === idx ? ' active' : ''}" data-idx="${idx}">
@@ -4885,12 +5119,13 @@ window.parsePriceNum = parsePriceNum;
     $$('.cb-saved-opt', box).forEach(el => {
       el.addEventListener('click', () => {
         selectedCardIdx = parseInt(el.dataset.idx, 10);
+        if (activePayMethod !== 'card') switchCbPayMethod('card');
         renderSavedCardsSelector();
       });
     });
 
     newSec.style.display = selectedCardIdx === -1 ? 'block' : 'none';
-    if (selectedCardIdx === -1) updateVisualPreview();
+    updateVisualPreview();
   }
 
   function showCbError(msg) {
@@ -4938,6 +5173,7 @@ window.parsePriceNum = parsePriceNum;
     const feeEl = $('#cbStripeFeeVal');
     const totEl = $('#cbOrderTotalPrice');
     const payLbl = $('#cbSubmitPayLabel');
+    const apayLbl = $('#cbApplePayLabel');
     const cbIn = $('#cbPromoInput');
 
     if (subEl) subEl.textContent = formatEurHelper(baseCents);
@@ -4946,19 +5182,22 @@ window.parsePriceNum = parsePriceNum;
     if (feeEl) feeEl.textContent = '+' + formatEurHelper(stripeFeeCents);
     if (totEl) totEl.textContent = totalFormatted;
     if (payLbl && !$('#cbSubmitPayBtn')?.disabled) {
-      payLbl.textContent = `Payer maintenant — ${totalFormatted}`;
+      payLbl.textContent = `Carte CB — ${totalFormatted}`;
+    }
+    if (apayLbl && !$('#cbApplePayBtn')?.disabled) {
+      apayLbl.textContent = `Apple Pay`;
     }
     if (cbIn) cbIn.value = isPromo ? 'YONIX10' : '';
   };
 
-  window.openDirectCardCheckout = async function(orderPayload, onSuccessCleanup = null) {
+  window.openDirectCardCheckout = async function(orderPayload, onSuccessCleanup = null, initialMethod = 'card') {
     if (!orderPayload) return;
 
     if (!window.CURRENT_USER_EMAIL && typeof window.requireAuthForOrder === 'function') {
       if ($('#pdModal')?.open) $('#pdModal').close();
       if ($('#jbModal')?.open) $('#jbModal').close();
       if (window.closeCart) window.closeCart();
-      window.requireAuthForOrder(() => window.openDirectCardCheckout(orderPayload, onSuccessCleanup));
+      window.requireAuthForOrder(() => window.openDirectCardCheckout(orderPayload, onSuccessCleanup, initialMethod));
       return;
     }
 
@@ -4976,6 +5215,7 @@ window.parsePriceNum = parsePriceNum;
     $('#cbOrderProdName').textContent = orderPayload.productName || 'Produit Yonix';
     $('#cbOrderTierName').textContent = `${orderPayload.tierName || 'Accès immédiat'}${qty > 1 ? ' · Quantité ×' + qty : ''}`;
     $('#cbSubmitPayBtn').disabled = false;
+    if ($('#cbApplePayBtn')) $('#cbApplePayBtn').disabled = false;
     window.syncCbModalPricing();
     showCbError('');
 
@@ -4986,8 +5226,10 @@ window.parsePriceNum = parsePriceNum;
     } else {
       selectedCardIdx = -1;
     }
+    switchCbPayMethod(initialMethod);
     renderSavedCardsSelector();
 
+    cbModal.classList.remove('is-closing');
     if (!cbModal.open) cbModal.showModal();
 
     // Sync saved cards from server profile in background
@@ -5010,6 +5252,122 @@ window.parsePriceNum = parsePriceNum;
     } catch (e) {}
   };
 
+  function buildOrderMetaForSuccess() {
+    const qty = clampQtyVal(pendingOrder.quantity || 1);
+    return {
+      accountEmail: window.CURRENT_USER_EMAIL || localStorage.getItem('yonix_email') || '',
+      productId: pendingOrder.productId || '',
+      productName: pendingOrder.productName,
+      tierName: pendingOrder.tierName,
+      priceRaw: pendingOrder.priceRaw,
+      basePriceRaw: pendingOrder.basePriceRaw || pendingOrder.priceRaw,
+      promoCode: pendingOrder.promoCode || '',
+      discountCents: String(pendingOrder.discountCents || 0),
+      stripeFeeCents: String(pendingOrder.stripeFeeCents || 0),
+      quantity: String(qty),
+      downloadFile: pendingOrder.downloadFile || ''
+    };
+  }
+
+  function persistLocalOrderRecord(sid, ordObj, markPaidInProfile = true) {
+    try {
+      const orderMetaForSuccess = buildOrderMetaForSuccess();
+      const qty = clampQtyVal(pendingOrder.quantity || 1);
+      localStorage.setItem('yonix_last_order_' + sid, JSON.stringify(orderMetaForSuccess));
+      localStorage.setItem('yonix_last_order', JSON.stringify(orderMetaForSuccess));
+      if (!markPaidInProfile) return;
+      const existing = JSON.parse(localStorage.getItem('yonix_local_orders') || '[]');
+      const list = Array.isArray(existing) ? existing : [];
+      const rawCents = String(pendingOrder.priceRaw || '0').match(/(\d+(?:[.,]\d+)?)/);
+      const cents = rawCents ? Math.round(parseFloat(rawCents[1].replace(',', '.')) * 100) : 0;
+      list.unshift(ordObj || {
+        id: sid,
+        date: Math.floor(Date.now() / 1000),
+        customerEmail: orderMetaForSuccess.accountEmail,
+        productId: pendingOrder.productId || '',
+        productName: pendingOrder.productName,
+        tierName: pendingOrder.tierName,
+        priceRaw: pendingOrder.priceRaw,
+        quantity: qty,
+        amount: cents,
+        currency: 'eur',
+        downloadFile: pendingOrder.downloadFile || null,
+        deliveredProduct: '',
+        deliveryStatus: pendingOrder.downloadFile ? 'delivered' : 'pending'
+      });
+      localStorage.setItem('yonix_local_orders', JSON.stringify(list.slice(0, 50)));
+    } catch (e) {}
+  }
+
+  async function executeApplePayCheckout() {
+    if (!pendingOrder) return;
+    showCbError('');
+    switchCbPayMethod('apple_pay');
+
+    const apayBtn = $('#cbApplePayBtn');
+    const apayLbl = $('#cbApplePayLabel');
+    const cbBtn = $('#cbSubmitPayBtn');
+    if (apayBtn) apayBtn.disabled = true;
+    if (cbBtn) cbBtn.disabled = true;
+    if (apayLbl) apayLbl.textContent = 'Stripe Apple Pay…';
+
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-yonix-token': localStorage.getItem('yonix_token') || ''
+        },
+        body: JSON.stringify({
+          ...pendingOrder,
+          paymentMode: 'apple_pay'
+        })
+      });
+      const data = await res.json();
+      if (res.status === 401 || data.requireAuth) {
+        if (apayBtn) apayBtn.disabled = false;
+        if (cbBtn) cbBtn.disabled = false;
+        if (apayLbl) apayLbl.textContent = 'Apple Pay';
+        cbModal.close();
+        if (typeof window.requireAuthForOrder === 'function') {
+          const savedOrd = pendingOrder;
+          const savedClean = pendingCleanup;
+          window.requireAuthForOrder(() => window.openDirectCardCheckout(savedOrd, savedClean, 'apple_pay'));
+        }
+        return;
+      }
+      if (!res.ok) {
+        showCbError(data.error || 'Impossible de lancer Apple Pay via Stripe. Réessaie ou utilise ta Carte Bancaire.');
+        if (apayBtn) apayBtn.disabled = false;
+        if (cbBtn) cbBtn.disabled = false;
+        if (apayLbl) apayLbl.textContent = 'Apple Pay';
+        return;
+      }
+
+      const sid = data.sessionId || '';
+      if (data.url) {
+        persistLocalOrderRecord(sid, null, false);
+        if (apayLbl) apayLbl.textContent = 'Redirection Stripe…';
+        window.location.href = data.url;
+        return;
+      }
+
+      persistLocalOrderRecord(sid, data.order, true);
+      if (typeof pendingCleanup === 'function') pendingCleanup();
+      cbModal.close();
+      toast('Paiement Apple Pay accepté ✓');
+      window.location.href = `/success?session_id=${encodeURIComponent(sid)}`;
+    } catch (e) {
+      showCbError('Impossible de contacter Stripe pour Apple Pay. Vérifie ta connexion et réessaie.');
+      if (apayBtn) apayBtn.disabled = false;
+      if (cbBtn) cbBtn.disabled = false;
+      if (apayLbl) apayLbl.textContent = 'Apple Pay';
+    }
+  }
+
+  $('#cbApplePayBtn')?.addEventListener('click', executeApplePayCheckout);
+
   function isValidLuhnCard(numStr) {
     const digits = String(numStr || '').replace(/\D/g, '');
     if (digits.length < 15 || digits.length > 19) return false;
@@ -5030,6 +5388,9 @@ window.parsePriceNum = parsePriceNum;
 
   $('#cbSubmitPayBtn')?.addEventListener('click', async () => {
     if (!pendingOrder) return;
+    if (activePayMethod !== 'card') {
+      switchCbPayMethod('card');
+    }
     showCbError('');
 
     let cardPayload = null;
@@ -5095,51 +5456,10 @@ window.parsePriceNum = parsePriceNum;
 
     const btn = $('#cbSubmitPayBtn');
     const lbl = $('#cbSubmitPayLabel');
+    const apayBtn = $('#cbApplePayBtn');
     btn.disabled = true;
-    lbl.textContent = 'Vérification bancaire 3D Secure…';
-
-    const qty = clampQtyVal(pendingOrder.quantity || 1);
-    const orderMetaForSuccess = {
-      accountEmail: window.CURRENT_USER_EMAIL || localStorage.getItem('yonix_email') || '',
-      productId: pendingOrder.productId || '',
-      productName: pendingOrder.productName,
-      tierName: pendingOrder.tierName,
-      priceRaw: pendingOrder.priceRaw,
-      basePriceRaw: pendingOrder.basePriceRaw || pendingOrder.priceRaw,
-      promoCode: pendingOrder.promoCode || '',
-      discountCents: String(pendingOrder.discountCents || 0),
-      stripeFeeCents: String(pendingOrder.stripeFeeCents || 0),
-      quantity: String(qty),
-      downloadFile: pendingOrder.downloadFile || ''
-    };
-
-    function persistLocalOrderRecord(sid, ordObj, markPaidInProfile = true) {
-      try {
-        localStorage.setItem('yonix_last_order_' + sid, JSON.stringify(orderMetaForSuccess));
-        localStorage.setItem('yonix_last_order', JSON.stringify(orderMetaForSuccess));
-        if (!markPaidInProfile) return;
-        const existing = JSON.parse(localStorage.getItem('yonix_local_orders') || '[]');
-        const list = Array.isArray(existing) ? existing : [];
-        const rawCents = String(pendingOrder.priceRaw || '0').match(/(\d+(?:[.,]\d+)?)/);
-        const cents = rawCents ? Math.round(parseFloat(rawCents[1].replace(',', '.')) * 100) : 0;
-        list.unshift(ordObj || {
-          id: sid,
-          date: Math.floor(Date.now() / 1000),
-          customerEmail: orderMetaForSuccess.accountEmail,
-          productId: pendingOrder.productId || '',
-          productName: pendingOrder.productName,
-          tierName: pendingOrder.tierName,
-          priceRaw: pendingOrder.priceRaw,
-          quantity: qty,
-          amount: cents,
-          currency: 'eur',
-          downloadFile: pendingOrder.downloadFile || null,
-          deliveredProduct: '',
-          deliveryStatus: pendingOrder.downloadFile ? 'delivered' : 'pending'
-        });
-        localStorage.setItem('yonix_local_orders', JSON.stringify(list.slice(0, 50)));
-      } catch (e) {}
-    }
+    if (apayBtn) apayBtn.disabled = true;
+    lbl.textContent = 'Vérification 3D Secure…';
 
     try {
       const res = await fetch('/api/checkout', {
@@ -5158,19 +5478,21 @@ window.parsePriceNum = parsePriceNum;
       const data = await res.json();
       if (res.status === 401 || data.requireAuth) {
         btn.disabled = false;
-        lbl.textContent = `Payer maintenant — ${pendingOrder.priceRaw || ''}`;
+        if (apayBtn) apayBtn.disabled = false;
+        lbl.textContent = `Carte CB — ${pendingOrder.priceRaw || ''}`;
         cbModal.close();
         if (typeof window.requireAuthForOrder === 'function') {
           const savedOrd = pendingOrder;
           const savedClean = pendingCleanup;
-          window.requireAuthForOrder(() => window.openDirectCardCheckout(savedOrd, savedClean));
+          window.requireAuthForOrder(() => window.openDirectCardCheckout(savedOrd, savedClean, 'card'));
         }
         return;
       }
       if (!res.ok) {
         showCbError(data.error || 'Paiement refusé par la banque. Vérifie les informations de ta carte.');
         btn.disabled = false;
-        lbl.textContent = `Payer maintenant — ${pendingOrder.priceRaw || ''}`;
+        if (apayBtn) apayBtn.disabled = false;
+        lbl.textContent = `Carte CB — ${pendingOrder.priceRaw || ''}`;
         return;
       }
 
@@ -5178,7 +5500,7 @@ window.parsePriceNum = parsePriceNum;
       if (data.requiresStripeCheckout && data.url) {
         // Save pending metadata for /success, but only confirm order once Stripe Checkout completes debit
         persistLocalOrderRecord(sid, null, false);
-        lbl.textContent = 'Redirection vers ta banque (3D Secure)…';
+        lbl.textContent = 'Redirection 3D Secure…';
         window.location.href = data.url;
         return;
       }
@@ -5191,7 +5513,8 @@ window.parsePriceNum = parsePriceNum;
     } catch (e) {
       showCbError('Impossible de contacter le serveur de paiement sécurisé. Vérifie ta connexion et réessaie.');
       btn.disabled = false;
-      lbl.textContent = `Payer maintenant — ${pendingOrder.priceRaw || ''}`;
+      if (apayBtn) apayBtn.disabled = false;
+      lbl.textContent = `Carte CB — ${pendingOrder.priceRaw || ''}`;
     }
   });
 })();
@@ -5520,12 +5843,13 @@ function openProduct(id, initialTierIdx = null) {
   const bfForm = $('#bfForm');
   if (curProd.id === 'basic-fit') {
     bfForm.style.display = 'flex';
-    setBuyBtnLabel('Acheter maintenant');
+    setBuyBtnLabel('Carte Bancaire');
     bfForm.reset();
   } else {
     bfForm.style.display = 'none';
-    setBuyBtnLabel('Acheter maintenant');
+    setBuyBtnLabel('Carte Bancaire');
   }
+  modal.classList.remove('is-closing');
   if (!modal.open) modal.showModal();
 }
 window.openProduct = openProduct;
@@ -5549,7 +5873,7 @@ function renderTiers() {
       selTier = parseInt(b.dataset.i, 10);
       $$('.tier-btn', tg).forEach(x => x.classList.toggle('sel', x === b));
       updateModalPriceComparison();
-      setBuyBtnLabel('Acheter maintenant');
+      setBuyBtnLabel('Carte Bancaire');
     });
   });
 }
@@ -5574,8 +5898,8 @@ $('#dlgCartBtn')?.addEventListener('click', () => {
   }
 });
 
-/* "Acheter maintenant" button in Product Modal (Direct Bank Card Checkout) */
-$('#dlgBuy').addEventListener('click', () => {
+/* "Carte Bancaire" & "Apple Pay (Stripe)" buttons in Product Modal */
+function proceedFromProductModal(payMethod = 'card') {
   if (!curProd) return;
   const cgvEl = $('#cgvCheck');
   const cgvErr = $('#cgvError');
@@ -5610,8 +5934,11 @@ $('#dlgBuy').addEventListener('click', () => {
     priceRaw: multiplyPriceStr(tier.price, savedQty),
     quantity: savedQty,
     ...bfExtra
-  });
-});
+  }, null, payMethod);
+}
+
+$('#dlgBuy')?.addEventListener('click', () => proceedFromProductModal('card'));
+$('#dlgApplePay')?.addEventListener('click', () => proceedFromProductModal('apple_pay'));
 
 /* ===== JAILBREAK MODAL ===== */
 const jbModal = document.createElement('dialog');
@@ -5666,8 +5993,13 @@ jbModal.innerHTML = `
           <span>Mettre au panier</span>
         </button>
         <button class="dlg-buy" id="jbBuyBtn" type="button">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          <span id="jbBuyLabel">Acheter maintenant</span>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          <span id="jbBuyLabel">Carte Bancaire</span>
+        </button>
+        <button class="dlg-apple-pay" id="jbApplePayBtn" type="button" title="Payer avec Apple Pay via Stripe">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+          <span>Apple Pay</span>
+          <span class="apay-stripe-tag">Stripe</span>
         </button>
       </div>
     </div>
@@ -5676,7 +6008,10 @@ document.body.append(jbModal);
 
 $$('dialog').forEach(d => {
   d.addEventListener('click', e => {
-    if (e.target === d || e.target.closest('[data-close]')) d.close();
+    if (e.target === d || e.target.closest('[data-close]')) {
+      if (typeof window.closeDialogSmooth === 'function') window.closeDialogSmooth(d);
+      else d.close();
+    }
   });
 });
 
@@ -5728,7 +6063,8 @@ function openJB(id) {
   if (cgvEr) cgvEr.style.display = 'none';
   const cgvBox = cgvCk && cgvCk.closest('.cgv-check');
   if (cgvBox) cgvBox.style.borderColor = '';
-  if ($('#jbBuyLabel')) $('#jbBuyLabel').textContent = 'Acheter maintenant';
+  if ($('#jbBuyLabel')) $('#jbBuyLabel').textContent = 'Carte Bancaire';
+  jbModal.classList.remove('is-closing');
   if (!jbModal.open) jbModal.showModal();
 }
 window.openJB = openJB;
@@ -5753,7 +6089,7 @@ $('#jbCartBtn')?.addEventListener('click', () => {
   }
 });
 
-$('#jbBuyBtn').addEventListener('click', () => {
+function proceedFromJBModal(payMethod = 'card') {
   if (!curJB) return;
   const cgvEl = $('#jbCgvCheck');
   const cgvErr = $('#jbCgvError');
@@ -5775,8 +6111,11 @@ $('#jbBuyBtn').addEventListener('click', () => {
     priceRaw: multiplyPriceStr(curJB.price, savedQty),
     quantity: savedQty,
     downloadFile: curJB.file || ''
-  });
-});
+  }, null, payMethod);
+}
+
+$('#jbBuyBtn')?.addEventListener('click', () => proceedFromJBModal('card'));
+$('#jbApplePayBtn')?.addEventListener('click', () => proceedFromJBModal('apple_pay'));
 
 /* ===== GUARANTEES ===== */
 $('#gcards').innerHTML = WHY.map(w => `

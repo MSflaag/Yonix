@@ -242,8 +242,8 @@ export default async function handler(req, res) {
       console.warn('[checkout] Customer lookup warning:', custErr.message);
     }
 
-    // Cas 1 : Si le client a sélectionné une carte déjà liée via Stripe 3DS (pm_xxx), tenter le débit réel immédiat
-    if (usedCardInfo && String(usedCardInfo.id).startsWith('pm_') && stripeCustomerId) {
+    // Cas 1 : Si le client a sélectionné une carte déjà liée via Stripe 3DS (pm_xxx), tenter le débit réel immédiat (sauf s'il a choisi Apple Pay)
+    if (paymentMode !== 'apple_pay' && usedCardInfo && String(usedCardInfo.id).startsWith('pm_') && stripeCustomerId) {
       try {
         const pi = await stripe.paymentIntents.create({
           amount: amountCents,
@@ -328,7 +328,7 @@ export default async function handler(req, res) {
       }
     }
 
-    // Cas 2 : Créer une vraie session Stripe Checkout (3D Secure + débit bancaire réel vérifié par la banque)
+    // Cas 2 : Créer une vraie session Stripe Checkout (Apple Pay / Carte Bancaire 3D Secure vérifié par Stripe)
     const promoMult = cleanPromo === 'YONIX10' ? 0.90 : 1;
     const feeCentsNum = Math.max(0, parseInt(reqStripeFeeCents, 10) || 0);
     let lineItems;
@@ -379,7 +379,7 @@ export default async function handler(req, res) {
         price_data: {
           currency: 'eur',
           product_data: {
-            name: 'TVA & Frais de transaction Stripe CB (2,9% + 0,25€)',
+            name: 'TVA & Frais de transaction Stripe (2,9% + 0,25€)',
           },
           unit_amount: feeCentsNum,
         },
@@ -394,12 +394,18 @@ export default async function handler(req, res) {
         ...(stripeCustomerId ? { customer: stripeCustomerId } : { customer_email: authEmail }),
         payment_intent_data: {
           setup_future_usage: 'on_session',
-          metadata,
+          metadata: {
+            ...metadata,
+            paymentMethodRequested: paymentMode === 'apple_pay' ? 'apple_pay' : 'card',
+          },
         },
         line_items: lineItems,
-        metadata,
+        metadata: {
+          ...metadata,
+          paymentMethodRequested: paymentMode === 'apple_pay' ? 'apple_pay' : 'card',
+        },
         success_url: `${siteUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${siteUrl}/boutique`,
+        cancel_url: `${siteUrl}/#boutique`,
       };
       const session = await stripe.checkout.sessions.create(sessionParams);
       return res.status(200).json({
@@ -418,7 +424,7 @@ export default async function handler(req, res) {
           line_items: lineItems,
           metadata,
           success_url: `${siteUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
-          cancel_url: `${siteUrl}/boutique`,
+          cancel_url: `${siteUrl}/#boutique`,
         });
         return res.status(200).json({
           ok: true,
@@ -429,16 +435,25 @@ export default async function handler(req, res) {
       } catch (err2) {
         console.error('[checkout] Stripe session error:', err2.message);
         return res.status(500).json({
-          error: 'Erreur de connexion à la banque Stripe : ' + (err2.message || 'Réessaie dans un instant.'),
+          error: 'Erreur de connexion à Stripe : ' + (err2.message || 'Réessaie dans un instant.'),
         });
       }
     }
   }
 
   // ── MODE HORS-LIGNE / DÉVELOPPEMENT LOCAL (uniquement si STRIPE_SECRET_KEY n'est pas configurée) ──
+  if (paymentMode === 'apple_pay' && !usedCardInfo) {
+    usedCardInfo = {
+      id: 'apple_pay_' + crypto.randomBytes(4).toString('hex'),
+      brand: 'APPLE PAY',
+      last4: 'APAY',
+      exp: '',
+      name: authEmail.split('@')[0].toUpperCase(),
+    };
+  }
   if (!usedCardInfo) {
     return res.status(400).json({
-      error: 'Saisis une carte bancaire valide pour procéder au paiement.',
+      error: 'Saisis une carte bancaire valide ou choisis Apple Pay via Stripe.',
     });
   }
 

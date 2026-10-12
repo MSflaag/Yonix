@@ -660,15 +660,160 @@ export default async function handler(req, res) {
       });
     }
 
-    // 1. Actions d'administration (list_all, deliver, send_service_email, delete_review)
+    // 1. Actions d'administration (list_all, deliver, send_service_email, delete_review, generate_keyauth_key, save_keyauth_config)
     if (
       action === 'list_all' ||
       action === 'deliver' ||
       action === 'send_service_email' ||
-      action === 'delete_review'
+      action === 'delete_review' ||
+      action === 'generate_keyauth_key' ||
+      action === 'save_keyauth_config'
     ) {
       if (!isAuthorizedAdmin(email, adminKey)) {
         return res.status(403).json({ error: 'Code administrateur invalide.' });
+      }
+
+      const keyauthStore = globalThis.__yonixKeyAuthConfig || (globalThis.__yonixKeyAuthConfig = {
+        default: (process.env.KEYAUTH_SELLER_KEY || '').trim(),
+        cs2: (process.env.KEYAUTH_SELLER_KEY_CS2 || '').trim(),
+        'val-priv': (process.env.KEYAUTH_SELLER_KEY_VAL_PRIV || '').trim(),
+        'val-emu': (process.env.KEYAUTH_SELLER_KEY_VAL_EMU || '').trim(),
+        spoofer: (process.env.KEYAUTH_SELLER_KEY_SPOOFER || '').trim(),
+        mask: (process.env.KEYAUTH_MASK || 'YONIX-******-******-******').trim(),
+      });
+
+      function extractCleanSellerKey(raw) {
+        const s = String(raw || '').trim();
+        if (!s) return '';
+        const match = s.match(/[?&]sellerkey=([^&#\s]+)/i);
+        if (match && match[1]) return decodeURIComponent(match[1].trim());
+        return s;
+      }
+
+      if (action === 'save_keyauth_config') {
+        const cfg = body.config || {};
+        if (cfg.default !== undefined) keyauthStore.default = extractCleanSellerKey(cfg.default);
+        if (cfg.cs2 !== undefined) keyauthStore.cs2 = extractCleanSellerKey(cfg.cs2);
+        if (cfg['val-priv'] !== undefined) keyauthStore['val-priv'] = extractCleanSellerKey(cfg['val-priv']);
+        if (cfg['val-emu'] !== undefined) keyauthStore['val-emu'] = extractCleanSellerKey(cfg['val-emu']);
+        if (cfg.spoofer !== undefined) keyauthStore.spoofer = extractCleanSellerKey(cfg.spoofer);
+        if (cfg.mask !== undefined && String(cfg.mask).trim()) {
+          keyauthStore.mask = String(cfg.mask).trim();
+        }
+        return res.status(200).json({
+          ok: true,
+          config: keyauthStore,
+          message: 'Configuration KeyAuth enregistrée ✓',
+        });
+      }
+
+      if (action === 'generate_keyauth_key') {
+        const appId = String(body.appId || 'default').trim().toLowerCase();
+        const directSellerKey = extractCleanSellerKey(body.sellerKey);
+        const resolvedSellerKey =
+          directSellerKey ||
+          keyauthStore[appId] ||
+          keyauthStore.default ||
+          extractCleanSellerKey(process.env.KEYAUTH_SELLER_KEY);
+
+        if (!resolvedSellerKey) {
+          return res.status(400).json({
+            error: "Aucune Seller Key KeyAuth renseignée. Colle ta Seller Key KeyAuth (depuis keyauth.cc → App Settings → Seller Settings) dans le champ de configuration KeyAuth.",
+          });
+        }
+
+        // Persist seller key in memory if provided
+        if (directSellerKey) {
+          if (appId && appId !== 'default' && appId in keyauthStore) {
+            keyauthStore[appId] = directSellerKey;
+          } else {
+            keyauthStore.default = directSellerKey;
+          }
+        }
+
+        const rawExpiry = Number(body.expiryDays);
+        const expiryDays = Number.isFinite(rawExpiry) && rawExpiry > 0 ? rawExpiry : 1;
+        const level = Math.max(1, parseInt(body.level || '1', 10) || 1);
+        const amount = Math.min(50, Math.max(1, parseInt(body.amount || '1', 10) || 1));
+        const rawMask = String(body.mask || keyauthStore.mask || 'YONIX-******-******-******').trim();
+        // KeyAuth Seller API uses '*' as wildcard placeholder when character=2
+        const normalizedMask = rawMask.includes('*')
+          ? rawMask
+          : rawMask.replace(/X/g, '*');
+        const note = String(body.note || 'Généré depuis YONIX Admin').trim().slice(0, 120);
+
+        const queryParams = new URLSearchParams({
+          sellerkey: resolvedSellerKey,
+          type: 'add',
+          expiry: String(expiryDays),
+          mask: normalizedMask,
+          level: String(level),
+          amount: String(amount),
+          character: '2',
+          note,
+          format: 'json',
+        });
+
+        const endpoints = [
+          `https://keyauth.win/api/seller/?${queryParams.toString()}`,
+          `https://keyauth.cc/api/seller/?${queryParams.toString()}`,
+        ];
+
+        let lastErr = 'Impossible de joindre KeyAuth Seller API.';
+        let kaData = null;
+
+        for (const url of endpoints) {
+          try {
+            const resp = await fetch(url, {
+              method: 'GET',
+              headers: { Accept: 'application/json, text/plain, */*' },
+            });
+            const text = await resp.text();
+            try {
+              kaData = JSON.parse(text);
+            } catch {
+              const trimmed = text.trim();
+              if (resp.ok && trimmed && !trimmed.toLowerCase().includes('<html')) {
+                kaData = { success: true, key: trimmed };
+              } else {
+                lastErr = `Réponse KeyAuth invalide (${resp.status})`;
+              }
+            }
+            if (kaData) break;
+          } catch (err) {
+            lastErr = err.message || 'Erreur réseau KeyAuth';
+          }
+        }
+
+        if (!kaData || kaData.success === false) {
+          return res.status(400).json({
+            error: kaData?.message
+              ? `KeyAuth : ${kaData.message}`
+              : lastErr,
+          });
+        }
+
+        const keysList = Array.isArray(kaData.keys) && kaData.keys.length
+          ? kaData.keys.map((k) => String(k).trim()).filter(Boolean)
+          : kaData.key
+          ? [String(kaData.key).trim()]
+          : [];
+
+        if (!keysList.length) {
+          return res.status(400).json({
+            error: kaData.message || 'KeyAuth n\'a retourné aucune clé. Vérifie ta Seller Key.',
+          });
+        }
+
+        return res.status(200).json({
+          ok: true,
+          key: keysList[0],
+          keys: keysList,
+          expiryDays,
+          level,
+          amount: keysList.length,
+          message: kaData.message || 'Clé KeyAuth créée avec succès ✓',
+        });
       }
 
       if (action === 'delete_review') {
@@ -696,7 +841,7 @@ export default async function handler(req, res) {
 
         if (!stripe) {
           directList.sort((a, b) => (b.date || 0) - (a.date || 0));
-          return res.status(200).json({ ok: true, orders: directList, reviews: liveReviews.slice(0, 50) });
+          return res.status(200).json({ ok: true, orders: directList, reviews: liveReviews.slice(0, 50), keyauthConfig: keyauthStore });
         }
 
         try {
@@ -709,10 +854,10 @@ export default async function handler(req, res) {
             ...directList.filter((o) => !seenIds.has(o.id)),
             ...stripeOrders,
           ].sort((a, b) => (b.date || 0) - (a.date || 0));
-          return res.status(200).json({ ok: true, orders: merged, reviews: liveReviews.slice(0, 50) });
+          return res.status(200).json({ ok: true, orders: merged, reviews: liveReviews.slice(0, 50), keyauthConfig: keyauthStore });
         } catch (err) {
           console.error('[orders:list_all] Stripe error:', err.message);
-          return res.status(200).json({ ok: true, orders: directList, reviews: liveReviews.slice(0, 50) });
+          return res.status(200).json({ ok: true, orders: directList, reviews: liveReviews.slice(0, 50), keyauthConfig: keyauthStore });
         }
       }
 

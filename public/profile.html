@@ -1672,6 +1672,63 @@ main {
   border-color: rgba(245, 158, 11, 0.45);
   background: rgba(245, 158, 11, 0.12);
 }
+
+/* ─── KEYAUTH GENERATOR ADMIN STYLES ─── */
+.keyauth-box {
+  background: linear-gradient(135deg, rgba(78, 124, 255, 0.08), rgba(124, 58, 237, 0.06));
+  border: 1.5px solid var(--blue-border);
+  border-radius: 16px;
+  padding: 16px 18px;
+  margin-bottom: 14px;
+}
+
+.ka-dur-pills {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 8px 0 12px;
+}
+
+.ka-dur-pill {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  color: var(--ink-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ka-dur-pill:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+.ka-dur-pill.active {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(78, 124, 255, 0.3);
+}
+
+.ka-result-bar {
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #0A0E17;
+  border: 1px solid rgba(74, 222, 128, 0.4);
+  color: #4ADE80;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
 </style>
 </head>
 <body>
@@ -2200,6 +2257,122 @@ main {
               <div class="form-group" style="margin-bottom:10px">
                 <label for="masterCustomMsg">Message personnalisé dans l'email (avec bouton d'avis en direct) :</label>
                 <textarea class="form-input" id="masterCustomMsg" rows="2" oninput="syncMasterInlinePreview()">Ton compte Basic Fit Ultimate est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇</textarea>
+              </div>
+
+              <!-- KEYAUTH DIRECT LICENSE GENERATOR (MASTER) -->
+              <div class="keyauth-box" id="masterKeyAuthBox">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+                  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                    <span style="font-size:14.5px;font-weight:800;color:var(--night)">🔑 Générateur de Clés KeyAuth Direct</span>
+                    <span class="badge-pill badge-email" id="kaMasterStatusBadge">Durée : 7 Jours</span>
+                  </div>
+                  <button type="button" class="btn-outline" style="padding:5px 11px;font-size:12px" onclick="toggleKeyAuthSettings()">
+                    ⚙️ Configurer ma Seller Key KeyAuth
+                  </button>
+                </div>
+
+                <!-- Collapsible Seller Key Settings -->
+                <div id="kaSettingsDrawer" hidden style="background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px">
+                  <div style="font-size:12.5px;font-weight:700;color:var(--night);margin-bottom:4px">
+                    Configuration Seller Key KeyAuth (<a href="https://keyauth.cc/app/?page=app-settings" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:underline">App Settings → Seller Key</a>)
+                  </div>
+                  <div style="font-size:11.5px;color:var(--gray);margin-bottom:10px">
+                    Colle ta Seller Key principale (ou le lien Seller API complet). Tu peux aussi définir une Seller Key différente par logiciel si tu as plusieurs apps KeyAuth.
+                  </div>
+                  <div class="form-grid" style="margin-bottom:8px">
+                    <div class="form-group" style="margin-bottom:6px">
+                      <label style="font-size:11.5px">Seller Key Principale (Par défaut) :</label>
+                      <input class="form-input" id="kaKeyDefault" type="password" placeholder="Ex: 8f4a9c2b1e... (ta Seller Key KeyAuth)">
+                    </div>
+                    <div class="form-group" style="margin-bottom:6px">
+                      <label style="font-size:11.5px">Format / Masque des clés :</label>
+                      <input class="form-input" id="kaMaskInput" type="text" value="YONIX-******-******-******" placeholder="YONIX-******-******-******">
+                    </div>
+                  </div>
+                  <details style="font-size:12px;color:var(--ink-secondary);margin-bottom:10px">
+                    <summary style="cursor:pointer;font-weight:700;color:var(--blue);margin-bottom:8px">+ Seller Keys séparées par logiciel (optionnel)</summary>
+                    <div class="form-grid">
+                      <div class="form-group" style="margin-bottom:6px">
+                        <label style="font-size:11px">Seller Key — CS2 Loader :</label>
+                        <input class="form-input" id="kaKeyCs2" type="password" placeholder="Optionnel (sinon clé principale)">
+                      </div>
+                      <div class="form-group" style="margin-bottom:6px">
+                        <label style="font-size:11px">Seller Key — Valorant Private :</label>
+                        <input class="form-input" id="kaKeyValPriv" type="password" placeholder="Optionnel (sinon clé principale)">
+                      </div>
+                      <div class="form-group" style="margin-bottom:6px">
+                        <label style="font-size:11px">Seller Key — Valorant Emu :</label>
+                        <input class="form-input" id="kaKeyValEmu" type="password" placeholder="Optionnel (sinon clé principale)">
+                      </div>
+                      <div class="form-group" style="margin-bottom:6px">
+                        <label style="font-size:11px">Seller Key — HWID Spoofer :</label>
+                        <input class="form-input" id="kaKeySpoofer" type="password" placeholder="Optionnel (sinon clé principale)">
+                      </div>
+                    </div>
+                  </details>
+                  <div style="display:flex;justify-content:flex-end;gap:8px">
+                    <button type="button" class="btn-blue" style="padding:7px 14px;font-size:12px" onclick="saveKeyAuthConfig(this)">💾 Enregistrer mes Seller Keys</button>
+                  </div>
+                </div>
+
+                <!-- Duration Quick Selector Pills -->
+                <div style="font-size:12px;font-weight:700;color:var(--ink-secondary)">1. Choisis le temps (durée) de la clé à créer sur KeyAuth :</div>
+                <div class="ka-dur-pills" id="kaMasterDurPills">
+                  <button type="button" class="ka-dur-pill" data-days="0.0417" data-label="1 Heure" onclick="selectMasterKaDuration(0.0417, '1 Heure', this)">1 Heure</button>
+                  <button type="button" class="ka-dur-pill" data-days="1" data-label="1 Jour (24h)" onclick="selectMasterKaDuration(1, '1 Jour (24h)', this)">1 Jour</button>
+                  <button type="button" class="ka-dur-pill" data-days="3" data-label="3 Jours" onclick="selectMasterKaDuration(3, '3 Jours', this)">3 Jours</button>
+                  <button type="button" class="ka-dur-pill active" data-days="7" data-label="7 Jours" onclick="selectMasterKaDuration(7, '7 Jours', this)">7 Jours</button>
+                  <button type="button" class="ka-dur-pill" data-days="14" data-label="14 Jours" onclick="selectMasterKaDuration(14, '14 Jours', this)">14 Jours</button>
+                  <button type="button" class="ka-dur-pill" data-days="30" data-label="30 Jours (1 Mois)" onclick="selectMasterKaDuration(30, '30 Jours (1 Mois)', this)">1 Mois (30j)</button>
+                  <button type="button" class="ka-dur-pill" data-days="90" data-label="90 Jours (3 Mois)" onclick="selectMasterKaDuration(90, '90 Jours (3 Mois)', this)">3 Mois (90j)</button>
+                  <button type="button" class="ka-dur-pill" data-days="365" data-label="1 An (365j)" onclick="selectMasterKaDuration(365, '1 An (365j)', this)">1 An (365j)</button>
+                  <button type="button" class="ka-dur-pill" data-days="9999" data-label="Lifetime (À Vie)" onclick="selectMasterKaDuration(9999, 'Lifetime (À Vie)', this)">Lifetime (À Vie)</button>
+                </div>
+
+                <!-- Custom Duration + Level + Quantity Row -->
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:8px;align-items:end;margin-bottom:10px">
+                  <div>
+                    <label style="font-size:11px;font-weight:700;color:var(--ink-secondary);display:block;margin-bottom:3px">Durée perso :</label>
+                    <input class="form-input" id="kaMasterCustomVal" type="number" min="1" step="1" value="7" style="padding:7px 10px;font-size:13px" oninput="syncMasterKaCustomDuration()">
+                  </div>
+                  <div>
+                    <label style="font-size:11px;font-weight:700;color:var(--ink-secondary);display:block;margin-bottom:3px">Unité de temps :</label>
+                    <select class="form-input" id="kaMasterCustomUnit" style="padding:7px 10px;font-size:13px" onchange="syncMasterKaCustomDuration()">
+                      <option value="days" selected>Jours</option>
+                      <option value="hours">Heures</option>
+                      <option value="months">Mois (×30j)</option>
+                      <option value="lifetime">Lifetime (9999j)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label style="font-size:11px;font-weight:700;color:var(--ink-secondary);display:block;margin-bottom:3px">Level KeyAuth :</label>
+                    <input class="form-input" id="kaMasterLevel" type="number" min="1" max="99" value="1" style="padding:7px 10px;font-size:13px">
+                  </div>
+                  <div>
+                    <label style="font-size:11px;font-weight:700;color:var(--ink-secondary);display:block;margin-bottom:3px">Quantité :</label>
+                    <input class="form-input" id="kaMasterAmount" type="number" min="1" max="50" value="1" style="padding:7px 10px;font-size:13px">
+                  </div>
+                </div>
+
+                <!-- Action Buttons: Generate Only OR Generate & Deliver to Client -->
+                <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between">
+                  <div style="font-size:11.5px;color:var(--ink-secondary)">
+                    Crée la licence officielle sur KeyAuth et l'insère automatiquement ci-dessous.
+                  </div>
+                  <div style="display:flex;gap:8px;flex-wrap:wrap">
+                    <button type="button" class="btn-outline" style="border-color:var(--blue);color:var(--blue);font-weight:800" onclick="generateMasterKeyAuth(this, false)">
+                      🔑 Générer la clé KeyAuth
+                    </button>
+                    <button type="button" class="btn-blue" onclick="generateMasterKeyAuth(this, true)">
+                      ⚡ Générer Clé KeyAuth &amp; Livrer au client
+                    </button>
+                  </div>
+                </div>
+
+                <div id="kaMasterResultBar" class="ka-result-bar" hidden>
+                  <span id="kaMasterResultText">YONIX-XXXXXX-XXXXXX</span>
+                  <button type="button" class="btn-outline" style="padding:4px 10px;font-size:11.5px;background:rgba(255,255,255,0.1);color:#fff;border-color:rgba(255,255,255,0.25)" onclick="copyMasterKaKey()">Copier la clé</button>
+                </div>
               </div>
 
               <div class="form-group" style="margin-bottom:12px">
@@ -3427,6 +3600,11 @@ main {
           localStorage.setItem('yonix_admin_key', adminKey);
         } catch (e) {}
       }
+      if (data.keyauthConfig) {
+        hydrateKeyAuthInputs(data.keyauthConfig);
+      } else {
+        hydrateKeyAuthInputsFromLocal();
+      }
       setAdminUnlockedState(true);
       let allOrders = Array.isArray(data.orders) ? [...data.orders] : [];
       try {
@@ -3445,6 +3623,345 @@ main {
       if (!silent) toast('Panneau Admin déverrouillé ✓');
     } catch (e) {
       if (box) box.innerHTML = `<div class="empty-state"><p style="color:var(--red);margin:0">Erreur réseau.</p></div>`;
+    }
+  };
+
+  // ─── KEYAUTH GENERATOR LOGIC (MASTER & PER-ORDER) ───
+  let masterKaDays = 7;
+  let masterKaLabel = '7 Jours';
+  let lastGeneratedMasterKey = '';
+
+  function getLocalKeyAuthConfig() {
+    try {
+      return JSON.parse(localStorage.getItem('yonix_keyauth_cfg') || '{}') || {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function hydrateKeyAuthInputs(serverCfg = {}) {
+    const localCfg = getLocalKeyAuthConfig();
+    const merged = {
+      default: serverCfg.default || localCfg.default || '',
+      cs2: serverCfg.cs2 || localCfg.cs2 || '',
+      'val-priv': serverCfg['val-priv'] || localCfg['val-priv'] || '',
+      'val-emu': serverCfg['val-emu'] || localCfg['val-emu'] || '',
+      spoofer: serverCfg.spoofer || localCfg.spoofer || '',
+      mask: serverCfg.mask || localCfg.mask || 'YONIX-******-******-******'
+    };
+    const setVal = (id, val) => {
+      const el = document.getElementById(id);
+      if (el && val) el.value = val;
+    };
+    setVal('kaKeyDefault', merged.default);
+    setVal('kaKeyCs2', merged.cs2);
+    setVal('kaKeyValPriv', merged['val-priv']);
+    setVal('kaKeyValEmu', merged['val-emu']);
+    setVal('kaKeySpoofer', merged.spoofer);
+    setVal('kaMaskInput', merged.mask);
+  }
+
+  function hydrateKeyAuthInputsFromLocal() {
+    hydrateKeyAuthInputs({});
+  }
+  setTimeout(hydrateKeyAuthInputsFromLocal, 80);
+
+  function readKeyAuthConfigFromUI() {
+    const localCfg = getLocalKeyAuthConfig();
+    return {
+      default: document.getElementById('kaKeyDefault')?.value.trim() || localCfg.default || '',
+      cs2: document.getElementById('kaKeyCs2')?.value.trim() || localCfg.cs2 || '',
+      'val-priv': document.getElementById('kaKeyValPriv')?.value.trim() || localCfg['val-priv'] || '',
+      'val-emu': document.getElementById('kaKeyValEmu')?.value.trim() || localCfg['val-emu'] || '',
+      spoofer: document.getElementById('kaKeySpoofer')?.value.trim() || localCfg.spoofer || '',
+      mask: document.getElementById('kaMaskInput')?.value.trim() || localCfg.mask || 'YONIX-******-******-******'
+    };
+  }
+
+  window.toggleKeyAuthSettings = function() {
+    const drawer = document.getElementById('kaSettingsDrawer');
+    if (drawer) drawer.hidden = !drawer.hidden;
+  };
+
+  window.saveKeyAuthConfig = async function(btn) {
+    const adminKey = document.getElementById('adminKeyInput').value.trim() || sessionStorage.getItem('yonix_admin_key') || localStorage.getItem('yonix_admin_key') || '';
+    const config = readKeyAuthConfigFromUI();
+    try {
+      localStorage.setItem('yonix_keyauth_cfg', JSON.stringify(config));
+    } catch (e) {}
+
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = 'Enregistrement…';
+    }
+    try {
+      const r = await apiFetch('/api/account/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'save_keyauth_config', adminKey, config })
+      });
+      const data = await r.json();
+      if (r.ok && data.ok) {
+        toast('Seller Keys KeyAuth enregistrées ✓');
+        const drawer = document.getElementById('kaSettingsDrawer');
+        if (drawer) drawer.hidden = true;
+      } else {
+        toast('Seller Keys sauvegardées sur cet appareil ✓');
+      }
+    } catch (e) {
+      toast('Seller Keys sauvegardées sur cet appareil ✓');
+    } finally {
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = '💾 Enregistrer mes Seller Keys';
+      }
+    }
+  };
+
+  window.selectMasterKaDuration = function(days, label, btn) {
+    masterKaDays = Number(days) || 1;
+    masterKaLabel = label || `${days} Jours`;
+    document.querySelectorAll('#kaMasterDurPills .ka-dur-pill').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    const valInput = document.getElementById('kaMasterCustomVal');
+    const unitSelect = document.getElementById('kaMasterCustomUnit');
+    if (valInput && unitSelect) {
+      if (days >= 9999) {
+        unitSelect.value = 'lifetime';
+        valInput.value = '9999';
+      } else if (days < 1) {
+        unitSelect.value = 'hours';
+        valInput.value = String(Math.max(1, Math.round(days * 24)));
+      } else {
+        unitSelect.value = 'days';
+        valInput.value = String(days);
+      }
+    }
+    const badge = document.getElementById('kaMasterStatusBadge');
+    if (badge) badge.textContent = 'Durée : ' + masterKaLabel;
+  };
+
+  window.syncMasterKaCustomDuration = function() {
+    const rawVal = Math.max(1, Number(document.getElementById('kaMasterCustomVal')?.value || 1));
+    const unit = document.getElementById('kaMasterCustomUnit')?.value || 'days';
+    document.querySelectorAll('#kaMasterDurPills .ka-dur-pill').forEach(b => b.classList.remove('active'));
+
+    if (unit === 'lifetime') {
+      masterKaDays = 9999;
+      masterKaLabel = 'Lifetime (À Vie)';
+    } else if (unit === 'hours') {
+      masterKaDays = Number((rawVal / 24).toFixed(4));
+      masterKaLabel = `${rawVal} Heure${rawVal > 1 ? 's' : ''}`;
+    } else if (unit === 'months') {
+      masterKaDays = rawVal * 30;
+      masterKaLabel = `${rawVal} Mois (${rawVal * 30} Jours)`;
+    } else {
+      masterKaDays = rawVal;
+      masterKaLabel = `${rawVal} Jour${rawVal > 1 ? 's' : ''}`;
+    }
+    const badge = document.getElementById('kaMasterStatusBadge');
+    if (badge) badge.textContent = 'Durée : ' + masterKaLabel;
+  };
+
+  window.copyMasterKaKey = function() {
+    if (!lastGeneratedMasterKey) return;
+    try {
+      navigator.clipboard.writeText(lastGeneratedMasterKey);
+      toast('Clé KeyAuth copiée dans le presse-papiers ✓');
+    } catch (e) {}
+  };
+
+  function resolveSellerKeyForService(svcId) {
+    const cfg = readKeyAuthConfigFromUI();
+    const id = String(svcId || '').toLowerCase();
+    if (id.includes('cs2') && cfg.cs2) return cfg.cs2;
+    if (id.includes('val-priv') && cfg['val-priv']) return cfg['val-priv'];
+    if (id.includes('val-emu') && cfg['val-emu']) return cfg['val-emu'];
+    if (id.includes('spoofer') && cfg.spoofer) return cfg.spoofer;
+    return cfg.default || cfg.cs2 || cfg['val-priv'] || cfg['val-emu'] || cfg.spoofer || '';
+  }
+
+  function formatDeliveredKeyBlock(svcName, keysList, durationLabel) {
+    if (keysList.length === 1) {
+      return `🔑 Clé de licence ${svcName} (${durationLabel}) :\n${keysList[0]}\n\n📌 Instructions : Ouvre ton Loader ${svcName}, colle ta clé ci-dessus et lance l'injection.`;
+    }
+    return `🔑 Clés de licence ${svcName} (${durationLabel} ×${keysList.length}) :\n${keysList.join('\n')}\n\n📌 Instructions : Ouvre ton Loader ${svcName} et colle ta clé pour activer ton accès.`;
+  }
+
+  window.generateMasterKeyAuth = async function(btn, autoSendToClient = false) {
+    const adminKey = document.getElementById('adminKeyInput').value.trim() || sessionStorage.getItem('yonix_admin_key') || localStorage.getItem('yonix_admin_key') || '';
+    const svc = masterSelectedSvc || ADMIN_SERVICES[10];
+    const cfg = readKeyAuthConfigFromUI();
+    const sellerKey = resolveSellerKeyForService(svc.id);
+    const level = Math.max(1, parseInt(document.getElementById('kaMasterLevel')?.value || '1', 10) || 1);
+    const amount = Math.min(50, Math.max(1, parseInt(document.getElementById('kaMasterAmount')?.value || '1', 10) || 1));
+    const clientEmail = document.getElementById('masterClientEmail')?.value.trim() || '';
+
+    if (autoSendToClient && (!clientEmail || !clientEmail.includes('@'))) {
+      toast('Indique l\'adresse email du client destinataire avant d\'envoyer', false);
+      document.getElementById('masterClientEmail')?.focus();
+      return;
+    }
+
+    const oldHtml = btn.innerHTML;
+    btn.disabled = true;
+    btn.textContent = 'Création de la clé sur KeyAuth…';
+
+    try {
+      const r = await apiFetch('/api/account/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'generate_keyauth_key',
+          adminKey,
+          appId: svc.id,
+          sellerKey,
+          expiryDays: masterKaDays,
+          level,
+          amount,
+          mask: cfg.mask,
+          note: `${svc.name} (${masterKaLabel})${clientEmail ? ' - ' + clientEmail : ''}`
+        })
+      });
+      const data = await r.json();
+      if (!r.ok || !data.ok) {
+        const drawer = document.getElementById('kaSettingsDrawer');
+        if (drawer && (!sellerKey || String(data.error || '').toLowerCase().includes('seller key'))) {
+          drawer.hidden = false;
+          document.getElementById('kaKeyDefault')?.focus();
+        }
+        toast(data.error || 'Erreur KeyAuth', false);
+        return;
+      }
+
+      const keysList = data.keys || [data.key];
+      lastGeneratedMasterKey = keysList.join('\n');
+
+      const resBar = document.getElementById('kaMasterResultBar');
+      const resTxt = document.getElementById('kaMasterResultText');
+      if (resBar && resTxt) {
+        resTxt.textContent = `✓ Clé créée (${masterKaLabel}) : ${keysList.join(' | ')}`;
+        resBar.hidden = false;
+      }
+
+      const formattedBlock = formatDeliveredKeyBlock(svc.name, keysList, masterKaLabel);
+      const prodArea = document.getElementById('masterDelivProduct');
+      if (prodArea) prodArea.value = formattedBlock;
+
+      try { navigator.clipboard.writeText(lastGeneratedMasterKey); } catch (e) {}
+
+      if (autoSendToClient) {
+        const sendBtn = document.getElementById('masterSendEmailBtn');
+        await window.sendMasterServiceEmail(sendBtn || btn);
+      } else {
+        toast(`Clé KeyAuth (${masterKaLabel}) créée, copiée et insérée ✓`);
+      }
+    } catch (e) {
+      toast('Erreur réseau lors de la création KeyAuth', false);
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = oldHtml;
+    }
+  };
+
+  function detectDefaultDaysFromTier(tierName) {
+    const t = String(tierName || '').toLowerCase();
+    if (!t) return { days: 7, label: '7 Jours' };
+    if (t.includes('vie') || t.includes('lifetime') || t.includes('perm')) return { days: 9999, label: 'Lifetime (À Vie)' };
+    if (t.includes('1 an') || t.includes('12 mois') || t.includes('365')) return { days: 365, label: '1 An (365 Jours)' };
+    if (t.includes('3 mois') || t.includes('90')) return { days: 90, label: '3 Mois (90 Jours)' };
+    if (t.includes('2 mois') || t.includes('60')) return { days: 60, label: '2 Mois (60 Jours)' };
+    if (t.includes('1 mois') || t.includes('30 jour') || t.includes('30j')) return { days: 30, label: '1 Mois (30 Jours)' };
+    if (t.includes('14 jour') || t.includes('2 semaine')) return { days: 14, label: '14 Jours' };
+    if (t.includes('7 jour') || t.includes('1 semaine')) return { days: 7, label: '7 Jours' };
+    if (t.includes('3 jour')) return { days: 3, label: '3 Jours' };
+    if (t.includes('1 jour') || t.includes('24h')) return { days: 1, label: '1 Jour (24h)' };
+    return { days: 7, label: '7 Jours' };
+  }
+
+  window.onOrderKaPresetChange = function(orderId, selEl) {
+    const customWrap = document.getElementById('ordKaCustomWrap_' + orderId);
+    if (!customWrap) return;
+    if (selEl.value === 'custom') {
+      customWrap.hidden = false;
+      document.getElementById('ordKaCustomDays_' + orderId)?.focus();
+    } else {
+      customWrap.hidden = true;
+    }
+  };
+
+  window.generateOrderKeyAuth = async function(orderId, btn, autoDeliver = false) {
+    const adminKey = document.getElementById('adminKeyInput').value.trim() || sessionStorage.getItem('yonix_admin_key') || localStorage.getItem('yonix_admin_key') || '';
+    const svc = orderSelectedSvcMap[orderId] || ADMIN_SERVICES[10];
+    const cfg = readKeyAuthConfigFromUI();
+    const sellerKey = resolveSellerKeyForService(svc.id);
+    const selEl = document.getElementById('ordKaDur_' + orderId);
+    let expiryDays = 7;
+    let durationLabel = '7 Jours';
+
+    if (selEl) {
+      if (selEl.value === 'custom') {
+        expiryDays = Math.max(0.04, Number(document.getElementById('ordKaCustomDays_' + orderId)?.value || 7));
+        durationLabel = `${expiryDays} Jour${expiryDays > 1 ? 's' : ''}`;
+      } else {
+        expiryDays = Number(selEl.value) || 7;
+        durationLabel = selEl.options[selEl.selectedIndex]?.text || `${expiryDays} Jours`;
+      }
+    }
+
+    const level = Math.max(1, parseInt(document.getElementById('ordKaLevel_' + orderId)?.value || '1', 10) || 1);
+    const customerEmail = document.getElementById('delivEmail_' + orderId)?.value.trim() || '';
+
+    const oldHtml = btn.innerHTML;
+    btn.disabled = true;
+    btn.textContent = 'Création KeyAuth…';
+
+    try {
+      const r = await apiFetch('/api/account/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'generate_keyauth_key',
+          adminKey,
+          appId: svc.id,
+          sellerKey,
+          expiryDays,
+          level,
+          amount: 1,
+          mask: cfg.mask,
+          note: `${svc.name} (${durationLabel}) - ${customerEmail || orderId.slice(-8)}`
+        })
+      });
+      const data = await r.json();
+      if (!r.ok || !data.ok) {
+        const drawer = document.getElementById('kaSettingsDrawer');
+        if (drawer && (!sellerKey || String(data.error || '').toLowerCase().includes('seller key'))) {
+          drawer.hidden = false;
+          document.getElementById('kaKeyDefault')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setTimeout(() => document.getElementById('kaKeyDefault')?.focus(), 250);
+        }
+        toast(data.error || 'Erreur KeyAuth', false);
+        return;
+      }
+
+      const keysList = data.keys || [data.key];
+      const formattedBlock = formatDeliveredKeyBlock(svc.name, keysList, durationLabel);
+      const textArea = document.getElementById('delivText_' + orderId);
+      if (textArea) textArea.value = formattedBlock;
+
+      try { navigator.clipboard.writeText(keysList[0]); } catch (e) {}
+
+      if (autoDeliver) {
+        await window.sendProductToOrder(orderId, btn);
+      } else {
+        toast(`Clé KeyAuth (${durationLabel}) générée, copiée et insérée ✓`);
+      }
+    } catch (e) {
+      toast('Erreur réseau lors de la création KeyAuth', false);
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = oldHtml;
     }
   };
 
@@ -3515,6 +4032,7 @@ main {
 
       const isDelivered = Boolean(o.deliveredProduct || o.downloadFile || o.customMessage || o.deliveryStatus === 'delivered');
       const defaultMsg = o.customMessage || matched.defaultMsg;
+      const detectedDur = detectDefaultDaysFromTier(o.tierName || o.productName);
       const bfDetails = (o.clientPrenom || o.clientNom || o.clientDOB || o.clientEmail)
         ? `<div style="margin-top:6px;font-size:12.5px;color:var(--amber);font-weight:600">Infos Basic Fit : ${escHtml(o.clientPrenom)} ${escHtml(o.clientNom)} · Né(e): ${escHtml(o.clientDOB)} · Email: ${escHtml(o.clientEmail)}</div>`
         : '';
@@ -3590,9 +4108,49 @@ main {
             <textarea class="form-input" id="delivMsg_${escHtml(o.id)}" rows="2" oninput="syncOrderInlinePreview('${escHtml(o.id)}')">${escHtml(defaultMsg)}</textarea>
           </div>
 
+          <!-- BARRE KEYAUTH DIRECT SUR LA COMMANDE -->
+          <div class="keyauth-box" style="margin-bottom:2px;padding:12px 14px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                <span style="font-size:13px;font-weight:800;color:var(--night)">🔑 Créer une clé KeyAuth :</span>
+                <select class="form-input" id="ordKaDur_${escHtml(o.id)}" style="width:auto;min-width:170px;padding:6px 10px;font-size:12.5px;font-weight:700" onchange="onOrderKaPresetChange('${escHtml(o.id)}', this)">
+                  <option value="0.0417">1 Heure</option>
+                  <option value="0.25">6 Heures</option>
+                  <option value="0.5">12 Heures</option>
+                  <option value="1" ${detectedDur.days === 1 ? 'selected' : ''}>1 Jour (24h)</option>
+                  <option value="3" ${detectedDur.days === 3 ? 'selected' : ''}>3 Jours</option>
+                  <option value="7" ${detectedDur.days === 7 ? 'selected' : ''}>7 Jours (1 Semaine)</option>
+                  <option value="14" ${detectedDur.days === 14 ? 'selected' : ''}>14 Jours (2 Semaines)</option>
+                  <option value="30" ${detectedDur.days === 30 ? 'selected' : ''}>30 Jours (1 Mois)</option>
+                  <option value="60" ${detectedDur.days === 60 ? 'selected' : ''}>60 Jours (2 Mois)</option>
+                  <option value="90" ${detectedDur.days === 90 ? 'selected' : ''}>90 Jours (3 Mois)</option>
+                  <option value="365" ${detectedDur.days === 365 ? 'selected' : ''}>365 Jours (1 An)</option>
+                  <option value="9999" ${detectedDur.days === 9999 ? 'selected' : ''}>Lifetime / À Vie (9999j)</option>
+                  <option value="custom">Durée personnalisée (Jours)…</option>
+                </select>
+                <span id="ordKaCustomWrap_${escHtml(o.id)}" hidden style="display:inline-flex;align-items:center;gap:4px">
+                  <input class="form-input" id="ordKaCustomDays_${escHtml(o.id)}" type="number" min="1" value="7" style="width:78px;padding:6px 8px;font-size:12.5px" placeholder="Jours">
+                  <span style="font-size:11.5px;font-weight:700;color:var(--ink-secondary)">jours</span>
+                </span>
+                <span style="display:inline-flex;align-items:center;gap:4px" title="Niveau d'abonnement KeyAuth (Level)">
+                  <span style="font-size:11.5px;font-weight:700;color:var(--ink-secondary)">Lvl:</span>
+                  <input class="form-input" id="ordKaLevel_${escHtml(o.id)}" type="number" min="1" max="99" value="1" style="width:56px;padding:6px 8px;font-size:12.5px">
+                </span>
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <button type="button" class="btn-outline" style="padding:7px 12px;font-size:12px;border-color:var(--blue);color:var(--blue);font-weight:800" onclick="generateOrderKeyAuth('${escHtml(o.id)}', this, false)">
+                  🔑 Générer Clé KeyAuth
+                </button>
+                <button type="button" class="btn-blue" style="padding:7px 13px;font-size:12px" onclick="generateOrderKeyAuth('${escHtml(o.id)}', this, true)">
+                  ⚡ Générer Clé &amp; Livrer au client
+                </button>
+              </div>
+            </div>
+          </div>
+
           <div>
             <label style="font-size:12.5px;font-weight:700;color:var(--ink);display:block;margin-bottom:6px">3. Produit / Accès à envoyer sur le compte et dans l'email (clé, email:motdepasse, lien ou instructions) :</label>
-            <textarea class="form-input" id="delivText_${escHtml(o.id)}" rows="3" placeholder="Ex: Compte Basic Fit activé ! Voici tes identifiants ou instructions...">${escHtml(o.deliveredProduct || '')}</textarea>
+            <textarea class="form-input" id="delivText_${escHtml(o.id)}" rows="3" placeholder="Ex: Clé KeyAuth générée automatiquement ou tes identifiants...">${escHtml(o.deliveredProduct || '')}</textarea>
           </div>
 
           <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between">

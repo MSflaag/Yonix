@@ -1639,6 +1639,59 @@ html[data-theme="dark"] .nav.scrolled .nav-in {
   align-self: flex-start;
 }
 
+.showcase-video {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Free 24H CS:GO 7-Day Offer Card below AI Bundle */
+.free-cs2-offer-card {
+  margin-top: -12px;
+  margin-bottom: 34px;
+  border: 1.5px solid rgba(16, 185, 129, 0.45);
+  box-shadow: 0 16px 40px rgba(16, 185, 129, 0.10);
+}
+
+.free-cs2-offer-card .bundle-badge {
+  background: linear-gradient(90deg, #059669, #10B981);
+  color: #FFFFFF;
+}
+
+.free-cs2-offer-card .bundle-emblem img {
+  object-fit: contain;
+  transform: scale(1.02);
+  padding: 10px;
+}
+
+.free-cs2-countdown-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #10B981;
+  font-size: 12.5px;
+  font-weight: 800;
+  margin-bottom: 10px;
+  width: fit-content;
+}
+
+.free-cs2-result-box {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: #0D1322;
+  border: 1px solid rgba(16, 185, 129, 0.45);
+  color: #F8FAFC;
+  font-size: 13.5px;
+}
+
 /* Product Grid Cards */
 .pgrid {
   display: grid;
@@ -4189,7 +4242,7 @@ html[data-theme="dark"] #mobileMenu {
         </div>
 
         <div class="showcase-img-wrap">
-          <img class="js-cheat-preview showcase-img" alt="YONIX Interface">
+          <video class="showcase-img showcase-video" id="heroWelcomeVideo" src="/logos/bienvenue-yonix.mp4" autoplay loop muted playsinline preload="auto" disablePictureInPicture controlslist="nodownload nofullscreen noremoteplayback" aria-label="Bienvenue chez YONIX"></video>
         </div>
 
         <div class="sc-hud-bottom">
@@ -4267,6 +4320,50 @@ html[data-theme="dark"] #mobileMenu {
             <span>Mettre au panier</span>
           </button>
         </div>
+      </div>
+    </div>
+
+    <!-- OFFRE GRATUITE 7 JOURS : CLÉ 24H CS:GO / CS2 (1 CLÉ PAR PERSONNE / IP) — EN DESSOUS DES BUNDLES IA -->
+    <div class="bundle-card free-cs2-offer-card rv" id="freeCs2OfferCard">
+      <div class="bundle-badge">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+        <span>OFFRE GRATUITE 7 JOURS · SEULEMENT 1 CLÉ 24H PAR PERSONNE (IP)</span>
+      </div>
+      <div class="bundle-left">
+        <div class="bundle-emblem">
+          <img src="/logos/csgo.png" alt="CS:GO / CS2 Loader Gratuit 24H">
+        </div>
+        <div class="bundle-logos">
+          <span class="b-logo"><img src="/logos/csgo.png" alt="CS:GO"><span>Cheat CS:GO / CS2</span></span>
+          <span class="b-logo"><span>🔑 Clé 24H Gratuite</span></span>
+          <span class="b-logo"><span>🛡️ 1 Clé Max / IP</span></span>
+          <span class="b-logo"><span>⏳ Durée : 7 Jours</span></span>
+        </div>
+      </div>
+      <div class="bundle-right">
+        <div class="free-cs2-countdown-pill">
+          <span>⏳ Offre disponible que 7 jours — Expire dans :</span>
+          <strong id="freeCs2CountdownText">06j 23h 59m 59s</strong>
+        </div>
+        <h3 class="bundle-name">Cheat CS:GO — Clé 24H Gratuite</h3>
+        <p class="bundle-sub">Une clé de licence 24 Heures offerte à chaque client qui passe commande sur cette offre gratuite (limitée à 1 clé par personne et par adresse IP).</p>
+        <ul class="bundle-feats">
+          <li>1 Clé de licence 24H offerte pour le Cheat CS:GO / CS2 Loader</li>
+          <li>Offre spéciale disponible pendant 7 jours uniquement</li>
+          <li>Strictement limitée à 1 seule clé 24H par personne (vérification par adresse IP)</li>
+          <li>Livrée directement sur ton compte dans l'espace Mon Profil</li>
+        </ul>
+        <div class="bundle-pricing">
+          <div class="bundle-old"><span>Valeur normale :</span><b>7,99€</b></div>
+          <div class="bundle-new"><span style="color:#10B981">Offre 7 Jours (1/IP) :</span><b style="color:#10B981">GRATUIT (0,00€)</b></div>
+        </div>
+        <div class="dlg-actions" style="max-width:440px;grid-template-columns:1fr">
+          <button class="dlg-buy" id="freeCs2OrderBtn" type="button" style="background:linear-gradient(135deg,#059669,#10B981);box-shadow:0 8px 22px rgba(16,185,129,0.32)" onclick="orderFreeCs2Key24h(this)">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            <span id="freeCs2OrderBtnLabel">Commander ma Clé 24H Gratuite (0,00€)</span>
+          </button>
+        </div>
+        <div id="freeCs2ResultBox" class="free-cs2-result-box" hidden></div>
       </div>
     </div>
 
@@ -5915,6 +6012,186 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
       quantity: bundleQty
     });
   });
+})();
+
+/* ===== HERO WELCOME VIDEO (LOOP + ZERO SOUND ENFORCED) & 7-DAY FREE 24H CS:GO KEY OFFER (1 PER IP) ===== */
+(function initHeroVideoAndFreeCs2Offer() {
+  const vid = document.getElementById('heroWelcomeVideo');
+  if (vid) {
+    const enforceSilentLoop = () => {
+      vid.muted = true;
+      vid.defaultMuted = true;
+      vid.volume = 0;
+      vid.loop = true;
+    };
+    enforceSilentLoop();
+    vid.addEventListener('volumechange', enforceSilentLoop);
+    vid.addEventListener('loadeddata', () => {
+      enforceSilentLoop();
+      vid.play().catch(() => {});
+    });
+    vid.play().catch(() => {});
+  }
+
+  // 7-Day Countdown for the Free 24H CS:GO Key Offer
+  const EXP_KEY = 'yonix_free_cs2_7d_end';
+  let expTs = parseInt(localStorage.getItem(EXP_KEY) || '0', 10);
+  if (!expTs || expTs < Date.now()) {
+    expTs = Date.now() + 7 * 24 * 3600 * 1000;
+    try { localStorage.setItem(EXP_KEY, String(expTs)); } catch (e) {}
+  }
+
+  const cdEl = document.getElementById('freeCs2CountdownText');
+  function updateFreeCountdown() {
+    if (!cdEl) return;
+    const rem = Math.max(0, expTs - Date.now());
+    const d = Math.floor(rem / 86400000);
+    const h = Math.floor((rem % 86400000) / 3600000);
+    const m = Math.floor((rem % 3600000) / 60000);
+    const s = Math.floor((rem % 60000) / 1000);
+    cdEl.textContent = `${String(d).padStart(2, '0')}j ${String(h).padStart(2, '0')}h ${String(m).padStart(2, '0')}m ${String(s).padStart(2, '0')}s`;
+  }
+  updateFreeCountdown();
+  setInterval(updateFreeCountdown, 1000);
+
+  function markFreeCs2ClaimedUI(deliveredKey, sessionId) {
+    const btn = document.getElementById('freeCs2OrderBtn');
+    const lbl = document.getElementById('freeCs2OrderBtnLabel');
+    const box = document.getElementById('freeCs2ResultBox');
+    if (btn) {
+      btn.disabled = true;
+      btn.style.opacity = '0.78';
+      btn.style.cursor = 'not-allowed';
+    }
+    if (lbl) {
+      lbl.textContent = '✓ Clé 24H Gratuite déjà réclamée (1 max / IP)';
+    }
+    if (box) {
+      box.hidden = false;
+      box.innerHTML = deliveredKey
+        ? `<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+             <div>
+               <div style="font-size:11.5px;font-weight:800;text-transform:uppercase;color:#34D399;margin-bottom:3px">✓ Ta Clé CS:GO 24H Gratuite (1/IP) :</div>
+               <code style="font-size:14px;font-weight:800;color:#fff;background:#070A12;padding:5px 10px;border-radius:8px;border:1px solid rgba(52,211,153,0.35);display:inline-block">${deliveredKey}</code>
+             </div>
+             <a href="/profile.html" class="btn-blue sm" style="text-decoration:none">Voir dans Mon Profil →</a>
+           </div>`
+        : `<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+             <div>
+               <div style="font-size:12px;font-weight:800;color:#34D399">✓ Commande Clé 24H Gratuite CS:GO enregistrée (1 seule clé par IP)</div>
+               <div style="font-size:12.5px;color:#CBD5E1;margin-top:2px">Retrouve ta clé 24H et ton loader directement dans ton espace <b>Mon Profil</b>.</div>
+             </div>
+             <a href="/profile.html" class="btn-blue sm" style="text-decoration:none">Ouvrir Mon Profil →</a>
+           </div>`;
+    }
+  }
+
+  // Check IP & Account claim status on load
+  (async function checkFreeCs2Status() {
+    try {
+      const localClaim = JSON.parse(localStorage.getItem('yonix_free_cs2_24h_claim') || 'null');
+      if (localClaim && localClaim.claimed) {
+        markFreeCs2ClaimedUI(localClaim.deliveredKey || null, localClaim.sessionId || '');
+      }
+      const emailParam = window.CURRENT_USER_EMAIL || localStorage.getItem('yonix_email') || '';
+      const r = await fetch(`/api/account/orders?action=free_cs2_status&email=${encodeURIComponent(emailParam)}`, {
+        credentials: 'same-origin'
+      });
+      if (!r.ok) return;
+      const d = await r.json();
+      if (d.expiresAt && d.expiresAt > Date.now()) {
+        expTs = d.expiresAt;
+        try { localStorage.setItem(EXP_KEY, String(expTs)); } catch (e) {}
+        updateFreeCountdown();
+      }
+      if (d.alreadyClaimed) {
+        markFreeCs2ClaimedUI(d.claim?.deliveredKey || localClaim?.deliveredKey || null, d.claim?.sessionId || '');
+      }
+    } catch (e) {}
+  })();
+
+  window.orderFreeCs2Key24h = async function(btn) {
+    const userEmail = window.CURRENT_USER_EMAIL || localStorage.getItem('yonix_email') || '';
+    if (!userEmail && typeof window.requireAuthForOrder === 'function') {
+      window.requireAuthForOrder(() => window.orderFreeCs2Key24h(document.getElementById('freeCs2OrderBtn') || btn));
+      return;
+    }
+
+    try {
+      const localClaim = JSON.parse(localStorage.getItem('yonix_free_cs2_24h_claim') || 'null');
+      if (localClaim && localClaim.claimed) {
+        toast('Limite atteinte : 1 seule clé 24H gratuite par personne et par IP.', false);
+        markFreeCs2ClaimedUI(localClaim.deliveredKey || null, localClaim.sessionId || '');
+        return;
+      }
+    } catch (e) {}
+
+    const lbl = document.getElementById('freeCs2OrderBtnLabel');
+    if (btn) btn.disabled = true;
+    if (lbl) lbl.textContent = 'Vérification IP & Création de ta clé 24H…';
+
+    try {
+      const tok = localStorage.getItem('yonix_token') || '';
+      const r = await fetch('/api/account/orders', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(tok ? { 'x-yonix-token': tok } : {})
+        },
+        body: JSON.stringify({
+          action: 'claim_free_cs2_24h',
+          email: userEmail
+        })
+      });
+      const data = await r.json();
+
+      if (r.status === 401 || data.requireAuth) {
+        if (btn) btn.disabled = false;
+        if (lbl) lbl.textContent = 'Commander ma Clé 24H Gratuite (0,00€)';
+        if (typeof window.requireAuthForOrder === 'function') {
+          window.requireAuthForOrder(() => window.orderFreeCs2Key24h(document.getElementById('freeCs2OrderBtn') || btn));
+        }
+        return;
+      }
+
+      if (!r.ok || !data.ok) {
+        if (data.alreadyClaimed) {
+          try {
+            localStorage.setItem('yonix_free_cs2_24h_claim', JSON.stringify({ claimed: true, sessionId: data.sessionId || '' }));
+          } catch (e) {}
+          markFreeCs2ClaimedUI(null, data.sessionId || '');
+        } else {
+          if (btn) btn.disabled = false;
+          if (lbl) lbl.textContent = 'Commander ma Clé 24H Gratuite (0,00€)';
+        }
+        toast(data.error || 'Impossible de commander cette offre gratuite.', false);
+        return;
+      }
+
+      // Persist in local orders so it appears in Mon Profil & Admin immediately
+      try {
+        localStorage.setItem('yonix_free_cs2_24h_claim', JSON.stringify({
+          claimed: true,
+          sessionId: data.sessionId,
+          deliveredKey: data.deliveredKey || null
+        }));
+        if (data.order) {
+          const localOrds = JSON.parse(localStorage.getItem('yonix_local_orders') || '[]');
+          const list = Array.isArray(localOrds) ? localOrds : [];
+          list.unshift(data.order);
+          localStorage.setItem('yonix_local_orders', JSON.stringify(list.slice(0, 50)));
+        }
+      } catch (e) {}
+
+      markFreeCs2ClaimedUI(data.deliveredKey || null, data.sessionId || '');
+      toast(data.message || 'Clé 24H Gratuite CS:GO commandée avec succès ✓');
+    } catch (e) {
+      if (btn) btn.disabled = false;
+      if (lbl) lbl.textContent = 'Commander ma Clé 24H Gratuite (0,00€)';
+      toast('Erreur réseau. Réessaie dans un instant.', false);
+    }
+  };
 })();
 
 /* ===== LUMINOUS BUBBLE FLY-TO-CART ANIMATION ===== */

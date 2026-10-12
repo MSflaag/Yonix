@@ -554,8 +554,47 @@ async function persistReviewToStripe(review) {
   }
 }
 
+const freeCs2ClaimsByIp = globalThis.__yonixFreeCs2Ips || (globalThis.__yonixFreeCs2Ips = new Map());
+const freeCs2ClaimsByEmail = globalThis.__yonixFreeCs2Emails || (globalThis.__yonixFreeCs2Emails = new Map());
+const FREE_CS2_START_MS = globalThis.__yonixFreeCs2StartMs || (globalThis.__yonixFreeCs2StartMs = Date.now());
+const FREE_CS2_EXPIRES_MS = FREE_CS2_START_MS + 7 * 24 * 60 * 60 * 1000; // 7 jours
+
+function getClientIp(req) {
+  const xff = req?.headers?.['x-forwarded-for'];
+  if (xff) {
+    const first = String(xff).split(',')[0].trim();
+    if (first) return first.replace(/^::ffff:/, '');
+  }
+  const realIp = req?.headers?.['x-real-ip'] || req?.headers?.['cf-connecting-ip'] || req?.socket?.remoteAddress || '127.0.0.1';
+  const clean = String(realIp).trim().replace(/^::ffff:/, '');
+  return clean === '::1' ? '127.0.0.1' : clean;
+}
+
 export default async function handler(req, res) {
   const email = getAuthenticatedEmail(req);
+  const clientIp = getClientIp(req);
+
+  // ── GET public : Statut de l'offre gratuite 24H CS:GO (1 clé / IP, valable 7 jours) ──
+  if (req.method === 'GET' && req.query?.action === 'free_cs2_status') {
+    const normEmail = (email || String(req.query?.email || '')).toLowerCase().trim();
+    const byIp = freeCs2ClaimsByIp.get(clientIp);
+    const byEmail = normEmail ? freeCs2ClaimsByEmail.get(normEmail) : null;
+    const claim = byIp || byEmail || null;
+    res.setHeader('Cache-Control', 'no-store, max-age=0');
+    return res.status(200).json({
+      ok: true,
+      alreadyClaimed: Boolean(claim),
+      expiresAt: FREE_CS2_EXPIRES_MS,
+      expired: Date.now() > FREE_CS2_EXPIRES_MS,
+      claim: claim
+        ? {
+            sessionId: claim.sessionId,
+            claimedAt: claim.claimedAt,
+            deliveredKey: claim.deliveredKey || null,
+          }
+        : null,
+    });
+  }
 
   // ── GET public : Liste des avis clients en direct (?action=reviews) ──
   if (req.method === 'GET' && req.query?.action === 'reviews') {
@@ -567,10 +606,110 @@ export default async function handler(req, res) {
     });
   }
 
-  // ── POST : Actions Publiques (Avis en direct), Utilisateur & Administration ──
+  // ── POST : Actions Publiques (Avis en direct, Offre Gratuite CS:GO 24H), Utilisateur & Administration ──
   if (req.method === 'POST') {
     const body = req.body || {};
     const { action, adminKey } = body;
+
+    // 0-A. Action Client : Commander la Clé Gratuite 24H CS:GO (Offre 7 Jours · 1 par personne & par IP)
+    if (action === 'claim_free_cs2_24h') {
+      const targetEmail = (email || String(body.email || '')).toLowerCase().trim();
+      if (!targetEmail || !targetEmail.includes('@')) {
+        return res.status(401).json({
+          requireAuth: true,
+          error: 'Connecte-toi ou crée un compte pour recevoir ta clé gratuite 24H CS:GO.',
+        });
+      }
+
+      if (Date.now() > FREE_CS2_EXPIRES_MS) {
+        return res.status(400).json({
+          error: "Cette offre gratuite de 7 jours est maintenant terminée.",
+        });
+      }
+
+      // Vérification stricte : 1 seule clé 24H par adresse IP et par compte email
+      const existingByIp = freeCs2ClaimsByIp.get(clientIp);
+      const existingByEmail = freeCs2ClaimsByEmail.get(targetEmail);
+
+      // Vérifie également dans Stripe si configuré pour persister la limite IP/Email
+      let stripeDuplicate = false;
+      if (stripe && !existingByIp && !existingByEmail) {
+        try {
+          const sessions = await stripe.checkout.sessions.list({ limit: 60 });
+          stripeDuplicate = sessions.data.some((s) => {
+            const m = s.metadata || {};
+            if (m.productId !== 'free-cs2-24h') return false;
+            return m.clientIp === clientIp || (m.accountEmail || '').toLowerCase() === targetEmail;
+          });
+        } catch {}
+      }
+
+      if (existingByIp || existingByEmail || stripeDuplicate) {
+        const prev = existingByIp || existingByEmail;
+        return res.status(400).json({
+          alreadyClaimed: true,
+          sessionId: prev?.sessionId || null,
+          error: 'Limite atteinte : 1 seule clé gratuite 24H CS:GO est autorisée par personne et par adresse IP.',
+        });
+      }
+
+      const nowTs = Math.floor(Date.now() / 1000);
+      const sid = `cs_free24h_${Date.now()}_${crypto.randomBytes(4).toString('hex')}`;
+
+      const orderRecord = {
+        id: sid,
+        created: nowTs,
+        payment_status: 'paid',
+        amount_total: 0,
+        currency: 'eur',
+        customer_email: targetEmail,
+        customer_details: { email: targetEmail },
+        metadata: {
+          accountEmail: targetEmail,
+          clientEmail: targetEmail,
+          clientIp,
+          productId: 'cs2',
+          productName: 'Cheat CS:GO / CS2 — Clé Gratuite 24H',
+          tierName: `Offre Gratuite 24H (1 Clé / IP : ${clientIp})`,
+          priceRaw: '0,00€',
+          basePriceRaw: '0,00€',
+          quantity: '1',
+          serviceId: 'cs2',
+          serviceName: 'CS2 Loader (Clé 24H Gratuite)',
+          serviceCategory: 'CS2 & Valorant',
+          serviceImage: '/logos/csgo.png',
+          downloadFile: 'cs2-loader.zip',
+          deliveryStatus: 'pending',
+        },
+      };
+
+      localOrders.set(sid, orderRecord);
+
+      const claimObj = {
+        sessionId: sid,
+        email: targetEmail,
+        ip: clientIp,
+        claimedAt: nowTs,
+      };
+      freeCs2ClaimsByIp.set(clientIp, claimObj);
+      freeCs2ClaimsByEmail.set(targetEmail, claimObj);
+
+      sendOwnerDM(
+        `🎁 **COMMANDE CLÉ GRATUITE 24H CS:GO — YONIX**\n` +
+        `👤 **Client :** \`${targetEmail}\`\n` +
+        `🌐 **Adresse IP :** \`${clientIp}\` *(1 clé/IP verrouillée)*\n` +
+        `🔑 **Statut Clé 24H :** En attente de livraison dans le Panneau Admin`
+      ).catch(() => {});
+
+      return res.status(200).json({
+        ok: true,
+        sessionId: sid,
+        autoDelivered: false,
+        clientIp,
+        order: formatSessionOrder(orderRecord),
+        message: 'Ta commande Clé 24H Gratuite CS:GO est validée ! Retrouve-la dans ton espace Mon Profil.',
+      });
+    }
 
     // 0. Action publique / client : Ajouter un avis en direct
     if (action === 'add_review') {
@@ -660,160 +799,15 @@ export default async function handler(req, res) {
       });
     }
 
-    // 1. Actions d'administration (list_all, deliver, send_service_email, delete_review, generate_keyauth_key, save_keyauth_config)
+    // 1. Actions d'administration (list_all, deliver, send_service_email, delete_review)
     if (
       action === 'list_all' ||
       action === 'deliver' ||
       action === 'send_service_email' ||
-      action === 'delete_review' ||
-      action === 'generate_keyauth_key' ||
-      action === 'save_keyauth_config'
+      action === 'delete_review'
     ) {
       if (!isAuthorizedAdmin(email, adminKey)) {
         return res.status(403).json({ error: 'Code administrateur invalide.' });
-      }
-
-      const keyauthStore = globalThis.__yonixKeyAuthConfig || (globalThis.__yonixKeyAuthConfig = {
-        default: (process.env.KEYAUTH_SELLER_KEY || '').trim(),
-        cs2: (process.env.KEYAUTH_SELLER_KEY_CS2 || '').trim(),
-        'val-priv': (process.env.KEYAUTH_SELLER_KEY_VAL_PRIV || '').trim(),
-        'val-emu': (process.env.KEYAUTH_SELLER_KEY_VAL_EMU || '').trim(),
-        spoofer: (process.env.KEYAUTH_SELLER_KEY_SPOOFER || '').trim(),
-        mask: (process.env.KEYAUTH_MASK || 'YONIX-******-******-******').trim(),
-      });
-
-      function extractCleanSellerKey(raw) {
-        const s = String(raw || '').trim();
-        if (!s) return '';
-        const match = s.match(/[?&]sellerkey=([^&#\s]+)/i);
-        if (match && match[1]) return decodeURIComponent(match[1].trim());
-        return s;
-      }
-
-      if (action === 'save_keyauth_config') {
-        const cfg = body.config || {};
-        if (cfg.default !== undefined) keyauthStore.default = extractCleanSellerKey(cfg.default);
-        if (cfg.cs2 !== undefined) keyauthStore.cs2 = extractCleanSellerKey(cfg.cs2);
-        if (cfg['val-priv'] !== undefined) keyauthStore['val-priv'] = extractCleanSellerKey(cfg['val-priv']);
-        if (cfg['val-emu'] !== undefined) keyauthStore['val-emu'] = extractCleanSellerKey(cfg['val-emu']);
-        if (cfg.spoofer !== undefined) keyauthStore.spoofer = extractCleanSellerKey(cfg.spoofer);
-        if (cfg.mask !== undefined && String(cfg.mask).trim()) {
-          keyauthStore.mask = String(cfg.mask).trim();
-        }
-        return res.status(200).json({
-          ok: true,
-          config: keyauthStore,
-          message: 'Configuration KeyAuth enregistrée ✓',
-        });
-      }
-
-      if (action === 'generate_keyauth_key') {
-        const appId = String(body.appId || 'default').trim().toLowerCase();
-        const directSellerKey = extractCleanSellerKey(body.sellerKey);
-        const resolvedSellerKey =
-          directSellerKey ||
-          keyauthStore[appId] ||
-          keyauthStore.default ||
-          extractCleanSellerKey(process.env.KEYAUTH_SELLER_KEY);
-
-        if (!resolvedSellerKey) {
-          return res.status(400).json({
-            error: "Aucune Seller Key KeyAuth renseignée. Colle ta Seller Key KeyAuth (depuis keyauth.cc → App Settings → Seller Settings) dans le champ de configuration KeyAuth.",
-          });
-        }
-
-        // Persist seller key in memory if provided
-        if (directSellerKey) {
-          if (appId && appId !== 'default' && appId in keyauthStore) {
-            keyauthStore[appId] = directSellerKey;
-          } else {
-            keyauthStore.default = directSellerKey;
-          }
-        }
-
-        const rawExpiry = Number(body.expiryDays);
-        const expiryDays = Number.isFinite(rawExpiry) && rawExpiry > 0 ? rawExpiry : 1;
-        const level = Math.max(1, parseInt(body.level || '1', 10) || 1);
-        const amount = Math.min(50, Math.max(1, parseInt(body.amount || '1', 10) || 1));
-        const rawMask = String(body.mask || keyauthStore.mask || 'YONIX-******-******-******').trim();
-        // KeyAuth Seller API uses '*' as wildcard placeholder when character=2
-        const normalizedMask = rawMask.includes('*')
-          ? rawMask
-          : rawMask.replace(/X/g, '*');
-        const note = String(body.note || 'Généré depuis YONIX Admin').trim().slice(0, 120);
-
-        const queryParams = new URLSearchParams({
-          sellerkey: resolvedSellerKey,
-          type: 'add',
-          expiry: String(expiryDays),
-          mask: normalizedMask,
-          level: String(level),
-          amount: String(amount),
-          character: '2',
-          note,
-          format: 'json',
-        });
-
-        const endpoints = [
-          `https://keyauth.win/api/seller/?${queryParams.toString()}`,
-          `https://keyauth.cc/api/seller/?${queryParams.toString()}`,
-        ];
-
-        let lastErr = 'Impossible de joindre KeyAuth Seller API.';
-        let kaData = null;
-
-        for (const url of endpoints) {
-          try {
-            const resp = await fetch(url, {
-              method: 'GET',
-              headers: { Accept: 'application/json, text/plain, */*' },
-            });
-            const text = await resp.text();
-            try {
-              kaData = JSON.parse(text);
-            } catch {
-              const trimmed = text.trim();
-              if (resp.ok && trimmed && !trimmed.toLowerCase().includes('<html')) {
-                kaData = { success: true, key: trimmed };
-              } else {
-                lastErr = `Réponse KeyAuth invalide (${resp.status})`;
-              }
-            }
-            if (kaData) break;
-          } catch (err) {
-            lastErr = err.message || 'Erreur réseau KeyAuth';
-          }
-        }
-
-        if (!kaData || kaData.success === false) {
-          return res.status(400).json({
-            error: kaData?.message
-              ? `KeyAuth : ${kaData.message}`
-              : lastErr,
-          });
-        }
-
-        const keysList = Array.isArray(kaData.keys) && kaData.keys.length
-          ? kaData.keys.map((k) => String(k).trim()).filter(Boolean)
-          : kaData.key
-          ? [String(kaData.key).trim()]
-          : [];
-
-        if (!keysList.length) {
-          return res.status(400).json({
-            error: kaData.message || 'KeyAuth n\'a retourné aucune clé. Vérifie ta Seller Key.',
-          });
-        }
-
-        return res.status(200).json({
-          ok: true,
-          key: keysList[0],
-          keys: keysList,
-          expiryDays,
-          level,
-          amount: keysList.length,
-          message: kaData.message || 'Clé KeyAuth créée avec succès ✓',
-        });
       }
 
       if (action === 'delete_review') {
@@ -841,7 +835,7 @@ export default async function handler(req, res) {
 
         if (!stripe) {
           directList.sort((a, b) => (b.date || 0) - (a.date || 0));
-          return res.status(200).json({ ok: true, orders: directList, reviews: liveReviews.slice(0, 50), keyauthConfig: keyauthStore });
+          return res.status(200).json({ ok: true, orders: directList, reviews: liveReviews.slice(0, 50) });
         }
 
         try {
@@ -854,10 +848,10 @@ export default async function handler(req, res) {
             ...directList.filter((o) => !seenIds.has(o.id)),
             ...stripeOrders,
           ].sort((a, b) => (b.date || 0) - (a.date || 0));
-          return res.status(200).json({ ok: true, orders: merged, reviews: liveReviews.slice(0, 50), keyauthConfig: keyauthStore });
+          return res.status(200).json({ ok: true, orders: merged, reviews: liveReviews.slice(0, 50) });
         } catch (err) {
           console.error('[orders:list_all] Stripe error:', err.message);
-          return res.status(200).json({ ok: true, orders: directList, reviews: liveReviews.slice(0, 50), keyauthConfig: keyauthStore });
+          return res.status(200).json({ ok: true, orders: directList, reviews: liveReviews.slice(0, 50) });
         }
       }
 

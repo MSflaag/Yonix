@@ -50,6 +50,13 @@ export default async function handler(req, res) {
   }
 
   const { file } = req.query || {};
+  if (file === 'cs2-loader.zip') {
+    return res.status(200).json({
+      url: 'https://drive.proton.me/urls/367277226R#i9SCrjcTxvvb',
+      external: true,
+      fileKey: 'YONIX-123',
+    });
+  }
   if (!file || !ALLOWED_FILES.has(file)) {
     return res.status(400).json({ error: 'Fichier non autorisé.' });
   }

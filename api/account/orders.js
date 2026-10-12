@@ -98,6 +98,13 @@ export function buildProductDeliveryEmail({
   const profileUrl = `${site}/profile.html`;
   const defaultMsg = `Ton compte / service ${serviceName || 'YONIX'} est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici.`;
   const msgText = (customMessage || defaultMsg).trim();
+  const isCs2Email =
+    String(serviceId || '').toLowerCase() === 'cs2' ||
+    String(deliveredFile || '').toLowerCase() === 'cs2-loader.zip' ||
+    String(deliveredFile || '').includes('drive.proton.me') ||
+    /cs2|cs:go|csgo/i.test(String(serviceName || ''));
+  const cs2ProtonUrl = 'https://drive.proton.me/urls/367277226R#i9SCrjcTxvvb';
+  const cs2ProtonKey = 'YONIX-123';
 
   return `<!DOCTYPE html>
 <html lang="fr">
@@ -148,6 +155,23 @@ export function buildProductDeliveryEmail({
               </div>
             </td>
           </tr>
+
+          ${isCs2Email ? `
+          <tr>
+            <td style="padding:12px 28px 6px;">
+              <div style="background:#0A0E17;border:1px solid rgba(78,124,255,0.45);border-radius:14px;padding:16px 18px;text-align:center;">
+                <div style="font-size:12px;font-weight:800;text-transform:uppercase;color:#60A5FA;margin-bottom:8px;">📥 Téléchargement du Cheat CS:GO / CS2 (Proton Drive)</div>
+                <div style="margin-bottom:12px;">
+                  <a href="${cs2ProtonUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-block;background:#4E7CFF;color:#FFFFFF;font-weight:800;font-size:13.5px;text-decoration:none;padding:11px 22px;border-radius:10px;">
+                    Télécharger le Cheat sur Proton Drive →
+                  </a>
+                </div>
+                <div style="font-size:13px;color:#E2E8F0;">
+                  🔑 Clé pour accéder au fichier : <strong style="color:#FFFFFF;background:#161E31;padding:4px 10px;border-radius:6px;border:1px solid #334155;">${cs2ProtonKey}</strong>
+                </div>
+              </div>
+            </td>
+          </tr>` : ''}
 
           <!-- Delivered Credentials / Access Box -->
           ${deliveredProduct ? `

@@ -1069,6 +1069,19 @@ main {
           </h3>
           <pre class="delivered-pre">${esc(m.deliveredProduct)}</pre>
         </div>`;
+    } else if (m.downloadFile === 'cs2-loader.zip' || m.productId === 'cs2') {
+      deliveryHtml = `
+        <div class="delivery-info-box">
+          <h3>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Téléchargement du Cheat CS:GO / CS2 (Proton Drive)</span>
+          </h3>
+          <p style="margin-bottom:10px">Clé pour accéder au fichier Proton Drive : <strong style="color:var(--blue);background:var(--blue-soft);padding:3px 9px;border-radius:6px;border:1px solid var(--blue-border)">YONIX-123</strong></p>
+          <a class="btn-blue" style="width:100%" href="https://drive.proton.me/urls/367277226R#i9SCrjcTxvvb" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Télécharger le Cheat sur Proton Drive</span>
+          </a>
+        </div>`;
     } else if (m.downloadFile) {
       deliveryHtml = `
         <div class="delivery-info-box">

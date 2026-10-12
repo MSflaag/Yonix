@@ -1650,36 +1650,35 @@ html[data-theme="dark"] .nav.scrolled .nav-in {
 
 /* Free 24H CS:GO 7-Day Offer Card below AI Bundle */
 .free-cs2-offer-card {
-  margin-top: -12px;
-  margin-bottom: 34px;
-  border: 1.5px solid rgba(16, 185, 129, 0.45);
-  box-shadow: 0 16px 40px rgba(16, 185, 129, 0.10);
+  margin-top: 0;
+  margin-bottom: 36px;
 }
 
-.free-cs2-offer-card .bundle-badge {
-  background: linear-gradient(90deg, #059669, #10B981);
-  color: #FFFFFF;
+.free-cs2-offer-card .bundle-left {
+  background: radial-gradient(circle at 50% 50%, rgba(78, 124, 255, 0.22), transparent 70%), var(--night);
+  padding: 40px 28px;
+}
+
+.free-cs2-offer-card .bundle-emblem {
+  width: 152px;
+  height: 152px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  padding: 22px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
 }
 
 .free-cs2-offer-card .bundle-emblem img {
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-  transform: scale(1.02);
-  padding: 10px;
+  transform: none;
+  padding: 0;
 }
 
-.free-cs2-countdown-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 13px;
-  border-radius: 999px;
-  background: rgba(16, 185, 129, 0.12);
-  border: 1px solid rgba(16, 185, 129, 0.35);
-  color: #10B981;
-  font-size: 12.5px;
-  font-weight: 800;
-  margin-bottom: 10px;
-  width: fit-content;
+.free-cs2-offer-card .bundle-right {
+  padding-top: 44px;
 }
 
 .free-cs2-result-box {
@@ -1687,7 +1686,7 @@ html[data-theme="dark"] .nav.scrolled .nav-in {
   padding: 14px 16px;
   border-radius: 14px;
   background: #0D1322;
-  border: 1px solid rgba(16, 185, 129, 0.45);
+  border: 1px solid var(--blue-border);
   color: #F8FAFC;
   font-size: 13.5px;
 }
@@ -3010,17 +3009,83 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
 }
 
 .cb-method-tabs {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  gap: 0;
   padding: 4px;
   border-radius: 14px;
   background: var(--bg-alt);
   border: 1px solid var(--border);
   margin-bottom: 14px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.cb-method-glider {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  border-radius: 10px;
+  background: var(--blue-soft);
+  border: 1.5px solid var(--blue);
+  box-shadow: 0 3px 12px rgba(78, 124, 255, 0.20);
+  z-index: 0;
+  pointer-events: none;
+  transform: translate3d(0%, 0, 0) scaleX(1) scaleY(1);
+  transform-origin: center center;
+  transition:
+    transform 0.52s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    border-radius 0.42s ease;
+  will-change: transform, background, border-color;
+}
+
+.cb-method-tabs.is-apay .cb-method-glider {
+  transform: translate3d(100%, 0, 0) scaleX(1) scaleY(1);
+  border-color: #635BFF;
+  background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 100%);
+  box-shadow: 0 4px 14px rgba(99, 91, 255, 0.34);
+}
+
+@keyframes cbLiquidRight {
+  0%   { transform: translate3d(0%, 0, 0) scaleX(1) scaleY(1); border-radius: 10px; }
+  38%  { transform: translate3d(42%, 0, 0) scaleX(1.24) scaleY(0.88); border-radius: 16px; }
+  76%  { transform: translate3d(103%, 0, 0) scaleX(0.95) scaleY(1.03); border-radius: 10px; }
+  100% { transform: translate3d(100%, 0, 0) scaleX(1) scaleY(1); border-radius: 10px; }
+}
+
+@keyframes cbLiquidLeft {
+  0%   { transform: translate3d(100%, 0, 0) scaleX(1) scaleY(1); border-radius: 10px; }
+  38%  { transform: translate3d(58%, 0, 0) scaleX(1.24) scaleY(0.88); border-radius: 16px; }
+  76%  { transform: translate3d(-3%, 0, 0) scaleX(0.95) scaleY(1.03); border-radius: 10px; }
+  100% { transform: translate3d(0%, 0, 0) scaleX(1) scaleY(1); border-radius: 10px; }
+}
+
+.cb-method-glider.liquid-to-apay {
+  animation: cbLiquidRight 0.52s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.cb-method-glider.liquid-to-card {
+  animation: cbLiquidLeft 0.52s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes cbPanelFluidIn {
+  0%   { opacity: 0; transform: translateY(6px) scale(0.985); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.cb-panel-fluid {
+  animation: cbPanelFluidIn 0.36s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .cb-method-tab {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3028,12 +3093,13 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   padding: 10px 12px;
   border-radius: 10px;
   border: 1.5px solid transparent;
-  background: transparent;
+  background: transparent !important;
+  box-shadow: none !important;
   color: var(--ink-secondary);
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.18s ease;
+  transition: color 0.32s ease, transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .cb-method-tab:hover {
@@ -3041,17 +3107,11 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
 }
 
 .cb-method-tab.active {
-  border-color: var(--blue);
-  background: var(--blue-soft);
   color: var(--blue);
-  box-shadow: 0 2px 10px rgba(78, 124, 255, 0.16);
 }
 
 .cb-method-tab.apay.active {
-  border-color: #635BFF;
-  background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 100%);
   color: #FFFFFF;
-  box-shadow: 0 2px 12px rgba(99, 91, 255, 0.32);
 }
 
 .cb-apay-box {
@@ -4315,41 +4375,31 @@ html[data-theme="dark"] #mobileMenu {
     <!-- OFFRE GRATUITE 7 JOURS : CLÉ 24H CS:GO / CS2 (1 CLÉ PAR PERSONNE / IP) — EN DESSOUS DES BUNDLES IA -->
     <div class="bundle-card free-cs2-offer-card rv" id="freeCs2OfferCard">
       <div class="bundle-badge">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
-        <span>OFFRE GRATUITE 7 JOURS · SEULEMENT 1 CLÉ 24H PAR PERSONNE (IP)</span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span>OFFRE GRATUITE 7 JOURS · 1 CLÉ 24H / IP</span>
       </div>
       <div class="bundle-left">
         <div class="bundle-emblem">
-          <img src="/logos/csgo.png" alt="CS:GO / CS2 Loader Gratuit 24H">
-        </div>
-        <div class="bundle-logos">
-          <span class="b-logo"><img src="/logos/csgo.png" alt="CS:GO"><span>Cheat CS:GO / CS2</span></span>
-          <span class="b-logo"><span>🔑 Clé 24H Gratuite</span></span>
-          <span class="b-logo"><span>🛡️ 1 Clé Max / IP</span></span>
-          <span class="b-logo"><span>⏳ Durée : 7 Jours</span></span>
+          <img src="/logos/csgo.png" alt="CS:GO">
         </div>
       </div>
       <div class="bundle-right">
-        <div class="free-cs2-countdown-pill">
-          <span>⏳ Offre disponible que 7 jours — Expire dans :</span>
-          <strong id="freeCs2CountdownText">06j 23h 59m 59s</strong>
-        </div>
         <h3 class="bundle-name">Cheat CS:GO — Clé 24H Gratuite</h3>
-        <p class="bundle-sub">Une clé de licence 24 Heures offerte à chaque client qui passe commande sur cette offre gratuite (limitée à 1 clé par personne et par adresse IP).</p>
+        <p class="bundle-sub">1 Clé 24H offerte à chaque client qui passe commande — Disponible 7 jours (1 seule clé par personne et par IP).</p>
         <ul class="bundle-feats">
           <li>1 Clé de licence 24H offerte pour le Cheat CS:GO / CS2 Loader</li>
-          <li>Offre spéciale disponible pendant 7 jours uniquement</li>
+          <li>Offre disponible pendant 7 jours uniquement</li>
           <li>Strictement limitée à 1 seule clé 24H par personne (vérification par adresse IP)</li>
           <li>Livrée directement sur ton compte dans l'espace Mon Profil</li>
         </ul>
         <div class="bundle-pricing">
-          <div class="bundle-old"><span>Valeur normale :</span><b>7,99€</b></div>
-          <div class="bundle-new"><span style="color:#10B981">Offre 7 Jours (1/IP) :</span><b style="color:#10B981">GRATUIT (0,00€)</b></div>
+          <div class="bundle-old"><span>À l'unité :</span><b>7,99€</b></div>
+          <div class="bundle-new"><span>Offre Gratuite (1/IP) :</span><b>0,00€</b></div>
         </div>
-        <div class="dlg-actions" style="max-width:440px;grid-template-columns:1fr">
-          <button class="dlg-buy" id="freeCs2OrderBtn" type="button" style="background:linear-gradient(135deg,#059669,#10B981);box-shadow:0 8px 22px rgba(16,185,129,0.32)" onclick="orderFreeCs2Key24h(this)">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            <span id="freeCs2OrderBtnLabel">Commander ma Clé 24H Gratuite (0,00€)</span>
+        <div class="dlg-actions" style="max-width:420px;grid-template-columns:1fr">
+          <button class="dlg-buy" id="freeCs2OrderBtn" type="button" onclick="orderFreeCs2Key24h(this)">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            <span id="freeCs2OrderBtnLabel">Obtenir ma Clé 24H Gratuite (0,00€)</span>
           </button>
         </div>
         <div id="freeCs2ResultBox" class="free-cs2-result-box" hidden></div>
@@ -4727,7 +4777,8 @@ html[data-theme="dark"] #mobileMenu {
     <div class="cb-col-right">
       <div>
         <!-- Payment Method Switcher: Carte Bancaire vs Apple Pay (Stripe) -->
-        <div class="cb-method-tabs" role="tablist" aria-label="Choisir le moyen de paiement">
+        <div class="cb-method-tabs" id="cbMethodTabs" role="tablist" aria-label="Choisir le moyen de paiement">
+          <div class="cb-method-glider" id="cbMethodGlider" aria-hidden="true"></div>
           <button type="button" class="cb-method-tab active" id="cbTabCard" data-method="card">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
             <span>Carte Bancaire</span>
@@ -4930,6 +4981,7 @@ const PRODUCTS = [
       { dur: '6 Mois', price: '129,99€', oldPrice: '219,99€' },
       { dur: 'Lifetime', price: '239,99€', oldPrice: '399,99€', note: 'Accès permanent', best: true }
     ],
+    file: 'cs2-loader.zip',
     svg: ''
   },
   {
@@ -5458,7 +5510,12 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
   $('#cbInputName')?.addEventListener('input', updateVisualPreview);
 
   function switchCbPayMethod(method) {
-    activePayMethod = method === 'apple_pay' ? 'apple_pay' : 'card';
+    const nextMethod = method === 'apple_pay' ? 'apple_pay' : 'card';
+    const prevMethod = activePayMethod;
+    activePayMethod = nextMethod;
+
+    const tabsWrap = $('#cbMethodTabs');
+    const glider = $('#cbMethodGlider');
     const tabCard = $('#cbTabCard');
     const tabApay = $('#cbTabApay');
     const cardPanel = $('#cbCardPanel');
@@ -5467,10 +5524,32 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
     const cbBtn = $('#cbSubmitPayBtn');
     const apayBtn = $('#cbApplePayBtn');
 
+    if (tabsWrap) tabsWrap.classList.toggle('is-apay', activePayMethod === 'apple_pay');
+    if (glider && prevMethod && prevMethod !== activePayMethod) {
+      glider.classList.remove('liquid-to-apay', 'liquid-to-card');
+      void glider.offsetWidth;
+      glider.classList.add(activePayMethod === 'apple_pay' ? 'liquid-to-apay' : 'liquid-to-card');
+    }
+
     if (tabCard) tabCard.classList.toggle('active', activePayMethod === 'card');
     if (tabApay) tabApay.classList.toggle('active', activePayMethod === 'apple_pay');
-    if (cardPanel) cardPanel.style.display = activePayMethod === 'card' ? 'block' : 'none';
-    if (apayPanel) apayPanel.style.display = activePayMethod === 'apple_pay' ? 'flex' : 'none';
+
+    if (cardPanel) {
+      cardPanel.style.display = activePayMethod === 'card' ? 'block' : 'none';
+      if (activePayMethod === 'card') {
+        cardPanel.classList.remove('cb-panel-fluid');
+        void cardPanel.offsetWidth;
+        cardPanel.classList.add('cb-panel-fluid');
+      }
+    }
+    if (apayPanel) {
+      apayPanel.style.display = activePayMethod === 'apple_pay' ? 'flex' : 'none';
+      if (activePayMethod === 'apple_pay') {
+        apayPanel.classList.remove('cb-panel-fluid');
+        void apayPanel.offsetWidth;
+        apayPanel.classList.add('cb-panel-fluid');
+      }
+    }
     if (cbBtn) cbBtn.style.display = activePayMethod === 'card' ? 'inline-flex' : 'none';
     if (apayBtn) apayBtn.style.display = activePayMethod === 'apple_pay' ? 'inline-flex' : 'none';
     if (savedBox) {
@@ -6022,27 +6101,6 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
     vid.play().catch(() => {});
   }
 
-  // 7-Day Countdown for the Free 24H CS:GO Key Offer
-  const EXP_KEY = 'yonix_free_cs2_7d_end';
-  let expTs = parseInt(localStorage.getItem(EXP_KEY) || '0', 10);
-  if (!expTs || expTs < Date.now()) {
-    expTs = Date.now() + 7 * 24 * 3600 * 1000;
-    try { localStorage.setItem(EXP_KEY, String(expTs)); } catch (e) {}
-  }
-
-  const cdEl = document.getElementById('freeCs2CountdownText');
-  function updateFreeCountdown() {
-    if (!cdEl) return;
-    const rem = Math.max(0, expTs - Date.now());
-    const d = Math.floor(rem / 86400000);
-    const h = Math.floor((rem % 86400000) / 3600000);
-    const m = Math.floor((rem % 3600000) / 60000);
-    const s = Math.floor((rem % 60000) / 1000);
-    cdEl.textContent = `${String(d).padStart(2, '0')}j ${String(h).padStart(2, '0')}h ${String(m).padStart(2, '0')}m ${String(s).padStart(2, '0')}s`;
-  }
-  updateFreeCountdown();
-  setInterval(updateFreeCountdown, 1000);
-
   function markFreeCs2ClaimedUI(deliveredKey, sessionId) {
     const btn = document.getElementById('freeCs2OrderBtn');
     const lbl = document.getElementById('freeCs2OrderBtnLabel');
@@ -6057,21 +6115,23 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
     }
     if (box) {
       box.hidden = false;
-      box.innerHTML = deliveredKey
-        ? `<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
-             <div>
-               <div style="font-size:11.5px;font-weight:800;text-transform:uppercase;color:#34D399;margin-bottom:3px">✓ Ta Clé CS:GO 24H Gratuite (1/IP) :</div>
-               <code style="font-size:14px;font-weight:800;color:#fff;background:#070A12;padding:5px 10px;border-radius:8px;border:1px solid rgba(52,211,153,0.35);display:inline-block">${deliveredKey}</code>
-             </div>
-             <a href="/profile.html" class="btn-blue sm" style="text-decoration:none">Voir dans Mon Profil →</a>
-           </div>`
-        : `<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
-             <div>
-               <div style="font-size:12px;font-weight:800;color:#34D399">✓ Commande Clé 24H Gratuite CS:GO enregistrée (1 seule clé par IP)</div>
-               <div style="font-size:12.5px;color:#CBD5E1;margin-top:2px">Retrouve ta clé 24H et ton loader directement dans ton espace <b>Mon Profil</b>.</div>
-             </div>
-             <a href="/profile.html" class="btn-blue sm" style="text-decoration:none">Ouvrir Mon Profil →</a>
-           </div>`;
+      box.innerHTML = `
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+            <div>
+              <div style="font-size:12px;font-weight:800;color:#60A5FA">✓ Commande Clé 24H Gratuite CS:GO enregistrée (1 seule clé par IP)</div>
+              <div style="font-size:12.5px;color:#CBD5E1;margin-top:2px">Télécharge le Loader ci-dessous et retrouve ta clé 24H dans ton espace <b>Mon Profil</b>.</div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <a href="https://drive.proton.me/urls/367277226R#i9SCrjcTxvvb" target="_blank" rel="noopener noreferrer" class="btn-blue sm" style="text-decoration:none">📥 Télécharger le Cheat (Proton Drive)</a>
+              <a href="/profile.html" class="btn-secondary sm" style="text-decoration:none;padding:8px 14px;font-size:12.5px">Mon Profil →</a>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12)">
+            <span style="font-size:12.5px;color:#E2E8F0">🔑 Clé pour accéder au fichier Proton Drive : <code style="font-weight:800;color:#60A5FA;background:#070A12;padding:3px 8px;border-radius:6px;margin-left:4px">YONIX-123</code></span>
+            <button type="button" onclick="navigator.clipboard.writeText('YONIX-123');if(window.toast)window.toast('Clé fichier YONIX-123 copiée ✓');" style="padding:5px 10px;border-radius:8px;background:rgba(78,124,255,0.18);border:1px solid rgba(78,124,255,0.4);color:#93C5FD;font-size:11.5px;font-weight:700;cursor:pointer">Copier YONIX-123</button>
+          </div>
+        </div>`;
     }
   }
 
@@ -6088,11 +6148,6 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
       });
       if (!r.ok) return;
       const d = await r.json();
-      if (d.expiresAt && d.expiresAt > Date.now()) {
-        expTs = d.expiresAt;
-        try { localStorage.setItem(EXP_KEY, String(expTs)); } catch (e) {}
-        updateFreeCountdown();
-      }
       if (d.alreadyClaimed) {
         markFreeCs2ClaimedUI(d.claim?.deliveredKey || localClaim?.deliveredKey || null, d.claim?.sessionId || '');
       }

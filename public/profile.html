@@ -2870,23 +2870,43 @@ main {
   };
 
   // ─── ORDERS & DIRECT PRODUCT DELIVERY ───
+  const CS2_PROTON_URL = 'https://drive.proton.me/urls/367277226R#i9SCrjcTxvvb';
+  const CS2_PROTON_KEY = 'YONIX-123';
+
   function dlBtnInner(){
     return `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>Télécharger le fichier</span>`;
   }
 
   window.handleDl = async function(btn, file){
+    const rawFile = String(file || '').trim();
+    if (rawFile === 'cs2-loader.zip' || rawFile.includes('drive.proton.me') || rawFile.startsWith('http://') || rawFile.startsWith('https://')) {
+      const targetUrl = rawFile.startsWith('http') ? rawFile : CS2_PROTON_URL;
+      try { navigator.clipboard.writeText(CS2_PROTON_KEY); } catch (e) {}
+      window.open(targetUrl, '_blank', 'noopener,noreferrer');
+      toast(`Lien ouvert · Clé d'accès au fichier copiée : ${CS2_PROTON_KEY} ✓`);
+      return;
+    }
+
     btn.disabled = true;
     btn.textContent = 'Téléchargement…';
     try {
-      const r = await fetch(`/api/account/download?file=${encodeURIComponent(file)}`);
+      const r = await fetch(`/api/account/download?file=${encodeURIComponent(rawFile)}`);
       const data = await r.json();
       if (r.ok && data.url) {
-        const a = document.createElement('a');
-        a.href = data.url;
-        a.download = file;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
+        if (data.external) {
+          if (data.fileKey) {
+            try { navigator.clipboard.writeText(data.fileKey); } catch (e) {}
+          }
+          window.open(data.url, '_blank', 'noopener,noreferrer');
+          toast(data.fileKey ? `Clé fichier copiée : ${data.fileKey} ✓` : 'Lien de téléchargement ouvert ✓');
+        } else {
+          const a = document.createElement('a');
+          a.href = data.url;
+          a.download = rawFile;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+        }
         btn.textContent = '✓ Téléchargé';
         setTimeout(() => { btn.disabled = false; btn.innerHTML = dlBtnInner(); }, 3500);
       } else {
@@ -2924,7 +2944,7 @@ main {
     { id: 'disneyplus', cat: 'services', catLabel: 'Services Premium', name: 'Disney+ 1 an', img: '/logos/disneyplus.png', defaultMsg: "Ton compte Disney+ 1 an est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇" },
     { id: 'nitro-boost', cat: 'services', catLabel: 'Services Premium', name: 'Nitro Boost Discord', img: '/logos/nitro_boost.png', defaultMsg: "Ton Discord Nitro Boost est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇" },
     { id: 'chatgpt-fa', cat: 'services', catLabel: 'Services Premium', name: 'ChatGPT FA Unlimited', img: '/logos/chatgpt.png', defaultMsg: "Ton compte ChatGPT FA Unlimited est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇" },
-    { id: 'cs2', cat: 'gaming', catLabel: 'CS2 & Valorant', name: 'CS2 Loader', img: '/logos/csgo.png', defaultMsg: "Ta clé et ton accès CS2 Loader sont activés ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇", file: 'cs2-loader.zip' },
+    { id: 'cs2', cat: 'gaming', catLabel: 'CS2 & Valorant', name: 'CS2 Loader', img: '/logos/csgo.png', defaultMsg: "Ta clé et ton accès CS2 Loader sont activés ! Télécharge le cheat ici : https://drive.proton.me/urls/367277226R#i9SCrjcTxvvb (Clé pour accéder au fichier : YONIX-123). N'hésite pas à nous laisser un petit avis juste ici 👇", file: 'cs2-loader.zip' },
     { id: 'val-priv', cat: 'gaming', catLabel: 'CS2 & Valorant', name: 'Valorant Private', img: '/logos/valorant.png', defaultMsg: "Ton accès Valorant Private est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇" },
     { id: 'val-emu', cat: 'gaming', catLabel: 'CS2 & Valorant', name: 'Valorant Emu', img: '/logos/valorant.png', defaultMsg: "Ton accès Valorant Emu est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇" },
     { id: 'spoofer', cat: 'spoofer', catLabel: 'HWID Spoofer', name: 'HWID Spoofer Permanent', img: '/logos/spoofer.png', defaultMsg: "Ta licence HWID Spoofer est activée ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇" },
@@ -3276,6 +3296,7 @@ main {
       const statusBadge = isDelivered
         ? `<span class="badge-pill badge-active">✓ Service activé &amp; livré</span>`
         : `<span class="badge-pill badge-email">En cours de préparation (livré ici)</span>`;
+      const isCs2Order = matchedSvc.id === 'cs2' || o.downloadFile === 'cs2-loader.zip' || String(o.downloadFile || '').includes('drive.proton.me');
 
       return `
       <div class="order-card">
@@ -3295,14 +3316,26 @@ main {
             </div>
           </div>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
-            ${o.downloadFile
-              ? `<button type="button" class="btn-blue" onclick="handleDl(this,'${escHtml(o.downloadFile)}')">${dlBtnInner()}</button>`
+            ${(o.downloadFile || isCs2Order)
+              ? `<button type="button" class="btn-blue" onclick="handleDl(this,'${escHtml(o.downloadFile || 'cs2-loader.zip')}')">${dlBtnInner()}</button>`
               : ''}
             <button type="button" class="btn-outline" style="border-color:var(--blue-border);color:var(--blue)" onclick="openProfileReviewModal('${escHtml(displayProdName)}','${escHtml(matchedSvc.id)}','${escHtml(prodImg)}')">
               ★ Laisser un avis en direct
             </button>
           </div>
         </div>
+
+        ${isCs2Order ? `
+        <div style="margin-top:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 15px;border-radius:12px;background:#0D1322;border:1px solid var(--blue-border);color:#F8FAFC">
+          <div style="display:flex;flex-direction:column;gap:3px">
+            <div style="font-size:12px;font-weight:800;color:#60A5FA">📥 Téléchargement Cheat CS:GO / CS2 (Proton Drive)</div>
+            <div style="font-size:12.5px;color:#E2E8F0">Clé pour accéder au fichier : <code style="font-weight:800;color:#fff;background:#070A12;padding:3px 8px;border-radius:6px;border:1px solid rgba(78,124,255,0.4);margin-left:4px">${CS2_PROTON_KEY}</code></div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button type="button" class="btn-outline" style="padding:7px 12px;font-size:12px;background:rgba(255,255,255,0.08);color:#fff;border-color:rgba(255,255,255,0.22)" onclick="copyDeliveredText(this,'${encodeURIComponent(CS2_PROTON_KEY)}')">Copier ${CS2_PROTON_KEY}</button>
+            <a href="${CS2_PROTON_URL}" target="_blank" rel="noopener noreferrer" class="btn-blue" style="padding:7px 14px;font-size:12px;text-decoration:none">Ouvrir Proton Drive →</a>
+          </div>
+        </div>` : ''}
 
         ${o.customMessage ? `
         <div style="margin-top:14px;display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;background:var(--blue-soft);border:1px solid var(--blue-border);flex-wrap:wrap">

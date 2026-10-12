@@ -3292,7 +3292,8 @@ main {
       const matchedSvc = findServiceForOrder(o.serviceId || o.serviceName || o.productName);
       const prodImg = o.serviceImage || matchedSvc.img || '/logos/Yonix.png';
       const displayProdName = o.serviceName || o.productName || matchedSvc.name;
-      const isDelivered = Boolean(o.deliveredProduct || o.downloadFile || o.customMessage || o.deliveryStatus === 'delivered');
+      const isExplicitPending = o.deliveryStatus === 'pending' && !o.deliveredProduct && !o.customMessage;
+      const isDelivered = !isExplicitPending && Boolean(o.deliveredProduct || o.downloadFile || o.customMessage || o.deliveryStatus === 'delivered');
       const statusBadge = isDelivered
         ? `<span class="badge-pill badge-active">✓ Service activé &amp; livré</span>`
         : `<span class="badge-pill badge-email">En cours de préparation (livré ici)</span>`;
@@ -3546,9 +3547,10 @@ main {
       orderSelectedSvcMap[o.id] = matched;
       orderCatFilterMap[o.id] = 'all';
 
-      const isDelivered = Boolean(o.deliveredProduct || o.downloadFile || o.customMessage || o.deliveryStatus === 'delivered');
+      const isExplicitPending = o.deliveryStatus === 'pending' && !o.deliveredProduct && !o.customMessage;
+      const isDelivered = !isExplicitPending && Boolean(o.deliveredProduct || o.downloadFile || o.customMessage || o.deliveryStatus === 'delivered');
       const defaultMsg = o.customMessage || matched.defaultMsg;
-      const bfDetails = (o.clientPrenom || o.clientNom || o.clientDOB || o.clientEmail)
+      const bfDetails = (o.clientPrenom || o.clientNom || o.clientDOB)
         ? `<div style="margin-top:6px;font-size:12.5px;color:var(--amber);font-weight:600">Infos Basic Fit : ${escHtml(o.clientPrenom)} ${escHtml(o.clientNom)} · Né(e): ${escHtml(o.clientDOB)} · Email: ${escHtml(o.clientEmail)}</div>`
         : '';
 
@@ -3568,7 +3570,7 @@ main {
               </div>
             </div>
           </div>
-          <div>
+          <div id="admStatusBadge_${escHtml(o.id)}">
             ${isDelivered
               ? `<span class="badge-pill badge-active">✓ Livré</span>`
               : `<span class="badge-pill badge-phone-warn">En attente de livraison</span>`}
@@ -3685,6 +3687,10 @@ main {
       });
       const data = await r.json();
       if (r.ok && data.ok) {
+        const badgeBox = document.getElementById('admStatusBadge_' + sessionId);
+        if (badgeBox) {
+          badgeBox.innerHTML = `<span class="badge-pill badge-active">✓ Livré</span>`;
+        }
         try {
           const localOrds = JSON.parse(localStorage.getItem('yonix_local_orders') || '[]');
           if (Array.isArray(localOrds)) {

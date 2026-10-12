@@ -459,10 +459,17 @@ function formatSessionOrder(s) {
       ? local.customMessage
       : (m.customMessage || '');
 
-  const deliveryStatus =
-    deliveredProduct || downloadFile || customMessage || m.deliveryStatus === 'delivered'
-      ? 'delivered'
-      : 'pending';
+  const isExplicitPending =
+    m.deliveryStatus === 'pending' &&
+    !deliveredProduct &&
+    !customMessage &&
+    !local.deliveredAt;
+
+  const deliveryStatus = isExplicitPending
+    ? 'pending'
+    : (deliveredProduct || downloadFile || customMessage || m.deliveryStatus === 'delivered'
+        ? 'delivered'
+        : 'pending');
 
   const customerEmail = (
     local.customerEmail ||
@@ -583,6 +590,92 @@ const freeCs2ClaimsByEmail = globalThis.__yonixFreeCs2Emails || (globalThis.__yo
 const FREE_CS2_START_MS = globalThis.__yonixFreeCs2StartMs || (globalThis.__yonixFreeCs2StartMs = Date.now());
 const FREE_CS2_EXPIRES_MS = FREE_CS2_START_MS + 7 * 24 * 60 * 60 * 1000; // 7 jours
 
+async function persistCustomOrderToStripe(orderRecord) {
+  if (!orderRecord || !orderRecord.id) return;
+  localOrders.set(orderRecord.id, orderRecord);
+  if (!stripe) return;
+  try {
+    const m = orderRecord.metadata || {};
+    const cleanMeta = {
+      orderId: String(orderRecord.id).slice(0, 120),
+      created: String(orderRecord.created || Math.floor(Date.now() / 1000)),
+      amount_total: String(orderRecord.amount_total || 0),
+      currency: String(orderRecord.currency || 'eur').slice(0, 10),
+      customer_email: String(orderRecord.customer_email || m.accountEmail || m.clientEmail || '').slice(0, 200),
+    };
+    for (const [k, v] of Object.entries(m)) {
+      if (v !== undefined && v !== null && typeof v !== 'object') {
+        cleanMeta[String(k).slice(0, 40)] = String(v).slice(0, 490);
+      }
+    }
+
+    const custs = await stripe.customers.list({ email: 'order@yonix.store', limit: 60 });
+    const existing = custs.data.find(
+      (c) => c.description === 'YONIX_CUSTOM_ORDER' && (c.name === orderRecord.id || c.metadata?.orderId === orderRecord.id)
+    );
+    if (existing) {
+      await stripe.customers.update(existing.id, {
+        name: String(orderRecord.id).slice(0, 120),
+        metadata: cleanMeta,
+      });
+    } else {
+      await stripe.customers.create({
+        email: 'order@yonix.store',
+        name: String(orderRecord.id).slice(0, 120),
+        description: 'YONIX_CUSTOM_ORDER',
+        metadata: cleanMeta,
+      });
+    }
+  } catch (err) {
+    console.warn('[orders:custom] Stripe persist warning:', err.message);
+  }
+}
+
+async function loadCustomOrdersFromStripe() {
+  if (!stripe) return;
+  try {
+    const custs = await stripe.customers.list({ email: 'order@yonix.store', limit: 80 });
+    for (const c of custs.data) {
+      if (c.description !== 'YONIX_CUSTOM_ORDER') continue;
+      const m = c.metadata || {};
+      const sid = m.orderId || c.name;
+      if (!sid || !String(sid).startsWith('cs_')) continue;
+      const cEmail = (m.customer_email || m.accountEmail || m.clientEmail || '').toLowerCase().trim();
+      const createdTs = parseInt(m.created, 10) || c.created || Math.floor(Date.now() / 1000);
+      const amountTotal = parseInt(m.amount_total, 10) || 0;
+      const reconstructed = {
+        id: sid,
+        created: createdTs,
+        payment_status: 'paid',
+        amount_total: amountTotal,
+        currency: m.currency || 'eur',
+        customer_email: cEmail,
+        customer_details: { email: cEmail },
+        metadata: { ...m },
+      };
+      const cur = localOrders.get(sid);
+      const curDelivered = cur?.metadata?.deliveryStatus === 'delivered' || Boolean(cur?.metadata?.deliveredProduct);
+      const recDelivered = m.deliveryStatus === 'delivered' || Boolean(m.deliveredProduct);
+      if (!cur || recDelivered || !curDelivered) {
+        localOrders.set(sid, reconstructed);
+      }
+      if (String(sid).startsWith('cs_free24h_')) {
+        const claimObj = {
+          sessionId: sid,
+          email: cEmail,
+          ip: m.clientIp || '',
+          claimedAt: createdTs,
+          deliveredKey: ((m.deliveredProduct || '') + (m.deliveredProduct2 || '')).trim() || null,
+        };
+        if (m.clientIp) freeCs2ClaimsByIp.set(m.clientIp, claimObj);
+        if (cEmail) freeCs2ClaimsByEmail.set(cEmail, claimObj);
+      }
+    }
+  } catch (err) {
+    console.warn('[orders:custom] Stripe load warning:', err.message);
+  }
+}
+
 function getClientIp(req) {
   const xff = req?.headers?.['x-forwarded-for'];
   if (xff) {
@@ -600,6 +693,7 @@ export default async function handler(req, res) {
 
   // ── GET public : Statut de l'offre gratuite 24H CS:GO (1 clé / IP, valable 7 jours) ──
   if (req.method === 'GET' && req.query?.action === 'free_cs2_status') {
+    await loadCustomOrdersFromStripe();
     const normEmail = (email || String(req.query?.email || '')).toLowerCase().trim();
     const byIp = freeCs2ClaimsByIp.get(clientIp);
     const byEmail = normEmail ? freeCs2ClaimsByEmail.get(normEmail) : null;
@@ -650,6 +744,8 @@ export default async function handler(req, res) {
           error: "Cette offre gratuite de 7 jours est maintenant terminée.",
         });
       }
+
+      await loadCustomOrdersFromStripe();
 
       // Vérification stricte : 1 seule clé 24H par adresse IP et par compte email
       const existingByIp = freeCs2ClaimsByIp.get(clientIp);
@@ -708,6 +804,7 @@ export default async function handler(req, res) {
       };
 
       localOrders.set(sid, orderRecord);
+      await persistCustomOrderToStripe(orderRecord);
 
       const claimObj = {
         sessionId: sid,
@@ -853,6 +950,7 @@ export default async function handler(req, res) {
       }
 
       if (action === 'list_all') {
+        await loadCustomOrdersFromStripe();
         const directList = Array.from(localOrders.values())
           .filter((s) => s.payment_status === 'paid')
           .map(formatSessionOrder);
@@ -961,6 +1059,8 @@ export default async function handler(req, res) {
           });
         }
 
+        await persistCustomOrderToStripe(localOrders.get(sid));
+
         return res.status(200).json({
           ok: true,
           emailSent: emailResult.sent,
@@ -996,8 +1096,15 @@ export default async function handler(req, res) {
           return res.status(400).json({ error: 'Entre le message ou le produit (clé, accès, lien) à envoyer au client.' });
         }
 
+        const isCustomSession = /^cs_(free24h|direct|live)_/.test(String(sessionId));
+        if (!localOrders.has(sessionId) && isCustomSession) {
+          await loadCustomOrdersFromStripe();
+        }
+
         const directOrd = localOrders.get(sessionId);
-        const fallbackProdName = directOrd?.metadata?.productName || 'Service YONIX';
+        const fallbackProdName =
+          directOrd?.metadata?.productName ||
+          (String(sessionId).startsWith('cs_free24h_') ? 'Cheat CS:GO / CS2 — Clé Gratuite 24H' : 'Service YONIX');
         const serviceName = String(rawServiceName || fallbackProdName).trim();
         const serviceId = String(rawServiceId || serviceName).trim();
         const serviceCategory = String(rawServiceCategory || 'Service Activé').trim();
@@ -1048,9 +1155,32 @@ export default async function handler(req, res) {
           });
         }
 
-        if (directOrd) {
-          directOrd.metadata = {
-            ...(directOrd.metadata || {}),
+        const saveAndReturnCustomOrder = async (baseOrd) => {
+          const tsMatch = String(sessionId).match(/^cs_(?:free24h|direct|live)_(\d{10,13})_/);
+          const inferredCreated = tsMatch
+            ? (tsMatch[1].length === 13 ? Math.floor(parseInt(tsMatch[1], 10) / 1000) : parseInt(tsMatch[1], 10))
+            : nowTs;
+          const ordObj = baseOrd || {
+            id: sessionId,
+            created: inferredCreated,
+            payment_status: 'paid',
+            amount_total: 0,
+            currency: 'eur',
+            customer_email: targetEmail,
+            customer_details: { email: targetEmail },
+            metadata: {
+              accountEmail: targetEmail,
+              clientEmail: targetEmail,
+              productName: fallbackProdName,
+              tierName: String(sessionId).startsWith('cs_free24h_') ? 'Offre Gratuite 24H' : serviceCategory,
+              priceRaw: String(sessionId).startsWith('cs_free24h_') ? '0,00€' : '',
+            },
+          };
+          ordObj.customer_email = targetEmail || ordObj.customer_email || '';
+          ordObj.customer_details = { ...(ordObj.customer_details || {}), email: ordObj.customer_email };
+          ordObj.metadata = {
+            ...(ordObj.metadata || {}),
+            ...(targetEmail ? { accountEmail: targetEmail, clientEmail: targetEmail } : {}),
             deliveryStatus: 'delivered',
             serviceId: serviceId.slice(0, 100),
             serviceName: serviceName.slice(0, 150),
@@ -1060,43 +1190,41 @@ export default async function handler(req, res) {
             deliveredProduct: productText.slice(0, 490),
             deliveredProduct2: productText.slice(490, 980),
             deliveredAt: String(nowTs),
-            ...(fileText ? { deliveredFile: fileText.slice(0, 490) } : {}),
+            ...(fileText ? { deliveredFile: fileText.slice(0, 490), downloadFile: fileText.slice(0, 490) } : {}),
           };
-          localOrders.set(sessionId, directOrd);
+          localOrders.set(sessionId, ordObj);
+          await persistCustomOrderToStripe(ordObj);
+          if (String(sessionId).startsWith('cs_free24h_') && targetEmail) {
+            const prevClaim = freeCs2ClaimsByEmail.get(targetEmail) || {};
+            const updatedClaim = {
+              ...prevClaim,
+              sessionId,
+              email: targetEmail,
+              claimedAt: ordObj.created || nowTs,
+              deliveredKey: productText || prevClaim.deliveredKey || null,
+            };
+            freeCs2ClaimsByEmail.set(targetEmail, updatedClaim);
+            if (ordObj.metadata?.clientIp) {
+              freeCs2ClaimsByIp.set(ordObj.metadata.clientIp, updatedClaim);
+            }
+          }
           return res.status(200).json({
             ok: true,
-            order: formatSessionOrder(directOrd),
+            order: formatSessionOrder(ordObj),
             emailSent: emailResult.sent,
             emailReason: emailResult.reason || null,
             emailSubject,
             emailTo: targetEmail,
             emailHtml,
           });
+        };
+
+        if (directOrd || isCustomSession) {
+          return await saveAndReturnCustomOrder(directOrd);
         }
 
         if (!stripe) {
-          return res.status(200).json({
-            ok: true,
-            order: {
-              id: sessionId,
-              customerEmail: targetEmail,
-              productName: serviceName,
-              serviceId,
-              serviceName,
-              serviceCategory,
-              serviceImage,
-              customMessage,
-              deliveredProduct: productText,
-              downloadFile: fileText || null,
-              deliveryStatus: 'delivered',
-              deliveredAt: nowTs,
-            },
-            emailSent: emailResult.sent,
-            emailReason: emailResult.reason || null,
-            emailSubject,
-            emailTo: targetEmail,
-            emailHtml,
-          });
+          return await saveAndReturnCustomOrder(null);
         }
 
         try {
@@ -1151,20 +1279,7 @@ export default async function handler(req, res) {
             emailHtml,
           });
         } catch (err) {
-          try {
-            const fallbackSession = await stripe.checkout.sessions.retrieve(sessionId);
-            return res.status(200).json({
-              ok: true,
-              order: formatSessionOrder(fallbackSession),
-              emailSent: emailResult.sent,
-              emailReason: emailResult.reason || null,
-              emailSubject,
-              emailTo: targetEmail,
-              emailHtml,
-            });
-          } catch {
-            return res.status(500).json({ error: 'Impossible de mettre à jour cette commande : ' + err.message });
-          }
+          return await saveAndReturnCustomOrder(directOrd);
         }
       }
     }
@@ -1438,6 +1553,7 @@ export default async function handler(req, res) {
 
   const { profile, cards } = await getOrCreateProfileData(email);
   const target = email.toLowerCase().trim();
+  await loadCustomOrdersFromStripe();
 
   const directUserOrders = Array.from(localOrders.values())
     .filter((s) => {

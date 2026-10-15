@@ -242,22 +242,70 @@ export default async function handler(req, res) {
       console.warn('[checkout] Customer lookup warning:', custErr.message);
     }
 
-    // Cas 1 : Si le client a sélectionné une carte déjà liée via Stripe 3DS (pm_xxx), tenter le débit réel immédiat (sauf s'il a choisi Apple Pay)
-    if (paymentMode !== 'apple_pay' && usedCardInfo && String(usedCardInfo.id).startsWith('pm_') && stripeCustomerId) {
+    // Cas 0 : Si le client a saisi une nouvelle carte (card), créer le PaymentMethod Stripe réel
+    if (paymentMode !== 'apple_pay' && card && card.cardNumber) {
       try {
-        const pi = await stripe.paymentIntents.create({
+        const rawNum = String(card.cardNumber || '').replace(/\D/g, '');
+        const expMatch = String(card.exp || '').trim().match(/^(0[1-9]|1[0-2])\/(\d{2})$/);
+        if (expMatch && rawNum && isValidLuhn(rawNum)) {
+          const expMonth = parseInt(expMatch[1], 10);
+          const expYear = 2000 + parseInt(expMatch[2], 10);
+          const pm = await stripe.paymentMethods.create({
+            type: 'card',
+            card: {
+              number: rawNum,
+              exp_month: expMonth,
+              exp_year: expYear,
+              cvc: String(card.cvv || '').replace(/\D/g, ''),
+            },
+            billing_details: {
+              name: card.name || authEmail,
+              email: authEmail,
+            },
+          });
+          if (pm && pm.id) {
+            usedCardInfo = {
+              id: pm.id,
+              brand: (pm.card?.brand || detectBrand(rawNum)).toUpperCase(),
+              last4: pm.card?.last4 || rawNum.slice(-4),
+              exp: `${String(expMonth).padStart(2, '0')}/${String(expYear).slice(-2)}`,
+              name: card.name || authEmail,
+            };
+            if (stripeCustomerId) {
+              try {
+                await stripe.paymentMethods.attach(pm.id, { customer: stripeCustomerId });
+              } catch (_) {}
+            }
+          }
+        }
+      } catch (pmErr) {
+        console.warn('[checkout] Direct PaymentMethod creation failed:', pmErr.message);
+        if (pmErr.type === 'StripeCardError') {
+          return res.status(402).json({
+            error: pmErr.message || 'Ta banque a refusé cette carte bancaire.',
+          });
+        }
+      }
+    }
+
+    // Cas 1 : Si le client a une carte Stripe 3DS (pm_xxx), tenter le débit réel immédiat
+    if (paymentMode !== 'apple_pay' && usedCardInfo && String(usedCardInfo.id).startsWith('pm_')) {
+      try {
+        const piParams = {
           amount: amountCents,
           currency: 'eur',
-          customer: stripeCustomerId,
           payment_method: usedCardInfo.id,
           confirm: true,
-          automatic_payment_methods: { enabled: true, allow_redirects: 'never' },
+          return_url: `${siteUrl}/success`,
           metadata: {
             ...metadata,
             cardBrand: usedCardInfo.brand,
             cardLast4: usedCardInfo.last4,
           },
-        });
+        };
+        if (stripeCustomerId) piParams.customer = stripeCustomerId;
+
+        const pi = await stripe.paymentIntents.create(piParams);
 
         if (pi && pi.status === 'succeeded') {
           const sessionId = 'cs_live_' + pi.id;
@@ -316,6 +364,14 @@ export default async function handler(req, res) {
               deliveredProduct: '',
               deliveryStatus: downloadFile ? 'delivered' : 'pending',
             },
+          });
+        } else if (pi && pi.status === 'requires_action' && pi.next_action?.redirect_to_url?.url) {
+          // Validation 3D Secure obligatoire par la banque du client
+          return res.status(200).json({
+            ok: true,
+            requiresStripeCheckout: true,
+            sessionId: 'cs_live_' + pi.id,
+            url: pi.next_action.redirect_to_url.url,
           });
         }
       } catch (piErr) {
@@ -389,16 +445,8 @@ export default async function handler(req, res) {
 
     try {
       const sessionParams = {
-        payment_method_types: ['card'],
         mode: 'payment',
         ...(stripeCustomerId ? { customer: stripeCustomerId } : { customer_email: authEmail }),
-        payment_intent_data: {
-          setup_future_usage: 'on_session',
-          metadata: {
-            ...metadata,
-            paymentMethodRequested: paymentMode === 'apple_pay' ? 'apple_pay' : 'card',
-          },
-        },
         line_items: lineItems,
         metadata: {
           ...metadata,
@@ -407,7 +455,36 @@ export default async function handler(req, res) {
         success_url: `${siteUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${siteUrl}/#boutique`,
       };
-      const session = await stripe.checkout.sessions.create(sessionParams);
+
+      if (stripeCustomerId) {
+        sessionParams.payment_intent_data = {
+          setup_future_usage: 'on_session',
+          metadata: {
+            ...metadata,
+            paymentMethodRequested: paymentMode === 'apple_pay' ? 'apple_pay' : 'card',
+          },
+        };
+      }
+
+      let session;
+      try {
+        session = await stripe.checkout.sessions.create({
+          ...sessionParams,
+          automatic_payment_methods: { enabled: true },
+        });
+      } catch (autoErr) {
+        console.warn('[checkout] Primary automatic_payment_methods fallback:', autoErr.message);
+        try {
+          session = await stripe.checkout.sessions.create({
+            ...sessionParams,
+            payment_method_types: ['card'],
+          });
+        } catch (pmTypeErr) {
+          console.warn('[checkout] payment_method_types fallback:', pmTypeErr.message);
+          session = await stripe.checkout.sessions.create(sessionParams);
+        }
+      }
+
       return res.status(200).json({
         ok: true,
         requiresStripeCheckout: true,
@@ -415,29 +492,10 @@ export default async function handler(req, res) {
         url: session.url,
       });
     } catch (err) {
-      console.warn('[checkout] Primary session create fallback:', err.message);
-      try {
-        const session = await stripe.checkout.sessions.create({
-          payment_method_types: ['card'],
-          mode: 'payment',
-          customer_email: authEmail,
-          line_items: lineItems,
-          metadata,
-          success_url: `${siteUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
-          cancel_url: `${siteUrl}/#boutique`,
-        });
-        return res.status(200).json({
-          ok: true,
-          requiresStripeCheckout: true,
-          sessionId: session.id,
-          url: session.url,
-        });
-      } catch (err2) {
-        console.error('[checkout] Stripe session error:', err2.message);
-        return res.status(500).json({
-          error: 'Erreur de connexion à Stripe : ' + (err2.message || 'Réessaie dans un instant.'),
-        });
-      }
+      console.error('[checkout] Stripe session creation failed:', err.message);
+      return res.status(500).json({
+        error: 'Erreur de connexion à Stripe : ' + (err.message || 'Réessaie dans un instant.'),
+      });
     }
   }
 

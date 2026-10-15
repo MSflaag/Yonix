@@ -229,21 +229,9 @@ img, svg {
   margin-inline: auto;
 }
 
-/* ===== PROMO BANNER (Identical to Yonix Store) ===== */
+/* ===== PROMO BANNER (REMOVED) ===== */
 #promoBanner {
-  position: relative;
-  z-index: 110;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 9px 48px 9px 16px;
-  background: var(--night);
-  color: var(--white);
-  font-size: 13px;
-  font-weight: 500;
-  text-align: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: none !important;
 }
 
 .promo-bolt {
@@ -2035,23 +2023,6 @@ main {
 </style>
 </head>
 <body>
-
-<!-- PROMO BANNER -->
-<div id="promoBanner" role="region" aria-label="Offre promotionnelle">
-  <span class="promo-bolt" aria-hidden="true">
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-  </span>
-  <span>Offre flash</span>
-  <span class="countdown-wrap">
-    <span>— Expire dans :&nbsp;</span>
-    <span class="cd-unit"><span class="cd-num" id="cdH">02</span><span class="cd-label">h</span></span>
-    <span class="cd-sep">:</span>
-    <span class="cd-unit"><span class="cd-num" id="cdM">00</span><span class="cd-label">min</span></span>
-    <span class="cd-sep">:</span>
-    <span class="cd-unit"><span class="cd-num" id="cdS">00</span><span class="cd-label">sec</span></span>
-  </span>
-  <span>— Code <span class="banner-code">YONIX10</span> -10% sur tout</span>
-</div>
 
 <!-- NAVBAR -->
 <header class="nav" id="nav">
@@ -4397,27 +4368,6 @@ main {
       const badge = document.getElementById('cartBadge');
       if (badge) badge.textContent = count > 0 ? count : '';
     } catch (e) {}
-
-    const KEY = 'yonix_cd_end';
-    let end = parseInt(sessionStorage.getItem(KEY) || '0', 10);
-    if (!end || end < Date.now()) {
-      end = Date.now() + 2 * 3600 * 1000;
-      sessionStorage.setItem(KEY, String(end));
-    }
-    const hEl = document.getElementById('cdH');
-    const mEl = document.getElementById('cdM');
-    const sEl = document.getElementById('cdS');
-    function tick() {
-      const rem = Math.max(0, end - Date.now());
-      const h = Math.floor(rem / 3600000);
-      const m = Math.floor((rem % 3600000) / 60000);
-      const s = Math.floor((rem % 60000) / 1000);
-      if (hEl) hEl.textContent = String(h).padStart(2, '0');
-      if (mEl) mEl.textContent = String(m).padStart(2, '0');
-      if (sEl) sEl.textContent = String(s).padStart(2, '0');
-    }
-    tick();
-    setInterval(tick, 1000);
   })();
 
   window.toggleLang = function(e) {

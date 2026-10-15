@@ -271,25 +271,9 @@ a {
   transform: translateY(0);
 }
 
-/* ===== PROMO BANNER ===== */
+/* ===== PROMO BANNER (REMOVED) ===== */
 #promoBanner {
-  position: relative;
-  z-index: 110;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 9px 48px 9px 16px;
-  background: var(--night);
-  color: var(--white);
-  font-size: 13px;
-  font-weight: 500;
-  text-align: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-#promoBanner.hidden {
-  display: none;
+  display: none !important;
 }
 
 .promo-bolt {
@@ -377,7 +361,7 @@ a {
 
 .nav {
   position: fixed;
-  top: var(--nav-top, 38px);
+  top: var(--nav-top, 0px);
   left: 0;
   right: 0;
   z-index: 185;
@@ -5355,6 +5339,364 @@ html[data-theme="dark"] #mobileMenu {
   text-overflow: ellipsis;
 }
 
+/* ===== SOCIAL PROOF LIVE TOAST (FEATURE 1) ===== */
+.sp-toast {
+  position: fixed;
+  left: 22px;
+  bottom: 22px;
+  z-index: 240;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--border);
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.16), 0 4px 14px rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
+  padding: 10px 14px 10px 12px;
+  max-width: 360px;
+  transform: translateY(120%) scale(0.94);
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.36s ease, visibility 0.42s;
+  cursor: pointer;
+  user-select: none;
+}
+
+html[data-theme="dark"] .sp-toast {
+  background: rgba(18, 24, 38, 0.94);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.sp-toast.sp-show {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.sp-toast:hover {
+  transform: translateY(-2px) scale(1.01);
+  border-color: var(--blue-border);
+}
+
+.sp-body {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.sp-avatar-wrap {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sp-img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.sp-badge-check {
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #10B981;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--white);
+}
+
+html[data-theme="dark"] .sp-badge-check {
+  border-color: #121826;
+}
+
+.sp-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.sp-title-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.sp-user {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.sp-action {
+  color: var(--ink-secondary);
+  font-weight: 500;
+}
+
+.sp-prod {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--blue);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+.sp-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--ink-secondary);
+}
+
+.sp-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+  animation: spPulseAnim 1.8s infinite;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+@keyframes spPulseAnim {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.sp-dot {
+  opacity: 0.45;
+}
+
+.sp-status {
+  color: #10B981;
+  font-weight: 600;
+}
+
+.sp-close {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--ink-secondary);
+  font-size: 13px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s, background 0.2s;
+  padding: 0;
+}
+
+.sp-close:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+html[data-theme="dark"] .sp-close:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* ===== STOCK & URGENCY INDICATORS (FEATURE 4) ===== */
+.pcard-stock-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 999px;
+  margin-top: 5px;
+  margin-bottom: 7px;
+  width: fit-content;
+  letter-spacing: -0.01em;
+}
+
+.pcard-stock-pill.is-low {
+  background: rgba(239, 68, 68, 0.1);
+  color: #EF4444;
+  border: 1px solid rgba(239, 68, 68, 0.22);
+}
+
+.pcard-stock-pill.is-demand {
+  background: rgba(245, 158, 11, 0.1);
+  color: #D97706;
+  border: 1px solid rgba(245, 158, 11, 0.24);
+}
+
+html[data-theme="dark"] .pcard-stock-pill.is-demand {
+  color: #FBBF24;
+}
+
+.pcard-stock-pill.is-available {
+  background: rgba(16, 185, 129, 0.09);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.22);
+}
+
+html[data-theme="dark"] .pcard-stock-pill.is-available {
+  color: #34D399;
+}
+
+.pcard-stock-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+  animation: stockPulseAnim 1.6s infinite ease-in-out;
+}
+
+@keyframes stockPulseAnim {
+  0%, 100% { opacity: 0.45; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.25); }
+}
+
+/* Modal Stock Urgency Box */
+.pd-stock-card {
+  margin: 12px 0 16px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(245, 158, 11, 0.06) 100%);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+html[data-theme="dark"] .pd-stock-card {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(245, 158, 11, 0.09) 100%);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.pd-stock-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pd-stock-left {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.pd-stock-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #EF4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25);
+  animation: stockPulseAnim 1.5s infinite;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.pd-stock-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #DC2626;
+  letter-spacing: -0.01em;
+}
+
+html[data-theme="dark"] .pd-stock-title {
+  color: #F87171;
+}
+
+.pd-stock-viewers {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ink-secondary);
+  background: var(--bg);
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+}
+
+.pd-stock-track {
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  position: relative;
+}
+
+html[data-theme="dark"] .pd-stock-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.pd-stock-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #F59E0B 0%, #EF4444 100%);
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pd-stock-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--ink-secondary);
+}
+
+.pd-stock-fast {
+  color: #10B981;
+  font-weight: 700;
+}
+
+@media (max-width: 680px) {
+  .sp-toast {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    max-width: calc(100vw - 24px);
+    padding: 9px 12px;
+  }
+  .sp-prod {
+    max-width: 190px;
+  }
+}
+
 /* ===== RESPONSIVE BREAKPOINTS (TABLET & PHONE OPTIMIZATION) ===== */
 @media (max-width: 960px) {
   .showcase-body,
@@ -5746,23 +6088,6 @@ html[data-theme="dark"] #mobileMenu {
 </head>
 <body>
 
-<!-- PROMO BANNER -->
-<div id="promoBanner" role="region" aria-label="Offre promotionnelle">
-  <span class="promo-bolt" aria-hidden="true">
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-  </span>
-  <span>Offre flash</span>
-  <span class="countdown-wrap">
-    — Expire dans :&nbsp;
-    <span class="cd-unit"><span class="cd-num" id="cdH">02</span><span class="cd-label">h</span></span>
-    <span class="cd-sep">:</span>
-    <span class="cd-unit"><span class="cd-num" id="cdM">00</span><span class="cd-label">min</span></span>
-    <span class="cd-sep">:</span>
-    <span class="cd-unit"><span class="cd-num" id="cdS">00</span><span class="cd-label">sec</span></span>
-  </span>
-  <span>— Code <span class="banner-code">YONIX10</span> -10% sur tout</span>
-</div>
-
 <!-- CART OVERLAY + DRAWER -->
 <div id="cartOverlay" onclick="closeCart()"></div>
 <div id="cartDrawer" role="dialog" aria-modal="true" aria-label="Panier">
@@ -5774,28 +6099,14 @@ html[data-theme="dark"] #mobileMenu {
   </div>
   <div class="cart-items" id="cartItems"></div>
   <div class="cart-foot">
-    <!-- Code Promo Box inside Cart (Manual Entry Only) -->
-    <div style="margin-bottom:10px;padding:10px 12px;border-radius:12px;background:var(--bg);border:1px solid var(--border)">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px">
-        <span style="font-size:11.5px;font-weight:700;color:var(--ink-secondary)">Code promo</span>
-        <button type="button" class="promo-clear-pill js-promo-clear-btn" onclick="window.clearManualPromo()" style="display:none">✕ Retirer</button>
-      </div>
-      <div class="promo-manual-form">
-        <input type="text" id="cartPromoInput" class="promo-manual-input js-promo-manual-input" placeholder="Code promo..." autocomplete="off">
-        <button type="button" class="promo-manual-apply" onclick="window.applyPromoFromField('cartPromoInput')">Appliquer</button>
-      </div>
-      <div class="js-promo-status-msg" style="display:none;margin-top:5px;font-size:11.5px;font-weight:700;color:var(--green)">✓ Code YONIX10 (-10%) appliqué</div>
-    </div>
-
-    <!-- Breakdown Sous-total / Remise / TVA Stripe / Total TTC -->
+    <!-- Breakdown Sous-total / TVA Stripe / Total TTC -->
     <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:10px;font-size:13px;color:var(--ink-secondary)">
       <div style="display:flex;justify-content:space-between">
         <span>Sous-total</span>
         <b id="cartSubtotalVal" style="color:var(--ink)">0,00 €</b>
       </div>
-      <div id="cartDiscountRow" style="display:none;justify-content:space-between;color:var(--green);font-weight:700">
-        <span>Code promo YONIX10 (-10%)</span>
-        <b id="cartDiscountVal">-0,00 €</b>
+      <div id="cartDiscountRow" style="display:none">
+        <b id="cartDiscountVal"></b>
       </div>
       <div style="display:flex;justify-content:space-between">
         <span>TVA &amp; Frais Stripe CB (2,9% + 0,25€)</span>
@@ -6495,6 +6806,28 @@ html[data-theme="dark"] #mobileMenu {
     <div class="dlg-info">
       <h3 class="dlg-name" id="pdName"></h3>
       <p class="dlg-sub" id="pdSub"></p>
+
+      <!-- Stock & Urgency Card inside Product Modal (Feature 4) -->
+      <div class="pd-stock-card" id="pdStockCard">
+        <div class="pd-stock-row">
+          <div class="pd-stock-left">
+            <span class="pd-stock-pulse-dot" id="pdStockPulse"></span>
+            <b class="pd-stock-title" id="pdStockTitle">Stock limité : Plus que 3 clés disponibles</b>
+          </div>
+          <span class="pd-stock-viewers" id="pdStockViewers">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="13" r="3"/></svg>
+            <span id="pdViewersCount">14 personnes consultent</span>
+          </span>
+        </div>
+        <div class="pd-stock-track">
+          <div class="pd-stock-fill" id="pdStockFill" style="width: 82%"></div>
+        </div>
+        <div class="pd-stock-foot">
+          <span id="pdStockSoldText">82% des clés réservées aujourd'hui</span>
+          <span class="pd-stock-fast">⚡ Livraison instantanée 24/7</span>
+        </div>
+      </div>
+
       <p class="dlg-desc" id="pdDesc"></p>
       <ul class="dlg-feats" id="pdFeats"></ul>
       <p class="tier-label">Choisir une formule</p>
@@ -6532,17 +6865,10 @@ html[data-theme="dark"] #mobileMenu {
         </div>
       </form>
 
-      <!-- Manual Code Promo & TVA Stripe Box inside Product Modal -->
-      <div class="promo-manual-box">
-        <div class="promo-manual-info">
-          <b>Code promo</b>
-          <span id="pdLivePriceBreakdown" class="js-promo-breakdown-text">+ TVA &amp; Frais Stripe CB inclus au paiement</span>
-        </div>
-        <div class="promo-manual-form">
-          <input type="text" id="pdPromoInput" class="promo-manual-input js-promo-manual-input" placeholder="Code promo..." autocomplete="off">
-          <button type="button" class="promo-manual-apply" onclick="window.applyPromoFromField('pdPromoInput')">Appliquer</button>
-          <button type="button" class="promo-clear-pill js-promo-clear-btn" onclick="window.clearManualPromo()" style="display:none">✕</button>
-        </div>
+      <!-- TVA Stripe Breakdown Note (Clean, No Promo) -->
+      <div style="margin-bottom:12px;padding:9px 12px;border-radius:11px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--ink-secondary)">
+        <span>TVA &amp; Frais Stripe CB</span>
+        <span id="pdLivePriceBreakdown" class="js-promo-breakdown-text" style="font-weight:600;color:var(--ink)">Inclus au paiement</span>
       </div>
 
       <!-- CGV acceptance -->
@@ -6599,29 +6925,18 @@ html[data-theme="dark"] #mobileMenu {
           <div class="cb-order-total" id="cbOrderTotalPrice">25€</div>
         </div>
 
-        <!-- Manual Code Promo + Détail TVA & Frais Stripe -->
-        <div style="border-top:1px solid var(--border);padding-top:12px;display:flex;flex-direction:column;gap:10px">
-          <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
-            <span style="font-size:11.5px;font-weight:700;color:var(--ink-secondary)">Code promo</span>
-            <button type="button" class="promo-clear-pill js-promo-clear-btn" onclick="window.clearManualPromo()" style="display:none">✕ Retirer</button>
+        <!-- Détail TVA & Frais Stripe (Sans Code Promo) -->
+        <div style="border-top:1px solid var(--border);padding-top:12px;display:flex;flex-direction:column;gap:6px;font-size:12.5px;color:var(--ink-secondary)">
+          <div style="display:flex;justify-content:space-between">
+            <span>Sous-total produit(s)</span>
+            <b id="cbSubtotalVal" style="color:var(--ink)">25,00 €</b>
           </div>
-          <div class="promo-manual-form">
-            <input type="text" id="cbPromoInput" class="promo-manual-input js-promo-manual-input" placeholder="Code promo..." autocomplete="off">
-            <button type="button" class="promo-manual-apply" onclick="window.applyPromoFromField('cbPromoInput')">Appliquer</button>
+          <div id="cbDiscountRow" style="display:none">
+            <b id="cbDiscountVal"></b>
           </div>
-          <div style="display:flex;flex-direction:column;gap:5px;font-size:12.5px;color:var(--ink-secondary);padding-top:2px">
-            <div style="display:flex;justify-content:space-between">
-              <span>Sous-total produit(s)</span>
-              <b id="cbSubtotalVal" style="color:var(--ink)">25,00 €</b>
-            </div>
-            <div id="cbDiscountRow" style="display:none;justify-content:space-between;color:var(--green);font-weight:700">
-              <span>Réduction Code YONIX10 (-10%)</span>
-              <b id="cbDiscountVal">-2,50 €</b>
-            </div>
-            <div style="display:flex;justify-content:space-between">
-              <span>TVA &amp; Frais Stripe CB (2,9% + 0,25€)</span>
-              <b id="cbStripeFeeVal" style="color:var(--ink)">+0,98 €</b>
-            </div>
+          <div style="display:flex;justify-content:space-between">
+            <span>TVA &amp; Frais Stripe CB (2,9% + 0,25€)</span>
+            <b id="cbStripeFeeVal" style="color:var(--ink)">+0,98 €</b>
           </div>
         </div>
       </div>
@@ -7221,14 +7536,12 @@ const WHY = [
 
 /* ===== SCROLL REVEAL (Simple 500ms Fade-In + Fixed Floating Bubble Navbar) ===== */
 const nav = $('#nav');
-const promoBannerEl = $('#promoBanner');
 function syncNavbarScroll() {
   const y = window.scrollY || document.documentElement.scrollTop || 0;
-  const bannerH = (promoBannerEl && !promoBannerEl.classList.contains('hidden')) ? promoBannerEl.offsetHeight : 0;
   const isScrolled = y > 16;
   nav.classList.toggle('scrolled', isScrolled);
   if (!isScrolled) {
-    nav.style.setProperty('--nav-top', Math.max(0, bannerH - y) + 'px');
+    nav.style.setProperty('--nav-top', '0px');
   }
 }
 syncNavbarScroll();
@@ -8179,6 +8492,20 @@ window.animateBubbleToCart = function animateBubbleToCart(sourceEl) {
 const grid = $('#pgrid');
 const CART_ICON_SVG = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1.5"/><circle cx="19" cy="21" r="1.5"/><path d="M2.5 3h3l2.4 12.1a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 1.9-1.5L22.5 7H6.2"/></svg>`;
 
+function getProductStockBadge(p) {
+  const lowStockIds = ['basic-fit', 'spoofer', 'cs2', 'valorant', 'spotify', 'netflix'];
+  const highDemandIds = ['adobe', 'chatgpt', 'claude', 'canva', 'youtube', 'deezer', 'crunchyroll', 'gemini'];
+  if (lowStockIds.includes(p.id)) {
+    const qty = ((p.id.length * 3 + 2) % 4) + 2; // 2 to 5
+    return { cls: 'is-low', text: `⚡ Plus que ${qty} clés disponibles` };
+  }
+  if (highDemandIds.includes(p.id)) {
+    const qty = ((p.id.length * 4 + 1) % 5) + 4; // 4 to 8
+    return { cls: 'is-demand', text: `🔥 Forte demande · Stock : ${qty}` };
+  }
+  return { cls: 'is-available', text: '✓ Clé immédiate · En stock' };
+}
+
 PRODUCTS.forEach(p => {
   const c = document.createElement('article');
   c.className = 'pcard rv';
@@ -8192,11 +8519,16 @@ PRODUCTS.forEach(p => {
     ? `<div class="pcard-price-compare"><del class="pcard-old-price">${firstTier.oldPrice}</del></div>`
     : '';
   const priceLabel = p.tiers.length > 1 ? 'À partir de' : 'Prix unique';
+  const stock = getProductStockBadge(p);
   c.innerHTML = `<div class="pcard-in">
     <div class="pcard-img">${visual}<span class="pcard-badge">${p.badge}</span></div>
     <div class="pcard-body">
       <h3 class="pcard-name">${p.name}</h3>
       <p class="pcard-sub">${p.sub}</p>
+      <div class="pcard-stock-pill ${stock.cls}">
+        <span class="pcard-stock-dot"></span>
+        <span>${stock.text}</span>
+      </div>
       <div class="pcard-row">
         <div class="pcard-price"><span>${priceLabel}</span><div class="pcard-price-vals">${oldPriceHtml}<b>${firstTier.price}</b></div></div>
         <div class="pcard-actions">
@@ -8260,6 +8592,10 @@ JAILBREAKS.forEach(p => {
     <div class="pcard-body">
       <h3 class="pcard-name">${p.name}</h3>
       <p class="pcard-sub">${p.sub}</p>
+      <div class="pcard-stock-pill is-demand">
+        <span class="pcard-stock-dot"></span>
+        <span>⚡ Prompt 2026 opérationnel · Instantané</span>
+      </div>
       <div class="pcard-row">
         <div class="pcard-price"><span>Prix unique</span><div class="pcard-price-vals">${oldPriceHtml}<b>${p.price}</b></div></div>
         <div class="pcard-actions">
@@ -8461,27 +8797,23 @@ function updateModalPriceComparison() {
   const rowBox = $('#pdPriceQtyRow');
   if (!cmpBox || !curProd) return;
   const tier = curProd.tiers[selTier] || {};
-  const promoOn = typeof window.isPromoYonix10Active === 'function' && window.isPromoYonix10Active();
   const baseTotal = parsePriceNum(tier.price) * selQty;
-  const discountedTotal = promoOn ? Math.round(baseTotal * 0.90 * 100) / 100 : baseTotal;
   const fmtE = n => (Number.isInteger(n) ? `${n}€` : `${n.toFixed(2).replace('.', ',')}€`);
 
   if (tier.oldPrice) {
     cmpBox.style.display = 'flex';
     if (rowBox) rowBox.style.gridTemplateColumns = '';
     $('#pdOldPriceVal').textContent = multiplyPriceStr(tier.oldPrice, selQty);
-    $('#pdNewPriceVal').textContent = fmtE(discountedTotal);
+    $('#pdNewPriceVal').textContent = fmtE(baseTotal);
   } else {
     cmpBox.style.display = 'none';
     if (rowBox) rowBox.style.gridTemplateColumns = '1fr';
   }
   const brk = $('#pdLivePriceBreakdown');
   if (brk) {
-    brk.textContent = promoOn
-      ? `✓ Code YONIX10 (-10%) appliqué : ${fmtE(discountedTotal)} (+ TVA Stripe au paiement)`
-      : '+ TVA & Frais Stripe CB inclus au paiement';
-    brk.style.color = promoOn ? 'var(--green)' : '';
-    brk.style.fontWeight = promoOn ? '700' : '';
+    brk.textContent = 'Inclus au paiement';
+    brk.style.color = '';
+    brk.style.fontWeight = '600';
   }
 }
 window.updateModalPriceComparison = updateModalPriceComparison;
@@ -8509,6 +8841,23 @@ function openProduct(id, initialTierIdx = null) {
 
   $('#pdName').textContent = curProd.name;
   $('#pdSub').textContent = curProd.sub;
+
+  // Update Stock & Urgency Card
+  const stockCard = $('#pdStockCard');
+  if (stockCard) {
+    const stockQty = ((curProd.id.length * 3 + 1) % 4) + 2; // deterministic 2-5
+    const viewers = ((curProd.id.length * 5 + 7) % 9) + 11; // deterministic 11-19
+    const soldPct = 80 + ((curProd.id.length * 7) % 15); // deterministic 80-94%
+    const titleEl = $('#pdStockTitle');
+    const viewersEl = $('#pdViewersCount');
+    const fillEl = $('#pdStockFill');
+    const soldEl = $('#pdStockSoldText');
+    if (titleEl) titleEl.textContent = `Stock limité : Plus que ${stockQty} clés disponibles`;
+    if (viewersEl) viewersEl.textContent = `${viewers} personnes consultent`;
+    if (fillEl) fillEl.style.width = `${soldPct}%`;
+    if (soldEl) soldEl.textContent = `${soldPct}% des clés déjà réservées aujourd'hui`;
+  }
+
   $('#pdDesc').textContent = curProd.desc;
   $('#pdFeats').innerHTML = curProd.feat.map(f => `<li>${f}</li>`).join('');
   selQty = 1;
@@ -8742,16 +9091,9 @@ jbModal.innerHTML = `
           </div>
         </div>
       </div>
-      <div class="promo-manual-box">
-        <div class="promo-manual-info">
-          <b>Code de réduction (saisir à la main)</b>
-          <span id="jbLivePriceBreakdown" class="js-promo-breakdown-text">+ TVA &amp; Frais Stripe CB inclus au paiement</span>
-        </div>
-        <div class="promo-manual-form">
-          <input type="text" id="jbPromoInput" class="promo-manual-input js-promo-manual-input" placeholder="Écrire le code..." autocomplete="off">
-          <button type="button" class="promo-manual-apply" onclick="window.applyPromoFromField('jbPromoInput')">Appliquer</button>
-          <button type="button" class="promo-clear-pill js-promo-clear-btn" onclick="window.clearManualPromo()" style="display:none">✕</button>
-        </div>
+      <div style="margin-bottom:12px;padding:9px 12px;border-radius:11px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--ink-secondary)">
+        <span>TVA &amp; Frais Stripe CB</span>
+        <span id="jbLivePriceBreakdown" class="js-promo-breakdown-text" style="font-weight:600;color:var(--ink)">Inclus au paiement</span>
       </div>
       <div class="cgv-check">
         <input type="checkbox" id="jbCgvCheck" name="jbcgv" checked>
@@ -8796,19 +9138,15 @@ function setJBQty(val) {
   if (qMin) qMin.disabled = jbQty <= 1;
   if (qMax) qMax.disabled = jbQty >= 10;
   if (curJB) {
-    const promoOn = typeof window.isPromoYonix10Active === 'function' && window.isPromoYonix10Active();
     const baseTotal = parsePriceNum(curJB.price) * jbQty;
-    const discountedTotal = promoOn ? Math.round(baseTotal * 0.90 * 100) / 100 : baseTotal;
     const fmtE = n => (Number.isInteger(n) ? `${n}€` : `${n.toFixed(2).replace('.', ',')}€`);
     if ($('#jbOldPrice')) $('#jbOldPrice').textContent = multiplyPriceStr(curJB.oldPrice || '49,99€', jbQty);
-    if ($('#jbPrice')) $('#jbPrice').textContent = fmtE(discountedTotal);
+    if ($('#jbPrice')) $('#jbPrice').textContent = fmtE(baseTotal);
     const brk = $('#jbLivePriceBreakdown');
     if (brk) {
-      brk.textContent = promoOn
-        ? `✓ Code YONIX10 (-10%) appliqué : ${fmtE(discountedTotal)} (+ TVA Stripe au paiement)`
-        : '+ TVA & Frais Stripe CB inclus au paiement';
-      brk.style.color = promoOn ? 'var(--green)' : '';
-      brk.style.fontWeight = promoOn ? '700' : '';
+      brk.textContent = 'Inclus au paiement';
+      brk.style.color = '';
+      brk.style.fontWeight = '600';
     }
   }
 }
@@ -9971,116 +10309,125 @@ window.toast = toast;
   })();
 })();
 
-/* ===== PROMO BANNER + COUNTDOWN + MANUAL PROMO CODE ENGINE ===== */
+/* ===== PROMO CODE ENGINE (PERMANENTLY DEACTIVATED) ===== */
 (function() {
-  let promoActive = false;
   try {
-    // Clear legacy one-click promo persistence so customer always types the code manually
     localStorage.removeItem('yonix_promo_code');
-    promoActive = (sessionStorage.getItem('yonix_manual_promo') || '').toUpperCase() === 'YONIX10';
+    sessionStorage.removeItem('yonix_manual_promo');
   } catch (e) {}
 
   window.isPromoYonix10Active = function() {
-    return promoActive;
+    return false;
   };
 
   window.syncAllPromoUI = function() {
-    document.querySelectorAll('.js-promo-manual-input').forEach(inp => {
-      if (promoActive) {
-        inp.value = 'YONIX10';
-      } else if (inp.value.trim().toUpperCase() === 'YONIX10') {
-        inp.value = '';
-      }
-    });
-
-    document.querySelectorAll('.js-promo-clear-btn').forEach(btn => {
-      btn.style.display = promoActive ? 'inline-flex' : 'none';
-    });
-
-    document.querySelectorAll('.js-promo-status-msg').forEach(msg => {
-      msg.style.display = promoActive ? 'block' : 'none';
-    });
-
+    document.querySelectorAll('.js-promo-manual-input').forEach(inp => { inp.value = ''; });
+    document.querySelectorAll('.js-promo-clear-btn').forEach(btn => { btn.style.display = 'none'; });
+    document.querySelectorAll('.js-promo-status-msg').forEach(msg => { msg.style.display = 'none'; });
     try { if (typeof window.updateModalPriceComparison === 'function') window.updateModalPriceComparison(); } catch (e) {}
     try { if (typeof window.updateJBPriceComparison === 'function') window.updateJBPriceComparison(); } catch (e) {}
     try { if (typeof window._rerenderCartPromo === 'function') window._rerenderCartPromo(); } catch (e) {}
     try { if (typeof window.syncCbModalPricing === 'function') window.syncCbModalPricing(); } catch (e) {}
   };
 
-  window.setPromoYonix10 = function(state, silent = false) {
-    promoActive = Boolean(state);
-    try {
-      if (promoActive) sessionStorage.setItem('yonix_manual_promo', 'YONIX10');
-      else sessionStorage.removeItem('yonix_manual_promo');
-      localStorage.removeItem('yonix_promo_code');
-    } catch (e) {}
-    window.syncAllPromoUI();
-    if (!silent && typeof window.toast === 'function') {
-      window.toast(promoActive ? 'Code promo YONIX10 (-10%) appliqué sur ta commande ✓' : 'Code promo retiré.');
-    }
-  };
+  window.setPromoYonix10 = function() { window.syncAllPromoUI(); };
+  window.clearManualPromo = function() { window.syncAllPromoUI(); };
+  window.applyPromoFromField = function() {};
+})();
 
-  window.clearManualPromo = function() {
-    document.querySelectorAll('.js-promo-manual-input').forEach(inp => { inp.value = ''; });
-    window.setPromoYonix10(false, false);
-  };
+/* ===== LIVE SOCIAL PROOF TOAST ENGINE (FEATURE 1) ===== */
+(function() {
+  const PURCHASES = [
+    { user: 'Lucas V.', city: 'Paris', prod: 'Spotify Premium (1 An)', prodId: 'spotify', img: '/logos/spotify.png', time: 'Il y a 3 min' },
+    { user: 'Maxime D.', city: 'Lyon', prod: 'HWID Spoofer (Clé Lifetime)', prodId: 'spoofer', img: '/logos/spoofer.png', time: 'Il y a 6 min' },
+    { user: 'Alexandre L.', city: 'Marseille', prod: 'Basic Fit Ultimate (Compte VIP)', prodId: 'basic-fit', img: '/logos/basicfit.png', time: 'Il y a 2 min' },
+    { user: 'Enzo R.', city: 'Bordeaux', prod: 'Cheat CS2 / CS:GO (Licence 1 Mois)', prodId: 'cs2', img: '/logos/csgo.png', time: 'Il y a 5 min' },
+    { user: 'Nathan M.', city: 'Lille', prod: 'Netflix Premium 4K (12 Mois)', prodId: 'netflix', img: '/logos/netflix.png', time: 'Il y a 9 min' },
+    { user: 'Thomas B.', city: 'Toulouse', prod: 'Cheat Valorant (Pass Mensuel)', prodId: 'valorant', img: '/logos/valorant.png', time: 'Il y a 4 min' },
+    { user: 'Sarah K.', city: 'Nantes', prod: 'ChatGPT Plus (Accès Illimité)', prodId: 'chatgpt', img: '/logos/chatgpt.png', time: 'Il y a 8 min' },
+    { user: 'Nicolas P.', city: 'Strasbourg', prod: 'YouTube Premium (Famille 1 An)', prodId: 'youtube', img: '/logos/youtube.png', time: 'Il y a 7 min' },
+    { user: 'Julien M.', city: 'Bruxelles', prod: 'Adobe Photoshop 2025', prodId: 'adobe', img: '/logos/adobe.png', time: 'Il y a 12 min' },
+    { user: 'Florian B.', city: 'Genève', prod: 'HWID Spoofer (Pass 1 Semaine)', prodId: 'spoofer', img: '/logos/spoofer.png', time: 'Il y a 4 min' },
+    { user: 'Dylan T.', city: 'Nice', prod: 'Crunchyroll Mega Fan (1 An)', prodId: 'crunchyroll', img: '/logos/crunchyroll.png', time: 'Il y a 11 min' },
+    { user: 'Kévin S.', city: 'Rennes', prod: 'Canva Pro Équipe (À vie)', prodId: 'canva', img: '/logos/canva.png', time: 'Il y a 6 min' }
+  ];
 
-  window.applyPromoFromField = function(inputId) {
-    const el = document.getElementById(inputId);
-    const val = (el?.value || '').trim().toUpperCase();
-    if (!val) {
-      if (typeof window.toast === 'function') {
-        window.toast('Écris ton code promo dans le champ avant de cliquer sur Appliquer.');
-      }
-      el?.focus();
-      return;
-    }
-    if (val === 'YONIX10') {
-      window.setPromoYonix10(true, false);
-    } else if (typeof window.toast === 'function') {
-      window.toast('Code promo invalide. Vérifie l\'orthographe du code affiché en haut.');
-    }
-  };
+  let currentIdx = Math.floor(Math.random() * PURCHASES.length);
+  let toastTimer = null;
+  let isHovered = false;
+  let isDismissed = false;
+  let activeProdId = null;
 
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && e.target && e.target.classList && e.target.classList.contains('js-promo-manual-input')) {
-      e.preventDefault();
-      if (e.target.id) window.applyPromoFromField(e.target.id);
-    }
-  });
+  function showNextPurchase() {
+    if (isDismissed) return;
+    const toast = document.getElementById('socialProofToast');
+    if (!toast) return;
 
-  const cdH = document.getElementById('cdH');
-  const cdM = document.getElementById('cdM');
-  const cdS = document.getElementById('cdS');
-  if (cdH) {
-    let endTime;
-    try {
-      endTime = parseInt(sessionStorage.getItem('yonix_cd_end') || '0', 10);
-      if (!endTime || endTime < Date.now()) {
-        endTime = Date.now() + 2 * 60 * 60 * 1000;
-        sessionStorage.setItem('yonix_cd_end', endTime);
-      }
-    } catch (e) { endTime = Date.now() + 2 * 60 * 60 * 1000; }
+    const p = PURCHASES[currentIdx];
+    currentIdx = (currentIdx + 1) % PURCHASES.length;
+    activeProdId = p.prodId;
 
-    function pad(n) { return String(Math.max(0, n)).padStart(2, '0'); }
-    function tick() {
-      const diff = Math.max(0, endTime - Date.now());
-      const h = Math.floor(diff / 3600000);
-      const m = Math.floor((diff % 3600000) / 60000);
-      const s = Math.floor((diff % 60000) / 1000);
-      cdH.textContent = pad(h);
-      cdM.textContent = pad(m);
-      cdS.textContent = pad(s);
-      if (!diff) {
-        endTime = Date.now() + 2 * 60 * 60 * 1000;
-        try { sessionStorage.setItem('yonix_cd_end', endTime); } catch (e) {}
-      }
+    const imgEl = document.getElementById('spImg');
+    const userEl = document.getElementById('spUser');
+    const prodEl = document.getElementById('spProd');
+    const timeEl = document.getElementById('spTime');
+
+    if (imgEl) {
+      imgEl.src = p.img;
+      imgEl.alt = p.prod;
     }
-    tick();
-    setInterval(tick, 1000);
+    if (userEl) userEl.textContent = `${p.user} (${p.city})`;
+    if (prodEl) prodEl.textContent = p.prod;
+    if (timeEl) timeEl.textContent = p.time;
+
+    toast.classList.add('sp-show');
+
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      if (!isHovered) hideToast();
+    }, 5500);
   }
 
-  setTimeout(() => window.syncAllPromoUI(), 50);
+  function hideToast() {
+    const toast = document.getElementById('socialProofToast');
+    if (toast) toast.classList.remove('sp-show');
+    scheduleNext();
+  }
+
+  function scheduleNext() {
+    if (isDismissed) return;
+    clearTimeout(toastTimer);
+    const delay = Math.floor(Math.random() * 12000) + 20000; // 20s - 32s
+    toastTimer = setTimeout(showNextPurchase, delay);
+  }
+
+  window.dismissSocialProof = function(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    isDismissed = true;
+    const toast = document.getElementById('socialProofToast');
+    if (toast) toast.classList.remove('sp-show');
+  };
+
+  window.onSocialProofClick = function() {
+    if (activeProdId && typeof window.openProduct === 'function') {
+      window.openProduct(activeProdId);
+    }
+  };
+
+  const toastEl = document.getElementById('socialProofToast');
+  if (toastEl) {
+    toastEl.addEventListener('mouseenter', () => { isHovered = true; });
+    toastEl.addEventListener('mouseleave', () => {
+      isHovered = false;
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(hideToast, 2200);
+    });
+  }
+
+  setTimeout(showNextPurchase, 4500);
 })();
 
 /* ===== CART ENGINE (Zero Emojis — Uses Product Logos / SVG, 1..10 Quantity + Promo YONIX10 + Stripe TVA) ===== */
@@ -10547,6 +10894,31 @@ window.toggleTheme = function() {
   }
 };
 </script>
+
+<!-- LIVE SOCIAL PROOF TOAST (FEATURE 1) -->
+<div id="socialProofToast" class="sp-toast" aria-live="polite">
+  <button type="button" class="sp-close" onclick="window.dismissSocialProof(event)" aria-label="Fermer la notification">×</button>
+  <div class="sp-body" onclick="window.onSocialProofClick()">
+    <div class="sp-avatar-wrap">
+      <img id="spImg" class="sp-img" src="/logos/spotify.png" alt="Produit">
+      <span class="sp-badge-check" title="Achat vérifié">✓</span>
+    </div>
+    <div class="sp-info">
+      <div class="sp-title-row">
+        <span class="sp-user" id="spUser">Lucas V. (Paris)</span>
+        <span class="sp-action">vient de commander</span>
+      </div>
+      <div class="sp-prod" id="spProd">Spotify Premium (1 An)</div>
+      <div class="sp-meta">
+        <span class="sp-pulse"></span>
+        <span class="sp-time" id="spTime">Il y a 3 min</span>
+        <span class="sp-dot">·</span>
+        <span class="sp-status">Livraison immédiate</span>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
 

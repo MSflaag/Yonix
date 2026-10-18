@@ -56,6 +56,16 @@
   --shadow-md: 0 12px 32px -8px rgba(19, 24, 38, 0.08), 0 2px 6px rgba(19, 24, 38, 0.04);
   --shadow-lg: 0 24px 56px -12px rgba(19, 24, 38, 0.12), 0 4px 12px rgba(19, 24, 38, 0.05);
   --shadow-blue: 0 10px 24px -4px rgba(78, 124, 255, 0.38), 0 4px 10px -2px rgba(78, 124, 255, 0.2);
+  /* Frosted Glassmorphism (iOS / macOS style) */
+  --glass-bg: rgba(255, 255, 255, 0.82);
+  --glass-bg-subtle: rgba(255, 255, 255, 0.65);
+  --glass-blur: blur(24px) saturate(190%);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.85);
+  --glass-border-subtle: 1px solid rgba(226, 232, 240, 0.85);
+  --glass-inset: inset 0 1px 1px 0 rgba(255, 255, 255, 0.95);
+  --glass-shadow: 0 24px 60px -12px rgba(15, 23, 42, 0.16), 0 8px 24px -6px rgba(15, 23, 42, 0.08);
+  --glass-backdrop: rgba(15, 23, 42, 0.58);
+  --glass-backdrop-blur: blur(14px) saturate(140%);
 }
 
 html[data-theme="dark"] {
@@ -86,11 +96,22 @@ html[data-theme="dark"] {
   --shadow-sm: 0 4px 16px -2px rgba(0, 0, 0, 0.55), 0 1px 3px rgba(0, 0, 0, 0.38);
   --shadow-md: 0 12px 32px -8px rgba(0, 0, 0, 0.7), 0 2px 6px rgba(0, 0, 0, 0.48);
   --shadow-lg: 0 24px 56px -12px rgba(0, 0, 0, 0.85), 0 4px 12px rgba(0, 0, 0, 0.6);
+  /* Frosted Glassmorphism Dark (iOS / macOS style) */
+  --glass-bg: rgba(17, 24, 39, 0.82);
+  --glass-bg-subtle: rgba(15, 23, 42, 0.70);
+  --glass-blur: blur(28px) saturate(200%);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.14);
+  --glass-border-subtle: 1px solid rgba(255, 255, 255, 0.08);
+  --glass-inset: inset 0 1px 0 0 rgba(255, 255, 255, 0.18);
+  --glass-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.85), 0 0 30px rgba(78, 124, 255, 0.12);
+  --glass-backdrop: rgba(6, 10, 18, 0.72);
+  --glass-backdrop-blur: blur(18px) saturate(160%);
   color-scheme: dark;
 }
 
 html[data-theme="dark"] .nav-in {
-  background: rgba(10, 14, 23, 0.90);
+  background: var(--glass-bg);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
 }
 
 html[data-theme="dark"] #promoBanner {
@@ -388,18 +409,19 @@ a {
   align-items: center;
   gap: 20px;
   border-radius: 0px;
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(16px) saturate(160%);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   border: 1.5px solid transparent;
-  border-bottom-color: var(--border);
+  border-bottom-color: var(--glass-border-subtle);
+  box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.03), var(--glass-inset);
   pointer-events: auto;
   transition: max-width 0.44s cubic-bezier(0.16, 1, 0.3, 1),
               width 0.44s cubic-bezier(0.16, 1, 0.3, 1),
               height 0.44s cubic-bezier(0.16, 1, 0.3, 1),
               padding 0.44s cubic-bezier(0.16, 1, 0.3, 1),
               border-radius 0.44s cubic-bezier(0.16, 1, 0.3, 1),
-              background-color 0.35s ease,
+              background 0.35s ease,
               border-color 0.35s ease,
               box-shadow 0.35s ease;
 }
@@ -410,21 +432,21 @@ a {
   height: 58px;
   padding: 0 16px 0 22px;
   border-radius: 40px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(22px) saturate(180%);
-  -webkit-backdrop-filter: blur(22px) saturate(180%);
-  border-color: rgba(78, 124, 255, 0.34);
-  box-shadow: 0 16px 40px -6px rgba(19, 24, 38, 0.18),
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  box-shadow: 0 18px 45px -8px rgba(15, 23, 42, 0.16),
               0 4px 16px rgba(78, 124, 255, 0.12),
-              0 0 0 1px rgba(255, 255, 255, 0.85) inset;
+              var(--glass-inset);
 }
 
 html[data-theme="dark"] .nav.scrolled .nav-in {
-  background: rgba(10, 15, 28, 0.93);
-  border-color: rgba(78, 124, 255, 0.36);
-  box-shadow: 0 18px 44px -6px rgba(0, 0, 0, 0.82),
-              0 0 26px rgba(78, 124, 255, 0.16),
-              0 0 0 1px rgba(255, 255, 255, 0.07) inset;
+  background: var(--glass-bg);
+  border: var(--glass-border);
+  box-shadow: 0 22px 55px -10px rgba(0, 0, 0, 0.85),
+              0 0 28px rgba(78, 124, 255, 0.16),
+              var(--glass-inset);
 }
 
 .brand {
@@ -2735,8 +2757,9 @@ html[data-theme="dark"] .nav.scrolled .nav-in {
 .rv-modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(10, 14, 23, 0.72);
-  backdrop-filter: blur(8px);
+  background: var(--glass-backdrop);
+  backdrop-filter: var(--glass-backdrop-blur);
+  -webkit-backdrop-filter: var(--glass-backdrop-blur);
   z-index: 9999;
   display: none;
   align-items: center;
@@ -2749,13 +2772,15 @@ html[data-theme="dark"] .nav.scrolled .nav-in {
 }
 
 .rv-modal-card {
-  background: var(--white);
-  border: 1px solid var(--border);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
   border-radius: 24px;
   max-width: 560px;
   width: 100%;
   padding: 26px;
-  box-shadow: var(--shadow-xl);
+  box-shadow: var(--glass-shadow), var(--glass-inset);
   max-height: 92vh;
   overflow-y: auto;
   position: relative;
@@ -3001,10 +3026,16 @@ html.dark-theme .rv-dashboard,
 html.dark-theme .rv-card,
 html.dark-theme .rv-filter-bar,
 html.dark-theme .rv-search-input,
-html.dark-theme .rv-more-btn,
-html.dark-theme .rv-modal-card {
+html.dark-theme .rv-more-btn {
   background: #131824;
   border-color: #242E42;
+}
+
+html.dark-theme .rv-modal-card,
+html[data-theme="dark"] .rv-modal-card {
+  background: var(--glass-bg);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow), var(--glass-inset);
 }
 
 html.dark-theme .rv-score-block,
@@ -3512,12 +3543,14 @@ footer a:hover {
 
 /* ===== MODALS (#pdModal & #jbModal — Wide & Compact to Fit Entirely on Screen) ===== */
 dialog {
-  border: 1px solid var(--platinum);
+  border: var(--glass-border);
   border-radius: 22px;
   padding: 0;
   color: var(--ink);
-  background: var(--white);
-  box-shadow: var(--shadow-lg);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow), var(--glass-inset);
   width: min(940px, calc(100vw - 32px));
   max-height: calc(100dvh - 24px);
   overflow: auto;
@@ -3561,9 +3594,9 @@ dialog.is-closing {
 }
 
 dialog::backdrop {
-  background: rgba(10, 14, 23, 0.62);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: var(--glass-backdrop);
+  backdrop-filter: var(--glass-backdrop-blur);
+  -webkit-backdrop-filter: var(--glass-backdrop-blur);
   animation: dlgBackdropIn 0.24s ease forwards;
 }
 
@@ -3575,9 +3608,12 @@ dialog::backdrop {
   width: 34px;
   height: 34px;
   border-radius: 999px;
-  border: 1px solid var(--border);
-  background: var(--white);
+  border: var(--glass-border);
+  background: var(--glass-bg-subtle);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   color: var(--ink);
+  box-shadow: var(--shadow-xs), var(--glass-inset);
   font-size: 19px;
   line-height: 1;
   display: grid;
@@ -4256,18 +4292,21 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   width: min(830px, calc(100vw - 32px));
   max-height: calc(100dvh - 24px);
   overflow-y: auto;
-  border: 1px solid var(--border);
+  border: var(--glass-border);
   border-radius: 22px;
-  background: var(--white);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   color: var(--ink);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--glass-shadow), var(--glass-inset);
   padding: 22px 26px;
   margin: auto;
 }
 
 #cbPayModal::backdrop {
-  background: rgba(10, 14, 23, 0.72);
-  backdrop-filter: blur(8px);
+  background: var(--glass-backdrop);
+  backdrop-filter: var(--glass-backdrop-blur);
+  -webkit-backdrop-filter: var(--glass-backdrop-blur);
 }
 
 .cb-modal-grid {
@@ -4291,8 +4330,11 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   gap: 0;
   padding: 4px;
   border-radius: 14px;
-  background: var(--bg-alt);
-  border: 1px solid var(--border);
+  background: var(--glass-bg-subtle);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: var(--glass-border-subtle);
+  box-shadow: var(--glass-inset);
   margin-bottom: 14px;
   overflow: hidden;
   isolation: isolate;
@@ -4421,8 +4463,11 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   gap: 12px;
   padding: 16px 18px;
   border-radius: 14px;
-  background: var(--bg-alt);
-  border: 1px solid var(--border);
+  background: var(--glass-bg-subtle);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: var(--glass-border-subtle);
+  box-shadow: var(--shadow-xs), var(--glass-inset);
   color: var(--ink);
   margin-bottom: 0;
   box-sizing: border-box;
@@ -4550,8 +4595,11 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   gap: 12px;
   padding: 14px 16px;
   border-radius: 14px;
-  background: var(--bg-alt);
-  border: 1px solid var(--border);
+  background: var(--glass-bg-subtle);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: var(--glass-border-subtle);
+  box-shadow: var(--shadow-xs), var(--glass-inset);
   margin-bottom: 12px;
 }
 
@@ -4710,6 +4758,135 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   margin-bottom: 12px;
 }
 
+/* Discord fallback box when Stripe is under verification / maintenance */
+.cb-err-msg.cb-err-discord-box {
+  background: linear-gradient(135deg, rgba(88, 101, 242, 0.14) 0%, rgba(78, 124, 255, 0.18) 100%);
+  border: 1.5px solid rgba(88, 101, 242, 0.5);
+  box-shadow: 0 10px 28px -6px rgba(88, 101, 242, 0.28);
+  border-radius: 14px;
+  padding: 14px 16px;
+  color: var(--ink);
+  font-weight: 500;
+  margin-bottom: 14px;
+  animation: cbErrFadeIn 0.3s ease;
+}
+
+@keyframes cbErrFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.cb-err-discord-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.cb-err-discord-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #EF4444;
+}
+
+.cb-err-discord-sub {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--green);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.cb-err-discord-sub::before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+}
+
+.cb-err-discord-text {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--ink);
+  margin: 0 0 12px 0;
+}
+
+.cb-err-discord-text b {
+  color: #5865F2;
+  font-weight: 700;
+}
+
+.cb-err-discord-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: 12px;
+  background: #5865F2;
+  color: #FFFFFF !important;
+  font-weight: 800;
+  font-size: 14px;
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(88, 101, 242, 0.42);
+  transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.cb-err-discord-btn:hover {
+  background: #4752C4;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(88, 101, 242, 0.58);
+}
+
+.cb-err-discord-btn svg {
+  flex-shrink: 0;
+}
+
+.cb-discord-help-note {
+  margin-top: 12px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--glass-bg-subtle);
+  border: var(--glass-border-subtle);
+  text-align: center;
+  font-size: 12px;
+  color: var(--gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.cb-discord-help-note a {
+  color: #5865F2;
+  font-weight: 700;
+  text-decoration: underline;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cb-discord-help-note a:hover {
+  color: #4752C4;
+}
+
 .pcard-actions {
   display: flex;
   align-items: center;
@@ -4751,11 +4928,12 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   position: fixed;
   inset: 0;
   z-index: 190;
-  background: rgba(19, 24, 38, 0.45);
-  backdrop-filter: blur(3px);
+  background: var(--glass-backdrop);
+  backdrop-filter: var(--glass-backdrop-blur);
+  -webkit-backdrop-filter: var(--glass-backdrop-blur);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.25s;
+  transition: opacity 0.28s ease;
 }
 
 #cartOverlay.open {
@@ -4770,13 +4948,15 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   bottom: 0;
   width: min(400px, 100vw);
   z-index: 200;
-  background: var(--white);
-  border-left: 1px solid var(--border);
-  box-shadow: -16px 0 48px rgba(19, 24, 38, 0.12);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-left: var(--glass-border);
+  box-shadow: -20px 0 60px rgba(15, 23, 42, 0.22), var(--glass-inset);
   display: flex;
   flex-direction: column;
   transform: translateX(105%);
-  transition: transform 0.3s ease;
+  transition: transform 0.34s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 #cartDrawer.open {
@@ -4788,7 +4968,10 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   align-items: center;
   justify-content: space-between;
   padding: 20px 22px;
-  border-bottom: 1px solid var(--border);
+  background: var(--glass-bg-subtle);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: var(--glass-border-subtle);
 }
 
 .cart-head h3 {
@@ -4802,8 +4985,9 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   width: 34px;
   height: 34px;
   border-radius: 999px;
-  background: var(--bg);
-  border: 1px solid var(--border);
+  background: var(--glass-bg-subtle);
+  border: var(--glass-border);
+  box-shadow: var(--shadow-xs), var(--glass-inset);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -4825,8 +5009,11 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   gap: 12px;
   padding: 12px 14px;
   border-radius: 12px;
-  background: var(--bg);
-  border: 1px solid var(--border);
+  background: var(--glass-bg-subtle);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: var(--glass-border-subtle);
+  box-shadow: var(--shadow-xs), var(--glass-inset);
 }
 
 .cart-item-icon {
@@ -4944,8 +5131,10 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
 
 .cart-foot {
   padding: 18px 20px;
-  border-top: 1px solid var(--border);
-  background: var(--bg);
+  border-top: var(--glass-border-subtle);
+  background: var(--glass-bg-subtle);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .cart-total-row {
@@ -5016,19 +5205,22 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
 .auth-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(19, 24, 38, 0.5);
-  backdrop-filter: blur(4px);
+  background: var(--glass-backdrop);
+  backdrop-filter: var(--glass-backdrop-blur);
+  -webkit-backdrop-filter: var(--glass-backdrop-blur);
 }
 
 .auth-card {
   position: relative;
   z-index: 1;
   width: min(420px, 100%);
-  background: var(--white);
-  border: 1px solid var(--platinum);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
   border-radius: 22px;
   padding: 32px;
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--glass-shadow), var(--glass-inset);
 }
 
 .auth-close {
@@ -5041,9 +5233,10 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--gray);
-  background: var(--bg);
-  border: 1px solid var(--border);
+  color: var(--ink-secondary);
+  background: var(--glass-bg-subtle);
+  border: var(--glass-border);
+  box-shadow: var(--shadow-xs), var(--glass-inset);
 }
 
 .auth-tabs {
@@ -5215,9 +5408,9 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   position: fixed;
   inset: 0;
   z-index: 175;
-  background: rgba(8, 12, 22, 0.52);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
+  background: var(--glass-backdrop);
+  backdrop-filter: var(--glass-backdrop-blur);
+  -webkit-backdrop-filter: var(--glass-backdrop-blur);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.34s cubic-bezier(0.4, 0, 0.2, 1);
@@ -5237,13 +5430,12 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   z-index: 182;
   display: flex;
   flex-direction: column;
-  background: rgba(255, 255, 255, 0.97);
-  backdrop-filter: blur(22px) saturate(180%);
-  -webkit-backdrop-filter: blur(22px) saturate(180%);
-  border: 1.5px solid rgba(78, 124, 255, 0.30);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
   border-radius: 22px;
-  box-shadow: 0 22px 50px -8px rgba(19, 24, 38, 0.26),
-              0 4px 16px rgba(78, 124, 255, 0.12);
+  box-shadow: var(--glass-shadow), var(--glass-inset);
   transform-origin: top center;
   opacity: 0;
   transform: translateY(-10px) scaleY(0.92) scaleX(0.98);
@@ -5261,11 +5453,9 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
 }
 
 html[data-theme="dark"] #mobileMenu {
-  background: rgba(11, 16, 29, 0.97);
-  border-color: rgba(78, 124, 255, 0.36);
-  box-shadow: 0 24px 56px -6px rgba(0, 0, 0, 0.85),
-              0 0 28px rgba(78, 124, 255, 0.16),
-              0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+  background: var(--glass-bg);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow), var(--glass-inset);
 }
 
 #mobileMenu.open {
@@ -5413,11 +5603,11 @@ html[data-theme="dark"] #mobileMenu {
   z-index: 240;
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid var(--border);
-  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.16), 0 4px 14px rgba(0, 0, 0, 0.06);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  box-shadow: 0 18px 40px -10px rgba(15, 23, 42, 0.18), var(--glass-inset);
   border-radius: 16px;
   padding: 10px 14px 10px 12px;
   max-width: 360px;
@@ -5431,9 +5621,9 @@ html[data-theme="dark"] #mobileMenu {
 }
 
 html[data-theme="dark"] .sp-toast {
-  background: rgba(18, 24, 38, 0.94);
-  border-color: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  background: var(--glass-bg);
+  border: var(--glass-border);
+  box-shadow: 0 24px 48px -10px rgba(0, 0, 0, 0.75), var(--glass-inset);
 }
 
 .sp-toast.sp-show {
@@ -7135,6 +7325,14 @@ html[data-theme="dark"] .pd-stock-track {
           <span class="apay-stripe-tag">Stripe</span>
         </button>
       </div>
+
+      <div class="cb-discord-help-note">
+        <span>Besoin d'un autre moyen de paiement (PayPal, Crypto, etc.) ?</span>
+        <a href="https://discord.gg/5TEMCbpZXM" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+          Créer un ticket sur notre Discord
+        </a>
+      </div>
     </div>
   </div>
 </dialog>
@@ -7916,16 +8114,51 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
     syncCbOptionsHeight();
   }
 
-  function showCbError(msg) {
+  function showCbError(msg, errData = null) {
     const errEl = $('#cbErrMsg');
     if (!errEl) return;
     if (!msg) {
       errEl.style.display = 'none';
-      errEl.textContent = '';
-    } else {
-      errEl.textContent = msg;
-      errEl.style.display = 'block';
+      errEl.className = 'cb-err-msg';
+      errEl.innerHTML = '';
+      return;
     }
+
+    const isStripeRestricted =
+      errData?.isStripeVerification ||
+      (typeof msg === 'string' && (
+        msg.includes('cannot currently make live charges') ||
+        msg.includes('vérification Stripe') ||
+        msg.includes('vérification bancaire') ||
+        msg.includes('maintenance bancaire') ||
+        msg.includes('account_invalid') ||
+        msg.includes('charges_disabled')
+      ));
+
+    if (isStripeRestricted) {
+      errEl.className = 'cb-err-msg cb-err-discord-box';
+      errEl.innerHTML = `
+        <div class="cb-err-discord-head">
+          <span class="cb-err-discord-badge">Paiement en vérification Stripe</span>
+          <span class="cb-err-discord-sub">Support &amp; Commande 24/7</span>
+        </div>
+        <p class="cb-err-discord-text">
+          Le paiement en ligne par carte subit actuellement une vérification Stripe. Pour recevoir ton produit immédiatement, <b>crée un ticket sur notre serveur Discord</b> (Règlements acceptés : PayPal, Crypto, Virement ou Carte).
+        </p>
+        <a href="https://discord.gg/5TEMCbpZXM" target="_blank" rel="noopener" class="cb-err-discord-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+          <span>Créer un ticket sur notre Discord</span>
+        </a>
+      `;
+      errEl.style.display = 'block';
+      if (typeof syncCbOptionsHeight === 'function') syncCbOptionsHeight();
+      return;
+    }
+
+    errEl.className = 'cb-err-msg';
+    errEl.textContent = msg;
+    errEl.style.display = 'block';
+    if (typeof syncCbOptionsHeight === 'function') syncCbOptionsHeight();
   }
 
   function parseCentsHelper(raw) {
@@ -8127,7 +8360,7 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
         return;
       }
       if (!res.ok) {
-        showCbError(data.error || 'Impossible de lancer Apple Pay via Stripe. Réessaie ou utilise ta Carte Bancaire.');
+        showCbError(data.error || 'Impossible de lancer Apple Pay via Stripe. Réessaie ou utilise ta Carte Bancaire.', data);
         if (apayBtn) apayBtn.disabled = false;
         if (cbBtn) cbBtn.disabled = false;
         if (apayLbl) apayLbl.textContent = `Payer avec Apple Pay — ${pendingOrder.priceRaw || ''}`;
@@ -8278,7 +8511,7 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
         return;
       }
       if (!res.ok) {
-        showCbError(data.error || 'Paiement refusé par la banque. Vérifie les informations de ta carte.');
+        showCbError(data.error || 'Paiement refusé par la banque. Vérifie les informations de ta carte.', data);
         btn.disabled = false;
         if (apayBtn) apayBtn.disabled = false;
         lbl.textContent = `Payer par Carte Bancaire — ${pendingOrder.priceRaw || ''}`;

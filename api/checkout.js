@@ -21,6 +21,28 @@ const stripe = isRealStripeKey
 const localOrders = globalThis.__yonixOrders || (globalThis.__yonixOrders = new Map());
 const localProfiles = globalThis.__yonixProfiles || (globalThis.__yonixProfiles = new Map());
 
+function isStripeAccountRestrictedError(err) {
+  if (!err) return false;
+  const msg = String(err.message || '').toLowerCase();
+  const code = String(err.code || err.raw?.code || '').toLowerCase();
+  return (
+    msg.includes('cannot currently make live charges') ||
+    msg.includes('charges_disabled') ||
+    msg.includes('account_invalid') ||
+    code === 'account_invalid' ||
+    code === 'charges_disabled'
+  );
+}
+
+function sendStripeMaintenanceResponse(res) {
+  return res.status(503).json({
+    error: 'Paiement temporairement indisponible (vérification Stripe en cours).',
+    isStripeVerification: true,
+    discordUrl: 'https://discord.gg/5TEMCbpZXM',
+    discordMessage: 'Ouvre un ticket sur notre serveur Discord pour régler immédiatement par PayPal, Crypto, Virement ou Carte.',
+  });
+}
+
 function getSiteUrl(req) {
   const envUrl = (process.env.SITE_URL || '').trim().replace(/\/$/, '');
   if (envUrl && !envUrl.includes('your-project.vercel.app') && !envUrl.includes('localhost')) {
@@ -280,6 +302,9 @@ export default async function handler(req, res) {
         }
       } catch (pmErr) {
         console.warn('[checkout] Direct PaymentMethod creation failed:', pmErr.message);
+        if (isStripeAccountRestrictedError(pmErr)) {
+          return sendStripeMaintenanceResponse(res);
+        }
         if (pmErr.type === 'StripeCardError') {
           return res.status(402).json({
             error: pmErr.message || 'Ta banque a refusé cette carte bancaire.',
@@ -376,6 +401,9 @@ export default async function handler(req, res) {
         }
       } catch (piErr) {
         console.warn('[checkout] Direct PaymentIntent requires 3DS or checkout session:', piErr.message);
+        if (isStripeAccountRestrictedError(piErr)) {
+          return sendStripeMaintenanceResponse(res);
+        }
         if (piErr.type === 'StripeCardError') {
           return res.status(402).json({
             error: piErr.message || 'Ta banque a refusé le débit sur cette carte bancaire.',
@@ -493,6 +521,9 @@ export default async function handler(req, res) {
       });
     } catch (err) {
       console.error('[checkout] Stripe session creation failed:', err.message);
+      if (isStripeAccountRestrictedError(err)) {
+        return sendStripeMaintenanceResponse(res);
+      }
       return res.status(500).json({
         error: 'Erreur de connexion à Stripe : ' + (err.message || 'Réessaie dans un instant.'),
       });

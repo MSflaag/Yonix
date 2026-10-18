@@ -4758,30 +4758,58 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   margin-bottom: 12px;
 }
 
-/* Discord fallback box when Stripe is under verification / maintenance */
-.cb-err-msg.cb-err-discord-box {
-  background: linear-gradient(135deg, rgba(88, 101, 242, 0.14) 0%, rgba(78, 124, 255, 0.18) 100%);
-  border: 1.5px solid rgba(88, 101, 242, 0.5);
-  box-shadow: 0 10px 28px -6px rgba(88, 101, 242, 0.28);
-  border-radius: 14px;
-  padding: 14px 16px;
-  color: var(--ink);
-  font-weight: 500;
-  margin-bottom: 14px;
-  animation: cbErrFadeIn 0.3s ease;
+/* Discord fallback box when Stripe is under verification / maintenance (In-Place Swap) */
+.cb-panel-fade-out {
+  animation: cbPanelFadeOut 0.22s cubic-bezier(0.2, 0.9, 0.3, 1) forwards !important;
 }
 
-@keyframes cbErrFadeIn {
-  from { opacity: 0; transform: translateY(-4px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes cbPanelFadeOut {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-8px) scale(0.96); }
+}
+
+@keyframes cbDiscordSwapIn {
+  0% { opacity: 0; transform: translateY(12px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.cb-err-msg.cb-err-discord-box {
+  background: linear-gradient(135deg, rgba(88, 101, 242, 0.12) 0%, rgba(78, 124, 255, 0.14) 50%, rgba(30, 27, 75, 0.38) 100%);
+  border: 1.5px solid rgba(88, 101, 242, 0.5);
+  box-shadow: 0 16px 36px -8px rgba(88, 101, 242, 0.32), var(--glass-inset);
+  border-radius: 16px;
+  padding: 22px 20px;
+  color: var(--ink);
+  font-weight: 500;
+  margin-bottom: 0;
+  min-height: 242px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  box-sizing: border-box;
+  animation: cbDiscordSwapIn 0.34s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+html[data-theme="dark"] .cb-err-msg.cb-err-discord-box {
+  background: linear-gradient(135deg, rgba(88, 101, 242, 0.18) 0%, rgba(15, 23, 42, 0.92) 55%, rgba(30, 27, 75, 0.75) 100%);
+  border-color: rgba(99, 102, 241, 0.55);
+  box-shadow: 0 20px 42px -10px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(88, 101, 242, 0.25);
+}
+
+.cb-col-right.cb-discord-swapped .cb-pay-btns-row,
+.cb-col-right.cb-discord-swapped .cb-discord-help-note {
+  display: none !important;
 }
 
 .cb-err-discord-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
   gap: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .cb-err-discord-badge {
@@ -4792,7 +4820,7 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  padding: 3px 8px;
+  padding: 4px 9px;
   border-radius: 6px;
   background: rgba(239, 68, 68, 0.15);
   border: 1px solid rgba(239, 68, 68, 0.4);
@@ -4818,16 +4846,64 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   box-shadow: 0 0 8px var(--green);
 }
 
+.cb-err-discord-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(88, 101, 242, 0.18);
+  border: 1px solid rgba(88, 101, 242, 0.4);
+  color: #5865F2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2px auto 10px;
+  box-shadow: 0 0 20px rgba(88, 101, 242, 0.25);
+}
+
+.cb-err-discord-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 0 0 6px 0;
+  letter-spacing: -0.01em;
+}
+
 .cb-err-discord-text {
   font-size: 12.5px;
   line-height: 1.5;
-  color: var(--ink);
+  color: var(--ink-secondary);
   margin: 0 0 12px 0;
+  max-width: 330px;
 }
 
 .cb-err-discord-text b {
   color: #5865F2;
   font-weight: 700;
+}
+
+.cb-err-discord-tags {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.cb-err-discord-tag {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(88, 101, 242, 0.1);
+  border: 1px solid rgba(88, 101, 242, 0.25);
+  color: #5865F2;
+}
+
+html[data-theme="dark"] .cb-err-discord-tag {
+  background: rgba(88, 101, 242, 0.2);
+  border-color: rgba(99, 102, 241, 0.4);
+  color: #C7D2FE;
 }
 
 .cb-err-discord-btn {
@@ -4836,7 +4912,7 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
   justify-content: center;
   gap: 10px;
   width: 100%;
-  padding: 12px 18px;
+  padding: 13px 18px;
   border-radius: 12px;
   background: #5865F2;
   color: #FFFFFF !important;
@@ -4856,6 +4932,27 @@ html:not([data-theme="dark"]) .dlg-apple-pay {
 
 .cb-err-discord-btn svg {
   flex-shrink: 0;
+}
+
+.cb-err-discord-back {
+  background: transparent;
+  border: none;
+  color: var(--gray);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cb-err-discord-back:hover {
+  color: var(--blue);
+  text-decoration: underline;
 }
 
 .cb-discord-help-note {
@@ -5595,195 +5692,7 @@ html[data-theme="dark"] #mobileMenu {
   text-overflow: ellipsis;
 }
 
-/* ===== SOCIAL PROOF LIVE TOAST (FEATURE 1) ===== */
-.sp-toast {
-  position: fixed;
-  left: 22px;
-  bottom: 22px;
-  z-index: 240;
-  display: flex;
-  align-items: center;
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: var(--glass-border);
-  box-shadow: 0 18px 40px -10px rgba(15, 23, 42, 0.18), var(--glass-inset);
-  border-radius: 16px;
-  padding: 10px 14px 10px 12px;
-  max-width: 360px;
-  transform: translateY(120%) scale(0.94);
-  opacity: 0;
-  pointer-events: none;
-  visibility: hidden;
-  transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.36s ease, visibility 0.42s;
-  cursor: pointer;
-  user-select: none;
-}
 
-html[data-theme="dark"] .sp-toast {
-  background: var(--glass-bg);
-  border: var(--glass-border);
-  box-shadow: 0 24px 48px -10px rgba(0, 0, 0, 0.75), var(--glass-inset);
-}
-
-.sp-toast.sp-show {
-  transform: translateY(0) scale(1);
-  opacity: 1;
-  pointer-events: auto;
-  visibility: visible;
-}
-
-.sp-toast:hover {
-  transform: translateY(-2px) scale(1.01);
-  border-color: var(--blue-border);
-}
-
-.sp-body {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
-}
-
-.sp-avatar-wrap {
-  position: relative;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.sp-img {
-  width: 30px;
-  height: 30px;
-  object-fit: contain;
-  border-radius: 8px;
-}
-
-.sp-badge-check {
-  position: absolute;
-  bottom: -3px;
-  right: -3px;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background: #10B981;
-  color: #fff;
-  font-size: 9px;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid var(--white);
-}
-
-html[data-theme="dark"] .sp-badge-check {
-  border-color: #121826;
-}
-
-.sp-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-
-.sp-title-row {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 12px;
-  line-height: 1.25;
-}
-
-.sp-user {
-  font-weight: 700;
-  color: var(--ink);
-}
-
-.sp-action {
-  color: var(--ink-secondary);
-  font-weight: 500;
-}
-
-.sp-prod {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--blue);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 220px;
-}
-
-.sp-meta {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  color: var(--ink-secondary);
-}
-
-.sp-pulse {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #10B981;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
-  animation: spPulseAnim 1.8s infinite;
-  display: inline-block;
-  flex-shrink: 0;
-}
-
-@keyframes spPulseAnim {
-  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
-  70% { transform: scale(1.05); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
-  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-}
-
-.sp-dot {
-  opacity: 0.45;
-}
-
-.sp-status {
-  color: #10B981;
-  font-weight: 600;
-}
-
-.sp-close {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  border: none;
-  background: transparent;
-  color: var(--ink-secondary);
-  font-size: 13px;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  opacity: 0.6;
-  transition: opacity 0.2s, background 0.2s;
-  padding: 0;
-}
-
-.sp-close:hover {
-  opacity: 1;
-  background: rgba(0, 0, 0, 0.08);
-}
-
-html[data-theme="dark"] .sp-close:hover {
-  background: rgba(255, 255, 255, 0.12);
-}
 
 /* ===== STOCK & URGENCY INDICATORS (FEATURE 4) ===== */
 .pcard-stock-pill {
@@ -5840,118 +5749,9 @@ html[data-theme="dark"] .pcard-stock-pill.is-available {
   50% { opacity: 1; transform: scale(1.25); }
 }
 
-/* Modal Stock Urgency Box */
-.pd-stock-card {
-  margin: 12px 0 16px;
-  padding: 12px 14px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(245, 158, 11, 0.06) 100%);
-  border: 1px solid rgba(239, 68, 68, 0.2);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
 
-html[data-theme="dark"] .pd-stock-card {
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(245, 158, 11, 0.09) 100%);
-  border-color: rgba(239, 68, 68, 0.3);
-}
 
-.pd-stock-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  flex-wrap: wrap;
-}
 
-.pd-stock-left {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.pd-stock-pulse-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #EF4444;
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25);
-  animation: stockPulseAnim 1.5s infinite;
-  display: inline-block;
-  flex-shrink: 0;
-}
-
-.pd-stock-title {
-  font-size: 13px;
-  font-weight: 700;
-  color: #DC2626;
-  letter-spacing: -0.01em;
-}
-
-html[data-theme="dark"] .pd-stock-title {
-  color: #F87171;
-}
-
-.pd-stock-viewers {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 11.5px;
-  font-weight: 600;
-  color: var(--ink-secondary);
-  background: var(--bg);
-  padding: 3px 8px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-}
-
-.pd-stock-track {
-  width: 100%;
-  height: 6px;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  position: relative;
-}
-
-html[data-theme="dark"] .pd-stock-track {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.pd-stock-fill {
-  height: 100%;
-  border-radius: 999px;
-  background: linear-gradient(90deg, #F59E0B 0%, #EF4444 100%);
-  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.pd-stock-foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  font-size: 11px;
-  color: var(--ink-secondary);
-}
-
-.pd-stock-fast {
-  color: #10B981;
-  font-weight: 700;
-}
-
-@media (max-width: 680px) {
-  .sp-toast {
-    left: 12px;
-    right: 12px;
-    bottom: 12px;
-    max-width: calc(100vw - 24px);
-    padding: 9px 12px;
-  }
-  .sp-prod {
-    max-width: 190px;
-  }
-}
 
 /* ===== RESPONSIVE BREAKPOINTS (TABLET & PHONE OPTIMIZATION) ===== */
 @media (max-width: 960px) {
@@ -7062,28 +6862,6 @@ html[data-theme="dark"] .pd-stock-track {
     <div class="dlg-info">
       <h3 class="dlg-name" id="pdName"></h3>
       <p class="dlg-sub" id="pdSub"></p>
-
-      <!-- Stock & Urgency Card inside Product Modal (Feature 4) -->
-      <div class="pd-stock-card" id="pdStockCard">
-        <div class="pd-stock-row">
-          <div class="pd-stock-left">
-            <span class="pd-stock-pulse-dot" id="pdStockPulse"></span>
-            <b class="pd-stock-title" id="pdStockTitle">Stock limité : Plus que 3 clés disponibles</b>
-          </div>
-          <span class="pd-stock-viewers" id="pdStockViewers">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="13" r="3"/></svg>
-            <span id="pdViewersCount">14 personnes consultent</span>
-          </span>
-        </div>
-        <div class="pd-stock-track">
-          <div class="pd-stock-fill" id="pdStockFill" style="width: 82%"></div>
-        </div>
-        <div class="pd-stock-foot">
-          <span id="pdStockSoldText">82% des clés réservées aujourd'hui</span>
-          <span class="pd-stock-fast">⚡ Livraison instantanée 24/7</span>
-        </div>
-      </div>
-
       <p class="dlg-desc" id="pdDesc"></p>
       <ul class="dlg-feats" id="pdFeats"></ul>
       <p class="tier-label">Choisir une formule</p>
@@ -7591,7 +7369,7 @@ const PRODUCTS = [
     cat: 'services',
     name: 'Spotify Premium 1 an',
     sub: 'Activation sécurisée · Activé sur ton propre compte',
-    badge: '97 en stock',
+    badge: 'Populaire',
     accent: 'green',
     desc: 'Compte Spotify Premium pendant 12 mois, sans pub, qualité max.',
     feat: ['Activé sur ton propre compte', '12 mois complets sans publicité', 'Qualité audio maximale & mode hors-ligne', 'Activation sécurisée et rapide'],
@@ -7606,7 +7384,7 @@ const PRODUCTS = [
     cat: 'services',
     name: 'Netflix Premium 4K · 1 an',
     sub: 'Activation sécurisée · Qualité 4K Ultra HD',
-    badge: '53 en stock',
+    badge: '4K Ultra HD',
     accent: 'green',
     desc: 'Compte Netflix Premium en qualité 4K Ultra HD.',
     feat: ['Qualité 4K Ultra HD + HDR', 'Accès garanti pendant 12 mois', 'Compatible TV, PC, Mobile & Console', 'Livraison instantanée et support 24/7'],
@@ -7621,7 +7399,7 @@ const PRODUCTS = [
     cat: 'services',
     name: 'Crunchyroll FAN 1 AN',
     sub: 'Activation sécurisée · Activé sur ton propre compte',
-    badge: '95 en stock',
+    badge: 'Populaire',
     accent: 'green',
     desc: 'Abonnement Fan 12 mois, accès complet au catalogue anime sur votre propre compte.',
     feat: ['Activé sur ton propre compte', 'Accès complet au catalogue anime sans pub', 'Simulcast 1h après la diffusion au Japon', 'Abonnement Fan valable 12 mois'],
@@ -7636,7 +7414,7 @@ const PRODUCTS = [
     cat: 'services',
     name: 'Canva Pro · 1 an',
     sub: 'Activation sécurisée · Activé sur ton propre compte',
-    badge: '96 en stock',
+    badge: 'Licence Pro',
     accent: 'green',
     desc: 'Canva Pro pendant 1 an, tous les templates et outils premium.',
     feat: ['Activé sur ton propre compte', 'Tous les templates, photos et éléments Pro', 'Suppression d\'arrière-plan & outils IA inclus', 'Valable pendant 12 mois complets'],
@@ -8114,13 +7892,45 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
     syncCbOptionsHeight();
   }
 
+  window.resetCbDiscordSwap = function() {
+    showCbError('');
+  };
+
   function showCbError(msg, errData = null) {
     const errEl = $('#cbErrMsg');
+    const rightCol = $('.cb-col-right');
+    const cardPanel = $('#cbCardPanel');
+    const apayPanel = $('#cbApayPanel');
+    const cbBtn = $('#cbSubmitPayBtn');
+    const apayBtn = $('#cbApplePayBtn');
     if (!errEl) return;
+
     if (!msg) {
+      if (rightCol) rightCol.classList.remove('cb-discord-swapped');
       errEl.style.display = 'none';
       errEl.className = 'cb-err-msg';
       errEl.innerHTML = '';
+      if (cardPanel) {
+        cardPanel.classList.remove('cb-panel-fade-out');
+        cardPanel.style.display = activePayMethod === 'card' ? 'block' : 'none';
+        if (activePayMethod === 'card') {
+          cardPanel.classList.remove('cb-panel-fluid');
+          void cardPanel.offsetWidth;
+          cardPanel.classList.add('cb-panel-fluid');
+        }
+      }
+      if (apayPanel) {
+        apayPanel.classList.remove('cb-panel-fade-out');
+        apayPanel.style.display = activePayMethod === 'apple_pay' ? 'flex' : 'none';
+        if (activePayMethod === 'apple_pay') {
+          apayPanel.classList.remove('cb-panel-fluid');
+          void apayPanel.offsetWidth;
+          apayPanel.classList.add('cb-panel-fluid');
+        }
+      }
+      if (cbBtn) cbBtn.style.display = activePayMethod === 'card' ? 'inline-flex' : 'none';
+      if (apayBtn) apayBtn.style.display = activePayMethod === 'apple_pay' ? 'inline-flex' : 'none';
+      if (typeof syncCbOptionsHeight === 'function') syncCbOptionsHeight();
       return;
     }
 
@@ -8136,25 +7946,52 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
       ));
 
     if (isStripeRestricted) {
-      errEl.className = 'cb-err-msg cb-err-discord-box';
-      errEl.innerHTML = `
-        <div class="cb-err-discord-head">
-          <span class="cb-err-discord-badge">Paiement en vérification Stripe</span>
-          <span class="cb-err-discord-sub">Support &amp; Commande 24/7</span>
-        </div>
-        <p class="cb-err-discord-text">
-          Le paiement en ligne par carte subit actuellement une vérification Stripe. Pour recevoir ton produit immédiatement, <b>crée un ticket sur notre serveur Discord</b> (Règlements acceptés : PayPal, Crypto, Virement ou Carte).
-        </p>
-        <a href="https://discord.gg/5TEMCbpZXM" target="_blank" rel="noopener" class="cb-err-discord-btn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-          <span>Créer un ticket sur notre Discord</span>
-        </a>
-      `;
-      errEl.style.display = 'block';
-      if (typeof syncCbOptionsHeight === 'function') syncCbOptionsHeight();
+      const activePanel = activePayMethod === 'apple_pay' ? apayPanel : cardPanel;
+      if (activePanel) {
+        activePanel.classList.add('cb-panel-fade-out');
+      }
+
+      setTimeout(() => {
+        if (activePanel) {
+          activePanel.style.display = 'none';
+          activePanel.classList.remove('cb-panel-fade-out');
+        }
+        if (rightCol) rightCol.classList.add('cb-discord-swapped');
+
+        errEl.className = 'cb-err-msg cb-err-discord-box';
+        errEl.innerHTML = `
+          <div class="cb-err-discord-head">
+            <span class="cb-err-discord-badge">Paiement en vérification Stripe</span>
+            <span class="cb-err-discord-sub">Support 24/7 en direct</span>
+          </div>
+          <div class="cb-err-discord-icon-wrap">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+          </div>
+          <h4 class="cb-err-discord-title">Règlement direct via Discord</h4>
+          <p class="cb-err-discord-text">
+            Le paiement en ligne Stripe subit actuellement une vérification. Pour recevoir ton produit immédiatement, <b>crée un ticket sur notre Discord</b>.
+          </p>
+          <div class="cb-err-discord-tags">
+            <span class="cb-err-discord-tag">PayPal</span>
+            <span class="cb-err-discord-tag">Crypto</span>
+            <span class="cb-err-discord-tag">Virement</span>
+            <span class="cb-err-discord-tag">Carte Bancaire</span>
+          </div>
+          <a href="https://discord.gg/5TEMCbpZXM" target="_blank" rel="noopener" class="cb-err-discord-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+            <span>Créer un ticket sur notre Discord</span>
+          </a>
+          <button type="button" class="cb-err-discord-back" onclick="window.resetCbDiscordSwap()">
+            ← Revenir au moyen de paiement
+          </button>
+        `;
+        errEl.style.display = 'flex';
+        if (typeof syncCbOptionsHeight === 'function') syncCbOptionsHeight();
+      }, 200);
       return;
     }
 
+    if (rightCol) rightCol.classList.remove('cb-discord-swapped');
     errEl.className = 'cb-err-msg';
     errEl.textContent = msg;
     errEl.style.display = 'block';
@@ -8855,16 +8692,6 @@ const grid = $('#pgrid');
 const CART_ICON_SVG = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1.5"/><circle cx="19" cy="21" r="1.5"/><path d="M2.5 3h3l2.4 12.1a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 1.9-1.5L22.5 7H6.2"/></svg>`;
 
 function getProductStockBadge(p) {
-  const lowStockIds = ['basic-fit', 'spoofer', 'cs2', 'valorant', 'spotify', 'netflix'];
-  const highDemandIds = ['adobe', 'chatgpt', 'claude', 'canva', 'youtube', 'deezer', 'crunchyroll', 'gemini'];
-  if (lowStockIds.includes(p.id)) {
-    const qty = ((p.id.length * 3 + 2) % 4) + 2; // 2 to 5
-    return { cls: 'is-low', text: `⚡ Plus que ${qty} clés disponibles` };
-  }
-  if (highDemandIds.includes(p.id)) {
-    const qty = ((p.id.length * 4 + 1) % 5) + 4; // 4 to 8
-    return { cls: 'is-demand', text: `🔥 Forte demande · Stock : ${qty}` };
-  }
   return { cls: 'is-available', text: '✓ Clé immédiate · En stock' };
 }
 
@@ -8954,9 +8781,9 @@ JAILBREAKS.forEach(p => {
     <div class="pcard-body">
       <h3 class="pcard-name">${p.name}</h3>
       <p class="pcard-sub">${p.sub}</p>
-      <div class="pcard-stock-pill is-demand">
+      <div class="pcard-stock-pill is-available">
         <span class="pcard-stock-dot"></span>
-        <span>⚡ Prompt 2026 opérationnel · Instantané</span>
+        <span>✓ Prompt opérationnel · Instantané</span>
       </div>
       <div class="pcard-row">
         <div class="pcard-price"><span>Prix unique</span><div class="pcard-price-vals">${oldPriceHtml}<b>${p.price}</b></div></div>
@@ -9203,22 +9030,6 @@ function openProduct(id, initialTierIdx = null) {
 
   $('#pdName').textContent = curProd.name;
   $('#pdSub').textContent = curProd.sub;
-
-  // Update Stock & Urgency Card
-  const stockCard = $('#pdStockCard');
-  if (stockCard) {
-    const stockQty = ((curProd.id.length * 3 + 1) % 4) + 2; // deterministic 2-5
-    const viewers = ((curProd.id.length * 5 + 7) % 9) + 11; // deterministic 11-19
-    const soldPct = 80 + ((curProd.id.length * 7) % 15); // deterministic 80-94%
-    const titleEl = $('#pdStockTitle');
-    const viewersEl = $('#pdViewersCount');
-    const fillEl = $('#pdStockFill');
-    const soldEl = $('#pdStockSoldText');
-    if (titleEl) titleEl.textContent = `Stock limité : Plus que ${stockQty} clés disponibles`;
-    if (viewersEl) viewersEl.textContent = `${viewers} personnes consultent`;
-    if (fillEl) fillEl.style.width = `${soldPct}%`;
-    if (soldEl) soldEl.textContent = `${soldPct}% des clés déjà réservées aujourd'hui`;
-  }
 
   $('#pdDesc').textContent = curProd.desc;
   $('#pdFeats').innerHTML = curProd.feat.map(f => `<li>${f}</li>`).join('');
@@ -10697,100 +10508,6 @@ window.toast = toast;
   window.applyPromoFromField = function() {};
 })();
 
-/* ===== LIVE SOCIAL PROOF TOAST ENGINE (FEATURE 1) ===== */
-(function() {
-  const PURCHASES = [
-    { user: 'Lucas V.', city: 'Paris', prod: 'Spotify Premium (1 An)', prodId: 'spotify', img: '/logos/spotify.png', time: 'Il y a 3 min' },
-    { user: 'Maxime D.', city: 'Lyon', prod: 'HWID Spoofer (Clé Lifetime)', prodId: 'spoofer', img: '/logos/spoofer.png', time: 'Il y a 6 min' },
-    { user: 'Alexandre L.', city: 'Marseille', prod: 'Basic Fit Ultimate (Compte VIP)', prodId: 'basic-fit', img: '/logos/basicfit.png', time: 'Il y a 2 min' },
-    { user: 'Enzo R.', city: 'Bordeaux', prod: 'Cheat CS2 / CS:GO (Licence 1 Mois)', prodId: 'cs2', img: '/logos/csgo.png', time: 'Il y a 5 min' },
-    { user: 'Nathan M.', city: 'Lille', prod: 'Netflix Premium 4K (12 Mois)', prodId: 'netflix', img: '/logos/netflix.png', time: 'Il y a 9 min' },
-    { user: 'Thomas B.', city: 'Toulouse', prod: 'Cheat Valorant (Pass Mensuel)', prodId: 'valorant', img: '/logos/valorant.png', time: 'Il y a 4 min' },
-    { user: 'Sarah K.', city: 'Nantes', prod: 'ChatGPT Plus (Accès Illimité)', prodId: 'chatgpt', img: '/logos/chatgpt.png', time: 'Il y a 8 min' },
-    { user: 'Nicolas P.', city: 'Strasbourg', prod: 'YouTube Premium (Famille 1 An)', prodId: 'youtube', img: '/logos/youtube.png', time: 'Il y a 7 min' },
-    { user: 'Julien M.', city: 'Bruxelles', prod: 'Adobe Photoshop 2025', prodId: 'adobe', img: '/logos/adobe.png', time: 'Il y a 12 min' },
-    { user: 'Florian B.', city: 'Genève', prod: 'HWID Spoofer (Pass 1 Semaine)', prodId: 'spoofer', img: '/logos/spoofer.png', time: 'Il y a 4 min' },
-    { user: 'Dylan T.', city: 'Nice', prod: 'Crunchyroll Mega Fan (1 An)', prodId: 'crunchyroll', img: '/logos/crunchyroll.png', time: 'Il y a 11 min' },
-    { user: 'Kévin S.', city: 'Rennes', prod: 'Canva Pro Équipe (À vie)', prodId: 'canva', img: '/logos/canva.png', time: 'Il y a 6 min' }
-  ];
-
-  let currentIdx = Math.floor(Math.random() * PURCHASES.length);
-  let toastTimer = null;
-  let isHovered = false;
-  let isDismissed = false;
-  let activeProdId = null;
-
-  function showNextPurchase() {
-    if (isDismissed) return;
-    const toast = document.getElementById('socialProofToast');
-    if (!toast) return;
-
-    const p = PURCHASES[currentIdx];
-    currentIdx = (currentIdx + 1) % PURCHASES.length;
-    activeProdId = p.prodId;
-
-    const imgEl = document.getElementById('spImg');
-    const userEl = document.getElementById('spUser');
-    const prodEl = document.getElementById('spProd');
-    const timeEl = document.getElementById('spTime');
-
-    if (imgEl) {
-      imgEl.src = p.img;
-      imgEl.alt = p.prod;
-    }
-    if (userEl) userEl.textContent = `${p.user} (${p.city})`;
-    if (prodEl) prodEl.textContent = p.prod;
-    if (timeEl) timeEl.textContent = p.time;
-
-    toast.classList.add('sp-show');
-
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => {
-      if (!isHovered) hideToast();
-    }, 5500);
-  }
-
-  function hideToast() {
-    const toast = document.getElementById('socialProofToast');
-    if (toast) toast.classList.remove('sp-show');
-    scheduleNext();
-  }
-
-  function scheduleNext() {
-    if (isDismissed) return;
-    clearTimeout(toastTimer);
-    const delay = Math.floor(Math.random() * 12000) + 20000; // 20s - 32s
-    toastTimer = setTimeout(showNextPurchase, delay);
-  }
-
-  window.dismissSocialProof = function(e) {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    isDismissed = true;
-    const toast = document.getElementById('socialProofToast');
-    if (toast) toast.classList.remove('sp-show');
-  };
-
-  window.onSocialProofClick = function() {
-    if (activeProdId && typeof window.openProduct === 'function') {
-      window.openProduct(activeProdId);
-    }
-  };
-
-  const toastEl = document.getElementById('socialProofToast');
-  if (toastEl) {
-    toastEl.addEventListener('mouseenter', () => { isHovered = true; });
-    toastEl.addEventListener('mouseleave', () => {
-      isHovered = false;
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(hideToast, 2200);
-    });
-  }
-
-  setTimeout(showNextPurchase, 4500);
-})();
 
 /* ===== CART ENGINE (Zero Emojis — Uses Product Logos / SVG, 1..10 Quantity + Promo YONIX10 + Stripe TVA) ===== */
 (function() {
@@ -11256,30 +10973,6 @@ window.toggleTheme = function() {
   }
 };
 </script>
-
-<!-- LIVE SOCIAL PROOF TOAST (FEATURE 1) -->
-<div id="socialProofToast" class="sp-toast" aria-live="polite">
-  <button type="button" class="sp-close" onclick="window.dismissSocialProof(event)" aria-label="Fermer la notification">×</button>
-  <div class="sp-body" onclick="window.onSocialProofClick()">
-    <div class="sp-avatar-wrap">
-      <img id="spImg" class="sp-img" src="/logos/spotify.png" alt="Produit">
-      <span class="sp-badge-check" title="Achat vérifié">✓</span>
-    </div>
-    <div class="sp-info">
-      <div class="sp-title-row">
-        <span class="sp-user" id="spUser">Lucas V. (Paris)</span>
-        <span class="sp-action">vient de commander</span>
-      </div>
-      <div class="sp-prod" id="spProd">Spotify Premium (1 An)</div>
-      <div class="sp-meta">
-        <span class="sp-pulse"></span>
-        <span class="sp-time" id="spTime">Il y a 3 min</span>
-        <span class="sp-dot">·</span>
-        <span class="sp-status">Livraison immédiate</span>
-      </div>
-    </div>
-  </div>
-</div>
 
 </body>
 </html>

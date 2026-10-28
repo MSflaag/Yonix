@@ -59,6 +59,8 @@ export function resolveProductLogoPath(serviceIdOrName, fallbackPath) {
   if (q.includes('crunchyroll')) return '/logos/crunchyroll.png';
   if (q.includes('canva')) return '/logos/canva.png';
   if (q.includes('disney')) return '/logos/disneyplus.png';
+  if (q.includes('snapchat') || q.includes('snap')) return '/logos/snapchat.png';
+  if ((q.includes('deban') && q.includes('discord')) || q.includes('discord_deban') || q.includes('discord-deban')) return '/logos/discord_deban.png';
   if (q.includes('nitro') || q.includes('discord')) return '/logos/nitro_boost.png';
   if (q.includes('cs2') || q.includes('counter')) return '/logos/csgo.png';
   if (q.includes('valorant') || q.includes('val-')) return '/logos/valorant.png';

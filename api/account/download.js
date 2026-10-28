@@ -29,6 +29,9 @@ const ALLOWED_FILES = new Set([
   'cs2-loader.zip',
   'spoofer-temp.zip',
   'spoofer-perm.zip',
+  // Techs & Guides
+  'tech-deban-snapchat.txt',
+  'tech-deban-discord.txt',
 ]);
 
 function generateSignedUrl(filename, email) {

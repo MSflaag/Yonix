@@ -1,0 +1,115 @@
+================================================================================
+                    YONIX STORE — TECH DÉBAN SNAPCHAT (ÉDITION 2026)
+================================================================================
+Support & Communauté Discord : https://discord.gg/5TEMCbpZXM
+Produit officiel : Tech Déban Snapchat (Appareil SS06 & Compte)
+================================================================================
+
+AVERTISSEMENT & INTRODUCTION :
+Ce guide fournit la méthodologie complète et éprouvée pour contourner les bannissements
+Snapchat, qu'il s'agisse d'un bannissement d'appareil (code d'erreur SS06) ou d'un 
+verrouillage de compte (temporaire ou définitif). Suivez chaque étape minutieusement.
+
+--------------------------------------------------------------------------------
+PARTIE 1 : COMPRENDRE VOTRE TYPE DE BAN
+--------------------------------------------------------------------------------
+Snapchat applique deux types de sanctions distinctes :
+
+1. LE BAN APPAREIL (Code erreur "SS06" ou "Connexion impossible") :
+   - Votre compte fonctionne sur un autre téléphone, mais AUCUN compte ne peut se connecter 
+     sur votre téléphone actuel.
+   - Snapchat a blacklisté l'identifiant matériel de votre appareil (UDID / IMEI / ID publicitaire).
+   
+2. LE BAN COMPTE ("Votre compte a été temporairement / définitivement verrouillé") :
+   - Impossible de vous connecter sur n'importe quel appareil.
+   - Raisons fréquentes : utilisation de Snapchat++, spam de messages, signalements massifs, 
+     ou faux positif automatique de l'algorithme de modération.
+
+--------------------------------------------------------------------------------
+PARTIE 2 : TECH DÉBAN APPAREIL (CODE SS06 / BLOCAGE MATÉRIEL)
+--------------------------------------------------------------------------------
+
+MÉTHODE A — IPHONE (iOS) :
+1. Désinstallez complètement l'application Snapchat (Appuyez longuement > Supprimer l'app).
+2. Rendez-vous dans Réglages > Confidentialité et sécurité > Suivi.
+   -> Désactivez "Autoriser les demandes de suivi des apps".
+3. Allez dans Réglages > Général > Date et heure :
+   -> Désactivez le réglage automatique.
+   -> Avancez la date d'au moins 6 mois à 1 an dans le futur.
+4. Redémarrez complètement votre iPhone.
+5. Reconnectez-vous à l'App Store, réinstallez Snapchat (NE L'OUVREZ PAS ENCORE).
+6. Remettez la date et l'heure en "Automatique" dans les Réglages.
+7. Activez le Mode Avion pendant 15 secondes, puis désactivez-le pour forcer un renouvellement 
+   de votre adresse IP 4G/5G. (IMPORTANT : faites la connexion en 4G/5G, pas en Wi-Fi).
+8. Ouvrez Snapchat et connectez-vous. Le code SS06 est contourné.
+
+MÉTHODE B — ANDROID :
+1. Allez dans Paramètres > Applications > Snapchat > Stockage :
+   -> Cliquez sur "Vider le cache" puis sur "Supprimer les données".
+2. Désinstallez Snapchat.
+3. Allez dans Paramètres > Confidentialité (ou Google) > Annonces :
+   -> Cliquez sur "Réinitialiser l'identifiant publicitaire" ou "Supprimer l'identifiant".
+4. Redémarrez votre smartphone.
+5. Si votre modèle le supporte (Samsung Secure Folder / Xiaomi Dual Apps / Second Espace) :
+   -> Installez Snapchat dans le "Dossier Sécurisé" ou "Application Clônée".
+   -> Cette fonction génère un environnement sandbox vierge avec un identifiant matériel virtuel neuf.
+6. Connectez-vous en connexion mobile 4G/5G.
+
+--------------------------------------------------------------------------------
+PARTIE 3 : TECH DÉBAN COMPTE (DÉVERROUILLAGE & CONTESTATION)
+--------------------------------------------------------------------------------
+
+ÉTAPE 1 — DÉVERROUILLAGE DIRECT OFFICIEL :
+1. Ne tentez pas de vous connecter via l'application mobile.
+2. Ouvrez votre navigateur internet en mode navigation privée.
+3. Accédez à l'URL officielle de déverrouillage :
+   https://accounts.snapchat.com/accounts/unlock
+4. Connectez-vous avec vos identifiants.
+5. Cliquez sur le bouton jaune "Déverrouiller".
+   Si votre compte était temporairement bloqué, il sera immédiatement restauré.
+
+ÉTAPE 2 — SI LE COMPTE EST BLOQUÉ DÉFINITIVEMENT (RECOURS FORMEL) :
+Pour forcer un examen humain par un modérateur Snapchat, vous devez utiliser le portail 
+de contact officiel : https://support.snapchat.com/fr-FR/i-need-help
+Sélectionnez : "Je ne peux pas accéder à mon compte" > "Mon compte est piraté ou compromis".
+(Astuce cruciale : l'option "piraté" est traitée en priorité absolue par l'équipe humaine, 
+contrairement à l'option "compte verrouillé" qui renvoie une réponse automatique de bot).
+
+TEMPLATE DE RECOURS (À COPIER-COLLER DANS VOTRE TICKET) :
+
+--- Début du template ---
+Objet : Urgent - Mon compte a été compromis et verrouillé par erreur
+
+Bonjour l'équipe support Snapchat,
+
+Je vous contacte en urgence car mon compte Snapchat (@VOTRE_PSEUDO) a subi une tentative d'intrusion non autorisée ces derniers jours. Mon compte a été verrouillé par vos systèmes de sécurité, probablement suite à des actions suspectes effectuées par un tiers ayant eu accès à mes identifiants.
+
+Je n'ai personnellement jamais enfreint les Règles de la communauté. Ce compte est mon moyen de communication principal avec mes proches et contient des années de souvenirs importants (Photos, Stories, Flammes).
+
+J'ai d'ores et déjà sécurisé mon adresse email associée (VOTRE_EMAIL) ainsi que mon mot de passe. Je suis le propriétaire légitime et je me tiens à votre entière disposition pour vous fournir une pièce d'identité ou tout élément prouvant mon identité.
+
+Je vous demande respectueusement de bien vouloir réexaminer mon dossier et lever le verrouillage afin que je puisse récupérer l'accès à mon compte sécurisé.
+
+Informations de mon compte :
+- Nom d'utilisateur : @VOTRE_PSEUDO
+- Adresse email associée : VOTRE_EMAIL
+- Numéro de téléphone : VOTRE_NUMERO
+
+Merci infiniment pour votre aide et votre professionnalisme.
+Cordialement.
+--- Fin du template ---
+
+--------------------------------------------------------------------------------
+PARTIE 4 : RÈGLES D'OR POUR NE PLUS JAMAIS ÊTRE BANNI
+--------------------------------------------------------------------------------
+1. Ne téléchargez JAMAIS d'applications tierces non officielles (Snapchat++, tweaks, etc.).
+2. Évitez d'ajouter plus de 20 personnes par heure sur un compte neuf.
+3. Activez systématiquement l'authentification à deux facteurs (2FA).
+4. Ne partagez jamais de contenu signalé sensible par l'IA de détection automatique.
+
+================================================================================
+Besoin d'aide ? Un problème ?
+Rejoignez notre Discord pour une assistance personnalisée :
+Discord : https://discord.gg/5TEMCbpZXM
+Merci pour votre confiance sur Yonix Store !
+================================================================================

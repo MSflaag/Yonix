@@ -1,0 +1,111 @@
+================================================================================
+                    YONIX STORE — TECH DÉBAN DISCORD (ÉDITION 2026)
+================================================================================
+Support & Communauté Discord : https://discord.gg/5TEMCbpZXM
+Produit officiel : Tech Déban Discord (Compte ToS & Serveurs)
+================================================================================
+
+AVERTISSEMENT & INTRODUCTION :
+Ce guide complet vous donne les techniques avancées pour contourner les bannissements 
+de serveurs Discord et obtenir le débannissement de comptes désactivés par Discord Trust & Safety.
+
+--------------------------------------------------------------------------------
+PARTIE 1 : CONTOURNER UN BAN DE SERVEUR DISCORD (IP & MATÉRIEL)
+--------------------------------------------------------------------------------
+Lorsqu'un modérateur ou administrateur vous bannit d'un serveur Discord :
+- Votre compte est banni.
+- Votre adresse IP publique est bannie.
+- Vos cookies et votre identifiant client sont blacklistés pour ce serveur.
+
+Si vous recréez un compte sur le même PC sans suivre cette méthode, le nouveau compte 
+sera automatiquement banni à la seconde où vous cliquez sur l'invitation !
+
+MÉTHODE DE RECONNEXION PROPRE :
+1. Fermez complètement Discord (clic droit dans la barre des tâches > Quitter Discord).
+2. Nettoyez les données et traces locales Discord :
+   - Appuyez sur [Touche Windows] + [R].
+   - Tapez `%appdata%` et supprimez le dossier "discord".
+   - Tapez `%localappdata%` et supprimez le dossier "Discord".
+3. Changer d'adresse IP (OBLIGATOIRE) :
+   - Option 1 (Recommandée) : Partagez la connexion 4G/5G de votre smartphone avec votre PC. 
+     (Les IP mobiles changent à chaque activation du mode avion et ne sont jamais blacklistées).
+   - Option 2 : Redémarrez votre box internet pour obtenir une nouvelle adresse IP dynamique.
+   - Option 3 : Utilisez un VPN de qualité (Mullvad, ProtonVPN, NordVPN).
+4. Création du compte :
+   - Utilisez un profil de navigateur vierge ou une fenêtre de navigation privée.
+   - Créez un nouveau compte avec une adresse email valide (Gmail, Outlook ou Proton).
+   - N'associez PAS le même numéro de téléphone que votre compte banni !
+5. Rejoignez le serveur : vous pouvez désormais rejoindre le serveur sans aucun blocage.
+
+--------------------------------------------------------------------------------
+PARTIE 2 : DÉBANNISSEMENT DE COMPTE DISCORD SUSPENDU (TRUST & SAFETY)
+--------------------------------------------------------------------------------
+Si Discord a désactivé votre compte pour violation des Conditions d'utilisation (ToS) :
+
+ÉTAPE 1 — SOUMETTRE LE TICKET OFFICIEL :
+1. Rendez-vous sur le formulaire officiel : https://dis.gd/request
+2. Dans le menu déroulant, sélectionnez :
+   "Appeals & age update requests" (Contestations et demandes de mise à jour d'âge)
+3. Sélectionnez le sous-motif exact correspondant à votre situation :
+   - "Appeal an action taken on my account" (Contester une action sur mon compte)
+   ou
+   - "My account was compromised" (Mon compte a été piraté)
+
+--------------------------------------------------------------------------------
+PARTIE 3 : LES TEMPLATES DE CONTESTATION À FORT TAUX DE RÉUSSITE
+--------------------------------------------------------------------------------
+
+TEMPLATE 1 : COMPTE COMPROMIS / INFECTION TOKEN GRABBER (Le plus efficace)
+(À utiliser si vous avez été banni pour spam, raid ou messages suspects) :
+
+--- Début du template ---
+Subject: Urgent Appeal - Compromised Account Suspended by Mistake (Ticket Request)
+
+Hello Discord Trust & Safety Team,
+
+I am writing this appeal regarding my Discord account associated with the email: [VOTRE_EMAIL] (Username: [VOTRE_PSEUDO]).
+
+Recently, my account was unexpectedly suspended for alleged violations of the Community Guidelines. After thorough investigation on my computer, I discovered that my system was infected with malware (a token grabber disguised as a game file), which compromised my Discord token without my authorization or knowledge.
+
+The malicious actor used my session to send unauthorized messages and activities. I have since performed a complete antivirus scan, purged all malware, formatted my computer, and secured my registered email with two-factor authentication (2FA).
+
+I have always been a respectful member of Discord for years and have never intentionally violated Discord's Terms of Service. I kindly request a human review of my account logs around the date of the incident. You will clearly see foreign IP access and suspicious session activity.
+
+Please consider restoring my account so I can regain access to my communities, friends, and servers.
+
+Thank you very much for your time and understanding.
+
+Best regards,
+[VOTRE NOM / PSEUDO]
+--- Fin du template ---
+
+
+TEMPLATE 2 : ERREUR DE MODÉRATION / FAUX POSITIF :
+--- Début du template ---
+Subject: Formal Appeal - Incorrect Account Termination Review
+
+Dear Discord Trust & Safety Team,
+
+My Discord account ([VOTRE_EMAIL] / @[VOTRE_PSEUDO]) was recently disabled. I strongly believe this action is a false positive triggered by an automated system.
+
+I have always adhered strictly to Discord's Terms of Service and Community Guidelines. I have not participated in harassment, hate speech, spam, or raiding activities. I respectfully ask an agent to manually review the context of the flag placed on my account.
+
+I am more than willing to provide any clarification or identity confirmation required. I appreciate your dedication to keeping Discord safe and hope you can correct this mistake.
+
+Sincerely,
+[VOTRE NOM / PSEUDO]
+--- Fin du template ---
+
+--------------------------------------------------------------------------------
+PARTIE 4 : CONSEILS D'EXPERTS POUR LA RÉSOLUTION
+--------------------------------------------------------------------------------
+1. Ne relancez PAS votre ticket toutes les 24h : cela réinitialise votre position dans la file d'attente.
+2. Répondez calmement à l'email automatique initial pour confirmer que votre problème persiste.
+3. Le délai de réponse varie généralement de 48 heures à 7 jours ouvrés.
+
+================================================================================
+Besoin d'aide ? Un problème ?
+Rejoignez notre Discord pour une assistance personnalisée :
+Discord : https://discord.gg/5TEMCbpZXM
+Merci pour votre confiance sur Yonix Store !
+================================================================================

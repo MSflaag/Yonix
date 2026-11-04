@@ -12,16 +12,29 @@ const SITE_URL = (process.env.SITE_URL || 'http://localhost:3000').replace(/\/$/
 
 // Whitelist des fichiers téléchargeables (nom de fichier uniquement, pas de path traversal)
 const ALLOWED_FILES = new Set([
-  // Jailbreaks — ajoute tes vrais noms de fichiers ici
+  // Jailbreaks — noms canoniques et variantes
   'jailbreak-gemini.txt',
+  'Gemini_jailbreak.txt',
   'jailbreak-chatgpt.txt',
+  'chatgpt_jailbreak.txt',
   'jailbreak-claude.txt',
+  'claude_4.6_jailbreak.txt',
   'jailbreak-grok.txt',
+  'Grok_jailbreak.txt',
   'jailbreak-deepseek.txt',
+  'deepseek_jailbreak.txt',
+  'claude-haiku-5.5-jailbreak.txt',
+  'Haiku_5.5_jailbreak.txt',
   'jailbreak-kimi.txt',
+  'Kimi_2.6_jailbreak.txt',
   'jailbreak-qwen.txt',
+  'Qwen_Jailbreak.txt',
   'jailbreak-glm.txt',
+  'glm_jailbreak.txt',
   'jailbreak-arena.txt',
+  'arena_jailbreak.txt',
+  'antigravity_gemini.txt',
+  'antigravity_claude_jai.txt',
   'jailbreak-bundle.zip',
   // Cheats — loaders
   'valorant-emu-loader.zip',
@@ -30,8 +43,10 @@ const ALLOWED_FILES = new Set([
   'spoofer-temp.zip',
   'spoofer-perm.zip',
   // Techs & Guides
+  'tech-otacos.txt',
   'tech-deban-snapchat.txt',
   'tech-deban-discord.txt',
+  'tech-creation-jailbreak.txt',
 ]);
 
 function generateSignedUrl(filename, email) {

@@ -3432,8 +3432,9 @@ main {
     } catch (e) {}
   };
 
-  // ─── CATALOGUE DES 26 SERVICES & PRODUITS POUR LE CARROUSEL ADMIN + IMAGES EMAIL ───
+  // ─── CATALOGUE DES SERVICES & PRODUITS POUR LE CARROUSEL ADMIN + IMAGES EMAIL ───
   const ADMIN_SERVICES = [
+    { id: 'gemini-pro-18m', cat: 'services', catLabel: 'Services Premium', name: 'Gemini Pro+ 18 Mois', img: '/logos/gemini.png', defaultMsg: "Ton compte officiel Google Gemini Pro+ 18 Mois est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇" },
     { id: 'basic-fit', cat: 'services', catLabel: 'Services Premium', name: 'Basic Fit Ultimate', img: '/logos/basicfit.png', defaultMsg: "Ton compte Basic Fit est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇" },
     { id: 'photoshop-2025', cat: 'services', catLabel: 'Services Premium', name: 'ADOBE PHOTOSHOP 2025', img: '/logos/adobe.png', defaultMsg: "Ton accès Adobe Photoshop 2025 Premium est activé ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇" },
     { id: 'otacos', cat: 'services', catLabel: 'Services Premium', name: "O'Tacos — Tech Points Illimités", img: '/logos/otacos.png', defaultMsg: "Ta Tech O'Tacos Points Illimités est livrée et activée ! N'hésite pas à repasser commande ou à nous laisser un petit avis juste ici 👇" },
@@ -3870,6 +3871,10 @@ main {
 
       return `
       <div class="order-card">
+        <div style="margin-bottom:10px;padding:8px 12px;border-radius:9px;background:rgba(88,101,242,0.08);border:1px solid rgba(88,101,242,0.25);display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
+          <span style="font-size:12px;font-weight:700;color:var(--night)">Pour recevoir ton produit, crée un ticket sur notre Discord.</span>
+          <a href="https://discord.gg/5TEMCbpZXM" target="_blank" rel="noopener noreferrer" style="font-size:11.5px;font-weight:700;color:#5865F2;text-decoration:none">Créer un ticket →</a>
+        </div>
         <div class="order-top">
           <div class="order-left">
             <div class="order-ico" style="background:#0D1322;padding:6px;overflow:hidden">

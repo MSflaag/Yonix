@@ -1558,6 +1558,32 @@ html[data-theme="dark"] .nav.scrolled .nav-in {
   box-shadow: 0 4px 12px rgba(78, 124, 255, 0.35);
 }
 
+.bundle-badge.flash-badge {
+  background: linear-gradient(135deg, #EF4444 0%, #F97316 100%) !important;
+  color: #FFFFFF !important;
+  font-weight: 800 !important;
+  font-size: 11px !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  padding: 6px 14px !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4), 0 1px 3px rgba(0, 0, 0, 0.15) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+.bundle-badge.flash-badge span {
+  color: #FFFFFF !important;
+  font-weight: 800 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+.bundle-badge.flash-badge svg {
+  color: #FFFFFF !important;
+  fill: #FFFFFF !important;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3)) !important;
+}
+
 .bundle-left {
   background: var(--night);
   color: var(--white);
@@ -3706,6 +3732,25 @@ dialog[open] .dlg-vis svg {
   line-height: 1.45;
 }
 
+.dlg-ticket-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 10px;
+  padding: 6px 12px;
+  border-radius: 9px;
+  background: rgba(88, 101, 242, 0.08);
+  border: 1px solid rgba(88, 101, 242, 0.25);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 600;
+}
+.dlg-ticket-pill svg {
+  color: #5865F2;
+  fill: #5865F2;
+  flex-shrink: 0;
+}
+
 .dlg-feats {
   margin: 0 0 10px;
   padding: 0;
@@ -3761,7 +3806,7 @@ dialog[open] .dlg-vis svg {
   background: var(--blue-soft);
   box-shadow: 0 6px 18px rgba(78, 124, 255, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.35);
   pointer-events: none;
-  z-index: 1;
+  z-index: 5;
   opacity: 0;
   will-change: left, top, width, height, transform;
   transition: opacity 0.18s ease;
@@ -3864,7 +3909,7 @@ dialog[open] .dlg-vis svg {
   color: var(--white);
   text-transform: uppercase;
   white-space: nowrap;
-  z-index: 2;
+  z-index: 6;
   box-shadow: 0 2px 6px rgba(78, 124, 255, 0.35);
 }
 
@@ -6312,16 +6357,16 @@ html[data-theme="dark"] .pcard-stock-pill.is-available {
   <div class="wrap">
     <div class="hero-eyebrow rv">
       <i></i>
-      <span id="heroBadgeText">Marché de produit fiable · Livraison instantanée</span>
+      <span id="heroBadgeText">Services Officiels · En Stock</span>
     </div>
 
     <h1 class="rv">
-      <span id="heroTitle1">Tes outils gaming,</span><br>
-      <span class="text-blue" id="heroTitle2">livrés en secondes.</span>
+      <span id="heroTitle1">Abonnements & Logiciels,</span><br>
+      <span class="text-blue" id="heroTitle2">livrés en 1 clic.</span>
     </h1>
 
     <p class="hero-sub rv" id="heroSubText">
-      Accès instantané. Support Discord 24/7. Paiement sécurisé. Abonnements premium, outils professionnels et services garantis au meilleur prix.
+      Accès immédiat, tarifs avantageux et support 24/7. Comptes garantis et vérifiés.
     </p>
 
     <div class="hero-actions rv">
@@ -6349,7 +6394,7 @@ html[data-theme="dark"] .pcard-stock-pill.is-available {
           </div>
           <div class="showcase-status">
             <i></i>
-            <span>Services &amp; Abonnements Officiels · Livraison 24/7</span>
+            <span>Comptes Officiels · Activation 24/7</span>
           </div>
         </div>
 
@@ -6365,22 +6410,22 @@ html[data-theme="dark"] .pcard-stock-pill.is-available {
 <section class="sec bg-white" id="boutique">
   <div class="wrap">
     <div class="sec-head rv">
-      <div class="sec-label">Catalogue Complet</div>
-      <h2 class="nos-produits-title" id="productsTitle">Nos Services &amp; Abonnements</h2>
-      <p>L'intégralité des 11 services officiels disponibles sur yonix.store : Gemini Pro+, Adobe Photoshop, Spotify, Netflix, Basic Fit et plus.</p>
+      <div class="sec-label">Boutique</div>
+      <h2 class="nos-produits-title" id="productsTitle">Nos Services</h2>
+      <p>Abonnements et logiciels premium activés instantanément.</p>
     </div>
 
-    <div class="filter-bar rv" id="filterBar" role="group" aria-label="Filtres catégorie">
+    <div class="filter-bar rv" id="filterBar" role="group" aria-label="Filtres catégorie" style="display:none">
       <div class="flt-glider" id="filterBarGlider" aria-hidden="true"></div>
       <button class="flt active" data-cat="all">Tous les services</button>
       <button class="flt" data-cat="services">Services Premium</button>
     </div>
 
-    <!-- OFFRE FLASH : GEMINI PRO+ 18 MOIS — EN DESSOUS DES BUNDLES IA -->
+    <!-- OFFRE FLASH : GEMINI PRO+ 18 MOIS -->
     <div class="bundle-card free-cs2-offer-card rv" id="flashGeminiOfferCard">
-      <div class="bundle-badge" style="background:linear-gradient(135deg, rgba(239,68,68,0.22), rgba(245,158,11,0.28));border-color:rgba(245,158,11,0.55);color:#FDE68A">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-        <span>⚡ OFFRE FLASH — TEMPS LIMITÉ</span>
+      <div class="bundle-badge flash-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <span>⚡ OFFRE FLASH</span>
       </div>
       <div class="bundle-left" style="background:radial-gradient(circle at 50% 50%, rgba(78, 124, 255, 0.28), transparent 70%), var(--night)">
         <div class="bundle-emblem">
@@ -6388,13 +6433,13 @@ html[data-theme="dark"] .pcard-stock-pill.is-available {
         </div>
       </div>
       <div class="bundle-right">
-        <h3 class="bundle-name">Gemini Pro+ 18 Mois — Offre Flash</h3>
-        <p class="bundle-sub">Abonnement Google Gemini Pro+ 18 Mois complet à prix flash exclusif.</p>
+        <h3 class="bundle-name">Gemini Pro+ 18 Mois</h3>
+        <p class="bundle-sub">Accès officiel illimité aux modèles 1.5 &amp; 2.0 Pro avec 2M tokens de contexte. Pour recevoir ton produit, crée un ticket sur notre Discord.</p>
         <ul class="bundle-feats">
-          <li>Accès officiel illimité aux modèles Gemini 1.5 &amp; 2.0 Pro</li>
-          <li>Fenêtre contextuelle géante de 2 000 000 tokens &amp; Deep Research</li>
-          <li>Compte privé personnel sécurisé, actif pendant 18 mois complets</li>
-          <li>Livraison instantanée après commande · Support Discord 24/7</li>
+          <li>Modèles Gemini 1.5 &amp; 2.0 Pro sans limite</li>
+          <li>2 000 000 tokens de contexte &amp; Deep Research</li>
+          <li>Compte privé officiel garanti 18 mois</li>
+          <li>Activation immédiate · Support Discord 24/7</li>
         </ul>
         <div class="bundle-pricing">
           <div class="bundle-old"><span>Prix catalogue :</span><b>25,00€</b></div>
@@ -6416,7 +6461,7 @@ html[data-theme="dark"] .pcard-stock-pill.is-available {
     <!-- SEARCH BAR BELOW BUNDLE OFFER -->
     <div class="search-wrap rv" style="margin: 0 auto 36px;">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input id="searchInput" type="search" placeholder="Chercher un service… Gemini, Photoshop, Spotify, Netflix, Basic Fit" autocomplete="off">
+      <input id="searchInput" type="search" placeholder="Rechercher un service… (Gemini, Photoshop, Spotify, Netflix…)" autocomplete="off">
       <button class="search-btn" onclick="applySearch()">Rechercher</button>
     </div>
 
@@ -6435,8 +6480,8 @@ html[data-theme="dark"] .pcard-stock-pill.is-available {
   <div class="wrap">
     <div class="sec-head rv">
       <div class="sec-label">Garanties</div>
-      <h2>Achète sans risque</h2>
-      <p>Une infrastructure pensée pour la sécurité de tes comptes et une disponibilité continue.</p>
+      <h2>Pourquoi choisir Yonix ?</h2>
+      <p>Sécurité, rapidité et fiabilité assurées sur chaque commande.</p>
     </div>
     <div class="gcards" id="gcards"></div>
   </div>
@@ -6448,10 +6493,10 @@ html[data-theme="dark"] .pcard-stock-pill.is-available {
     <div class="sec-head rv">
       <div class="sec-label" style="display:inline-flex;align-items:center;gap:7px">
         <span style="width:8px;height:8px;border-radius:50%;background:#10b981;box-shadow:0 0 0 4px rgba(16,185,129,0.2);display:inline-block"></span>
-        Avis &amp; Preuves Clients Vérifiés
+        Avis Vérifiés
       </div>
-      <h2>Ils ont commandé. Ils valident.</h2>
-      <p>Retours authentiques publiés en direct par nos clients après livraison de leur commande sur le site ou Discord.</p>
+      <h2>Noté 4.9/5 par nos clients</h2>
+      <p>Retours authentiques publiés par notre communauté après commande.</p>
     </div>
 
     <!-- Rating Summary Dashboard (Bento 3-column) -->
@@ -6749,14 +6794,14 @@ html[data-theme="dark"] .pcard-stock-pill.is-available {
     <div class="sec-head rv">
       <div class="sec-label">Questions</div>
       <h2 class="section-title">FAQ</h2>
-      <p>Tout ce qu'il faut savoir sur la livraison, la sécurité et le fonctionnement de nos produits.</p>
+      <p>L'essentiel sur vos commandes, la livraison et nos garanties.</p>
     </div>
     <div class="faq-container rv">
-      <details><summary>Comment je reçois mon service après l'achat ?</summary><div>Immédiatement après paiement, les identifiants ou instructions de ton abonnement sont affichés sur la page de confirmation de commande, dans ton espace <b>Mon Profil</b> et envoyés par e-mail — aucune attente, 24h/24 et 7j/7. Si tu as besoin d'aide, ouvre un ticket sur <a href="https://discord.gg/5TEMCbpZXM" target="_blank" rel="noopener" style="color:var(--blue);font-weight:600">notre Discord</a>.</div></details>
-      <details><summary>Comment fonctionne l'Offre Flash Gemini Pro+ 18 Mois ?</summary><div>L'offre flash te donne accès à un compte officiel Google Gemini Pro+ (Advanced) pendant 18 mois complets avec accès illimité aux modèles Gemini 1.5 &amp; 2.0 Pro, 2 millions de tokens de contexte et les outils Google Workspace.</div></details>
-      <details><summary>Les abonnements sont-ils garantis ?</summary><div>Oui, absolument. Tous nos abonnements sont garantis durant toute la période souscrite. En cas de moindre souci, notre équipe support intervient en moins de 30 minutes pour rétablir ou remplacer l'accès.</div></details>
-      <details><summary>Quels moyens de paiement acceptez-vous ?</summary><div>Paiement 100% sécurisé via Stripe — carte Visa, Mastercard, American Express, Apple Pay et Link. Aucune donnée bancaire ne transite par nos serveurs.</div></details>
-      <details><summary>Où obtenir du support si j'ai un problème ?</summary><div>Rejoins <a href="https://discord.gg/5TEMCbpZXM" target="_blank" rel="noopener" style="color:var(--blue);font-weight:600">notre serveur Discord</a> et ouvre un ticket dans le salon prévu à cet effet. Le support répond en moyenne sous 30 minutes, 7j/7.</div></details>
+      <details><summary>Comment recevoir mon service après l'achat ?</summary><div>Vos identifiants et accès sont affichés instantanément sur l'écran de confirmation, dans votre profil et envoyés par e-mail.</div></details>
+      <details><summary>Comment fonctionne l'Offre Flash Gemini Pro+ 18 Mois ?</summary><div>Vous recevez un compte officiel Google Gemini Advanced actif pendant 18 mois avec accès illimité aux modèles 1.5 &amp; 2.0 Pro et 2M tokens.</div></details>
+      <details><summary>Les abonnements sont-ils garantis ?</summary><div>Oui. Chaque service bénéficie d'une garantie totale sur toute sa durée. En cas de problème, notre support intervient sous 30 minutes.</div></details>
+      <details><summary>Quels sont les moyens de paiement acceptés ?</summary><div>Paiement sécurisé via Stripe : Carte bancaire (Visa, Mastercard), Apple Pay et Link.</div></details>
+      <details><summary>Comment contacter le support ?</summary><div>Rejoignez <a href="https://discord.gg/5TEMCbpZXM" target="_blank" rel="noopener" style="color:var(--blue);font-weight:600">notre serveur Discord</a> et ouvrez un ticket. L'équipe répond 7j/7 en moins de 30 minutes.</div></details>
     </div>
   </div>
 </section>
@@ -6765,8 +6810,8 @@ html[data-theme="dark"] .pcard-stock-pill.is-available {
 <section class="sec bg-white">
   <div class="wrap">
     <div class="cta-band rv">
-      <h2>Rejoins nous !</h2>
-      <p>Rejoins notre communauté sur Discord pour suivre les annonces, échanger avec les membres et accéder au support 24/7.</p>
+      <h2>Besoin d'aide ?</h2>
+      <p>Rejoins notre communauté Discord pour toute question, support 24/7 et actualités en direct.</p>
       <div class="cta-btns">
         <a href="https://discord.gg/5TEMCbpZXM" target="_blank" rel="noopener" class="btn-blue">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
@@ -6807,6 +6852,10 @@ html[data-theme="dark"] .pcard-stock-pill.is-available {
       <h3 class="dlg-name" id="pdName"></h3>
       <p class="dlg-sub" id="pdSub"></p>
       <p class="dlg-desc" id="pdDesc"></p>
+      <div class="dlg-ticket-pill">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="#5865F2" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+        <span>Pour recevoir ton produit, crée un ticket sur notre Discord.</span>
+      </div>
       <ul class="dlg-feats" id="pdFeats"></ul>
       <p class="tier-label">Choisir une formule</p>
       <div class="tier-grid" id="tierGrid"></div>
@@ -7146,22 +7195,22 @@ $$('.js-cheat-preview').forEach(el => { el.src = RES_IMGS.cheat_preview; });
 const fav = $('#dynamicFavicon');
 if (fav && RES_IMGS.Yonix) fav.href = RES_IMGS.Yonix;
 
-/* ===== PRODUCTS (Exact yonix.store Data + New Services & Price Comparisons) ===== */
+/* ===== PRODUCTS (Streamlined & Concise Official Services) ===== */
 const PRODUCTS = [
   {
     id: 'gemini-pro-18m',
     img: RES_IMGS.gemini,
     cat: 'services',
-    name: 'Gemini pro+ 18mois',
-    sub: 'Google Gemini Advanced · Formule 18 Mois',
+    name: 'Gemini Pro+ 18 Mois',
+    sub: 'Google Gemini Advanced · 18 Mois',
     badge: 'Offre Flash',
     accent: 'blue',
-    desc: 'Abonnement officiel Google Gemini Pro+ (Advanced) actif pendant 18 mois complets. Accès illimité aux modèles Gemini 1.5 & 2.0 Pro, 2 000 000 tokens de contexte, Deep Research et intégration Google Workspace.',
+    desc: "Compte officiel Google Gemini Advanced 18 mois avec accès illimité à Gemini 1.5 & 2.0 Pro, 2M tokens et Deep Research. Pour recevoir ton produit, crée un ticket sur notre Discord.",
     feat: [
-      'Abonnement Google Gemini Pro+ 18 Mois complet',
-      'Modèles Gemini 1.5 & 2.0 Pro sans restriction',
-      'Fenêtre contextuelle géante de 2 000 000 tokens',
-      'Compte privé garanti avec support Discord 24/7'
+      "Modèles Gemini 1.5 & 2.0 Pro sans restriction",
+      "Fenêtre contextuelle de 2 000 000 tokens",
+      "Deep Research & Google Workspace intégrés",
+      "Compte privé garanti avec support 24/7"
     ],
     tiers: [
       { dur: 'Offre Flash 18 Mois (TVA incluse)', price: '5€', oldPrice: '25€', note: 'Offre Flash Spéciale', best: true },
@@ -7173,19 +7222,19 @@ const PRODUCTS = [
     id: 'photoshop-2025',
     img: RES_IMGS.adobe,
     cat: 'services',
-    name: 'ADOBE PHOTOSHOP 2025',
-    sub: 'Toutes les fonctionnalités premium · Version complète',
-    badge: 'Nouveau',
+    name: 'Adobe Photoshop 2025',
+    sub: 'Version complète · Outils IA inclus',
+    badge: 'Complet',
     accent: 'blue',
-    desc: 'Adobe Photoshop 2025 pour avoir toutes les fonctionnalités premium pour seulement 25€ au lieu de "314,35 €/yr incl. VAT".',
+    desc: "Version complète d'Adobe Photoshop 2025 avec tous les outils IA et retouche professionnelle débloqués. Pour recevoir ton produit, crée un ticket sur notre Discord.",
     feat: [
-      'Toutes les fonctionnalités premium Adobe Photoshop 2025',
-      'Seulement 25€ au lieu de 314,35 €/yr incl. VAT (-92%)',
-      'Outils IA & retouche professionnelle débloqués',
-      'Livraison rapide et support Discord 24/7'
+      "Toutes les fonctionnalités Photoshop 2025 débloquées",
+      "Outils IA Generative Fill et retouche avancée",
+      "Installation simple sur PC & Mac",
+      "Accès permanent et support 24/7"
     ],
     tiers: [
-      { dur: 'Complet 2025', price: '25€', oldPrice: '314,35 €/yr incl. VAT', note: 'Toutes les fonctionnalités premium', best: true }
+      { dur: 'Complet 2025', price: '25€', oldPrice: '314,35€/an', note: 'Version complète', best: true }
     ],
     svg: ''
   },
@@ -7194,18 +7243,18 @@ const PRODUCTS = [
     img: RES_IMGS.otacos,
     cat: 'services',
     name: "O'Tacos — Tech Points Illimités",
-    sub: 'Une tech pour avoir des points gratuits en illimité',
-    badge: 'Nouveau',
+    sub: 'Méthode exclusive en fichier .txt',
+    badge: 'Exclusif',
     accent: 'gold',
-    desc: "Une tech exclusive pour avoir des points O'Tacos gratuits en illimité. Méthode complète et instructions livrées instantanément en fichier .txt téléchargeable.",
+    desc: "Méthode exclusive pour accumuler des points fidélité O'Tacos en illimité. Pour recevoir ton produit, crée un ticket sur notre Discord.",
     feat: [
-      'Une tech pour avoir des points gratuits en illimité',
-      "Fonctionne dans tous les restaurants O'Tacos",
-      'Instructions complètes livrées en fichier .txt immédiat',
-      'Rentabilisé dès la première commande & support 24/7'
+      "Points fidélité en illimité",
+      "Valable dans tous les restaurants O'Tacos",
+      "Instructions livrées en fichier .txt immédiat",
+      "Rentabilisé dès la 1ère commande"
     ],
     tiers: [
-      { dur: 'Tech Illimitée (.txt)', price: '20€', oldPrice: '150,00€ / an', note: 'Points gratuits en illimité', best: true }
+      { dur: 'Tech Illimitée (.txt)', price: '20€', oldPrice: '150,00€/an', note: 'Points illimités', best: true }
     ],
     file: 'tech-otacos.txt',
     svg: ''
@@ -7214,16 +7263,21 @@ const PRODUCTS = [
     id: 'basic-fit',
     img: RES_IMGS.basicfit,
     cat: 'services',
-    name: 'Basic Fit Ultimate',
-    sub: 'Abonnement Fitness',
-    badge: 'Services',
+    name: 'Basic-Fit Ultimate',
+    sub: 'Accès illimité toutes salles',
+    badge: 'Fitness',
     accent: 'green',
-    desc: 'Accès complet Basic Fit Ultimate — toutes les salles. Comptes créés avec les techniques exclusives Yonix.',
-    feat: ['Accès illimité toutes salles Basic Fit', 'Abonnement Ultimate complet', 'Technique de création incluse (offre Tech)', 'Livraison instantanée et support 24/7'],
+    desc: "Abonnement complet Basic-Fit Ultimate valable dans l'ensemble des salles en Europe sans engagement. Pour recevoir ton produit, crée un ticket sur notre Discord.",
+    feat: [
+      "Accès illimité à toutes les salles Basic-Fit",
+      "Formule Ultimate avec accès amis",
+      "Activation rapide et sécurisée",
+      "Garantie totale sur la durée souscrite"
+    ],
     tiers: [
       { dur: '2 Mois Ultimate', price: '15,00€', oldPrice: '89,97€', note: 'Accès 2 mois' },
       { dur: '1 An Ultimate', price: '100,00€', oldPrice: '419,88€/an', note: 'Accès 12 mois', best: true },
-      { dur: 'Tech 2 Mois', price: '200,00€', oldPrice: '600,00€', note: 'Méthode création compte incluse' }
+      { dur: 'Tech 2 Mois', price: '200,00€', oldPrice: '600,00€', note: 'Méthode création incluse' }
     ],
     svg: ''
   },
@@ -7231,12 +7285,17 @@ const PRODUCTS = [
     id: 'chatgpt-fa',
     img: RES_IMGS.chatgpt,
     cat: 'services',
-    name: 'ChatGPT FA Unlimited',
-    sub: 'Accès IA Illimité',
-    badge: 'Services',
+    name: 'ChatGPT FA Illimité',
+    sub: 'Accès IA complet sans restriction',
+    badge: 'IA',
     accent: 'green',
-    desc: 'Comptes ChatGPT FA Unlimited — accès illimité sans restriction. Livraison automatique et instantanée.',
-    feat: ['Accès ChatGPT illimité FA', 'Sans restrictions', 'Livraison rapide et instantanée', 'Compatible tous appareils'],
+    desc: "Compte personnel ChatGPT FA avec accès illimité aux fonctionnalités avancées d'OpenAI. Pour recevoir ton produit, crée un ticket sur notre Discord.",
+    feat: [
+      "Accès illimité sans restriction d'usage",
+      "Modèles avancés et historique complet",
+      "Compatible ordinateur et mobile",
+      "Livraison immédiate après paiement"
+    ],
     tiers: [
       { dur: '1 Jour', price: '11,28€', oldPrice: '24,00€/mois', note: 'Accès 24h' },
       { dur: '7 Jours', price: '13,19€', oldPrice: '24,00€/mois', note: 'Accès 7 jours' },
@@ -7248,12 +7307,17 @@ const PRODUCTS = [
     id: 'nitro-boost',
     img: RES_IMGS.nitro_boost,
     cat: 'services',
-    name: 'Nitro Boost',
-    sub: 'Discord Nitro Boost',
-    badge: 'Services',
+    name: 'Discord Nitro Boost',
+    sub: 'Abonnement Nitro + 2 Boosts',
+    badge: 'Discord',
     accent: 'purple',
-    desc: 'Discord Nitro Boost à prix réduit — booste ton serveur et profite des avantages Nitro. Livraison rapide et instantanée.',
-    feat: ['Nitro Boost Discord', 'Avatars & profils personnalisés', 'Serveur boosté level up', 'Livraison instantanée 24/7'],
+    desc: "Abonnement Discord Nitro complet avec 2 boosts de serveur, émojis globaux et streaming HD. Pour recevoir ton produit, crée un ticket sur notre Discord.",
+    feat: [
+      "Discord Nitro complet + 2 Server Boosts",
+      "Émojis & stickers partout sur Discord",
+      "Streaming 1080p 60 FPS et fichiers 500 Mo",
+      "Activation rapide sur votre profil"
+    ],
     tiers: [
       { dur: '1 Mois', price: '6,28€', oldPrice: '9,99€/mois', note: 'Boost 1 mois' },
       { dur: '3 Mois', price: '6,96€', oldPrice: '29,97€', note: 'Boost 3 mois', best: true }
@@ -7264,14 +7328,19 @@ const PRODUCTS = [
     id: 'spotify',
     img: RES_IMGS.spotify,
     cat: 'services',
-    name: 'Spotify Premium 1 an',
-    sub: 'Activation sécurisée · Activé sur ton propre compte',
+    name: 'Spotify Premium 1 An',
+    sub: 'Activé sur votre propre compte',
     badge: 'Populaire',
     accent: 'green',
-    desc: 'Compte Spotify Premium pendant 12 mois, sans pub, qualité max.',
-    feat: ['Activé sur ton propre compte', '12 mois complets sans publicité', 'Qualité audio maximale & mode hors-ligne', 'Activation sécurisée et rapide'],
+    desc: "Abonnement Spotify Premium 12 mois sans publicité avec écoute hors-ligne et son haute fidélité. Pour recevoir ton produit, crée un ticket sur notre Discord.",
+    feat: [
+      "Activé directement sur votre compte personnel",
+      "12 mois d'écoute musicale sans pub",
+      "Téléchargement de musique hors-connexion",
+      "Qualité audio Very High & garantie 1 an"
+    ],
     tiers: [
-      { dur: '1 An', price: '35€', oldPrice: '133,44€/an', note: 'Activé sur ton propre compte', best: true }
+      { dur: '1 An', price: '35€', oldPrice: '133,44€/an', note: 'Activé sur votre compte', best: true }
     ],
     svg: ''
   },
@@ -7279,14 +7348,19 @@ const PRODUCTS = [
     id: 'netflix',
     img: RES_IMGS.netflix,
     cat: 'services',
-    name: 'Netflix Premium 4K · 1 an',
-    sub: 'Activation sécurisée · Qualité 4K Ultra HD',
+    name: 'Netflix Premium 4K · 1 An',
+    sub: 'Ultra HD 4K · Multi-écrans',
     badge: '4K Ultra HD',
     accent: 'green',
-    desc: 'Compte Netflix Premium en qualité 4K Ultra HD.',
-    feat: ['Qualité 4K Ultra HD + HDR', 'Accès garanti pendant 12 mois', 'Compatible TV, PC, Mobile & Console', 'Livraison instantanée et support 24/7'],
+    desc: "Abonnement Netflix Premium 12 mois avec streaming 4K HDR complet sur l'ensemble de vos appareils. Pour recevoir ton produit, crée un ticket sur notre Discord.",
+    feat: [
+      "Résolution 4K Ultra HD et Dolby Atmos",
+      "Garantie active pendant 12 mois complets",
+      "Compatible TV, box, PC, tablette et smartphone",
+      "Profil personnel sécurisé"
+    ],
     tiers: [
-      { dur: '1 An (4K Ultra HD)', price: '15€', oldPrice: '239,88€/an', note: 'Compte Netflix Premium 12 mois', best: true }
+      { dur: '1 An (4K Ultra HD)', price: '15€', oldPrice: '239,88€/an', note: 'Abonnement 12 mois', best: true }
     ],
     svg: ''
   },
@@ -7294,14 +7368,19 @@ const PRODUCTS = [
     id: 'crunchyroll',
     img: RES_IMGS.crunchyroll,
     cat: 'services',
-    name: 'Crunchyroll FAN 1 AN',
-    sub: 'Activation sécurisée · Activé sur ton propre compte',
-    badge: 'Populaire',
+    name: 'Crunchyroll Fan · 1 An',
+    sub: 'Activé sur votre propre compte',
+    badge: 'Anime',
     accent: 'green',
-    desc: 'Abonnement Fan 12 mois, accès complet au catalogue anime sur votre propre compte.',
-    feat: ['Activé sur ton propre compte', 'Accès complet au catalogue anime sans pub', 'Simulcast 1h après la diffusion au Japon', 'Abonnement Fan valable 12 mois'],
+    desc: "Abonnement Crunchyroll Fan 12 mois pour regarder l'ensemble du catalogue anime en simultané du Japon. Pour recevoir ton produit, crée un ticket sur notre Discord.",
+    feat: [
+      "Activé sur votre propre compte personnel",
+      "Catalogue anime intégral sans publicité",
+      "Épisodes en simulcast 1h après le Japon",
+      "Qualité Full HD et garantie 12 mois"
+    ],
     tiers: [
-      { dur: '1 An FAN', price: '28€', oldPrice: '71,88€/an', note: 'Activé sur ton propre compte', best: true }
+      { dur: '1 An FAN', price: '28€', oldPrice: '71,88€/an', note: 'Activé sur votre compte', best: true }
     ],
     svg: ''
   },
@@ -7309,14 +7388,19 @@ const PRODUCTS = [
     id: 'canva',
     img: RES_IMGS.canva,
     cat: 'services',
-    name: 'Canva Pro · 1 an',
-    sub: 'Activation sécurisée · Activé sur ton propre compte',
-    badge: 'Licence Pro',
+    name: 'Canva Pro · 1 An',
+    sub: 'Activé sur votre propre compte',
+    badge: 'Design',
     accent: 'green',
-    desc: 'Canva Pro pendant 1 an, tous les templates et outils premium.',
-    feat: ['Activé sur ton propre compte', 'Tous les templates, photos et éléments Pro', 'Suppression d\'arrière-plan & outils IA inclus', 'Valable pendant 12 mois complets'],
+    desc: "Accès Canva Pro 12 mois avec tous les templates premium, le détourage en 1 clic et les outils IA. Pour recevoir ton produit, crée un ticket sur notre Discord.",
+    feat: [
+      "Activé sur votre propre compte personnel",
+      "Accès complet à 100M+ photos, vidéos et éléments",
+      "Outils IA avancés et suppression d'arrière-plan",
+      "1 To de stockage cloud et garantie 1 an"
+    ],
     tiers: [
-      { dur: '1 An Pro', price: '15€', oldPrice: '110,00€/an', note: 'Activé sur ton propre compte', best: true }
+      { dur: '1 An Pro', price: '15€', oldPrice: '110,00€/an', note: 'Activé sur votre compte', best: true }
     ],
     svg: ''
   },
@@ -7324,14 +7408,19 @@ const PRODUCTS = [
     id: 'disneyplus',
     img: RES_IMGS.disneyplus,
     cat: 'services',
-    name: 'Disney+ 1 an',
-    sub: 'Activation sécurisée · Livraison instantanée',
-    badge: 'Livraison instantanée',
+    name: 'Disney+ Premium · 1 An',
+    sub: 'Catalogue complet · 12 Mois',
+    badge: 'Streaming',
     accent: 'green',
-    desc: 'Disney+ pendant 12 mois : Disney, Pixar, Marvel, Star Wars et National Geographic.',
-    feat: ['Catalogue complet Disney, Pixar, Marvel & Star Wars', 'Abonnement valable pendant 12 mois', 'Streaming haute définition sans publicité', 'Livraison instantanée après paiement'],
+    desc: "Abonnement Disney+ 12 mois avec Disney, Pixar, Marvel, Star Wars et Star en qualité 4K UHD. Pour recevoir ton produit, crée un ticket sur notre Discord.",
+    feat: [
+      "Catalogue complet Disney, Marvel, Pixar et Star Wars",
+      "Streaming 4K UHD & HDR sans interruption",
+      "Abonnement garanti pendant 12 mois",
+      "Livraison immédiate après paiement"
+    ],
     tiers: [
-      { dur: '1 An', price: '15€', oldPrice: '139,90€/an', note: 'Livraison instantanée', best: true }
+      { dur: '1 An', price: '15€', oldPrice: '139,90€/an', note: 'Livraison immédiate', best: true }
     ],
     svg: ''
   }
@@ -7348,10 +7437,10 @@ const BUNDLE = {
 };
 
 const WHY = [
-  ['Comptes Officiels', 'Tous nos abonnements sont légitimes, activés directement et garantis sans interruption.', '<path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/>'],
-  ['Livraison Instantanée', 'Accès immédiat après paiement par carte bancaire ou Apple Pay avec confirmation par email.', '<path d="M4 12a8 8 0 1 0 3-6.2M4 4v4.5h4.5"/>'],
-  ['Support Discord 24/7', 'Un membre de l\'équipe répond en moins de 30 minutes pour toute question ou activation.', '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>'],
-  ['Garantie & Remplacement', 'En cas de problème sur un compte, remplacement rapide et garanti pendant toute la durée.', '<path d="M12 22V12M12 12L5 6.5M12 12l7-5.5M12 12V2M5 6.5V17l7 5 7-5V6.5"/>']
+  ['Comptes Officiels', 'Abonnements légitimes et durables sans interruption.', '<path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/>'],
+  ['Livraison Immédiate', 'Identifiants et accès fournis dès la validation du paiement.', '<path d="M4 12a8 8 0 1 0 3-6.2M4 4v4.5h4.5"/>'],
+  ['Support 24/7', 'Assistance rapide sur Discord en moins de 30 minutes.', '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>'],
+  ['Garantie Totale', 'Remplacement immédiat pendant toute la période souscrite.', '<path d="M12 22V12M12 12L5 6.5M12 12l7-5.5M12 12V2M5 6.5V17l7 5 7-5V6.5"/>']
 ];
 
 /* ===== SCROLL REVEAL (Simple 500ms Fade-In + Fixed Floating Bubble Navbar) ===== */
@@ -8862,15 +8951,16 @@ function syncTierGlider(animate = true) {
   tg.classList.add('has-tier-glider');
 
   if (animate && typeof glider.animate === 'function' && (oldRect.left !== newLeft || oldRect.top !== newTop)) {
-    const dx = newLeft - oldRect.left;
+    const oldCenter = oldRect.left + oldRect.width / 2;
+    const newCenter = newLeft + newWidth / 2;
+    const dx = newCenter - oldCenter;
     const dy = newTop - oldRect.top;
     const sameRow = Math.abs(dy) < 10;
-    const stretchLeft = sameRow
-      ? (dx >= 0 ? oldRect.left + dx * 0.25 : newLeft)
-      : oldRect.left + dx * 0.45;
-    const stretchWidth = sameRow
-      ? Math.max(newWidth, (dx >= 0 ? (newLeft + newWidth - stretchLeft) : (oldRect.left + oldRect.width - Math.abs(dx) * 0.25 - newLeft)))
-      : newWidth * 1.06;
+    const midCenter = oldCenter + dx * 0.48;
+    const midWidth = sameRow
+      ? Math.min(newWidth * 1.35, Math.abs(dx) * 0.55 + Math.min(oldRect.width, newWidth))
+      : newWidth * 1.08;
+    const midLeft = midCenter - midWidth / 2;
 
     glider.animate([
       {
@@ -8879,25 +8969,27 @@ function syncTierGlider(animate = true) {
         width: `${oldRect.width}px`,
         height: `${oldRect.height}px`,
         transform: 'scale(1, 1)',
-        borderRadius: '11px'
+        borderRadius: '11px',
+        boxShadow: '0 6px 18px rgba(78, 124, 255, 0.22)'
       },
       {
-        left: `${stretchLeft}px`,
+        left: `${midLeft}px`,
         top: `${oldRect.top + dy * 0.48}px`,
-        width: `${stretchWidth}px`,
+        width: `${midWidth}px`,
         height: `${newHeight}px`,
-        transform: sameRow ? 'scaleY(0.86)' : 'scale(0.92, 1.08)',
-        borderRadius: '17px',
-        offset: 0.38
+        transform: sameRow ? 'scaleY(0.92)' : 'scale(0.95, 1.05)',
+        borderRadius: '14px',
+        boxShadow: '0 12px 26px rgba(78, 124, 255, 0.35)',
+        offset: 0.44
       },
       {
-        left: `${newLeft + (dx >= 0 ? 2.5 : -2.5)}px`,
+        left: `${newLeft + (dx >= 0 ? 2 : -2)}px`,
         top: `${newTop}px`,
         width: `${newWidth}px`,
         height: `${newHeight}px`,
-        transform: 'scale(0.97, 1.03)',
-        borderRadius: '10px',
-        offset: 0.76
+        transform: 'scale(0.98, 1.02)',
+        borderRadius: '11px',
+        offset: 0.8
       },
       {
         left: `${newLeft}px`,
@@ -8905,10 +8997,11 @@ function syncTierGlider(animate = true) {
         width: `${newWidth}px`,
         height: `${newHeight}px`,
         transform: 'scale(1, 1)',
-        borderRadius: '11px'
+        borderRadius: '11px',
+        boxShadow: '0 6px 18px rgba(78, 124, 255, 0.22)'
       }
     ], {
-      duration: 500,
+      duration: 380,
       easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
     });
   }
@@ -10551,16 +10644,16 @@ window.toast = toast;
   const FLAG_FR = `<svg viewBox="0 0 3 2"><rect width="1" height="2" fill="#002395"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ED2939"/></svg>`;
   const FLAG_EN = `<svg viewBox="0 0 60 30"><rect width="60" height="30" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="3"/><path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/><path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/></svg>`;
 
-  const T = {
+    const T = {
     fr: {
       nav_boutique: 'Boutique', nav_avis: 'Avis', nav_faq: 'FAQ',
       nav_login: 'Se connecter',
-      hero_badge: 'Marché de produit fiable · Livraison instantanée',
-      hero_title_1: 'Tes abonnements & services,',
-      hero_title_2: 'livrés en secondes.',
-      hero_sub: 'Accès instantané. Support Discord 24/7. Paiement sécurisé. Abonnements premium, outils professionnels et services officiels garantis.',
+      hero_badge: 'Services Officiels · En Stock',
+      hero_title_1: 'Abonnements & Logiciels,',
+      hero_title_2: 'livrés en 1 clic.',
+      hero_sub: 'Accès immédiat, tarifs avantageux et support 24/7. Comptes garantis et vérifiés.',
       hero_cta2: 'Voir la boutique',
-      products_title: 'Nos Services & Abonnements',
+      products_title: 'Nos Services',
       cart_title: 'Mon panier',
       cart_checkout: 'Passer la commande',
       faq_title: 'FAQ'
@@ -10568,12 +10661,12 @@ window.toast = toast;
     en: {
       nav_boutique: 'Shop', nav_avis: 'Reviews', nav_faq: 'FAQ',
       nav_login: 'Sign in',
-      hero_badge: 'Trusted digital marketplace · Instant delivery',
-      hero_title_1: 'Your premium subscriptions,',
-      hero_title_2: 'delivered in seconds.',
-      hero_sub: 'Instant access. 24/7 Discord support. Secure checkout. Official premium subscriptions, professional tools & guaranteed services.',
+      hero_badge: 'Official Services · In Stock',
+      hero_title_1: 'Subscriptions & Software,',
+      hero_title_2: 'delivered in 1 click.',
+      hero_sub: 'Instant access, low prices and 24/7 support. Full warranty on every service.',
       hero_cta2: 'Browse shop',
-      products_title: 'Our Products',
+      products_title: 'Our Services',
       cart_title: 'My cart',
       cart_checkout: 'Proceed to checkout',
       faq_title: 'FAQ'

@@ -1823,6 +1823,7 @@ html[data-theme="dark"] .nav.scrolled .nav-in {
   transition: transform 0.25s ease;
 }
 
+.pcard[data-id="gemini-pro-18m"] .pcard-logo-img,
 .pcard[data-id="cs2"] .pcard-logo-img,
 .pcard[data-id="basic-fit"] .pcard-logo-img,
 .pcard[data-id="disneyplus"] .pcard-logo-img {
@@ -6366,13 +6367,12 @@ html[data-theme="dark"] .pcard-stock-pill.is-available {
     <div class="sec-head rv">
       <div class="sec-label">Catalogue Complet</div>
       <h2 class="nos-produits-title" id="productsTitle">Nos Produits</h2>
-      <p>L'intégralité des 27 produits disponibles sur yonix.store : CS2, Valorant, HWID Spoofer, Services Premium et Jailbreaks IA.</p>
+      <p>L'intégralité des 29 produits disponibles sur yonix.store : Gemini Pro+, Valorant, HWID Spoofer, Services Premium et Jailbreaks IA.</p>
     </div>
 
     <div class="filter-bar rv" id="filterBar" role="group" aria-label="Filtres catégorie">
       <div class="flt-glider" id="filterBarGlider" aria-hidden="true"></div>
       <button class="flt active" data-cat="all">Tous</button>
-      <button class="flt" data-cat="cs2">CS2</button>
       <button class="flt" data-cat="valorant">Valorant</button>
       <button class="flt" data-cat="spoofer">Spoofer</button>
       <button class="flt" data-cat="services">Services</button>
@@ -6428,44 +6428,47 @@ html[data-theme="dark"] .pcard-stock-pill.is-available {
       </div>
     </div>
 
-    <!-- OFFRE GRATUITE 7 JOURS : CLÉ 24H CS:GO / CS2 — EN DESSOUS DES BUNDLES IA -->
-    <div class="bundle-card free-cs2-offer-card rv" id="freeCs2OfferCard">
-      <div class="bundle-badge">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        <span>OFFRE GRATUITE 7 JOURS</span>
+    <!-- OFFRE FLASH : GEMINI PRO+ 18 MOIS — EN DESSOUS DES BUNDLES IA -->
+    <div class="bundle-card free-cs2-offer-card rv" id="flashGeminiOfferCard">
+      <div class="bundle-badge" style="background:linear-gradient(135deg, rgba(239,68,68,0.22), rgba(245,158,11,0.28));border-color:rgba(245,158,11,0.55);color:#FDE68A">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <span>⚡ OFFRE FLASH — TEMPS LIMITÉ</span>
       </div>
-      <div class="bundle-left">
+      <div class="bundle-left" style="background:radial-gradient(circle at 50% 50%, rgba(78, 124, 255, 0.28), transparent 70%), var(--night)">
         <div class="bundle-emblem">
-          <img src="/logos/csgo.png" alt="CS:GO">
+          <img src="/logos/gemini.png" alt="Gemini Pro+ 18 Mois">
         </div>
       </div>
       <div class="bundle-right">
-        <h3 class="bundle-name">Cheat CS:GO — Clé 24H Gratuite</h3>
-        <p class="bundle-sub">Clé 24H offerte — Disponible pendant 7 jours.</p>
+        <h3 class="bundle-name">Gemini Pro+ 18 Mois — Offre Flash</h3>
+        <p class="bundle-sub">Abonnement Google Gemini Pro+ 18 Mois complet à prix flash exclusif.</p>
         <ul class="bundle-feats">
-          <li>Clé de licence 24H offerte pour le Cheat CS:GO / CS2 Loader</li>
-          <li>Offre disponible pendant 7 jours</li>
-          <li>Accès complet aux fonctionnalités du Loader</li>
-          <li>Livraison instantanée dans ton espace Mon Profil</li>
+          <li>Accès officiel illimité aux modèles Gemini 1.5 &amp; 2.0 Pro</li>
+          <li>Fenêtre contextuelle géante de 2 000 000 tokens &amp; Deep Research</li>
+          <li>Compte privé personnel sécurisé, actif pendant 18 mois complets</li>
+          <li>Livraison instantanée après commande · Support Discord 24/7</li>
         </ul>
         <div class="bundle-pricing">
-          <div class="bundle-old"><span>À l'unité :</span><b>7,99€</b></div>
-          <div class="bundle-new"><span>Offre Gratuite :</span><b>0,00€</b></div>
+          <div class="bundle-old"><span>Prix catalogue :</span><b>25,00€</b></div>
+          <div class="bundle-new"><span>Offre Flash :</span><b>5,00€</b> <small style="font-size:12px;color:#94A3B8;font-weight:600;margin-left:4px">(TTC / avec TVA)</small></div>
         </div>
-        <div class="dlg-actions" style="max-width:420px;grid-template-columns:1fr">
-          <button class="dlg-buy" id="freeCs2OrderBtn" type="button" onclick="orderFreeCs2Key24h(this)">
+        <div class="dlg-actions" style="max-width:420px;grid-template-columns:1.25fr 0.95fr">
+          <button class="dlg-buy" id="flashGeminiBuyBtn" type="button">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            <span id="freeCs2OrderBtnLabel">GRATUIT</span>
+            <span>Acheter à 5,00€</span>
+          </button>
+          <button class="dlg-cart-btn" id="flashGeminiCartBtn" type="button">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1.5"/><circle cx="19" cy="21" r="1.5"/><path d="M2.5 3h3l2.4 12.1a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 1.9-1.5L22.5 7H6.2"/></svg>
+            <span>Mettre au panier</span>
           </button>
         </div>
-        <div id="freeCs2ResultBox" class="free-cs2-result-box" hidden></div>
       </div>
     </div>
 
     <!-- SEARCH BAR BELOW BUNDLE OFFER -->
     <div class="search-wrap rv" style="margin: 0 auto 36px;">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input id="searchInput" type="search" placeholder="Chercher un logiciel… Valorant, CS2, Spoofer, Jailbreak IA" autocomplete="off">
+      <input id="searchInput" type="search" placeholder="Chercher un produit… Gemini, Valorant, Spoofer, Jailbreak IA" autocomplete="off">
       <button class="search-btn" onclick="applySearch()">Rechercher</button>
     </div>
 
@@ -6712,7 +6715,7 @@ html[data-theme="dark"] .pcard-stock-pill.is-available {
         <button type="button" class="rv-prod-chip" onclick="window.pickLiveRevQuickProd('ADOBE PHOTOSHOP 2025|/logos/adobe.png', this)"><img src="/logos/adobe.png" alt="">Photoshop</button>
         <button type="button" class="rv-prod-chip" onclick="window.pickLiveRevQuickProd('Spotify Premium 1 an|/logos/spotify.png', this)"><img src="/logos/spotify.png" alt="">Spotify</button>
         <button type="button" class="rv-prod-chip" onclick="window.pickLiveRevQuickProd('Netflix Premium 4K · 1 an|/logos/netflix.png', this)"><img src="/logos/netflix.png" alt="">Netflix</button>
-        <button type="button" class="rv-prod-chip" onclick="window.pickLiveRevQuickProd('CS2 Loader|/logos/csgo.png', this)"><img src="/logos/csgo.png" alt="">CS2 Loader</button>
+        <button type="button" class="rv-prod-chip" onclick="window.pickLiveRevQuickProd('Gemini pro+ 18mois|/logos/gemini.png', this)"><img src="/logos/gemini.png" alt="">Gemini Pro+</button>
         <button type="button" class="rv-prod-chip" onclick="window.pickLiveRevQuickProd('Valorant Private|/logos/valorant.png', this)"><img src="/logos/valorant.png" alt="">Valorant</button>
         <button type="button" class="rv-prod-chip" onclick="window.pickLiveRevQuickProd('HWID Spoofer Permanent|/logos/spoofer.png', this)"><img src="/logos/spoofer.png" alt="">Spoofer</button>
         <button type="button" class="rv-prod-chip" onclick="window.pickLiveRevQuickProd('Bundle Jailbreak Complet (11 IA)|/logos/Yonix.png', this)"><img src="/logos/Yonix.png" alt="">Bundle IA</button>
@@ -6729,7 +6732,7 @@ html[data-theme="dark"] .pcard-stock-pill.is-available {
         <option value="Disney+ 1 an|/logos/disneyplus.png">Disney+ 1 an</option>
         <option value="Nitro Boost Discord|/logos/nitro_boost.png">Nitro Boost Discord</option>
         <option value="ChatGPT FA Unlimited|/logos/chatgpt.png">ChatGPT FA Unlimited</option>
-        <option value="CS2 Loader|/logos/csgo.png">CS2 Loader</option>
+        <option value="Gemini pro+ 18mois|/logos/gemini.png">Gemini pro+ 18mois — Offre Flash</option>
         <option value="Valorant Private|/logos/valorant.png">Valorant Private</option>
         <option value="Valorant Emu|/logos/valorant.png">Valorant Emu</option>
         <option value="HWID Spoofer Permanent|/logos/spoofer.png">HWID Spoofer Permanent</option>
@@ -7217,22 +7220,24 @@ if (fav && RES_IMGS.Yonix) fav.href = RES_IMGS.Yonix;
 /* ===== PRODUCTS (Exact yonix.store Data + New Services & Price Comparisons) ===== */
 const PRODUCTS = [
   {
-    id: 'cs2',
-    img: RES_IMGS.csgo,
-    screenshot: RES_IMGS.cheat_preview,
-    cat: 'cs2',
-    name: 'CS2 Loader',
-    sub: 'Counter-Strike 2',
-    badge: 'Nouveau',
-    accent: 'gold',
-    desc: 'Loader CS2 avec aimbot précis, wallhack et radar hack. Indétectable sur VAC — mis à jour après chaque patch Valve.',
-    feat: ['Aimbot + triggerbot', 'Wallhack & radar hack', 'No-recoil & no-spread', 'Indétectable VAC / FACEIT'],
-    tiers: [
-      { dur: '3 Jours', price: '29,99€', oldPrice: '49,99€' },
-      { dur: '6 Mois', price: '129,99€', oldPrice: '219,99€' },
-      { dur: 'Lifetime', price: '239,99€', oldPrice: '399,99€', note: 'Accès permanent', best: true }
+    id: 'gemini-pro-18m',
+    img: RES_IMGS.gemini,
+    cat: 'services',
+    name: 'Gemini pro+ 18mois',
+    sub: 'Google Gemini Advanced · Formule 18 Mois',
+    badge: 'Offre Flash',
+    accent: 'blue',
+    desc: 'Abonnement officiel Google Gemini Pro+ (Advanced) actif pendant 18 mois complets. Accès illimité aux modèles Gemini 1.5 & 2.0 Pro, 2 000 000 tokens de contexte, Deep Research et intégration Google Workspace.',
+    feat: [
+      'Abonnement Google Gemini Pro+ 18 Mois complet',
+      'Modèles Gemini 1.5 & 2.0 Pro sans restriction',
+      'Fenêtre contextuelle géante de 2 000 000 tokens',
+      'Compte privé garanti avec support Discord 24/7'
     ],
-    file: 'cs2-loader.zip',
+    tiers: [
+      { dur: 'Offre Flash 18 Mois (TVA incluse)', price: '5€', oldPrice: '25€', note: 'Offre Flash Spéciale', best: true },
+      { dur: 'Formule Standard 18 Mois', price: '25€', oldPrice: '380,00€', note: 'Tarif standard' }
+    ],
     svg: ''
   },
   {
@@ -8540,8 +8545,8 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
   });
 })();
 
-/* ===== HERO WELCOME VIDEO (LOOP + ZERO SOUND ENFORCED) & 7-DAY FREE 24H CS:GO KEY OFFER (1 PER IP) ===== */
-(function initHeroVideoAndFreeCs2Offer() {
+/* ===== HERO WELCOME VIDEO (LOOP + ZERO SOUND ENFORCED) & OFFRE FLASH GEMINI PRO+ 18 MOIS ===== */
+(function initHeroVideoAndFlashGeminiOffer() {
   const vid = document.getElementById('heroWelcomeVideo');
   if (vid) {
     const enforceSilentLoop = () => {
@@ -8557,6 +8562,44 @@ window.closeDialogSmooth = function closeDialogSmooth(dlg) {
       vid.play().catch(() => {});
     });
     vid.play().catch(() => {});
+  }
+
+  // Flash Gemini Buy & Cart handlers (5€ TTC)
+  const flashBuy = document.getElementById('flashGeminiBuyBtn');
+  if (flashBuy) {
+    flashBuy.addEventListener('click', () => {
+      window.openDirectCardCheckout({
+        productId: 'gemini-pro-18m',
+        tierId: 0,
+        productName: 'Gemini pro+ 18mois',
+        tierName: 'Offre Flash 18 Mois (TVA incluse)',
+        unitPriceRaw: '5,00€',
+        priceRaw: '5,00€',
+        quantity: 1,
+        img: RES_IMGS.gemini || '/logos/gemini.png'
+      });
+    });
+  }
+
+  const flashCart = document.getElementById('flashGeminiCartBtn');
+  if (flashCart) {
+    flashCart.addEventListener('click', () => {
+      if (typeof window.animateBubbleToCart === 'function') {
+        window.animateBubbleToCart(flashCart);
+      }
+      if (typeof addToCart === 'function') {
+        addToCart({
+          name: 'Gemini pro+ 18mois',
+          tier: 'Offre Flash 18 Mois (TVA incluse)',
+          price: '5,00€',
+          img: RES_IMGS.gemini || '/logos/gemini.png',
+          productId: 'gemini-pro-18m',
+          tierId: 0,
+          quantity: 1
+        });
+        toast('Gemini Pro+ 18 Mois (Offre Flash 5€) ajouté au panier ✓');
+      }
+    });
   }
 
   function markFreeCs2ClaimedUI(deliveredKey, sessionId) {
